@@ -1,0 +1,518 @@
+{%- comment -%}
+  Fall Collection Section
+  Split layout with image on left, content with background pattern on right
+{%- endcomment -%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  id="FallCollection-{{ section.id }}"
+  class="
+    section
+    section--{{ section.settings.section_width }}
+    color-{{ section.settings.color_scheme }}
+    section-fall-collection
+    spacing-style
+  "
+  style="{% render 'spacing-style', settings: section.settings %}"
+>
+  <div class="fall-collection force-full-width fall-collection--image-{{ section.settings.image_position | default: 'left' }}">
+
+    <!-- Left Side - Main Image -->
+    <div class="fall-collection__image-side">
+      {%- if section.settings.main_image != blank -%}
+        {{
+          section.settings.main_image
+          | image_url: width: 1200
+          | image_tag: class: 'fall-collection__main-image', alt: section.settings.main_image_alt, loading: 'lazy'
+        }}
+      {%- else -%}
+        <div class="fall-collection__placeholder-image">{{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+      {%- endif -%}
+      <!-- Gradient Overlay -->
+      <div class="fall-collection__gradient-overlay"></div>
+    </div>
+
+    <!-- Right Side - Content & Text -->
+    <div class="fall-collection__content-side">
+
+      <!-- Background Pattern -->
+      <div class="fall-collection__bg-pattern">
+        {%- if section.settings.bg_pattern != blank -%}
+          {{
+            section.settings.bg_pattern
+            | image_url: width: 1200
+            | image_tag: alt: '', loading: 'lazy'
+          }}
+        {%- endif -%}
+      </div>
+
+      <!-- Text Content -->
+      <div class="fall-collection__content">
+
+        {%- if section.settings.subtitle != blank -%}
+          <span class="fall-collection__subtitle">{{ section.settings.subtitle }}</span>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <h2 class="fall-collection__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+
+        {%- if section.settings.description != blank -%}
+          <p class="fall-collection__description">{{ section.settings.description }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+          <a href="{{ section.settings.button_link }}" class="fall-collection__button"{% if section.settings.open_in_new_tab %} target="_blank" rel="noopener"{% endif %}>
+            {{ section.settings.button_label }}
+          </a>
+        {%- endif -%}
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% stylesheet %}
+  .section-fall-collection {
+    position: relative;
+  }
+
+  .section-fall-collection .section-background {
+    position: absolute;
+    inset: 0;
+    z-index: var(--layer-base, 0);
+    pointer-events: none;
+  }
+
+  .fall-collection {
+    display: flex;
+    flex-direction: column;
+    min-height: 500px;
+    position: relative;
+    z-index: var(--layer-base, 0);
+    width: 100%;
+    overflow: hidden;
+  }
+
+  @media screen and (min-width: 750px) {
+    .fall-collection {
+      flex-direction: row;
+      height: 600px;
+      min-height: 600px;
+    }
+  }
+
+  .fall-collection--image-right {
+    flex-direction: column;
+  }
+
+  @media screen and (min-width: 750px) {
+    .fall-collection--image-right {
+      flex-direction: row-reverse;
+    }
+  }
+
+  .fall-collection__image-side,
+  .fall-collection__content-side {
+    flex: 1 1 50%;
+    min-height: 100%;
+  }
+
+  /* ===== LEFT SIDE - IMAGE ===== */
+  .fall-collection__image-side {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    display: flex;
+  }
+
+  @media screen and (min-width: 750px) {
+    .fall-collection__image-side {
+      width: 100%;
+    }
+  }
+
+  .fall-collection__main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    flex: 1 1 auto;
+  }
+
+  .fall-collection__placeholder-image {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .fall-collection__placeholder-image .placeholder-svg {
+    width: 100px;
+    height: 100px;
+    opacity: 0.3;
+  }
+
+  .fall-collection__gradient-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 50%, transparent 100%);
+    pointer-events: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    .fall-collection__gradient-overlay {
+      background: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.9) 100%);
+    }
+
+    .fall-collection--image-right .fall-collection__gradient-overlay {
+      background: linear-gradient(to left, transparent 0%, rgba(0, 0, 0, 0.9) 100%);
+    }
+  }
+
+  /* ===== RIGHT SIDE - CONTENT ===== */
+  .fall-collection__content-side {
+    position: relative;
+    z-index: 20;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  @media screen and (min-width: 750px) {
+    .fall-collection__content-side {
+      width: 100%;
+      padding: 0;
+      align-items: flex-start;
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    .fall-collection__content-side {
+      padding: 0;
+    }
+  }
+
+  /* Background Pattern */
+  .fall-collection__bg-pattern {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .fall-collection__bg-pattern img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Text Content */
+  .fall-collection__content {
+    position: relative;
+    z-index: 10;
+    max-width: 500px;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .fall-collection__subtitle {
+    display: block;
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin: 0;
+    opacity: 0.9;
+  }
+
+  @media screen and (min-width: 750px) {
+    .fall-collection__subtitle {
+      font-size: 1rem;
+    }
+  }
+
+  .fall-collection__heading {
+    color: #fff;
+    font-size: 2.5rem;
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+    margin: 0;
+    /* font-family: serif, Georgia, 'Times New Roman', Times, serif; */
+  }
+
+  @media screen and (min-width: 750px) {
+    .fall-collection__heading {
+      /* font-size: 3.75rem; */
+    }
+  }
+
+  .fall-collection__description {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.125rem;
+    font-weight: 300;
+    letter-spacing: 0.025em;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  @media screen and (min-width: 750px) {
+    .fall-collection__description {
+      font-size: 1.25rem;
+    }
+  }
+
+  /* Button */
+  .fall-collection__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #4A4A4A;
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 0.75rem 2.5rem;
+    border-radius: 4px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    align-self: flex-start;
+    width: max-content;
+  }
+
+  .fall-collection__button:hover {
+    background: #5A5A5A;
+    transform: scale(1.05);
+  }
+
+  /* Mobile portrait-only layout */
+  @media screen and (max-width: 749px) {
+    .fall-collection {
+      flex-direction: column !important;
+      min-height: 100vh;
+      height: 100vh;
+    }
+
+    .fall-collection--image-right {
+      flex-direction: column !important;
+    }
+
+    .fall-collection__image-side {
+      width: 100%;
+      min-height: auto;
+      max-height: none;
+      height: auto;
+    }
+
+    .fall-collection__main-image {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      object-position: center;
+    }
+
+    .fall-collection__content-side {
+      min-height: auto;
+      padding: 2rem 1.5rem;
+    }
+
+    .fall-collection__content {
+      gap: 0.75rem;
+    }
+
+    .fall-collection__subtitle {
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+    }
+
+    .fall-collection__heading {
+      font-size: clamp(1.75rem, 9vw, 2.5rem);
+      letter-spacing: 0.04em;
+    }
+
+    .fall-collection__description {
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    .fall-collection__button {
+      width: 100%;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+    }
+
+    /* Force portrait gradient on mobile */
+    .fall-collection__gradient-overlay {
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 50%, transparent 100%) !important;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Fall Collection",
+  "tag": "section",
+  "class": "section-fall-collection",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page"
+        },
+        {
+          "value": "full-width",
+          "label": "Full"
+        }
+      ],
+      "default": "full-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Left Side - Image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position on desktop",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Main Image"
+    },
+    {
+      "type": "text",
+      "id": "main_image_alt",
+      "label": "Image Alt Text",
+      "default": "Fall Collection Model"
+    },
+    {
+      "type": "header",
+      "content": "Right Side - Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_pattern",
+      "label": "Background Pattern"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Everyday Comfort"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FALL INTO<br>2INTO9"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Description",
+      "default": "The Original Pouch Underwear"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_in_new_tab",
+      "label": "Open in new tab",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Fall Collection",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

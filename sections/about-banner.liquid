@@ -1,0 +1,85 @@
+<section id="AboutBanner-{{ section.id }}" class="about-banner section-no-padding">
+  {%- if section.settings.image != blank -%}
+    <div class="about-banner__media media{% if section.settings.image == blank %} placeholder{% endif %}">
+      {{ section.settings.image | image_url: width: 3840 | image_tag:
+        loading: 'eager',
+        widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840',
+        sizes: '100vw',
+        class: 'about-banner__image'
+      }}
+    </div>
+  {%- else -%}
+    <div class="about-banner__media media placeholder">
+      {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+    </div>
+  {%- endif -%}
+</section>
+
+{% style %}
+  #AboutBanner-{{ section.id }} {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+  }
+
+  .about-banner__media {
+    width: 100%;
+    height: {{ section.settings.height }}px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .about-banner__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  @media screen and (max-width: 749px) {
+    .about-banner__media {
+      height: {{ section.settings.mobile_height }}px;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "About Banner",
+  "tag": "section",
+  "class": "section-about-banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Banner Image"
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "min": 200,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Desktop Height",
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "min": 150,
+      "max": 600,
+      "step": 10,
+      "unit": "px",
+      "label": "Mobile Height",
+      "default": 300
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Banner"
+    }
+  ]
+}
+{% endschema %}

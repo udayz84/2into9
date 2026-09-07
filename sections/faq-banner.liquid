@@ -1,0 +1,157 @@
+<section
+  id="FaqBanner-{{ section.id }}"
+  class="faq-banner color-{{ section.settings.color_scheme }}"
+>
+  <div class="faq-banner__container">
+    <div class="faq-banner__content">
+      {% if section.settings.breadcrumb != blank %}
+        <p class="faq-banner__breadcrumb">{{ section.settings.breadcrumb }}</p>
+      {% endif %}
+      {% if section.settings.heading != blank %}
+        <h1 class="faq-banner__title">{{ section.settings.heading }}</h1>
+      {% endif %}
+      {% if section.settings.subheading != blank %}
+        <p class="faq-banner__subheading">{{ section.settings.subheading }}</p>
+      {% endif %}
+    </div>
+    {% if section.settings.image != blank %}
+      <div class="faq-banner__image">
+        {{ section.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', class: 'faq-banner__img' }}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% style %}
+  #FaqBanner-{{ section.id }} {
+    padding: 0;
+  }
+
+  .faq-banner__container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    align-items: stretch;
+    min-height: 400px;
+  }
+
+  .faq-banner__content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: clamp(2rem, 5vw, 4rem);
+    padding-left: clamp(2rem, 5vw, 6rem);
+    justify-content: center;
+  }
+
+  .faq-banner__breadcrumb {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, currentColor 50%, transparent);
+    margin: 0;
+  }
+
+  .faq-banner__title {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin: 0;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  .faq-banner__subheading {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin: 0;
+    opacity: 0.85;
+    max-width: 450px;
+  }
+
+  .faq-banner__image {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+  }
+
+  .faq-banner__img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  @media (max-width: 749px) {
+    .faq-banner__container {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .faq-banner__content {
+      order: 1;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .faq-banner__subheading {
+      max-width: none;
+    }
+
+    .faq-banner__image {
+      order: 2;
+      height: 300px;
+    }
+
+    .faq-banner__title {
+      font-size: 1.5rem;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "FAQ Banner",
+  "tag": "section",
+  "class": "section-faq-banner",
+  "enabled_on": {
+    "templates": ["page"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "breadcrumb",
+      "label": "Breadcrumb",
+      "default": "Home / FAQs"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FREQUENTLY ASKED QUESTIONS"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Find answers to common questions about our products, sizing, shipping, and more."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Banner image"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-7"
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ Banner"
+    }
+  ]
+}
+{% endschema %}

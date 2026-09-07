@@ -1,0 +1,171 @@
+<section
+  id="TermsConditions-{{ section.id }}"
+  class="
+    terms-conditions
+    color-{{ section.settings.color_scheme }}
+    section
+  "
+>
+  <div class="terms-conditions__classic page-width">
+    {% if section.settings.breadcrumb != blank %}
+      <p class="terms-conditions__breadcrumb">{{ section.settings.breadcrumb }}</p>
+    {% endif %}
+
+    {% if section.settings.heading != blank %}
+      <h1 class="terms-conditions__title">{{ section.settings.heading }}</h1>
+    {% endif %}
+
+    {% if section.settings.last_updated != blank %}
+      <p class="terms-conditions__updated">Last updated: {{ section.settings.last_updated }}</p>
+    {% endif %}
+
+    <div class="terms-conditions__content">
+      {% render 'terms-conditions-content' %}
+    </div>
+  </div>
+</section>
+
+{% style %}
+  #TermsConditions-{{ section.id }} {
+    padding-block: clamp(3rem, 5vw, 4.5rem);
+  }
+
+  .terms-conditions__classic {
+    max-width: 48rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .terms-conditions__breadcrumb {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    color: color-mix(in srgb, currentColor 60%, transparent);
+  }
+
+  .terms-conditions__title {
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .terms-conditions__updated {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: color-mix(in srgb, currentColor 70%, transparent);
+    margin-bottom: 1rem;
+  }
+
+  .terms-conditions__content {
+    line-height: 1.75;
+    font-size: 1rem;
+    color: currentColor;
+    opacity: 0.9;
+  }
+
+  .terms-conditions__content h2 {
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .terms-conditions__content h3 {
+    font-size: 1.2rem;
+    letter-spacing: 0.08em;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .terms-conditions__content h4 {
+    font-size: 1.05rem;
+    letter-spacing: 0.05em;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .terms-conditions__content h5 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .terms-conditions__content p {
+    margin-bottom: 1rem;
+  }
+
+  .terms-conditions__content p:last-child {
+    margin-bottom: 0;
+  }
+
+  .terms-conditions__content ul,
+  .terms-conditions__content ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .terms-conditions__content li {
+    margin-bottom: 0.5rem;
+  }
+
+  .terms-conditions__content a {
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  .terms-conditions__content a:hover {
+    opacity: 0.7;
+  }
+
+  .terms-conditions__content strong {
+    font-weight: 600;
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Terms & Conditions",
+  "tag": "section",
+  "class": "section-terms-conditions",
+  "enabled_on": {
+    "templates": ["page"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "breadcrumb",
+      "label": "Breadcrumb",
+      "default": "Home / Terms & Conditions"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Page heading",
+      "default": "TERMS & CONDITIONS"
+    },
+    {
+      "type": "text",
+      "id": "last_updated",
+      "label": "Last updated date",
+      "default": "January 6, 2026"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-7"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Terms & Conditions"
+    }
+  ]
+}
+{% endschema %}

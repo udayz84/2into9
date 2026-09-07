@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "privacy-policy-main": {
+      "type": "privacy-policy",
+      "settings": {
+        "breadcrumb": "Home / Privacy Policy",
+        "heading": "PRIVACY POLICY",
+        "last_updated": "January 6, 2026",
+        "color_scheme": ""
+      }
+    }
+  },
+  "order": [
+    "privacy-policy-main"
+  ]
+}

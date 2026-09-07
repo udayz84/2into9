@@ -1,0 +1,95 @@
+<section
+  id="ContactBanner-{{ section.id }}"
+  class="contact-banner color-{{ section.settings.color_scheme }}"
+>
+  {% if section.settings.image != blank %}
+    <div class="contact-banner__image-wrapper">
+      {{ section.settings.image | image_url: width: 1920 | image_tag: loading: 'eager', class: 'contact-banner__img' }}
+    </div>
+  {% else %}
+    <div class="contact-banner__placeholder"></div>
+  {% endif %}
+</section>
+
+{% style %}
+  #ContactBanner-{{ section.id }} {
+    padding: 0;
+    margin: 0;
+  }
+
+  .contact-banner__image-wrapper {
+    width: 100%;
+    height: {{ section.settings.height }}px;
+    overflow: hidden;
+  }
+
+  .contact-banner__img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .contact-banner__placeholder {
+    width: 100%;
+    height: {{ section.settings.height }}px;
+    background: linear-gradient(135deg, #8b7355 0%, #6b5344 100%);
+  }
+
+  @media (max-width: 749px) {
+    .contact-banner__image-wrapper,
+    .contact-banner__placeholder {
+      height: {{ section.settings.height_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Contact Banner",
+  "tag": "section",
+  "class": "section-contact-banner",
+  "enabled_on": {
+    "templates": ["page"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Banner image"
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "label": "Banner height (desktop)",
+      "min": 150,
+      "max": 600,
+      "step": 10,
+      "unit": "px",
+      "default": 350
+    },
+    {
+      "type": "range",
+      "id": "height_mobile",
+      "label": "Banner height (mobile)",
+      "min": 100,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "default": 200
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-7"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact Banner"
+    }
+  ]
+}
+{% endschema %}

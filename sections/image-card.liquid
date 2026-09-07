@@ -1,0 +1,228 @@
+{%- comment -%}
+  Image Card Section
+  Simple static image cards side by side
+{%- endcomment -%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  id="ImageCard-{{ section.id }}"
+  class="
+    section
+    section--{{ section.settings.section_width }}
+    color-{{ section.settings.color_scheme }}
+    section-image-card
+    spacing-style
+  "
+  style="{% render 'spacing-style', settings: section.settings %}"
+>
+  <div class="image-card-container">
+    {%- for block in section.blocks -%}
+      <div class="image-card" {{ block.shopify_attributes }}>
+        {%- if block.settings.image != blank -%}
+          {%- if block.settings.link != blank -%}
+            <a href="{{ block.settings.link }}" class="image-card__link" {% if block.settings.open_in_new_tab %}target="_blank" rel="noopener"{% endif %}>
+              {{
+                block.settings.image
+                | image_url: width: 1400
+                | image_tag: class: 'image-card__image', alt: block.settings.image_alt, loading: 'lazy'
+              }}
+            </a>
+          {%- else -%}
+            {{
+              block.settings.image
+              | image_url: width: 1400
+              | image_tag: class: 'image-card__image', alt: block.settings.image_alt, loading: 'lazy'
+            }}
+          {%- endif -%}
+        {%- else -%}
+          <div class="image-card__placeholder">
+            {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .section-image-card {
+    position: relative;
+  }
+
+  .section-image-card .section-background {
+    position: absolute;
+    inset: 0;
+    z-index: var(--layer-base, 0);
+    pointer-events: none;
+  }
+
+  .image-card-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    width: 100%;
+    position: relative;
+    z-index: var(--layer-base, 0);
+  }
+
+  @media screen and (min-width: 750px) {
+    .image-card-container {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  .image-card {
+    position: relative;
+    overflow: hidden;
+  
+  }
+
+  .image-card__link {
+    display: block;
+    text-decoration: none;
+  }
+
+  .image-card__image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .image-card__link:hover .image-card__image {
+    transform: scale(1.02);
+  }
+
+  .image-card__placeholder {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .image-card__placeholder .placeholder-svg {
+    width: 100px;
+    height: 100px;
+    opacity: 0.3;
+  }
+
+  /* Mobile Adjustments */
+  @media screen and (max-width: 749px) {
+    .image-card-container {
+      gap: 0.75rem;
+    }
+
+    .image-card {
+      border-radius: 8px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Image Card",
+  "tag": "section",
+  "class": "section-image-card",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page"
+        },
+        {
+          "value": "full-width",
+          "label": "Full"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image Alt Text",
+          "default": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link (optional)"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_in_new_tab",
+          "label": "Open in new tab",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image Card",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

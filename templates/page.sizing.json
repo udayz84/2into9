@@ -1,0 +1,15 @@
+{
+    "sections": {
+        "sizing-main": {
+            "type": "sizing",
+            "settings": {
+                "breadcrumb": "Home / Sizing",
+                "heading": "SIZING",
+                "color_scheme": ""
+            }
+        }
+    },
+    "order": [
+        "sizing-main"
+    ]
+}

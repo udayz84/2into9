@@ -1,0 +1,115 @@
+{% comment %}
+  Renders custom filters based on Product Tags (Style) and Variant Options (Color, Size).
+  Usage: {% render 'custom-filters', results: collection %}
+{% endcomment %}
+
+<div class="custom-filters-wrapper">
+  
+  {% comment %} --- 0. STANDARD FILTERS (Availability, Price) --- {% endcomment %}
+  {%- for filter in results.filters -%}
+    {% case filter.type %}
+      {% when 'price_range' %}
+        {% render 'price-filter', filter: filter, filter_style: 'vertical', should_render_clear: false %}
+      {% when 'list' %}
+        {% if filter.param_name == 'filter.v.availability' %}
+           {% render 'list-filter', filter: filter, filter_style: 'vertical', active_value_count: filter.active_values.size, should_render_clear: false, show_swatch_label: false, sectionId: 'custom-main', in_drawer: in_drawer %}
+        {% endif %}
+    {% endcase %}
+  {%- endfor -%}
+  
+  {% comment %} --- 1. STYLE FILTER (FROM TAGS) --- {% endcomment %}
+  {% comment %} --- 1. STYLE FILTER (FROM TAGS) --- {% endcomment %}
+  {% assign tags_list = collection.all_tags %}
+  {% if tags_list.size > 0 %}
+    <accordion-custom class="facets__item">
+      <details id="Facet-Custom-Style" class="facets__panel">
+        <summary class="facets__summary">
+          <span class="facets__label">Style</span>
+          <div class="facets__status-wrapper">
+            <span class="svg-wrapper icon-caret icon-animated">
+              {{- 'icon-caret.svg' | inline_asset_content -}}
+            </span>
+          </div>
+        </summary>
+        <div class="facets__inputs facets__panel-content details-content">
+          <ul class="facets__inputs-list list-unstyled" role="list">
+            {% for tag in tags_list %}
+              <li class="facets__inputs-list-item">
+                <label class="facets__checkbox-label" style="display: flex; gap: 0.5rem; align-items: center; cursor: pointer;">
+                  <input type="checkbox"
+                         class="facets__checkbox"
+                         name="filter.p.tag"
+                         value="{{ tag | escape }}"
+                         {% if current_tags contains tag %}checked{% endif %}
+                         style="width: 1.6rem; height: 1.6rem;"
+                  >
+                  <span class="facet-checkbox__text">{{ tag }}</span>
+                </label>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </details>
+    </accordion-custom>
+  {% endif %}
+
+  {% comment %} --- 2. VARIANT FILTERS (Color, Size) --- {% endcomment %}
+  {% assign target_options = "Color,Size" | split: "," %}
+  
+  {% for target_option in target_options %}
+    {% assign target_option_dc = target_option | downcase %}
+    {% assign values_found = "" %}
+    
+    {% comment %} Scan products for this option {% endcomment %}
+    {% for product in results.products %}
+      {% for option in product.options_with_values %}
+        {% assign option_name_dc = option.name | downcase %}
+        {% if option_name_dc == target_option_dc %}
+          {% for value in option.values %}
+            {% assign val_key = "###" | append: value | append: "###" %}
+            {% unless values_found contains val_key %}
+              {% assign values_found = values_found | append: val_key %}
+            {% endunless %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+    
+    {% assign values_array = values_found | remove_first: "###" | split: "######" %}
+    
+    {% if values_array.size > 0 %}
+      <accordion-custom class="facets__item">
+        <details id="Facet-Custom-{{ target_option }}" class="facets__panel">
+          <summary class="facets__summary">
+            <span class="facets__label">{{ target_option }}</span>
+            <div class="facets__status-wrapper">
+              <span class="svg-wrapper icon-caret icon-animated">
+                {{- 'icon-caret.svg' | inline_asset_content -}}
+              </span>
+            </div>
+          </summary>
+          <div class="facets__inputs facets__panel-content details-content">
+            <ul class="facets__inputs-list list-unstyled" role="list">
+              {% for val in values_array %}
+                {% assign clean_val = val | remove: "###" | strip %}
+                {% if clean_val != blank %}
+                  <li class="facets__inputs-list-item">
+                    <label class="facets__checkbox-label" style="display: flex; gap: 0.5rem; align-items: center; cursor: pointer;">
+                      <input type="checkbox"
+                             class="facets__checkbox"
+                             name="filter.v.option.{{ target_option | downcase }}"
+                             value="{{ clean_val }}"
+                             style="width: 1.6rem; height: 1.6rem;"
+                      >
+                      <span class="facet-checkbox__text">{{ clean_val }}</span>
+                    </label>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </details>
+      </accordion-custom>
+    {% endif %}
+  {% endfor %}
+</div>

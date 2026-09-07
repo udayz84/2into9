@@ -1,0 +1,16 @@
+{
+    "sections": {
+        "terms-conditions": {
+            "type": "terms-conditions",
+            "settings": {
+                "breadcrumb": "Home / Terms & Conditions",
+                "heading": "TERMS & CONDITIONS",
+                "last_updated": "January 6, 2026",
+                "color_scheme": ""
+            }
+        }
+    },
+    "order": [
+        "terms-conditions"
+    ]
+}

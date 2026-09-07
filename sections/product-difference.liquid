@@ -1,0 +1,435 @@
+{%- comment -%}
+  Product Difference Section
+  Features list with product diagram and callout labels
+{%- endcomment -%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  id="ProductDifference-{{ section.id }}"
+  class="
+    section
+    section--{{ section.settings.section_width }}
+    color-{{ section.settings.color_scheme }}
+    section-product-difference
+    spacing-style
+  "
+  style="{% render 'spacing-style', settings: section.settings %}"
+>
+  <div class="product-difference">
+
+    <!-- Header Section -->
+    <div class="product-difference__header">
+      <h2 class="product-difference__heading">
+        <span>{{ section.settings.heading_prefix }}</span>
+        <span class="product-difference__badge">{{ section.settings.heading_badge }}</span>
+        <span>{{ section.settings.heading_suffix }}</span>
+      </h2>
+      {%- if section.settings.subheading != blank -%}
+        <p class="product-difference__subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="product-difference__content">
+
+      <!-- Left Column: Feature Cards -->
+      <div class="product-difference__features">
+        {%- for block in section.blocks -%}
+          <div class="product-difference__feature" {{ block.shopify_attributes }}>
+            <h3 class="product-difference__feature-title">
+              {{ block.settings.title }}
+            </h3>
+            <p class="product-difference__feature-desc">
+              {{ block.settings.description }}
+            </p>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <!-- Right Column: Product Diagram -->
+      <div class="product-difference__diagram">
+        <div class="product-difference__diagram-container">
+          {%- if section.settings.diagram_image != blank -%}
+            {{
+              section.settings.diagram_image
+              | image_url: width: 600
+              | image_tag: class: 'product-difference__diagram-image', alt: section.settings.diagram_alt, loading: 'lazy'
+            }}
+          {%- else -%}
+            <div class="product-difference__diagram-placeholder">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+          {%- endif -%}
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+{% stylesheet %}
+  .section-product-difference {
+    position: relative;
+  }
+
+  .section-product-difference .section-background {
+    position: absolute;
+    inset: 0;
+    z-index: var(--layer-base, 0);
+    pointer-events: none;
+  }
+
+  .product-difference {
+    /* max-width: 80rem; */
+    margin: 0 auto;
+    padding: 3rem 1rem 5rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-difference {
+      padding: 5rem 2rem;
+    }
+  }
+
+  /* Header */
+  .product-difference__header {
+    text-align: center;
+    margin-bottom: 5rem;
+  }
+
+  .product-difference__heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    /* font-size: clamp(1.875rem, 4vw, 3rem);
+    font-family: serif, Georgia, 'Times New Roman', Times, serif; */
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+
+  .product-difference__badge {
+    display: inline-block;
+    background: #fff;
+    color: #000;
+    /* padding: 0.25rem 0.75rem; */
+    font-weight: normal;
+    /* font-family: sans-serif; */
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  .product-difference__subheading {
+    max-width: 42rem;
+    margin: 0 auto;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.875rem;
+    font-weight: 300;
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-difference__subheading {
+      font-size: 1rem;
+    }
+  }
+
+  /* Content Grid */
+  .product-difference__content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  @media screen and (min-width: 1024px) {
+    .product-difference__content {
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+    }
+  }
+
+  /* Feature Cards */
+  .product-difference__features {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .product-difference__feature {
+    background: #1a1a1a;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    border: 1px solid #333;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: border-color 0.3s ease;
+  }
+
+  .product-difference__feature:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .product-difference__feature-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.75rem;
+  }
+
+  .product-difference__feature-desc {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.875rem;
+    line-height: 1.7;
+  }
+
+  /* Diagram Section */
+  .product-difference__diagram {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2.5rem;
+  }
+
+  @media screen and (min-width: 1024px) {
+    .product-difference__diagram {
+      margin-top: 0;
+    }
+  }
+
+  .product-difference__diagram-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .product-difference__diagram-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    position: relative;
+    z-index: 10;
+    filter: drop-shadow(0 0 50px rgba(255, 255, 255, 0.05));
+  }
+
+  .product-difference__diagram-placeholder {
+    width: 70%;
+    height: 70%;
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  .product-difference__diagram-placeholder .placeholder-svg {
+    width: 100px;
+    height: 100px;
+    opacity: 0.3;
+  }
+
+  @media screen and (max-width: 640px) {
+    .product-difference {
+      padding: 3.5rem 1.25rem;
+    }
+
+    .product-difference__header {
+      margin-bottom: 3rem;
+    }
+
+    .product-difference__heading {
+      flex-direction: column;
+      gap: 0.5rem;
+      font-size: clamp(1.35rem, 8vw, 1.85rem);
+      letter-spacing: 0.08em;
+      text-align: center;
+    }
+
+    .product-difference__badge {
+      font-size: 0.95rem;
+      padding: 0.15rem 0.65rem;
+    }
+
+    .product-difference__subheading {
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .product-difference__content {
+      gap: 2.5rem;
+    }
+
+    .product-difference__feature {
+      padding: 1.5rem;
+    }
+
+    .product-difference__feature-title {
+      font-size: 1.1rem;
+    }
+
+    .product-difference__feature-desc {
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Product Difference",
+  "tag": "section",
+  "class": "section-product-difference",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page"
+        },
+        {
+          "value": "full-width",
+          "label": "Full"
+        }
+      ],
+      "default": "full-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Header Content"
+    },
+    {
+      "type": "text",
+      "id": "heading_prefix",
+      "label": "Heading Prefix",
+      "default": "WHAT MAKES"
+    },
+    {
+      "type": "text",
+      "id": "heading_badge",
+      "label": "Heading Badge",
+      "default": "2INTO9"
+    },
+    {
+      "type": "text",
+      "id": "heading_suffix",
+      "label": "Heading Suffix",
+      "default": "DIFFERENT"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "It is a long established fact that a reader will content of a page when looking."
+    },
+    {
+      "type": "header",
+      "content": "Diagram Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "diagram_image",
+      "label": "Product Diagram Image"
+    },
+    {
+      "type": "text",
+      "id": "diagram_alt",
+      "label": "Image Alt Text",
+      "default": "2into9 Underwear Features"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Lorem ipsum is simply dummy text of the printing and typesetting industry."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Difference",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "The Original Pouch Underwear",
+            "description": "Lorem ipsum is simply dummy text of the printing and typesetting industry. lorem ipsum has been the industry's standard dummy text ever since the 1500s"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "No More Irritation",
+            "description": "Lorem ipsum is simply dummy text of the printing and typesetting industry. lorem ipsum has been the industry's standard dummy text ever since the 1500s"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Fabrics for Every Situation",
+            "description": "Lorem ipsum is simply dummy text of the printing and typesetting industry. lorem ipsum has been the industry's standard dummy text ever since the 1500s"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

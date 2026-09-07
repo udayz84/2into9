@@ -1,0 +1,224 @@
+{% liquid
+  assign block_settings = block.settings
+  assign alignment = block_settings.alignment | default: 'left'
+
+  assign has_theme_icon = false
+  if block_settings.icon != 'none'
+    assign has_theme_icon = true
+  endif
+
+  assign has_custom_icon = false
+  if block_settings.icon_image != blank
+    assign has_custom_icon = true
+  endif
+
+  assign should_render_icon = false
+  if block_settings.show_icon
+    if has_theme_icon or has_custom_icon
+      assign should_render_icon = true
+    endif
+  endif
+
+  assign icon_width = block_settings.icon_size | default: 20
+%}
+
+<div
+  class="shipping-message shipping-message--{{ alignment }} spacing-style"
+  style="{% render 'spacing-style', settings: block_settings %}"
+  {{ block.shopify_attributes }}
+>
+  {% if should_render_icon %}
+    <span class="shipping-message__icon">
+      {% render 'icon-or-image',
+        icon: block_settings.icon,
+        image_upload: block_settings.icon_image,
+        width: icon_width,
+        class_name: 'shipping-message__icon-media'
+      %}
+    </span>
+  {% endif %}
+  <div class="shipping-message__text rte">
+    {{ block_settings.text }}
+  </div>
+</div>
+
+{% stylesheet %}
+  .shipping-message {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--gap-2xs);
+    font-size: var(--font-paragraph--size);
+    color: currentcolor;
+  }
+
+  .shipping-message--center {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .shipping-message--left {
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .shipping-message--right {
+    justify-content: flex-end;
+    text-align: right;
+  }
+
+  .shipping-message__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .shipping-message__icon-media {
+    display: inline-flex;
+    color: currentcolor;
+  }
+
+  .shipping-message__icon svg,
+  .shipping-message__icon img {
+    display: block;
+    width: auto;
+    height: auto;
+  }
+
+  .shipping-message__text {
+    margin: 0;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Shipping message",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Message",
+      "default": "<p>Free US shipping on orders over $50</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_icon",
+      "label": "Show icon",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Built-in icon",
+      "options": [
+        {
+          "value": "truck",
+          "label": "Truck"
+        },
+        {
+          "value": "box",
+          "label": "Package"
+        },
+        {
+          "value": "star",
+          "label": "Star"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": "truck",
+      "info": "Choose a theme icon. Hidden if you upload a custom icon."
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_image",
+      "label": "Custom icon",
+      "info": "Overrides the built-in icon when provided."
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon size",
+      "unit": "px",
+      "min": 12,
+      "max": 64,
+      "step": 2,
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "unit": "px",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "unit": "px",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left padding",
+      "unit": "px",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right padding",
+      "unit": "px",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shipping message"
+    }
+  ]
+}
+{% endschema %}

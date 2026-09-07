@@ -1,0 +1,446 @@
+{%- comment -%}
+  Ultimate Fit Section
+  Text content with background pattern and model image
+{%- endcomment -%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  id="UltimateFit-{{ section.id }}"
+  class="
+    section
+    section--{{ section.settings.section_width }}
+    color-{{ section.settings.color_scheme }}
+    section-ultimate-fit
+    spacing-style
+  "
+  style="{% render 'spacing-style', settings: section.settings %}"
+>
+  <div class="ultimate-fit force-full-width">
+
+    <!-- Left: Text Content -->
+    <div class="ultimate-fit__content-side">
+
+      <!-- Background Pattern -->
+      <div class="ultimate-fit__bg-pattern">
+        {%- if section.settings.bg_pattern != blank -%}
+          {{
+            section.settings.bg_pattern
+            | image_url: width: 1200
+            | image_tag: alt: '', loading: 'lazy'
+          }}
+        {%- endif -%}
+      </div>
+
+      <div class="ultimate-fit__content">
+        {%- if section.settings.subtitle != blank -%}
+          <span class="ultimate-fit__subtitle">{{ section.settings.subtitle }}</span>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <h2 class="ultimate-fit__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+
+        {%- if section.settings.description != blank -%}
+          <p class="ultimate-fit__description">{{ section.settings.description }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+          <a href="{{ section.settings.button_link }}" class="ultimate-fit__button"{% if section.settings.open_in_new_tab %} target="_blank" rel="noopener"{% endif %}>
+            {{ section.settings.button_label }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <!-- Right: Model Image -->
+    <div class="ultimate-fit__image-side">
+      {%- if section.settings.model_image != blank -%}
+        {{
+          section.settings.model_image
+          | image_url: width: 1600
+          | image_tag: class: 'ultimate-fit__model-image', alt: section.settings.model_image_alt, loading: 'lazy'
+        }}
+      {%- else -%}
+        <div class="ultimate-fit__placeholder">{{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+      {%- endif -%}
+
+      <div class="ultimate-fit__gradient-overlay"></div>
+    </div>
+
+  </div>
+</section>
+
+{% stylesheet %}
+  .section-ultimate-fit {
+    position: relative;
+    min-height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .section-ultimate-fit .section-background {
+    position: absolute;
+    inset: 0;
+    z-index: var(--layer-base, 0);
+    pointer-events: none;
+  }
+
+  .ultimate-fit {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 500px;
+    overflow: hidden;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ultimate-fit {
+      flex-direction: row;
+      min-height: 600px;
+    }
+  }
+
+  .ultimate-fit__content-side,
+  .ultimate-fit__image-side {
+    flex: 1 1 50%;
+    min-height: 100%;
+  }
+
+  .ultimate-fit__content-side {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(2rem, 5vw, 4rem);
+    overflow: hidden;
+  }
+
+  .ultimate-fit__content {
+    position: relative;
+    z-index: 10;
+    max-width: 600px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .ultimate-fit__subtitle {
+    display: block;
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin: 0;
+    opacity: 0.9;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ultimate-fit__content {
+      gap: 1rem;
+    }
+
+    .ultimate-fit__subtitle {
+      font-size: 1rem;
+    }
+  }
+
+  .ultimate-fit__heading {
+    /* font-family: serif, Georgia, 'Times New Roman', Times, serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400; */
+    line-height: 1.1;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #fff;
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .ultimate-fit__description {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.125rem;
+    font-weight: 300;
+    letter-spacing: 0.025em;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .ultimate-fit__button {
+    display: inline-block;
+    padding: 0.75rem 1.875rem;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.0625em;
+    text-transform: uppercase;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+    width: max-content;
+  }
+
+  .ultimate-fit__button:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  /* Right Image */
+  .ultimate-fit__image-side {
+    position: relative;
+    width: 100%;
+    min-height: 320px;
+    display: flex;
+    z-index: 10;
+    align-items: stretch;
+  }
+
+  .ultimate-fit__model-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    filter: grayscale(100%);
+    flex: 1 1 auto;
+  }
+
+  .ultimate-fit__placeholder {
+    width: 70%;
+    height: 70%;
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+  }
+
+  .ultimate-fit__placeholder .placeholder-svg {
+    width: 100px;
+    height: 100px;
+    opacity: 0.3;
+  }
+
+  .ultimate-fit__bg-pattern {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .ultimate-fit__bg-pattern img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+  }
+
+  .ultimate-fit__gradient-overlay {
+    position: absolute;
+    inset: 0;
+    /* background: linear-gradient(to left, rgba(0, 0, 0, 0.8) 0%, transparent 60%); */
+    pointer-events: none;
+  }
+
+  @media screen and (max-width: 1024px) {
+    /* .section-ultimate-fit {
+      min-height: 100vh;
+      padding-top: 80px;
+    } */
+
+    .ultimate-fit__content {
+      max-width: 100%;
+    }
+
+    .ultimate-fit__image-side {
+      min-height: auto;
+      justify-content: center;
+    }
+
+    .ultimate-fit__model-image {
+      height: auto;
+      width: 100%;
+      max-width: 700px;
+      object-fit: contain;
+    }
+
+    .ultimate-fit__description {
+      max-width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 640px) {
+    .ultimate-fit {
+      min-height: auto;
+    }
+
+    .ultimate-fit__content-side {
+      padding: 2.5rem 1.5rem;
+    }
+
+    .ultimate-fit__content {
+      gap: 0.75rem;
+    }
+
+    .ultimate-fit__subtitle {
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+    }
+
+    .ultimate-fit__heading {
+      font-size: clamp(1.75rem, 8.5vw, 2.5rem);
+      letter-spacing: 0.08em;
+      white-space: normal;
+    }
+
+    .ultimate-fit__description {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .ultimate-fit__button {
+      width: 100%;
+      text-align: center;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Ultimate Fit",
+  "tag": "section",
+  "class": "section-ultimate-fit",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page"
+        },
+        {
+          "value": "full-width",
+          "label": "Full"
+        }
+      ],
+      "default": "full-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_pattern",
+      "label": "Background Pattern (Waves)"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Ultimate Comfort"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "ULTIMATE FIT, ALL DAY"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "There are many variations of passages of available, but the majority have suffered alteration in some form, by injected humour."
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_in_new_tab",
+      "label": "Open in new tab",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Model Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "model_image",
+      "label": "Model Image"
+    },
+    {
+      "type": "text",
+      "id": "model_image_alt",
+      "label": "Image Alt Text",
+      "default": "Model wearing ultimate fit briefs"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ultimate Fit",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

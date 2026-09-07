@@ -1,0 +1,65 @@
+{
+  "sections": {
+    "return-policy-classic": {
+      "type": "return-policy",
+      "settings": {
+        "breadcrumb": "Home / Returns",
+        "heading": "RETURNS",
+        "note_text": "<p>NOTE: ALL ORDERS PURCHASED USING THE BUILD-A-PACK DISCOUNT ARE FINAL UNLESS PRODUCT IS FOUND DAMAGED UPON ARRIVAL</p>",
+        "color_scheme": ""
+      },
+      "blocks": {
+        "intro_1": {
+          "type": "intro_paragraph",
+          "settings": {
+            "text": "<p>If you are at this page, then either you are considering buying 2 INTO 9 (thank you!!) or are displeased for some reason (let us fix it). If you are unhappy for ANY reason, we ask that you give us the opportunity to make things right. Please email our satisfaction-guaranteed customer service center at care@2into9.com regarding any issues with your purchase.</p>"
+          }
+        },
+        "intro_2": {
+          "type": "intro_paragraph",
+          "settings": {
+            "text": "<p>We will refund or replace your first pair without question <strong>within the first 30 days of receiving them</strong>, shipping charges not included. For this reason, we recommend only ordering a single pair for your first time trying our products to see if 2 INTO 9 is right for you. Beyond your first trial pair, we can only exchange any <strong>unopened items</strong> for a refund or replacement.</p>"
+          }
+        },
+        "policy_1": {
+          "type": "policy_section",
+          "settings": {
+            "heading": "RETURNS / REFUNDS ON ORDERS THAT QUALIFIED FOR FREE SHIPPING",
+            "body": "<p>If you have tried a single pair from your order and have decided to return the remaining unopened items for a refund, we will refund you the amount paid in full <strong>minus the cost of return shipping</strong> once the unopened items have been received and inspected. Return shipping rates will be determined by location.</p>"
+          }
+        },
+        "policy_2": {
+          "type": "policy_section",
+          "settings": {
+            "heading": "DEFECTIVE OR DAMAGED ITEMS",
+            "body": "<p>2 INTO 9 stands behind our quality product and its performance 100%. We offer a 2-year Manufacturer Warranty to cover any defect in fabric, construction, finish or workmanship (this does not include stains from regular use or care and/or cigarette burns). In the event of a confirmed defect, we will gladly ship out the replacement piece at our cost. Please send a photo of the affected area and description to care@2into9.com. Only the defective items will be replaced, not the entire order.</p>"
+          }
+        },
+        "policy_3": {
+          "type": "policy_section",
+          "settings": {
+            "heading": "ALL ORDERS PURCHASED WITH A GIFT CARD ARE FINAL",
+            "body": "<p>Thank you for trying our product. Orders paid with gift cards or build-a-pack discounts are considered final sale unless the product arrives damaged upon delivery.</p>"
+          }
+        },
+        "closing": {
+          "type": "closing_paragraph",
+          "settings": {
+            "text": "<p>Thank you for trying our product. Our mission is to satisfy every customer that gives us an opportunity to do so. May today be the best day of your life, and may they only get better from here.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "intro_1",
+        "intro_2",
+        "policy_1",
+        "policy_2",
+        "policy_3",
+        "closing"
+      ]
+    }
+  },
+  "order": [
+    "return-policy-classic"
+  ]
+}

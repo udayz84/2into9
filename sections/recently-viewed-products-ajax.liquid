@@ -1,0 +1,26 @@
+{%- if search.results_count > 0 -%}
+  {%- for product in search.results -%}
+    <div class="product-grid__item grid__item" style="min-width: 0;">
+      {% capture children %}
+          {% render 'card-gallery', product: product %}
+          {% render 'quick-add', product: product, section_id: 'recently-viewed-products-ajax' %}
+          <div class="product-grid-view-zoom-out--details" style="margin-top: 1rem;">
+            <h3 class="product-card__title h5" style="margin-bottom: 0.5rem; display: block;">
+              <a href="{{ product.url }}" style="text-decoration: none; color: inherit;">{{ product.title }}</a>
+            </h3>
+            <div class="product-card__price">
+              {% render 'price', product_resource: product, show_unit_price: true %}
+            </div>
+          </div>
+      {% endcapture %}
+      {% render 'product-card', product: product, children: children %}
+    </div>
+  {%- endfor -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Recently Viewed Ajax",
+  "settings": []
+}
+{% endschema %}

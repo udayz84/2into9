@@ -1,0 +1,280 @@
+<section
+  id="ReturnPolicy-{{ section.id }}"
+  class="
+    return-policy
+    color-{{ section.settings.color_scheme }}
+    section
+  "
+>
+  <div class="return-policy__classic page-width">
+    {% if section.settings.breadcrumb != blank %}
+      <p class="return-policy__breadcrumb">{{ section.settings.breadcrumb }}</p>
+    {% endif %}
+
+    {% if section.settings.heading != blank %}
+      <h1 class="return-policy__title">{{ section.settings.heading }}</h1>
+    {% endif %}
+
+    {% assign intro_blocks = section.blocks | where: 'type', 'intro_paragraph' %}
+    {% if intro_blocks.size > 0 %}
+      <div class="return-policy__intro">
+        {% for block in intro_blocks %}
+          {% if block.settings.text != blank %}
+            <div class="return-policy__intro-text rte" {{ block.shopify_attributes }}>
+              {{ block.settings.text }}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if section.settings.note_text != blank %}
+      <div class="return-policy__note rte">{{ section.settings.note_text }}</div>
+    {% endif %}
+
+    {% assign policy_blocks = section.blocks | where: 'type', 'policy_section' %}
+    {% if policy_blocks.size > 0 %}
+      <div class="return-policy__sections">
+        {% for block in policy_blocks %}
+          <article class="return-policy__section" {{ block.shopify_attributes }}>
+            {% if block.settings.heading != blank %}
+              <h2 class="return-policy__section-heading">{{ block.settings.heading }}</h2>
+            {% endif %}
+            {% if block.settings.body != blank %}
+              <div class="return-policy__section-body rte">{{ block.settings.body }}</div>
+            {% endif %}
+          </article>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% assign closing_blocks = section.blocks | where: 'type', 'closing_paragraph' %}
+    {% if closing_blocks.size > 0 %}
+      <div class="return-policy__closing">
+        {% for block in closing_blocks %}
+          {% if block.settings.text != blank %}
+            <div class="return-policy__closing-text rte" {{ block.shopify_attributes }}>
+              {{ block.settings.text }}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% style %}
+  #ReturnPolicy-{{ section.id }} {
+    padding-block: clamp(3rem, 5vw, 4.5rem);
+  }
+
+  .return-policy__classic {
+    max-width: 48rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .return-policy__classic .rte p {
+    margin: 0 0 1rem;
+  }
+
+  .return-policy__classic .rte p:last-child {
+    margin-bottom: 0;
+  }
+
+  .return-policy__breadcrumb {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    color: color-mix(in srgb, currentColor 60%, transparent);
+  }
+
+  .return-policy__title {
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .return-policy__intro-text,
+  .return-policy__closing-text {
+    font-size: 1rem;
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+    color: currentColor;
+    opacity: 0.9;
+  }
+
+  .return-policy__note {
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 700;
+    color: #c1121f;
+    margin: 2rem 0;
+  }
+
+  .return-policy__sections {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    margin-top: 2rem;
+  }
+
+  .return-policy__section-heading {
+    text-align: center;
+    letter-spacing: 0.35em;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .return-policy__section-body {
+    line-height: 1.75;
+    font-size: 1rem;
+    color: currentColor;
+    opacity: 0.9;
+  }
+
+  .return-policy__section-body p + p {
+    margin-top: 1rem;
+  }
+
+  .return-policy__closing {
+    margin-top: 2.5rem;
+  }
+
+  .return-policy__closing-text {
+    font-style: italic;
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Return policy",
+  "tag": "section",
+  "class": "section-return-policy",
+  "enabled_on": {
+    "templates": ["page"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "breadcrumb",
+      "label": "Breadcrumb",
+      "default": "Home / Returns"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Page heading",
+      "default": "RETURNS"
+    },
+    {
+      "type": "richtext",
+      "id": "note_text",
+      "label": "Highlighted note",
+      "default": "<p>NOTE: ALL ORDERS PURCHASED USING BUILD-A-BUNDLE DISCOUNTS ARE FINAL UNLESS PRODUCT IS DAMAGED UPON ARRIVAL.</p>"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-7"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "intro_paragraph",
+      "name": "Intro paragraph",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Paragraph text",
+          "default": "<p>If you are at this page, then either you are considering buying 2 INTO 9 (thank you!!) or are displeased for some reason (let us fix it). If you are unhappy for ANY reason, we ask that you give us the opportunity to make things right. Please email our satisfaction-guaranteed customer service center at care@2into9.com regarding any issues with your purchase.</p>"
+        }
+      ]
+    },
+    {
+      "type": "policy_section",
+      "name": "Policy section",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Section heading",
+          "default": "RETURNS / REFUNDS ON ORDERS THAT QUALIFIED FOR FREE SHIPPING"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "Body",
+          "default": "<p>If you have tried a single pair from your order and have decided to return the remaining unopened items for a refund, we will refund you the amount paid in full minus the cost of return shipping once the unopened items have been received and inspected. Return shipping rates will be determined by location.</p>"
+        }
+      ]
+    },
+    {
+      "type": "closing_paragraph",
+      "name": "Closing paragraph",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Paragraph text",
+          "default": "<p>Thank you for trying our product. Our mission is to satisfy every customer that gives us an opportunity to do so. May today be the best day of your life, and may they only get better from here.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Return policy",
+      "blocks": [
+        {
+          "type": "intro_paragraph",
+          "settings": {
+            "text": "<p>If you are at this page, then either you are considering buying 2 INTO 9 (thank you!!) or are displeased for some reason (let us fix it). If you are unhappy for ANY reason, we ask that you give us the opportunity to make things right. Please email our satisfaction-guaranteed customer service center at care@2into9.com regarding any issues with your purchase.</p>"
+          }
+        },
+        {
+          "type": "intro_paragraph",
+          "settings": {
+            "text": "<p>We will refund or replace your first pair without question <strong>within the first 30 days of receiving them</strong>, shipping charges not included. For this reason, we recommend only ordering a single pair for your first time trying our products to see if 2 INTO 9 is right for you. Beyond your first trial pair, we can only exchange any unopened items for a refund or replacement.</p>"
+          }
+        },
+        {
+          "type": "policy_section",
+          "settings": {
+            "heading": "RETURNS / REFUNDS ON ORDERS THAT QUALIFIED FOR FREE SHIPPING",
+            "body": "<p>If you have tried a single pair from your order and have decided to return the remaining unopened items for a refund, we will refund you the amount paid in full <strong>minus the cost of return shipping</strong> once the unopened items have been received and inspected. Return shipping rates will be determined by location.</p>"
+          }
+        },
+        {
+          "type": "policy_section",
+          "settings": {
+            "heading": "DEFECTIVE OR DAMAGED ITEMS",
+            "body": "<p>2 INTO 9 stands behind our quality product and its performance 100%. We offer a 2-year Manufacturer Warranty to cover any defect in fabric, construction, finish or workmanship (this does not include stains from regular use or care and/or cigarette burns). In the event of a confirmed defect, we will gladly ship out the replacement piece at our cost. Please send a photo of the affected area and description to care@2into9.com. Only the defective items will be replaced, not the entire order.</p>"
+          }
+        },
+        {
+          "type": "policy_section",
+          "settings": {
+            "heading": "ALL ORDERS PURCHASED WITH A GIFT CARD ARE FINAL",
+            "body": "<p>Thank you for trying our product. Orders paid with gift cards or build-a-pack discounts are considered final sale unless the product arrives damaged upon delivery.</p>"
+          }
+        },
+        {
+          "type": "closing_paragraph",
+          "settings": {
+            "text": "<p>Thank you for trying our product. Our mission is to satisfy every customer that gives us an opportunity to do so. May today be the best day of your life, and may they only get better from here.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

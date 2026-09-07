@@ -1,0 +1,741 @@
+{% liquid
+  assign selected_collection = section.settings.collection
+  assign max_products = section.settings.max_products
+  assign layout_type = section.settings.layout_type | default: 'carousel'
+%}
+
+<div
+  class="
+    best-sellers-carousel
+    section
+    section--{{ section.settings.section_width }}
+    color-{{ section.settings.color_scheme }}
+    spacing-style
+  "
+  style="{% render 'spacing-style', settings: section.settings %}"
+>
+  <div class="best-sellers-carousel__background"></div>
+
+  <div class="best-sellers-carousel__header text-{{ section.settings.text_alignment }}">
+    {% if section.settings.eyebrow != blank %}
+      <p class="best-sellers-carousel__eyebrow">
+        {{ section.settings.eyebrow }}
+      </p>
+    {% endif %}
+
+    {% if section.settings.heading != blank %}
+      <h2 class="best-sellers-carousel__title">
+        {{ section.settings.heading }}
+      </h2>
+    {% endif %}
+
+    {% if section.settings.subheading != blank %}
+      <p class="best-sellers-carousel__subtitle">
+        {{ section.settings.subheading }}
+      </p>
+    {% endif %}
+  </div>
+
+  {% capture slides_markup %}
+    {% if selected_collection != blank and selected_collection.products_count > 0 %}
+      {% for product in selected_collection.products limit: max_products %}
+        {% liquid
+          assign featured_media = product.featured_media
+          assign rating_value = null
+          assign rating_count = null
+          assign color_option = null
+
+          if product.metafields.reviews.rating.value
+            assign rating_value = product.metafields.reviews.rating.value | round: 1
+          elsif product.metafields.reviews.rating
+            assign rating_value = product.metafields.reviews.rating | round: 1
+          endif
+
+          if product.metafields.reviews.rating_count
+            assign rating_count = product.metafields.reviews.rating_count.value | default: product.metafields.reviews.rating_count
+          endif
+
+          for option in product.options_with_values
+            assign option_name = option.name | downcase
+            if option_name contains 'color' or option_name contains 'colour'
+              assign color_option = option
+              break
+            endif
+          endfor
+        %}
+
+        <div class="best-sellers-carousel__slide">
+          <article class="best-sellers-card">
+            <div class="best-sellers-card__media-wrap">
+              {% if color_option and section.settings.show_swatches %}
+                <ul class="best-sellers-card__swatches" aria-label="{{ 'products.product.color_options' | t | default: 'Color options' }}">
+                  {% for option_value in color_option.values limit: 6 %}
+                    {% assign swatch = option_value.swatch %}
+                    {% assign swatch_color = swatch.color | default: swatch.background %}
+                    <li class="best-sellers-card__swatch">
+                      <span
+                        {% if swatch_color %}
+                          style="background: {{ swatch_color }};"
+                        {% elsif swatch.image != blank %}
+                          style="background-image: url({{ swatch.image | image_url: width: 80 }});"
+                        {% endif %}
+                        aria-hidden="true"
+                      ></span>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+
+              <a
+                href="{{ product.url }}"
+                class="best-sellers-card__media"
+              >
+                {% if featured_media %}
+                  {{ featured_media | image_url: width: 700 | image_tag: loading: 'lazy', widths: '350,450,550,700', sizes: '(min-width: 1200px) 320px, 65vw', class: 'best-sellers-card__image' }}
+                {% else %}
+                  <div class="best-sellers-card__placeholder">
+                    {{ 'product-1' | placeholder_svg_tag }}
+                  </div>
+                {% endif %}
+              </a>
+            </div>
+
+            <div class="best-sellers-card__body">
+              {% if rating_value and section.settings.show_ratings %}
+                <div class="best-sellers-card__rating" aria-label="{{ 'general.rating' | t: value: rating_value | default: 'Rating' }}">
+                  <div class="best-sellers-card__stars" aria-hidden="true">
+                    {% assign solid_stars = rating_value | floor %}
+                    {% assign remainder = rating_value | minus: solid_stars %}
+                    {% assign has_half_star = 0 %}
+                    {% if remainder > 0 %}
+                      {% assign has_half_star = 1 %}
+                    {% endif %}
+                    {% for i in (1..solid_stars) %}
+                      <span class="star star--full">★</span>
+                    {% endfor %}
+                    {% if has_half_star == 1 %}
+                      <span class="star star--half">★</span>
+                    {% endif %}
+                    {% assign empty_stars = 5 | minus: solid_stars | minus: has_half_star %}
+                    {% for i in (1..empty_stars) %}
+                      <span class="star star--empty">★</span>
+                    {% endfor %}
+                  </div>
+                  <span class="best-sellers-card__rating-value">
+                    {{ rating_value }}
+                    {% if rating_count %}
+                      <span class="best-sellers-card__rating-count">({{ rating_count }})</span>
+                    {% endif %}
+                  </span>
+                </div>
+              {% endif %}
+
+              <h3 class="best-sellers-card__title">
+                <a href="{{ product.url }}">
+                  {{ product.title }}
+                </a>
+              </h3>
+
+              {% if section.settings.show_price %}
+                <div class="best-sellers-card__price">
+                  {% render 'price', product: product %}
+                </div>
+              {% endif %}
+
+              {% if section.settings.cta_label != blank %}
+                <a
+                  href="{{ product.url }}"
+                  class="best-sellers-card__cta button button--primary"
+                >
+                  {{ section.settings.cta_label }}
+                </a>
+              {% endif %}
+            </div>
+          </article>
+        </div>
+        {% unless forloop.last %}
+          <!--@carousel-split-->
+        {% endunless %}
+      {% endfor %}
+    {% endif %}
+  {% endcapture %}
+
+  {% assign slides_array = slides_markup | strip | split: '<!--@carousel-split-->' %}
+  {% assign cards_markup = slides_array | join: '' %}
+
+  {% if slides_array != blank and slides_array.size > 0 %}
+    <div
+      class="best-sellers-carousel__viewport"
+      style="
+        --best-sellers-carousel-width: {{ section.settings.slider_max_width | default: '1400px' }};
+      "
+    >
+      {% if layout_type == 'grid' %}
+        <div
+          class="best-sellers-carousel__grid hidden--mobile"
+          style="
+            --grid-gap: {{ section.settings.card_gap }}px;
+            --grid-columns-desktop: {{ section.settings.cards_per_view | default: 4 }};
+          "
+        >
+          {{ cards_markup }}
+        </div>
+
+        <div
+          class="
+            resource-list
+            resource-list__carousel
+            best-sellers-carousel__slider
+            hidden--desktop
+          "
+          style="
+            --resource-list-column-gap: {{ section.settings.card_gap }}px;
+            --column-count: 1;
+            --column-count-mobile: 1;
+            --mobile-card-size: {{ section.settings.mobile_card_size }};
+            --peek-next-slide-size: 0px;
+          "
+        >
+          {% render 'resource-list-carousel',
+            ref: 'bestSellersCarouselMobile-' | append: section.id,
+            slides: slides_array,
+            slide_count: slides_array.size,
+            settings: section.settings,
+            slide_width_max: section.settings.card_max_width
+          %}
+        </div>
+      {% else %}
+        <div
+          class="
+            resource-list
+            resource-list__carousel
+            best-sellers-carousel__slider
+          "
+          style="
+            --resource-list-column-gap: {{ section.settings.card_gap }}px;
+            --column-count: {{ section.settings.cards_per_view | default: 4 }};
+            --column-count-mobile: 1;
+            --mobile-card-size: {{ section.settings.mobile_card_size }};
+            --peek-next-slide-size: 0px;
+          "
+        >
+          {% render 'resource-list-carousel',
+            ref: 'bestSellersCarousel-' | append: section.id,
+            slides: slides_array,
+            slide_count: slides_array.size,
+            settings: section.settings,
+            slide_width_max: section.settings.card_max_width
+          %}
+        </div>
+      {% endif %}
+    </div>
+  {% else %}
+    <div class="best-sellers-carousel__empty">
+      {{ 'sections.collection_list.empty' | t | default: 'Add a collection with products to see the carousel here.' }}
+    </div>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .best-sellers-carousel {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .best-sellers-carousel__background {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top, rgba(255, 255, 255, 0.5), transparent 60%);
+    pointer-events: none;
+  }
+
+  .best-sellers-carousel__header {
+    position: relative;
+    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .best-sellers-carousel__eyebrow {
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgb(var(--color-foreground), 0.6);
+    margin-bottom: 0.5rem;
+  }
+
+  .best-sellers-carousel__title {
+    letter-spacing: 0.08em;
+  }
+
+  .best-sellers-carousel__subtitle {
+    color: rgb(var(--color-foreground), 0.7);
+    /* max-width: 52ch; */
+    margin-inline: auto;
+  }
+
+  .best-sellers-carousel__viewport {
+    width: min(100%, var(--best-sellers-carousel-width, 1200px));
+    margin-inline: auto;
+    padding-inline: clamp(0.5rem, 4vw, 3rem);
+  }
+
+  .best-sellers-carousel__slider {
+    position: relative;
+    width: 100%;
+  }
+
+  .best-sellers-carousel__slider slideshow-controls {
+    display: none;
+  }
+
+  .best-sellers-carousel__slide {
+    height: 100%;
+  }
+
+  .best-sellers-carousel__grid {
+    display: grid;
+    gap: var(--grid-gap, 24px);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  @media (min-width: 990px) {
+    .best-sellers-carousel__grid {
+      grid-template-columns: repeat(var(--grid-columns-desktop, 4), minmax(0, 1fr));
+    }
+  }
+
+  .best-sellers-carousel__grid .best-sellers-carousel__slide {
+    width: 100%;
+  }
+
+  .best-sellers-card {
+    background: var(--card-background, #f5f5f5);
+    border-radius: 36px;
+    padding: 1.25rem;
+    box-shadow: 0 30px 60px rgba(15, 23, 42, 0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%;
+  }
+
+  .best-sellers-card__media-wrap {
+    position: relative;
+    display: grid;
+  }
+
+  .best-sellers-card__swatches {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(-50%, -50%);
+    list-style: none;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.15);
+    border: 1px solid rgba(15, 23, 42, 0.05);
+  }
+
+  .best-sellers-card__swatch {
+    list-style: none;
+  }
+
+  .best-sellers-card__swatch span {
+    display: block;
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(15, 23, 42, 0.1);
+    background-size: cover;
+    background-position: center;
+  }
+
+  .best-sellers-card__media {
+    border: none;
+    border-radius: 0;
+    overflow: hidden;
+    display: block;
+    background: transparent;
+    padding: 0;
+  }
+
+  .best-sellers-card__image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .best-sellers-card__body {
+    font-family: 'poppins';
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    text-align: center;
+  }
+
+  .best-sellers-card__rating {
+    display: flex;
+    justify-content: center;
+    gap: 0.35rem;
+    align-items: center;
+    font-size: 0.9rem;
+    color: rgb(var(--color-foreground));
+  }
+
+  .best-sellers-card__stars {
+    display: inline-flex;
+    gap: 0.25rem;
+    font-size: 0.85rem;
+    color: #f4c150;
+  }
+
+  .best-sellers-card__stars .star {
+    font-family: 'Arial', sans-serif;
+  }
+
+  .best-sellers-card__stars .star--empty {
+    color: rgba(0, 0, 0, 0.15);
+  }
+
+  .best-sellers-card__title {
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+    text-transform: capitalize;
+    margin: 0;
+  }
+
+  .best-sellers-card__title a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .best-sellers-card__price {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .best-sellers-card__cta {
+  --button-padding-block: 7px;
+    border-radius: 10px;
+    /* padding-inline: 2.5rem; */
+    justify-content: center;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-inline: auto;
+  }
+
+  @media (max-width: 749px) {
+    .best-sellers-card__cta {
+      padding-inline: 1.5rem;
+      font-size: 0.85rem;
+      min-height: 44px;
+    }
+  }
+
+  .best-sellers-carousel__empty {
+    text-align: center;
+    padding: 2rem;
+    color: rgba(var(--color-foreground), 0.6);
+  }
+
+  @media (max-width: 989px) {
+    .best-sellers-card__swatches {
+      display: none;
+    }
+
+    .best-sellers-card {
+      border-radius: 24px;
+    }
+  }
+
+  @media screen and (max-width: 640px) {
+    .best-sellers-carousel__header {
+      margin-bottom: 2rem;
+    }
+
+    .best-sellers-carousel__eyebrow {
+      letter-spacing: 0.2em;
+      font-size: 0.75rem;
+    }
+
+    .best-sellers-carousel__title {
+      font-size: clamp(1.35rem, 7vw, 2rem);
+      letter-spacing: 0.06em;
+    }
+
+    .best-sellers-carousel__subtitle {
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .best-sellers-card {
+      padding: 1rem;
+      border-radius: 20px;
+    }
+
+    .best-sellers-card__body {
+      gap: 0.5rem;
+    }
+
+    .best-sellers-card__title {
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+    }
+
+    .best-sellers-card__price {
+      font-size: 0.95rem;
+    }
+
+    .best-sellers-card__cta {
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Best sellers carousel",
+  "class": "section-best-sellers-carousel",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Best sellers"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Best sellers men"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "It is a long established fact that a reader will be distracted by the readable content of a page when looking."
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "select",
+      "id": "layout_type",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "carousel",
+          "label": "Carousel"
+        },
+        {
+          "value": "grid",
+          "label": "Grid"
+        }
+      ],
+      "default": "carousel"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "label": "Maximum products",
+      "default": 6
+    },
+    {
+      "type": "text",
+      "id": "slider_max_width",
+      "label": "Carousel max width",
+      "default": "1400px",
+      "info": "Accepts any CSS width value (e.g. 1200px, 90rem)."
+    },
+    {
+      "type": "text",
+      "id": "card_max_width",
+      "label": "Max slide width",
+      "default": "320px",
+      "info": "Accepts any CSS width value (e.g. 320px, 22rem)."
+    },
+    {
+      "type": "select",
+      "id": "mobile_card_size",
+      "label": "Mobile card size",
+      "options": [
+        {
+          "value": "60cqw",
+          "label": "Large"
+        },
+        {
+          "value": "44cqw",
+          "label": "Medium"
+        }
+      ],
+      "default": "60cqw"
+    },
+    {
+      "type": "range",
+      "id": "cards_per_view",
+      "label": "Cards shown per view (desktop)",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Card gap",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "default": 24,
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_ratings",
+      "label": "Show rating stars",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_swatches",
+      "label": "Show color dots",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show price",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Add to cart"
+    },
+    {
+      "type": "select",
+      "id": "icons_style",
+      "label": "Carousel arrows",
+      "options": [
+        {
+          "value": "arrow",
+          "label": "Arrows"
+        },
+        {
+          "value": "chevron",
+          "label": "Chevrons"
+        },
+        {
+          "value": "arrows_large",
+          "label": "Large arrows"
+        },
+        {
+          "value": "chevron_large",
+          "label": "Large chevrons"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": "arrow"
+    },
+    {
+      "type": "select",
+      "id": "icons_shape",
+      "label": "Arrow background",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "circle",
+          "label": "Circle"
+        },
+        {
+          "value": "square",
+          "label": "Square"
+        }
+      ],
+      "default": "circle"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "Best sellers carousel"
+    }
+  ]
+}
+{% endschema %}

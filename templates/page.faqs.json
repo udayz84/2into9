@@ -1,1 +1,77 @@
-{"sections":{"faq-banner":{"type":"faq-banner","settings":{"breadcrumb":"","heading":"FREQUENTLY ASKED QUESTIONS","subheading":"","image":"shopify:\/\/shop_images\/slider-img_1.png","color_scheme":""}},"faq-content":{"type":"faq","settings":{"color_scheme":""}}},"order":["faq-banner","faq-content"]}
+{
+  "sections": {
+    "faq-content": {
+      "type": "faq",
+      "settings": {
+        "color_scheme": ""
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "reviewer_name": "JOHN DOE",
+            "reviewer_title": "Verified Buyer",
+            "review_text": "Amazing quality and comfort! The best underwear I've ever worn. Highly recommend to everyone."
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "reviewer_name": "JANE SMITH",
+            "reviewer_title": "Verified Buyer",
+            "review_text": "Finally found underwear that fits perfectly and lasts all day. Great product!"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "reviewer_name": "MIKE JOHNSON",
+            "reviewer_title": "Verified Buyer",
+            "review_text": "The quality exceeded my expectations. Will definitely be ordering more!"
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "reviewer_name": "CHRIS TAYLOR",
+            "reviewer_title": "Verified Buyer",
+            "review_text": "Game changer! The dual-pouch design keeps everything in place all day. Never going back to regular underwear."
+          }
+        },
+        "review_5": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "reviewer_name": "DAVID MILLER",
+            "reviewer_title": "Verified Buyer",
+            "review_text": "Outstanding quality and the fit is perfect. These are hands down the most comfortable boxers I own."
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "review_5"
+      ],
+      "settings": {
+        "heading": "Customer Reviews",
+        "rating_value": "5",
+        "rating_label": "| 1000 reviews",
+        "color_scheme": ""
+      }
+    }
+  },
+  "order": [
+    "faq-content",
+    "testimonials"
+  ]
+}

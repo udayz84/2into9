@@ -1,0 +1,400 @@
+{%- liquid
+  capture star_filled
+    echo '<svg class="testimonials__star" viewBox="0 0 22.21 24.53" aria-hidden="true" focusable="false">'
+    echo '<ellipse cx="11.1" cy="23.6" rx="7.1" ry="1" fill="#DBDBDB"/>'
+    echo '<path d="M13.0163 1.1882L15.2926 5.8003L20.3823 6.5398C22.1306 6.7939 22.8288 8.9425 21.5636 10.1757L17.8806 13.7657L18.7501 18.8349C19.0487 20.5762 17.221 21.9041 15.6573 21.0819L11.1049 18.6886L6.5525 21.0819C4.9887 21.9041 3.161 20.5762 3.4597 18.8349L4.3291 13.7657L0.6461 10.1757C-0.619 8.9425 0.0791 6.7939 1.8275 6.5398L6.9172 5.8003L9.1934 1.1882C9.9753 -0.3961 12.2344 -0.3961 13.0163 1.1882Z" fill="#F9C228"/>'
+    echo '<path d="M2.0316 7.3216L6.4704 6.6875C6.5947 6.6697 6.6442 6.8429 6.5292 6.8931C5.632 7.2845 3.7915 7.9646 1.0412 8.3988C1.0412 8.3988 1.0412 8.3618 1.0497 8.2995C1.1189 7.7913 1.5238 7.3941 2.0316 7.3216Z" fill="#FFE36C"/>'
+    echo '</svg>'
+  endcapture
+  capture star_empty
+    echo '<svg class="testimonials__star testimonials__star--empty" viewBox="0 0 22.21 24.53" aria-hidden="true" focusable="false">'
+    echo '<ellipse cx="11.1" cy="23.6" rx="7.1" ry="1" fill="#DBDBDB"/>'
+    echo '<path d="M13.0163 1.1882L15.2926 5.8003L20.3823 6.5398C22.1306 6.7939 22.8288 8.9425 21.5636 10.1757L17.8806 13.7657L18.7501 18.8349C19.0487 20.5762 17.221 21.9041 15.6573 21.0819L11.1049 18.6886L6.5525 21.0819C4.9887 21.9041 3.161 20.5762 3.4597 18.8349L4.3291 13.7657L0.6461 10.1757C-0.619 8.9425 0.0791 6.7939 1.8275 6.5398L6.9172 5.8003L9.1934 1.1882C9.9753 -0.3961 12.2344 -0.3961 13.0163 1.1882Z" fill="#DBDBDB"/>'
+    echo '</svg>'
+  endcapture
+-%}
+
+{{ 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap' | stylesheet_tag }}
+
+<section
+  id="Testimonials-{{ section.id }}"
+  class="testimonials color-{{ section.settings.color_scheme }} section"
+>
+  <div class="testimonials__container">
+    <div class="testimonials__header">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="testimonials__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.rating_value != blank or section.settings.rating_label != blank -%}
+        <p class="testimonials__rating">
+          {%- if section.settings.rating_value != blank -%}
+            <span>{{ section.settings.rating_value }}</span>
+          {%- endif -%}
+          {{ star_filled }}
+          {%- if section.settings.rating_label != blank -%}
+            <span>{{ section.settings.rating_label }}</span>
+          {%- endif -%}
+        </p>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- if section.blocks.size > 0 -%}
+    {%- capture cards_set -%}
+      {%- for block in section.blocks -%}
+        <div class="testimonials__card">
+          {%- if block.settings.rating != blank -%}
+            <div class="testimonials__stars">
+              {%- for i in (1..5) -%}
+                {%- if i <= block.settings.rating -%}
+                  {{ star_filled }}
+                {%- else -%}
+                  {{ star_empty }}
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+          {%- if block.settings.reviewer_name != blank -%}
+            <h3 class="testimonials__name">{{ block.settings.reviewer_name }}</h3>
+          {%- endif -%}
+
+          {%- if block.settings.reviewer_title != blank -%}
+            <p class="testimonials__role">{{ block.settings.reviewer_title }}</p>
+          {%- endif -%}
+
+          {%- if block.settings.review_text != blank -%}
+            <p class="testimonials__text">{{ block.settings.review_text }}</p>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    {%- endcapture -%}
+
+    <div class="testimonials__marquee">
+      <div class="testimonials__track">
+        {%- for block in section.blocks -%}
+          <div class="testimonials__card" {{ block.shopify_attributes }}>
+            {%- if block.settings.rating != blank -%}
+              <div class="testimonials__stars">
+                {%- for i in (1..5) -%}
+                  {%- if i <= block.settings.rating -%}
+                    {{ star_filled }}
+                  {%- else -%}
+                    {{ star_empty }}
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
+            {%- if block.settings.reviewer_name != blank -%}
+              <h3 class="testimonials__name">{{ block.settings.reviewer_name }}</h3>
+            {%- endif -%}
+
+            {%- if block.settings.reviewer_title != blank -%}
+              <p class="testimonials__role">{{ block.settings.reviewer_title }}</p>
+            {%- endif -%}
+
+            {%- if block.settings.review_text != blank -%}
+              <p class="testimonials__text">{{ block.settings.review_text }}</p>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+        <div class="testimonials__clone" aria-hidden="true" tabindex="-1">
+          {{ cards_set }}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+{% style %}
+  #Testimonials-{{ section.id }} {
+    padding-block: clamp(3rem, 6vw, 5rem);
+    overflow-x: clip;
+  }
+
+  .testimonials__container {
+    width: 100%;
+    max-width: 78rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .testimonials__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5625rem;
+  }
+
+  .testimonials__heading {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
+    font-weight: 300;
+    color: #171717;
+    text-align: center;
+    margin: 0;
+  }
+
+  .testimonials__rating {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.625rem;
+    font-weight: 300;
+    color: #171717;
+    margin: 0;
+  }
+
+  .testimonials__rating .testimonials__star {
+    width: 19px;
+    height: 21px;
+    flex-shrink: 0;
+  }
+
+  .testimonials__marquee {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    overflow: hidden;
+    margin-top: 4.25rem;
+  }
+
+  .testimonials__track {
+    display: flex;
+    align-items: stretch;
+    gap: 1.25rem;
+    width: max-content;
+    animation: testimonials-marquee 45s linear infinite;
+  }
+
+  .testimonials__marquee:hover .testimonials__track,
+  .testimonials__marquee:focus-within .testimonials__track {
+    animation-play-state: paused;
+  }
+
+  .testimonials__clone {
+    display: flex;
+    align-items: stretch;
+    gap: 1.25rem;
+  }
+
+  @keyframes testimonials-marquee {
+    to {
+      transform: translateX(calc(-50% - 0.625rem));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .testimonials__track {
+      animation: none;
+    }
+  }
+
+  .testimonials__card {
+    width: min(390px, 85vw);
+    min-height: 360px;
+    background: rgba(217, 217, 217, 0.2);
+    padding: 4rem 2.25rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: #171717;
+    flex-shrink: 0;
+  }
+
+  .testimonials__stars {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin-bottom: 2.25rem;
+  }
+
+  .testimonials__stars .testimonials__star {
+    width: 22.2px;
+    height: 24.5px;
+    flex-shrink: 0;
+  }
+
+  .testimonials__name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #171717;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  .testimonials__role {
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: #171717;
+    margin: 0;
+  }
+
+  .testimonials__text {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #171717;
+    margin: 1.75rem 0 0;
+    max-width: 19.9375rem;
+  }
+
+  @media (max-width: 749px) {
+    .testimonials__heading {
+      font-size: 1.75rem;
+      line-height: 1.25;
+      padding-inline: 1rem;
+    }
+
+    .testimonials__rating {
+      font-size: 1.125rem;
+      gap: 0.5rem;
+    }
+
+    .testimonials__rating .testimonials__star {
+      width: 16px;
+      height: 17.5px;
+    }
+
+    .testimonials__marquee {
+      margin-top: 2.5rem;
+    }
+
+    .testimonials__card {
+      min-height: 320px;
+      padding: 2.5rem 1.25rem 1.75rem;
+    }
+
+    .testimonials__stars {
+      gap: 2px;
+      margin-bottom: 1.75rem;
+    }
+
+    .testimonials__stars .testimonials__star {
+      width: 18px;
+      height: 20px;
+    }
+
+    .testimonials__name {
+      font-size: 1.25rem;
+    }
+
+    .testimonials__role {
+      font-size: 0.9rem;
+    }
+
+    .testimonials__text {
+      font-size: 0.875rem;
+      line-height: 1.55;
+      margin-top: 1.25rem;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "tag": "section",
+  "class": "section-testimonials",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Customer Reviews"
+    },
+    {
+      "type": "text",
+      "id": "rating_value",
+      "label": "Rating value",
+      "default": "5"
+    },
+    {
+      "type": "text",
+      "id": "rating_label",
+      "label": "Rating label",
+      "default": "| 1000 reviews"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Star rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "reviewer_name",
+          "label": "Reviewer name",
+          "default": "JOHN DOE"
+        },
+        {
+          "type": "text",
+          "id": "reviewer_title",
+          "label": "Reviewer title",
+          "default": "Verified Buyer"
+        },
+        {
+          "type": "textarea",
+          "id": "review_text",
+          "label": "Review text",
+          "default": "Amazing quality and comfort! The best underwear I've ever worn. Highly recommend to everyone."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "reviewer_name": "JOHN DOE",
+            "reviewer_title": "Verified Buyer",
+            "review_text": "Amazing quality and comfort! The best underwear I've ever worn. Highly recommend to everyone."
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "reviewer_name": "JANE SMITH",
+            "reviewer_title": "Verified Buyer",
+            "review_text": "Finally found underwear that fits perfectly and lasts all day. Great product!"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "reviewer_name": "MIKE JOHNSON",
+            "reviewer_title": "Verified Buyer",
+            "review_text": "The quality exceeded my expectations. Will definitely be ordering more!"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

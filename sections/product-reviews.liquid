@@ -1,0 +1,318 @@
+{{ 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap' | stylesheet_tag }}
+
+<div class="pr" style="--pr-padding-inline: {{ section.settings.page_padding }}px;">
+  <div class="pr__header">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="pr__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.show_rating_summary -%}
+      <div class="pr__summary">
+        <span class="pr__summary-star">{%- render 'icon-star-gold' -%}</span>
+        <span>{{ section.settings.rating_value }} | {{ section.settings.reviews_count }} {{ section.settings.reviews_label }}</span>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="pr__scroller">
+    <div class="pr__cards">
+      {%- for block in section.blocks -%}
+        <article class="pr-card" {{ block.shopify_attributes }}>
+          <div class="pr-card__stars" role="img" aria-label="Rated {{ block.settings.rating }} out of 5">
+            {%- for i in (1..5) -%}
+              <span class="pr-card__star{% if i <= block.settings.rating %} is-filled{% endif %}">
+                {%- render 'icon-star-gold' -%}
+              </span>
+            {%- endfor -%}
+          </div>
+          {%- if block.settings.name != blank -%}
+            <p class="pr-card__name">{{ block.settings.name }}</p>
+          {%- endif -%}
+          {%- if block.settings.role != blank -%}
+            <p class="pr-card__role">{{ block.settings.role }}</p>
+          {%- endif -%}
+          {%- if block.settings.text != blank -%}
+            <p class="pr-card__text">{{ block.settings.text }}</p>
+          {%- endif -%}
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product Reviews",
+  "tag": "section",
+  "class": "section-pr",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Customer Reviews"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating_summary",
+      "label": "Show rating summary",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "rating_value",
+      "label": "Rating value",
+      "default": "5"
+    },
+    {
+      "type": "text",
+      "id": "reviews_count",
+      "label": "Reviews count",
+      "default": "1000"
+    },
+    {
+      "type": "text",
+      "id": "reviews_label",
+      "label": "Reviews label",
+      "default": "reviews"
+    },
+    {
+      "type": "range",
+      "id": "page_padding",
+      "label": "Side padding",
+      "min": 40,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 110
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Arjun Mehta"
+        },
+        {
+          "type": "text",
+          "id": "role",
+          "label": "Role",
+          "default": "Professional Football Player"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Review text",
+          "default": "The most comfortable underwear I've owned. The anti-chafe panels are a game changer during training."
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Reviews",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "name": "Arjun Mehta",
+            "role": "Professional Football Player",
+            "text": "The most comfortable underwear I've owned. The anti-chafe panels are a game changer during training."
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "name": "Rohan Verma",
+            "role": "Marathon Runner",
+            "text": "Zero chafing even on 30km runs. The bamboo fabric breathes better than anything else I've tried."
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "name": "Kabir Singh",
+            "role": "Gym Trainer",
+            "text": "Perfect fit and the 3D pouch actually makes a difference. Ordered 15 pairs — worth every rupee."
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "name": "Aditya Rao",
+            "role": "Cricketer",
+            "text": "Moisture-wicking works even in peak summer. These trunks keep up with every training session."
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "name": "Vikram Nair",
+            "role": "Fitness Coach",
+            "text": "Sustainable, soft and supportive. My clients ask what I recommend — 2into9 is now the default answer."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+  .pr,
+  .pr h1,
+  .pr h2,
+  .pr h3,
+  .pr h4,
+  .pr p,
+  .pr span,
+  .pr button,
+  .pr input,
+  .pr a {
+    font-family: var(--pr-font);
+  }
+
+  .pr {
+    zoom: 0.67;
+    --pr-ink: #171717;
+    --pr-font: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--pr-font);
+    color: var(--pr-ink);
+    padding-inline: var(--pr-padding-inline, 110px);
+    padding-block-end: 120px;
+  }
+
+  .pr__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    margin-block-end: 60px;
+  }
+
+  .pr__heading {
+    margin: 0;
+    font-size: 60px;
+    font-weight: 300;
+    line-height: 90px;
+    text-align: center;
+    color: var(--pr-ink);
+  }
+
+  .pr__summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 27px;
+    font-weight: 300;
+    color: var(--pr-ink);
+  }
+
+  .pr__summary-star {
+    width: 19px;
+    height: 21px;
+    display: inline-flex;
+    flex: none;
+  }
+
+  .pr__summary-star svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .pr__scroller {
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+    margin-inline: calc(var(--pr-padding-inline, 110px) * -1);
+    padding-inline: var(--pr-padding-inline, 110px);
+  }
+
+  .pr__scroller::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pr__cards {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+  }
+
+  .pr-card {
+    flex: none;
+    width: 390px;
+    height: 360px;
+    background: rgba(217, 217, 217, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    scroll-snap-align: start;
+    padding-inline: 36px;
+  }
+
+  .pr-card__stars {
+    display: flex;
+    gap: 3px;
+    margin-block-start: 64px;
+  }
+
+  .pr-card__star {
+    width: 22px;
+    height: 25px;
+    display: inline-flex;
+    flex: none;
+  }
+
+  .pr-card__star svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .pr-card__star:not(.is-filled) {
+    filter: grayscale(1);
+    opacity: 0.45;
+  }
+
+  .pr-card__name {
+    margin: 41px 0 0;
+    font-size: 30px;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 45px;
+    text-align: center;
+    color: var(--pr-ink);
+  }
+
+  .pr-card__role {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 30px;
+    text-align: center;
+    color: var(--pr-ink);
+  }
+
+  .pr-card__text {
+    margin: 28px 0 0;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: center;
+    color: var(--pr-ink);
+  }
+{% endstylesheet %}

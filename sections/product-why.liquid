@@ -1,0 +1,298 @@
+{{ 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap' | stylesheet_tag }}
+
+<div class="pw" style="--pw-padding-inline: {{ section.settings.page_padding }}px;">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="pw__heading">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+
+  <div class="pw__cards">
+    {%- for block in section.blocks -%}
+      <a
+        class="pw-card"
+        {% if block.settings.link != blank %}
+          href="{{ block.settings.link }}"
+        {% else %}
+          href="{{ routes.all_products_collection_url }}"
+        {% endif %}
+        {{ block.shopify_attributes }}
+      >
+        <div class="pw-card__media">
+          {%- if block.settings.image != blank -%}
+            {{
+              block.settings.image
+              | image_url: width: 740
+              | image_tag:
+                class: 'pw-card__image',
+                widths: '370, 555, 740',
+                sizes: '370px',
+                loading: 'lazy',
+                alt: block.settings.label
+            }}
+          {%- else -%}
+            {{ 'lifestyle-1' | placeholder_svg_tag: 'pw-card__image pw-card__image--placeholder' }}
+          {%- endif -%}
+          <div class="pw-card__overlay" aria-hidden="true"></div>
+          {%- if block.settings.label != blank -%}
+            <span class="pw-card__label">{{ block.settings.label }}</span>
+          {%- endif -%}
+          <div class="pw-card__chips">
+            <div class="pw-card__chip">
+              <span class="pw-card__chip-icon">{%- render 'icon-check' -%}</span>
+              <span>{{ section.settings.chip_1 }}</span>
+            </div>
+            <div class="pw-card__chip">
+              <span class="pw-card__chip-icon">{%- render 'icon-leaf-small' -%}</span>
+              <span>{{ section.settings.chip_2 }}</span>
+            </div>
+            <div class="pw-card__chip">
+              <span class="pw-card__chip-icon">{%- render 'icon-check' -%}</span>
+              <span>{{ section.settings.chip_3 }}</span>
+            </div>
+            <div class="pw-card__chip">
+              <span class="pw-card__chip-icon">{%- render 'icon-leaf-small' -%}</span>
+              <span>{{ section.settings.chip_4 }}</span>
+            </div>
+          </div>
+        </div>
+        <span class="pw-card__button">{{ block.settings.button_label }}</span>
+      </a>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product Why",
+  "tag": "section",
+  "class": "section-pw",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Why 2into9 Underwear?"
+    },
+    {
+      "type": "range",
+      "id": "page_padding",
+      "label": "Side padding",
+      "min": 40,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 110
+    },
+    {
+      "type": "header",
+      "content": "Feature chips"
+    },
+    {
+      "type": "text",
+      "id": "chip_1",
+      "label": "Chip 1",
+      "default": "Moisture-wicking"
+    },
+    {
+      "type": "text",
+      "id": "chip_2",
+      "label": "Chip 2",
+      "default": "Organic + Sustainable"
+    },
+    {
+      "type": "text",
+      "id": "chip_3",
+      "label": "Chip 3",
+      "default": "Anti-chafe Panels"
+    },
+    {
+      "type": "text",
+      "id": "chip_4",
+      "label": "Chip 4",
+      "default": "3D Pouch Comfort"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Collection card",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Card label",
+          "default": "Mens"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop Now"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Why",
+      "blocks": [
+        { "type": "card", "settings": { "label": "Mens" } },
+        { "type": "card", "settings": { "label": "Kids" } },
+        { "type": "card", "settings": { "label": "D-Lock" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+  .pw,
+  .pw h1,
+  .pw h2,
+  .pw h3,
+  .pw h4,
+  .pw p,
+  .pw span,
+  .pw button,
+  .pw input,
+  .pw a {
+    font-family: var(--pw-font);
+  }
+
+  .pw {
+    --pw-ink: #171717;
+    --pw-font: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--pw-font);
+    color: var(--pw-ink);
+    padding-inline: var(--pw-padding-inline, 110px);
+    padding-block: 0 120px;
+  }
+
+  .pw__heading {
+    margin: 0 0 49px;
+    font-size: 60px;
+    font-weight: 300;
+    line-height: 90px;
+    text-align: center;
+    color: var(--pw-ink);
+  }
+
+  .pw__cards {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+  }
+
+  .pw-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 370px;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .pw-card__media {
+    position: relative;
+    width: 370px;
+    height: 470px;
+    border-radius: 20px;
+    background: #d9d9d9;
+    overflow: hidden;
+  }
+
+  .pw-card__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .pw-card__image--placeholder {
+    width: 100%;
+    height: 100%;
+  }
+
+  .pw-card__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.15) 38%, transparent 62%);
+  }
+
+  .pw-card__label {
+    position: absolute;
+    top: 28px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 800;
+    color: #fff;
+  }
+
+  .pw-card__chips {
+    position: absolute;
+    left: 41px;
+    right: 41px;
+    bottom: 42px;
+    display: flex;
+    gap: 7px;
+  }
+
+  .pw-card__chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: calc(50% - 3.5px);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    color: #fff;
+    white-space: nowrap;
+  }
+
+  .pw-card__chip-icon {
+    flex: none;
+    width: 12px;
+    height: 12px;
+    display: grid;
+    place-items: center;
+  }
+
+  .pw-card__chip-icon svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .pw-card__button {
+    margin-block-start: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 51px;
+    padding-inline: 65px;
+    border-radius: 50px;
+    background: var(--pw-ink);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: opacity 0.15s ease;
+  }
+
+  .pw-card:hover .pw-card__button {
+    opacity: 0.9;
+  }
+{% endstylesheet %}

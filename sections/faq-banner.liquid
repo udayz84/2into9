@@ -1,7 +1,12 @@
+{{ 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap' | stylesheet_tag }}
+
 <section
   id="FaqBanner-{{ section.id }}"
   class="faq-banner color-{{ section.settings.color_scheme }}"
 >
+  {%- if section.settings.watermark_text != blank -%}
+    <div class="faq-banner__watermark" aria-hidden="true">{{ section.settings.watermark_text }}</div>
+  {%- endif -%}
   <div class="faq-banner__container">
     <div class="faq-banner__content">
       {% if section.settings.breadcrumb != blank %}
@@ -25,9 +30,31 @@
 {% style %}
   #FaqBanner-{{ section.id }} {
     padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .faq-banner__watermark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(120px, 31vw, 310px);
+    font-weight: 700;
+    line-height: 1;
+    text-transform: uppercase;
+    color: #b5b5b5;
+    opacity: 0.06;
+    white-space: nowrap;
+    letter-spacing: normal;
+    pointer-events: none;
+    user-select: none;
   }
 
   .faq-banner__container {
+    position: relative;
+    z-index: 1;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0;
@@ -90,21 +117,25 @@
 
     .faq-banner__content {
       order: 1;
-      padding: 2rem;
+      padding: 2.5rem 1.25rem 2rem;
       text-align: center;
+      gap: 0.75rem;
+    }
+
+    .faq-banner__title {
+      font-size: 1.375rem;
+      line-height: 1.35;
     }
 
     .faq-banner__subheading {
+      font-size: 0.9rem;
+      line-height: 1.6;
       max-width: none;
     }
 
     .faq-banner__image {
       order: 2;
-      height: 300px;
-    }
-
-    .faq-banner__title {
-      font-size: 1.5rem;
+      height: 280px;
     }
   }
 {% endstyle %}
@@ -118,6 +149,21 @@
     "templates": ["page"]
   },
   "settings": [
+    {
+      "type": "header",
+      "content": "Watermark"
+    },
+    {
+      "type": "text",
+      "id": "watermark_text",
+      "label": "Watermark text",
+      "default": "underwear",
+      "info": "Large faded text behind the banner. Leave blank to hide."
+    },
+    {
+      "type": "header",
+      "content": "Banner"
+    },
     {
       "type": "text",
       "id": "breadcrumb",

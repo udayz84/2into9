@@ -1,0 +1,213 @@
+<product-accordion class="pa" style="--pa-padding-inline: {{ section.settings.page_padding }}px;">
+  <div class="pa__grid">
+    <div class="pa__spacer" aria-hidden="true"></div>
+    <div class="pa__list">
+      {%- for block in section.blocks -%}
+        <div
+          class="pa-item{% if forloop.first and section.settings.open_first %} is-open{% endif %}"
+          data-accordion-item
+          {{ block.shopify_attributes }}
+        >
+          <button
+            type="button"
+            class="pa-item__header"
+            data-accordion-trigger
+            aria-expanded="{% if forloop.first and section.settings.open_first %}true{% else %}false{% endif %}"
+          >
+            <span class="pa-item__title">{{ block.settings.title }}</span>
+            <span class="pa-item__icon" aria-hidden="true">
+              <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3.5 5.5l4 4 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </button>
+          <div class="pa-item__content" data-accordion-content{% unless forloop.first and section.settings.open_first %} hidden{% endunless %}>
+            <div class="pa-item__body">
+              {%- if block.settings.use_product_description -%}
+                {{ product.description }}
+              {%- else -%}
+                {{ block.settings.content }}
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</product-accordion>
+
+<script src="{{ 'product-accordion.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "Product Accordion",
+  "tag": "section",
+  "class": "section-pa",
+  "settings": [
+    {
+      "type": "range",
+      "id": "page_padding",
+      "label": "Side padding",
+      "min": 40,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 110
+    },
+    {
+      "type": "checkbox",
+      "id": "open_first",
+      "label": "Open first item by default",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Accordion item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Product Description"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_product_description",
+          "label": "Use product description as content",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Accordion",
+      "blocks": [
+        { "type": "item", "settings": { "title": "Product Description", "use_product_description": true } },
+        { "type": "item", "settings": { "title": "Fit & Fabric", "content": "<p>Ultra-soft bamboo viscose with anti-chafe panels, a 3D comfort pouch and moisture-wicking finish for all-day freshness.</p>" } },
+        { "type": "item", "settings": { "title": "Shipping", "content": "<p>Complimentary shipping within India. No tariffs apply. Orders dispatch within 24–48 hours and arrive in 3–7 business days.</p>" } },
+        { "type": "item", "settings": { "title": "30 Day First Pair Guarantee", "content": "<p>Don't love your first pair? Wear it, wash it — if you're not satisfied within 30 days, we'll refund you. No questions asked.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+  .pa,
+  .pa h1,
+  .pa h2,
+  .pa h3,
+  .pa h4,
+  .pa p,
+  .pa span,
+  .pa button,
+  .pa input,
+  .pa a {
+    font-family: var(--pa-font);
+  }
+
+  .pa {
+    zoom: 0.67;
+    --pa-ink: #171717;
+    --pa-border: #dcdcdc;
+    --pa-font: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--pa-font);
+    color: var(--pa-ink);
+    padding-inline: var(--pa-padding-inline, 110px);
+    padding-block-start: 40px;
+    padding-block-end: 120px;
+  }
+
+  .pa__grid {
+    display: grid;
+    grid-template-columns: 766px minmax(0, 860px);
+    column-gap: 74px;
+    justify-content: center;
+    align-items: start;
+    max-width: 1700px;
+    margin-inline: auto;
+  }
+
+  .pa__list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .pa-item {
+    border: 1px solid var(--pa-border);
+    border-radius: 20px;
+    background: #fff;
+    overflow: clip;
+  }
+
+  .pa-item__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    width: 100%;
+    height: 80px;
+    padding-inline: 48px 45px;
+    padding-block: 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    font-family: var(--pa-font);
+  }
+
+  .pa-item__title {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 36px;
+    color: #000;
+    text-align: left;
+  }
+
+  .pa-item__icon {
+    flex: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #f3f3f3;
+    color: var(--pa-ink);
+    display: grid;
+    place-items: center;
+    transition: transform 0.25s ease;
+  }
+
+  .pa-item__icon svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .pa-item.is-open .pa-item__icon {
+    transform: rotate(180deg);
+  }
+
+  .pa-item__content {
+    border-block-start: 1px solid var(--pa-border);
+  }
+
+  .pa-item__body {
+    padding: 24px 48px 32px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--pa-ink);
+  }
+
+  .pa-item__body p {
+    margin: 0 0 12px;
+  }
+
+  .pa-item__body p:last-child {
+    margin-block-end: 0;
+  }
+{% endstylesheet %}

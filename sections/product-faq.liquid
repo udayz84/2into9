@@ -1,0 +1,205 @@
+<div class="pf" style="--pf-padding-inline: {{ section.settings.page_padding }}px;">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="pf__heading">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+
+  <product-faq class="pf__list" data-single="true">
+    {%- for block in section.blocks -%}
+      <div
+        class="pf-item{% if forloop.first and section.settings.open_first %} is-open{% endif %}"
+        data-accordion-item
+        {{ block.shopify_attributes }}
+      >
+        <button
+          type="button"
+          class="pf-item__trigger"
+          data-accordion-trigger
+          aria-expanded="{% if forloop.first and section.settings.open_first %}true{% else %}false{% endif %}"
+        >
+          <span class="pf-item__question">{{ block.settings.question }}</span>
+          <span class="pf-item__icon" aria-hidden="true">
+            <svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 12l7 7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </button>
+        <div class="pf-item__answer" data-accordion-content{% unless forloop.first and section.settings.open_first %} hidden{% endunless %}>
+          <div class="pf-item__answer-body">{{ block.settings.answer }}</div>
+        </div>
+      </div>
+    {%- endfor -%}
+  </product-faq>
+</div>
+
+<script src="{{ 'product-faq.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "Product FAQ",
+  "tag": "section",
+  "class": "section-pf",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FAQ's"
+    },
+    {
+      "type": "range",
+      "id": "page_padding",
+      "label": "Side padding",
+      "min": 40,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 110
+    },
+    {
+      "type": "checkbox",
+      "id": "open_first",
+      "label": "Open first question by default",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "What's the difference between a Boxer Brief and Trunk?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>The only difference between the two is that Boxer Briefs have 3 cm more leg length than the trunks.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product FAQ",
+      "blocks": [
+        { "type": "question" },
+        {
+          "type": "question",
+          "settings": {
+            "question": "What type of underwear is best for me?",
+            "answer": "<p>If you prefer more coverage and support, go for Boxer Briefs. For a shorter, cooler fit, Trunks are your best pick.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "What underpants should I choose if I play sport?",
+            "answer": "<p>Our Anti-Sweat Trunks with moisture-wicking fabric and anti-chafe panels are built specifically for active use.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+  .pf,
+  .pf h1,
+  .pf h2,
+  .pf h3,
+  .pf h4,
+  .pf p,
+  .pf span,
+  .pf button,
+  .pf input,
+  .pf a {
+    font-family: var(--pf-font);
+  }
+
+  .pf {
+    --pf-ink: #171717;
+    --pf-font: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--pf-font);
+    color: var(--pf-ink);
+    padding-inline: var(--pf-padding-inline, 110px);
+    padding-block-end: 120px;
+  }
+
+  .pf__heading {
+    margin: 0 0 40px;
+    font-size: 60px;
+    font-weight: 300;
+    line-height: 90px;
+    text-align: center;
+    color: var(--pf-ink);
+  }
+
+  .pf__list {
+    max-width: 1000px;
+    margin-inline: auto;
+  }
+
+  .pf-item {
+    border-block-end: 1px solid #d9d9d9;
+  }
+
+  .pf-item:first-child {
+    border-block-start: 0;
+  }
+
+  .pf-item__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    width: 100%;
+    padding-block: 13px;
+    padding-inline: 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    font-family: var(--pf-font);
+    text-align: left;
+  }
+
+  .pf-item__question {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 30px;
+    color: var(--pf-ink);
+  }
+
+  .pf-item__icon {
+    flex: none;
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    color: var(--pf-ink);
+    transition: transform 0.25s ease;
+  }
+
+  .pf-item__icon svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .pf-item.is-open .pf-item__icon {
+    transform: rotate(180deg);
+  }
+
+  .pf-item__answer-body {
+    padding-block: 0 18px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    color: var(--pf-ink);
+  }
+
+  .pf-item__answer-body p {
+    margin: 0;
+  }
+{% endstylesheet %}

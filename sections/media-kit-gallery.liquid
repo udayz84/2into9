@@ -1,0 +1,456 @@
+{%- comment -%}
+  Media Kit Gallery
+  Masonry-style image grid. Blocks are assigned to columns and stack
+  vertically within each column. Supports image cards and a highlight
+  (logo) card. All visual values are driven by settings (desktop + mobile).
+{%- endcomment -%}
+
+{%- liquid
+  assign col_1 = ''
+  assign col_2 = ''
+  assign col_3 = ''
+
+  for block in section.blocks
+    capture item_html
+      if block.type == 'image'
+        echo '<div class="mk-gallery__item mk-gallery__item--image" style="--item-h: ' | append: block.settings.height | append: 'px; --item-h-m: ' | append: block.settings.height_mobile | append: 'px;"' | append: ' ' | append: block.shopify_attributes | append: '>'
+        if block.settings.image != blank
+          echo block.settings.image | image_url: width: 1500 | image_tag: widths: '375, 550, 590, 750, 1100, 1500', sizes: '(min-width: 750px) 590px, calc(100vw - 40px)', class: 'mk-gallery__image', loading: 'lazy', alt: block.settings.image_alt
+        endif
+        echo '</div>'
+      elsif block.type == 'highlight'
+        echo '<div class="mk-gallery__item mk-gallery__item--highlight" style="--item-h: ' | append: block.settings.height | append: 'px; --item-h-m: ' | append: block.settings.height_mobile | append: 'px; --hl-bg: ' | append: block.settings.background_color | append: '; --hl-logo-w: ' | append: block.settings.logo_width | append: '%;"' | append: ' ' | append: block.shopify_attributes | append: '>'
+        if block.settings.image != blank
+          echo block.settings.image | image_url: width: 1200 | image_tag: widths: '375, 550, 750, 1100, 1200', sizes: '(min-width: 750px) 590px, calc(100vw - 40px)', class: 'mk-gallery__logo', loading: 'lazy', alt: block.settings.image_alt
+        endif
+        echo '</div>'
+      endif
+    endcapture
+
+    if block.settings.column == '1'
+      assign col_1 = col_1 | append: item_html
+    elsif block.settings.column == '2'
+      assign col_2 = col_2 | append: item_html
+    elsif block.settings.column == '3'
+      assign col_3 = col_3 | append: item_html
+    endif
+  endfor
+-%}
+
+<section id="MediaKitGallery-{{ section.id }}" class="mk-gallery">
+  <div class="mk-gallery__grid">
+    <div class="mk-gallery__col">{{ col_1 }}</div>
+    <div class="mk-gallery__col">{{ col_2 }}</div>
+    <div class="mk-gallery__col">{{ col_3 }}</div>
+  </div>
+</section>
+
+{% style %}
+  #MediaKitGallery-{{ section.id }} {
+    --mk-gallery-bg: {{ section.settings.background_color }};
+    --mk-gallery-columns: {{ section.settings.columns_desktop }};
+    --mk-gallery-column-gap: {{ section.settings.column_gap }}px;
+    --mk-gallery-row-gap: {{ section.settings.item_gap }}px;
+    --mk-gallery-padding-top: {{ section.settings.padding_top }}px;
+    --mk-gallery-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --mk-gallery-padding-inline-start: {{ section.settings.padding_inline_start }}px;
+    --mk-gallery-padding-inline-end: {{ section.settings.padding_inline_end }}px;
+    --mk-gallery-item-radius: {{ section.settings.item_radius }}px;
+    --mk-gallery-placeholder-bg: {{ section.settings.placeholder_color }};
+    --mk-gallery-mobile-columns: {{ section.settings.columns_mobile }};
+    --mk-gallery-mobile-gap: {{ section.settings.gap_mobile }}px;
+    --mk-gallery-mobile-padding-top: {{ section.settings.padding_top_mobile }}px;
+    --mk-gallery-mobile-padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    --mk-gallery-mobile-padding-inline: {{ section.settings.padding_inline_mobile }}px;
+
+    background-color: var(--mk-gallery-bg);
+    padding-top: var(--mk-gallery-padding-top);
+    padding-bottom: var(--mk-gallery-padding-bottom);
+    padding-inline-start: var(--mk-gallery-padding-inline-start);
+    padding-inline-end: var(--mk-gallery-padding-inline-end);
+    overflow-x: clip;
+  }
+
+  #MediaKitGallery-{{ section.id }} .mk-gallery__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--mk-gallery-columns), 1fr);
+    column-gap: var(--mk-gallery-column-gap);
+  }
+
+  #MediaKitGallery-{{ section.id }} .mk-gallery__col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mk-gallery-row-gap);
+    min-width: 0;
+  }
+
+  #MediaKitGallery-{{ section.id }} .mk-gallery__col:empty {
+    display: none;
+  }
+
+  #MediaKitGallery-{{ section.id }} .mk-gallery__item {
+    position: relative;
+    width: 100%;
+    height: var(--item-h);
+    border-radius: var(--mk-gallery-item-radius);
+    overflow: hidden;
+  }
+
+  #MediaKitGallery-{{ section.id }} .mk-gallery__item--image {
+    background-color: var(--mk-gallery-placeholder-bg);
+  }
+
+  #MediaKitGallery-{{ section.id }} .mk-gallery__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  #MediaKitGallery-{{ section.id }} .mk-gallery__item--highlight {
+    background-color: var(--hl-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #MediaKitGallery-{{ section.id }} .mk-gallery__logo {
+    display: block;
+    width: var(--hl-logo-w);
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  @media screen and (max-width: 749px) {
+    #MediaKitGallery-{{ section.id }} {
+      padding-top: var(--mk-gallery-mobile-padding-top);
+      padding-bottom: var(--mk-gallery-mobile-padding-bottom);
+      padding-inline-start: var(--mk-gallery-mobile-padding-inline);
+      padding-inline-end: var(--mk-gallery-mobile-padding-inline);
+    }
+
+    #MediaKitGallery-{{ section.id }} .mk-gallery__grid {
+      grid-template-columns: repeat(var(--mk-gallery-mobile-columns), 1fr);
+      column-gap: var(--mk-gallery-mobile-gap);
+    }
+
+    #MediaKitGallery-{{ section.id }} .mk-gallery__col {
+      gap: var(--mk-gallery-mobile-gap);
+    }
+
+    #MediaKitGallery-{{ section.id }} .mk-gallery__item {
+      height: var(--item-h-m);
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Media Kit Gallery",
+  "tag": "section",
+  "class": "section-mk-gallery",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "label": "Columns (desktop)",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "Columns (mobile)",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Column gap (desktop)",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "item_gap",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Vertical gap between items (desktop)",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "gap_mobile",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Gap (mobile)",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "item_radius",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Card corner radius",
+      "default": 10
+    },
+    {
+      "type": "color",
+      "id": "placeholder_color",
+      "label": "Card placeholder color",
+      "default": "#d9d9d9",
+      "info": "Shown behind images and as the card fill when no image is selected."
+    },
+    {
+      "type": "header",
+      "content": "Section padding (desktop)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_inline_start",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Left padding",
+      "default": 62
+    },
+    {
+      "type": "range",
+      "id": "padding_inline_end",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Right padding",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Section padding (mobile)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Top padding (mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Bottom padding (mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_inline_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Side padding (mobile)",
+      "default": 20
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image card",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "1",
+              "label": "Column 1 (left)"
+            },
+            {
+              "value": "2",
+              "label": "Column 2 (center)"
+            },
+            {
+              "value": "3",
+              "label": "Column 3 (right)"
+            }
+          ],
+          "default": "1"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image alt text"
+        },
+        {
+          "type": "range",
+          "id": "height",
+          "min": 150,
+          "max": 1150,
+          "step": 10,
+          "unit": "px",
+          "label": "Card height (desktop)",
+          "default": 420
+        },
+        {
+          "type": "range",
+          "id": "height_mobile",
+          "min": 150,
+          "max": 1150,
+          "step": 10,
+          "unit": "px",
+          "label": "Card height (mobile)",
+          "default": 420
+        }
+      ]
+    },
+    {
+      "type": "highlight",
+      "name": "Highlight card",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "1",
+              "label": "Column 1 (left)"
+            },
+            {
+              "value": "2",
+              "label": "Column 2 (center)"
+            },
+            {
+              "value": "3",
+              "label": "Column 3 (right)"
+            }
+          ],
+          "default": "1"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo image"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image alt text"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Card background color",
+          "default": "#1a1a18"
+        },
+        {
+          "type": "range",
+          "id": "logo_width",
+          "min": 20,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Logo width (percentage of card)",
+          "default": 89
+        },
+        {
+          "type": "range",
+          "id": "height",
+          "min": 150,
+          "max": 1150,
+          "step": 10,
+          "unit": "px",
+          "label": "Card height (desktop)",
+          "default": 420
+        },
+        {
+          "type": "range",
+          "id": "height_mobile",
+          "min": 150,
+          "max": 1150,
+          "step": 10,
+          "unit": "px",
+          "label": "Card height (mobile)",
+          "default": 420
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Media Kit Gallery",
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

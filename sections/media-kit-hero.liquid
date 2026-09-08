@@ -1,0 +1,590 @@
+{%- comment -%}
+  Media Kit Hero
+  Giant watermark text behind centered page title and PR contact line.
+  All visual values are driven by section settings (desktop + mobile).
+{%- endcomment -%}
+
+{{ 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap' | stylesheet_tag }}
+
+{%- liquid
+  assign watermark_alpha = section.settings.watermark_opacity | divided_by: 100.0
+  assign watermark_color = section.settings.watermark_color | color_modify: 'alpha', watermark_alpha
+-%}
+
+<section id="MediaKitHero-{{ section.id }}" class="mk-hero">
+  {%- if section.settings.show_watermark and section.settings.watermark_text != blank -%}
+    <span class="mk-hero__watermark" aria-hidden="true">{{ section.settings.watermark_text }}</span>
+  {%- endif -%}
+
+  <div class="mk-hero__content">
+    {%- if section.settings.heading != blank -%}
+      <h1 class="mk-hero__heading">{{ section.settings.heading }}</h1>
+    {%- endif -%}
+
+    {%- if section.settings.subtitle_prefix != blank or section.settings.subtitle_highlight != blank -%}
+      <p class="mk-hero__subtitle">
+        {%- if section.settings.subtitle_prefix != blank -%}
+          <span class="mk-hero__subtitle-text">{{ section.settings.subtitle_prefix }}</span>
+        {%- endif -%}
+        {%- if section.settings.subtitle_prefix != blank and section.settings.subtitle_highlight != blank -%}
+          {{ ' ' }}
+        {%- endif -%}
+        {%- if section.settings.subtitle_highlight != blank -%}
+          <span class="mk-hero__subtitle-highlight">{{ section.settings.subtitle_highlight }}</span>
+        {%- endif -%}
+      </p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% style %}
+  #MediaKitHero-{{ section.id }} {
+    --mk-hero-bg: {{ section.settings.background_color }};
+    --mk-hero-padding-top: {{ section.settings.padding_top }}px;
+    --mk-hero-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --mk-hero-content-width: {{ section.settings.content_width }}px;
+    --mk-hero-heading-size: {{ section.settings.heading_size }}px;
+    --mk-hero-heading-weight: {{ section.settings.heading_weight }};
+    --mk-hero-heading-line-height: {{ section.settings.heading_line_height }};
+    --mk-hero-heading-letter-spacing: {{ section.settings.heading_letter_spacing }}em;
+    --mk-hero-heading-color: {{ section.settings.heading_color }};
+    --mk-hero-heading-transform: {{ section.settings.heading_transform }};
+    --mk-hero-heading-mobile-size: {{ section.settings.heading_size_mobile }}px;
+    --mk-hero-subtitle-size: {{ section.settings.subtitle_size }}px;
+    --mk-hero-subtitle-weight: {{ section.settings.subtitle_weight }};
+    --mk-hero-subtitle-highlight-weight: {{ section.settings.subtitle_highlight_weight }};
+    --mk-hero-subtitle-line-height: {{ section.settings.subtitle_line_height }};
+    --mk-hero-subtitle-letter-spacing: {{ section.settings.subtitle_letter_spacing }}em;
+    --mk-hero-subtitle-color: {{ section.settings.subtitle_color }};
+    --mk-hero-subtitle-mobile-size: {{ section.settings.subtitle_size_mobile }}px;
+    --mk-hero-heading-gap: {{ section.settings.heading_to_subtitle_gap }}px;
+    --mk-hero-watermark-size: {{ section.settings.watermark_size }}px;
+    --mk-hero-watermark-weight: {{ section.settings.watermark_weight }};
+    --mk-hero-watermark-color: {{ watermark_color }};
+    --mk-hero-watermark-letter-spacing: {{ section.settings.watermark_letter_spacing }}em;
+    --mk-hero-watermark-transform: {{ section.settings.watermark_transform }};
+    --mk-hero-watermark-top: {{ section.settings.watermark_top_offset }}px;
+    --mk-hero-watermark-mobile-size: {{ section.settings.watermark_size_mobile }}px;
+    --mk-hero-watermark-mobile-top: {{ section.settings.watermark_top_offset_mobile }}px;
+
+    position: relative;
+    background-color: var(--mk-hero-bg);
+    padding-top: var(--mk-hero-padding-top);
+    padding-bottom: var(--mk-hero-padding-bottom);
+    overflow-x: clip;
+  }
+
+  #MediaKitHero-{{ section.id }} .mk-hero__watermark {
+    position: absolute;
+    top: var(--mk-hero-watermark-top);
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+    font-size: var(--mk-hero-watermark-size);
+    font-weight: var(--mk-hero-watermark-weight);
+    line-height: 1;
+    letter-spacing: var(--mk-hero-watermark-letter-spacing);
+    text-transform: var(--mk-hero-watermark-transform);
+    color: var(--mk-hero-watermark-color);
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+
+  #MediaKitHero-{{ section.id }} .mk-hero__content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: var(--mk-hero-content-width);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  #MediaKitHero-{{ section.id }} .mk-hero__heading {
+    margin: 0;
+    font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+    font-size: var(--mk-hero-heading-size);
+    font-weight: var(--mk-hero-heading-weight);
+    line-height: var(--mk-hero-heading-line-height);
+    letter-spacing: var(--mk-hero-heading-letter-spacing);
+    text-transform: var(--mk-hero-heading-transform);
+    color: var(--mk-hero-heading-color);
+  }
+
+  #MediaKitHero-{{ section.id }} .mk-hero__subtitle {
+    margin: var(--mk-hero-heading-gap) 0 0;
+    font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+    font-size: var(--mk-hero-subtitle-size);
+    line-height: var(--mk-hero-subtitle-line-height);
+    letter-spacing: var(--mk-hero-subtitle-letter-spacing);
+    color: var(--mk-hero-subtitle-color);
+  }
+
+  #MediaKitHero-{{ section.id }} .mk-hero__subtitle-text {
+    font-weight: var(--mk-hero-subtitle-weight);
+  }
+
+  #MediaKitHero-{{ section.id }} .mk-hero__subtitle-highlight {
+    font-weight: var(--mk-hero-subtitle-highlight-weight);
+  }
+
+  @media screen and (max-width: 749px) {
+    #MediaKitHero-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+
+    #MediaKitHero-{{ section.id }} .mk-hero__watermark {
+      font-size: var(--mk-hero-watermark-mobile-size);
+      top: var(--mk-hero-watermark-mobile-top);
+    }
+
+    #MediaKitHero-{{ section.id }} .mk-hero__heading {
+      font-size: var(--mk-hero-heading-mobile-size);
+    }
+
+    #MediaKitHero-{{ section.id }} .mk-hero__subtitle {
+      font-size: var(--mk-hero-subtitle-mobile-size);
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Media Kit Hero",
+  "tag": "section",
+  "class": "section-mk-hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "min": 400,
+      "max": 1400,
+      "step": 10,
+      "unit": "px",
+      "label": "Content max width",
+      "default": 760
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Top padding (desktop)",
+      "default": 144
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Bottom padding (desktop)",
+      "default": 110
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Top padding (mobile)",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Bottom padding (mobile)",
+      "default": 64
+    },
+    {
+      "type": "header",
+      "content": "Watermark"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_watermark",
+      "label": "Show watermark text",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "watermark_text",
+      "label": "Watermark text",
+      "default": "UNDERWEAR"
+    },
+    {
+      "type": "range",
+      "id": "watermark_size",
+      "min": 40,
+      "max": 500,
+      "step": 5,
+      "unit": "px",
+      "label": "Watermark font size (desktop)",
+      "default": 310
+    },
+    {
+      "type": "range",
+      "id": "watermark_size_mobile",
+      "min": 20,
+      "max": 300,
+      "step": 4,
+      "unit": "px",
+      "label": "Watermark font size (mobile)",
+      "default": 120
+    },
+    {
+      "type": "select",
+      "id": "watermark_weight",
+      "label": "Watermark font weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light 300"
+        },
+        {
+          "value": "400",
+          "label": "Regular 400"
+        },
+        {
+          "value": "500",
+          "label": "Medium 500"
+        },
+        {
+          "value": "600",
+          "label": "Semibold 600"
+        },
+        {
+          "value": "700",
+          "label": "Bold 700"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "watermark_color",
+      "label": "Watermark color",
+      "default": "#b5b5b5"
+    },
+    {
+      "type": "range",
+      "id": "watermark_opacity",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "%",
+      "label": "Watermark opacity",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "watermark_letter_spacing",
+      "min": -0.5,
+      "max": 2,
+      "step": 0.1,
+      "unit": "em",
+      "label": "Watermark letter spacing",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "watermark_transform",
+      "label": "Watermark text transform",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "range",
+      "id": "watermark_top_offset",
+      "min": -200,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Watermark top offset (desktop)",
+      "default": -60,
+      "info": "Position of the watermark relative to the top of this section. Negative values move it up behind the header."
+    },
+    {
+      "type": "range",
+      "id": "watermark_top_offset_mobile",
+      "min": -200,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Watermark top offset (mobile)",
+      "default": -40
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "2into9 Media Kit"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 10,
+      "max": 110,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading font size (desktop)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 10,
+      "max": 110,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading font size (mobile)",
+      "default": 36
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading font weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light 300"
+        },
+        {
+          "value": "400",
+          "label": "Regular 400"
+        },
+        {
+          "value": "500",
+          "label": "Medium 500"
+        },
+        {
+          "value": "600",
+          "label": "Semibold 600"
+        },
+        {
+          "value": "700",
+          "label": "Bold 700"
+        }
+      ],
+      "default": "300"
+    },
+    {
+      "type": "range",
+      "id": "heading_line_height",
+      "min": 0.8,
+      "max": 2.5,
+      "step": 0.1,
+      "label": "Heading line height",
+      "default": 1.5
+    },
+    {
+      "type": "range",
+      "id": "heading_letter_spacing",
+      "min": -0.5,
+      "max": 2,
+      "step": 0.1,
+      "unit": "em",
+      "label": "Heading letter spacing",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "heading_transform",
+      "label": "Heading text transform",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#171717"
+    },
+    {
+      "type": "header",
+      "content": "Subtitle"
+    },
+    {
+      "type": "text",
+      "id": "subtitle_prefix",
+      "label": "Subtitle text",
+      "default": "For PR and media requests please reach out to"
+    },
+    {
+      "type": "text",
+      "id": "subtitle_highlight",
+      "label": "Subtitle highlighted text (e.g. email)",
+      "default": "contact@2into9.Com"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "min": 8,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Subtitle font size (desktop)",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_mobile",
+      "min": 8,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Subtitle font size (mobile)",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "subtitle_weight",
+      "label": "Subtitle font weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light 300"
+        },
+        {
+          "value": "400",
+          "label": "Regular 400"
+        },
+        {
+          "value": "500",
+          "label": "Medium 500"
+        },
+        {
+          "value": "600",
+          "label": "Semibold 600"
+        },
+        {
+          "value": "700",
+          "label": "Bold 700"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "select",
+      "id": "subtitle_highlight_weight",
+      "label": "Highlighted text font weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light 300"
+        },
+        {
+          "value": "400",
+          "label": "Regular 400"
+        },
+        {
+          "value": "500",
+          "label": "Medium 500"
+        },
+        {
+          "value": "600",
+          "label": "Semibold 600"
+        },
+        {
+          "value": "700",
+          "label": "Bold 700"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_line_height",
+      "min": 0.8,
+      "max": 2.5,
+      "step": 0.1,
+      "label": "Subtitle line height",
+      "default": 1.5
+    },
+    {
+      "type": "range",
+      "id": "subtitle_letter_spacing",
+      "min": -0.5,
+      "max": 2,
+      "step": 0.1,
+      "unit": "em",
+      "label": "Subtitle letter spacing",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle color",
+      "default": "#171717"
+    },
+    {
+      "type": "range",
+      "id": "heading_to_subtitle_gap",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Gap between heading and subtitle",
+      "default": 10
+    }
+  ],
+  "presets": [
+    {
+      "name": "Media Kit Hero"
+    }
+  ]
+}
+{% endschema %}

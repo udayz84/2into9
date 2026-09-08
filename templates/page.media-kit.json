@@ -1,0 +1,317 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "media_kit_hero": {
+      "type": "media-kit-hero",
+      "settings": {
+        "background_color": "#ffffff",
+        "content_width": 760,
+        "padding_top": 144,
+        "padding_bottom": 110,
+        "padding_top_mobile": 96,
+        "padding_bottom_mobile": 64,
+        "show_watermark": true,
+        "watermark_text": "UNDERWEAR",
+        "watermark_size": 310,
+        "watermark_size_mobile": 120,
+        "watermark_weight": "700",
+        "watermark_color": "#b5b5b5",
+        "watermark_opacity": 6,
+        "watermark_letter_spacing": 0,
+        "watermark_transform": "uppercase",
+        "watermark_top_offset": -60,
+        "watermark_top_offset_mobile": -40,
+        "heading": "2into9 Media Kit",
+        "heading_size": 60,
+        "heading_size_mobile": 36,
+        "heading_weight": "300",
+        "heading_line_height": 1.5,
+        "heading_letter_spacing": 0,
+        "heading_transform": "none",
+        "heading_color": "#171717",
+        "subtitle_prefix": "For PR and media requests please reach out to",
+        "subtitle_highlight": "contact@2into9.Com",
+        "subtitle_size": 20,
+        "subtitle_size_mobile": 14,
+        "subtitle_weight": "400",
+        "subtitle_highlight_weight": "600",
+        "subtitle_line_height": 1.5,
+        "subtitle_letter_spacing": 0,
+        "subtitle_color": "#171717",
+        "heading_to_subtitle_gap": 10
+      }
+    },
+    "media_kit_gallery": {
+      "type": "media-kit-gallery",
+      "blocks": {
+        "left_1": {
+          "type": "image",
+          "settings": {
+            "column": "1",
+            "height": 420,
+            "height_mobile": 420
+          }
+        },
+        "left_2": {
+          "type": "image",
+          "settings": {
+            "column": "1",
+            "height": 420,
+            "height_mobile": 420
+          }
+        },
+        "left_3": {
+          "type": "highlight",
+          "settings": {
+            "column": "1",
+            "background_color": "#1a1a18",
+            "logo_width": 89,
+            "height": 920,
+            "height_mobile": 500
+          }
+        },
+        "left_4": {
+          "type": "image",
+          "settings": {
+            "column": "1",
+            "height": 400,
+            "height_mobile": 400
+          }
+        },
+        "left_5": {
+          "type": "image",
+          "settings": {
+            "column": "1",
+            "height": 400,
+            "height_mobile": 400
+          }
+        },
+        "left_6": {
+          "type": "image",
+          "settings": {
+            "column": "1",
+            "height": 400,
+            "height_mobile": 400
+          }
+        },
+        "center_1": {
+          "type": "image",
+          "settings": {
+            "column": "2",
+            "height": 930,
+            "height_mobile": 500
+          }
+        },
+        "center_2": {
+          "type": "image",
+          "settings": {
+            "column": "2",
+            "height": 920,
+            "height_mobile": 500
+          }
+        },
+        "center_3": {
+          "type": "image",
+          "settings": {
+            "column": "2",
+            "height": 1150,
+            "height_mobile": 500
+          }
+        },
+        "right_1": {
+          "type": "image",
+          "settings": {
+            "column": "3",
+            "height": 930,
+            "height_mobile": 500
+          }
+        },
+        "right_2": {
+          "type": "image",
+          "settings": {
+            "column": "3",
+            "height": 920,
+            "height_mobile": 500
+          }
+        },
+        "right_3": {
+          "type": "image",
+          "settings": {
+            "column": "3",
+            "height": 620,
+            "height_mobile": 450
+          }
+        },
+        "right_4": {
+          "type": "image",
+          "settings": {
+            "column": "3",
+            "height": 510,
+            "height_mobile": 420
+          }
+        }
+      },
+      "block_order": [
+        "left_1",
+        "left_2",
+        "left_3",
+        "left_4",
+        "left_5",
+        "left_6",
+        "center_1",
+        "center_2",
+        "center_3",
+        "right_1",
+        "right_2",
+        "right_3",
+        "right_4"
+      ],
+      "settings": {
+        "background_color": "#ffffff",
+        "columns_desktop": 3,
+        "columns_mobile": 1,
+        "column_gap": 14,
+        "item_gap": 14,
+        "gap_mobile": 14,
+        "item_radius": 10,
+        "placeholder_color": "#d9d9d9",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_inline_start": 62,
+        "padding_inline_end": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "padding_inline_mobile": 20
+      }
+    },
+    "media_kit_reviews": {
+      "type": "media-kit-reviews",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "rating": 4.5,
+            "reviewer_name": "Lorem Ipsum",
+            "reviewer_role": "Professional Football Player",
+            "review_text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "rating": 4.5,
+            "reviewer_name": "Lorem Ipsum",
+            "reviewer_role": "Professional Football Player",
+            "review_text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "rating": 4.5,
+            "reviewer_name": "Lorem Ipsum",
+            "reviewer_role": "Professional Football Player",
+            "review_text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "rating": 4.5,
+            "reviewer_name": "Lorem Ipsum",
+            "reviewer_role": "Professional Football Player",
+            "review_text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+          }
+        },
+        "review_5": {
+          "type": "review",
+          "settings": {
+            "rating": 4.5,
+            "reviewer_name": "Lorem Ipsum",
+            "reviewer_role": "Professional Football Player",
+            "review_text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "review_5"
+      ],
+      "settings": {
+        "background_color": "#ffffff",
+        "padding_top": 120,
+        "padding_bottom": 120,
+        "padding_top_mobile": 64,
+        "padding_bottom_mobile": 64,
+        "heading": "Customer Reviews",
+        "heading_size": 60,
+        "heading_size_mobile": 36,
+        "heading_weight": "300",
+        "heading_line_height": 1.5,
+        "heading_letter_spacing": 0,
+        "heading_transform": "none",
+        "heading_color": "#171717",
+        "heading_to_rating_gap": 9,
+        "rating_text": "5  |  1000 reviews",
+        "rating_size": 27,
+        "rating_size_mobile": 16,
+        "rating_weight": "300",
+        "rating_transform": "lowercase",
+        "rating_color": "#171717",
+        "show_rating_star": true,
+        "rating_star_size": 19,
+        "rating_star_size_mobile": 16,
+        "rating_star_gap": 22,
+        "header_to_cards_gap": 68,
+        "cards_row_width": 2030,
+        "card_width": 390,
+        "card_height": 360,
+        "card_height_mobile": 320,
+        "card_gap": 20,
+        "card_gap_mobile": 20,
+        "card_background_color": "#d9d9d9",
+        "card_background_opacity": 20,
+        "card_radius": 0,
+        "card_padding_top": 64,
+        "card_text_width": 320,
+        "card_text_width_mobile": 85,
+        "star_size": 22,
+        "star_size_mobile": 18,
+        "star_gap": 3,
+        "star_color": "#f9c228",
+        "star_shadow_color": "#dbdbdb",
+        "star_highlight_color": "#ffe36c",
+        "star_overlay_color": "#171717",
+        "stars_to_name_gap": 37,
+        "name_size": 30,
+        "name_size_mobile": 20,
+        "name_weight": "700",
+        "name_transform": "uppercase",
+        "role_size": 20,
+        "role_size_mobile": 14,
+        "role_weight": "400",
+        "role_to_text_gap": 22,
+        "text_size": 16,
+        "text_size_mobile": 14,
+        "text_weight": "400",
+        "text_color": "#171717"
+      }
+    }
+  },
+  "order": [
+    "media_kit_hero",
+    "media_kit_gallery",
+    "media_kit_reviews"
+  ]
+}

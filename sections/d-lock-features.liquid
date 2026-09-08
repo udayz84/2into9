@@ -1,0 +1,468 @@
+{%- comment -%}
+  D-Lock Features - "HOW D-LOCK Changes The Game"
+  Pixel-matched to Figma nodes 10:3839-10:3921 (2 into 9 D-LOCK Page Design)
+{%- endcomment -%}
+
+{{ 'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,800;1,400;1,800&display=swap' | stylesheet_tag }}
+
+{%- liquid
+  assign fallback_icons = 'pouch,breathable,strap,antibacterial' | split: ','
+-%}
+
+<section
+  class="d-lock-features"
+  id="DLockFeatures-{{ section.id }}"
+  style="--dlf-pt: {{ section.settings.padding_top }}; --dlf-pb: {{ section.settings.padding_bottom }}; --dlf-bg: {{ section.settings.background_color }};"
+>
+  <div class="d-lock-features__inner">
+    <div class="d-lock-features__content">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="d-lock-features__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+      {%- endif -%}
+
+      {%- if section.settings.heading_prefix != blank or section.settings.heading_accent != blank or section.settings.heading_suffix != blank -%}
+        <h2 class="d-lock-features__heading">
+          {%- if section.settings.heading_prefix != blank -%}
+            <span class="d-lock-features__heading-line">{{ section.settings.heading_prefix | escape }} </span>
+          {%- endif -%}
+          {%- if section.settings.heading_accent != blank -%}
+            <span class="d-lock-features__heading-line d-lock-features__heading-line--accent">
+              {{- section.settings.heading_accent | escape -}}
+            </span>
+          {%- endif -%}
+          {%- if section.settings.heading_suffix != blank -%}
+            <span class="d-lock-features__heading-line"> {{ section.settings.heading_suffix | escape }}</span>
+          {%- endif -%}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.description != blank -%}
+        <p class="d-lock-features__description">{{ section.settings.description | escape }}</p>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="d-lock-features__grid">
+          {%- for block in section.blocks -%}
+            <div class="d-lock-features__card" {{ block.shopify_attributes }}>
+              <span class="d-lock-features__card-icon-tile">
+                {%- assign fallback_icon = 'd-lock-icon-' | append: fallback_icons[forloop.index0] | append: '.svg' -%}
+                {%- if block.settings.icon != blank -%}
+                  {{
+                    block.settings.icon
+                    | image_url: width: 80
+                    | image_tag:
+                      class: 'd-lock-features__card-icon',
+                      alt: block.settings.title | escape
+                  }}
+                {%- else -%}
+                  <img
+                    class="d-lock-features__card-icon"
+                    src="{{ fallback_icon | asset_url }}"
+                    alt="{{ block.settings.title | escape }}"
+                    width="60"
+                    height="60"
+                    loading="lazy"
+                    decoding="async"
+                  >
+                {%- endif -%}
+              </span>
+              <div class="d-lock-features__card-body">
+                {%- if block.settings.title != blank -%}
+                  <h3 class="d-lock-features__card-title">{{ block.settings.title | escape }}</h3>
+                {%- endif -%}
+                {%- if block.settings.text != blank -%}
+                  <p class="d-lock-features__card-text">{{ block.settings.text | escape }}</p>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="d-lock-features__panel">
+      {%- if section.settings.panel_graphic != blank -%}
+        {{
+          section.settings.panel_graphic
+          | image_url: width: 1000
+          | image_tag:
+            class: 'd-lock-features__panel-graphic',
+            widths: '424, 848, 1000',
+            sizes: '(min-width: 750px) 540px, 92vw',
+            loading: 'lazy',
+            alt: ''
+        }}
+      {%- else -%}
+        <img
+          class="d-lock-features__panel-graphic"
+          src="{{ 'd-lock-panel-graphic.svg' | asset_url }}"
+          alt=""
+          width="424"
+          height="604"
+          loading="lazy"
+          decoding="async"
+        >
+      {%- endif -%}
+
+      {%- if section.settings.panel_badge != blank -%}
+        {{
+          section.settings.panel_badge
+          | image_url: width: 240
+          | image_tag:
+            class: 'd-lock-features__panel-badge',
+            widths: '120, 240',
+            sizes: '120px',
+            loading: 'lazy',
+            alt: ''
+        }}
+      {%- else -%}
+        <img
+          class="d-lock-features__panel-badge"
+          src="{{ 'd-lock-panel-badge.svg' | asset_url }}"
+          alt=""
+          width="120"
+          height="120"
+          loading="lazy"
+          decoding="async"
+        >
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .d-lock-features {
+    position: relative;
+    width: 100%;
+    background: var(--dlf-bg, #1e1e1e);
+    font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+    container-type: inline-size;
+  }
+
+  .d-lock-features__inner {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 7.1875cqw;
+    padding: calc(var(--dlf-pt, 120) * 0.05208cqw) 16.1458cqw calc(var(--dlf-pb, 120) * 0.05208cqw);
+  }
+
+  .d-lock-features__content {
+    width: 32.2917cqw;
+    flex-shrink: 0;
+  }
+
+  .d-lock-features__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.2604cqw 1.5625cqw;
+    background: #c5ff00;
+    color: #000000;
+    border-radius: 3.125cqw;
+    font-size: clamp(12px, 1.25cqw, 24px);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+
+  .d-lock-features__heading {
+    margin: 1.0417cqw 0 0;
+    font-size: clamp(24px, 2.6042cqw, 50px);
+    line-height: 1.2;
+    font-weight: 700;
+    font-style: italic;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+
+  .d-lock-features__heading-line--accent {
+    color: #c5ff00;
+  }
+
+  .d-lock-features__description {
+    margin: 1.6146cqw 0 0;
+    font-size: clamp(14px, 1.0417cqw, 20px);
+    font-weight: 600;
+    line-height: 1.5;
+    color: #ffffff;
+  }
+
+  .d-lock-features__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 15.2083cqw);
+    column-gap: 2.3958cqw;
+    row-gap: 2.0313cqw;
+    margin-top: 2.8125cqw;
+  }
+
+  .d-lock-features__card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .d-lock-features__card-icon-tile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.6042cqw;
+    height: 2.6042cqw;
+    background: #c5ff00;
+    border-radius: 0.4688cqw;
+  }
+
+  .d-lock-features__card-icon {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+  }
+
+  .d-lock-features__card-icon[src*='.svg'] {
+    width: 1.5625cqw;
+    height: 1.5625cqw;
+    object-fit: contain;
+  }
+
+  .d-lock-features__card-body {
+    margin-top: 0.7292cqw;
+  }
+
+  .d-lock-features__card-title {
+    margin: 0;
+    font-size: clamp(14px, 1.0417cqw, 20px);
+    font-weight: 700;
+    line-height: 1.5;
+    color: #ffffff;
+  }
+
+  .d-lock-features__card-text {
+    margin: 0.2604cqw 0 0;
+    font-size: clamp(12px, 0.8333cqw, 16px);
+    font-weight: 400;
+    line-height: 1.5;
+    color: #ffffff;
+  }
+
+  .d-lock-features__panel {
+    position: relative;
+    width: 28.125cqw;
+    margin-top: 3.4375cqw;
+    aspect-ratio: 540 / 700;
+    background: #ffffff;
+    border-radius: 0.5208cqw;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .d-lock-features__panel-graphic {
+    position: absolute;
+    left: 10.7407%;
+    top: 6.8571%;
+    width: 78.5185%;
+    height: auto;
+    display: block;
+  }
+
+  .d-lock-features__panel-badge {
+    position: absolute;
+    left: 38.8889%;
+    top: 41.4286%;
+    width: 22.2222%;
+    height: auto;
+    display: block;
+  }
+
+  @media screen and (max-width: 749px) {
+    .d-lock-features__inner {
+      flex-direction: column;
+      gap: 36px;
+      padding: max(48px, calc(var(--dlf-pt, 120) * 0.05208cqw)) 20px max(48px, calc(var(--dlf-pb, 120) * 0.05208cqw));
+    }
+
+    .d-lock-features__content {
+      width: 100%;
+    }
+
+    .d-lock-features__eyebrow {
+      padding: 5px 22px;
+      border-radius: 40px;
+      font-size: 13px;
+    }
+
+    .d-lock-features__heading {
+      margin-top: 14px;
+      font-size: clamp(1.75rem, 6.5cqw, 3.125rem);
+    }
+
+    .d-lock-features__description {
+      margin-top: 16px;
+      font-size: 15px;
+    }
+
+    .d-lock-features__grid {
+      grid-template-columns: 1fr;
+      row-gap: 28px;
+      margin-top: 28px;
+    }
+
+    .d-lock-features__card-icon-tile {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+    }
+
+    .d-lock-features__card-icon[src*='.svg'] {
+      width: 24px;
+      height: 24px;
+    }
+
+    .d-lock-features__card-title {
+      font-size: 16px;
+    }
+
+    .d-lock-features__card-text {
+      font-size: 14px;
+    }
+
+    .d-lock-features__panel {
+      width: 100%;
+      margin-top: 0;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "D-Lock Features",
+  "tag": "section",
+  "class": "section-d-lock-features",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 240,
+      "step": 4,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 240,
+      "step": 4,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#1e1e1e"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow badge",
+      "default": "Engineered for Performance"
+    },
+    {
+      "type": "text",
+      "id": "heading_prefix",
+      "label": "Heading start",
+      "default": "HOW"
+    },
+    {
+      "type": "text",
+      "id": "heading_accent",
+      "label": "Heading accent",
+      "default": "D-LOCK"
+    },
+    {
+      "type": "text",
+      "id": "heading_suffix",
+      "label": "Heading end",
+      "default": "Changes The Game."
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Description",
+      "default": "Traditional jockstraps haven't changed in decades. We rebuilt athletic protection from the ground up to solve the biggest problem athletes face."
+    },
+    {
+      "type": "header",
+      "content": "Product panel"
+    },
+    {
+      "type": "image_picker",
+      "id": "panel_graphic",
+      "label": "Panel graphic",
+      "info": "Defaults to the Figma asset when empty."
+    },
+    {
+      "type": "image_picker",
+      "id": "panel_badge",
+      "label": "Panel badge"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "D-Lock Features",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

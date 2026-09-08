@@ -1,0 +1,265 @@
+{%- comment -%}
+  D-Lock FAQs - centered accordion
+  Pixel-matched to Figma nodes 10:4028-10:4049 (2 into 9 D-LOCK Page Design)
+{%- endcomment -%}
+
+{{ 'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600&display=swap' | stylesheet_tag }}
+
+<section
+  class="d-lock-faqs"
+  id="DLockFaqs-{{ section.id }}"
+  style="--dlfq-pt: {{ section.settings.padding_top }}; --dlfq-pb: {{ section.settings.padding_bottom }}; --dlfq-bg: {{ section.settings.background_color }};"
+>
+  <div class="d-lock-faqs__inner">
+    {%- if section.settings.title != blank -%}
+      <h2 class="d-lock-faqs__title">{{ section.settings.title | escape }}</h2>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="d-lock-faqs__list">
+        {%- for block in section.blocks -%}
+          <details
+            class="d-lock-faqs__item{% if forloop.first and section.settings.open_first %} is-open{% endif %}"
+            name="d-lock-faqs-{{ section.id }}"
+            {% if forloop.first and section.settings.open_first %}
+              open
+            {% endif %}
+            {{ block.shopify_attributes }}
+          >
+            <summary class="d-lock-faqs__question">
+              <span class="d-lock-faqs__question-text">{{ block.settings.question | escape }}</span>
+              <span class="d-lock-faqs__icons" aria-hidden="true">
+                <img
+                  class="d-lock-faqs__icon d-lock-faqs__icon--plus"
+                  src="{{ 'd-lock-faq-plus.svg' | asset_url }}"
+                  alt=""
+                  width="30"
+                  height="30"
+                  loading="lazy"
+                  decoding="async"
+                >
+                <img
+                  class="d-lock-faqs__icon d-lock-faqs__icon--minus"
+                  src="{{ 'd-lock-faq-minus.svg' | asset_url }}"
+                  alt=""
+                  width="30"
+                  height="30"
+                  loading="lazy"
+                  decoding="async"
+                >
+              </span>
+            </summary>
+            {%- if block.settings.answer != blank -%}
+              <p class="d-lock-faqs__answer">{{ block.settings.answer | escape }}</p>
+            {%- endif -%}
+          </details>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .d-lock-faqs {
+    position: relative;
+    width: 100%;
+    background: var(--dlfq-bg, #1e1e1e);
+    font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+    container-type: inline-size;
+  }
+
+  .d-lock-faqs__inner {
+    width: 52.0833cqw;
+    margin: 0 auto;
+    padding: calc(var(--dlfq-pt, 120) * 0.05208cqw) 0 calc(var(--dlfq-pb, 120) * 0.05208cqw);
+  }
+
+  .d-lock-faqs__title {
+    margin: 0;
+    font-size: clamp(32px, 3.125cqw, 60px);
+    font-weight: 300;
+    line-height: 1.5;
+    text-align: center;
+    color: #ffffff;
+  }
+
+  .d-lock-faqs__list {
+    margin-top: 2.0833cqw;
+  }
+
+  .d-lock-faqs__item {
+    border-bottom: 1px solid #d9d9d9;
+  }
+
+  .d-lock-faqs__question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.0417cqw;
+    padding: 1.1458cqw 0;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .d-lock-faqs__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .d-lock-faqs__question-text {
+    font-size: clamp(15px, 1.0417cqw, 20px);
+    font-weight: 600;
+    line-height: 1.5;
+    color: #ffffff;
+  }
+
+  .d-lock-faqs__icons {
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+
+  .d-lock-faqs__icon {
+    display: block;
+    width: clamp(22px, 1.5625cqw, 30px);
+    height: clamp(22px, 1.5625cqw, 30px);
+  }
+
+  .d-lock-faqs__icon--minus {
+    display: none;
+  }
+
+  .d-lock-faqs__item[open] .d-lock-faqs__icon--plus {
+    display: none;
+  }
+
+  .d-lock-faqs__item[open] .d-lock-faqs__icon--minus {
+    display: block;
+  }
+
+  .d-lock-faqs__answer {
+    margin: 0 0 1.4583cqw;
+    font-size: clamp(13px, 0.8333cqw, 16px);
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+    color: #ffffff;
+  }
+
+  @media screen and (max-width: 749px) {
+    .d-lock-faqs__inner {
+      width: 100%;
+      padding: max(48px, calc(var(--dlfq-pt, 120) * 0.05208cqw)) 20px max(48px, calc(var(--dlfq-pb, 120) * 0.05208cqw));
+    }
+
+    .d-lock-faqs__title {
+      font-size: 32px;
+    }
+
+    .d-lock-faqs__list {
+      margin-top: 24px;
+    }
+
+    .d-lock-faqs__question {
+      padding: 16px 0;
+      gap: 16px;
+    }
+
+    .d-lock-faqs__question-text {
+      font-size: 16px;
+    }
+
+    .d-lock-faqs__icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    .d-lock-faqs__answer {
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "D-Lock FAQs",
+  "tag": "section",
+  "class": "section-d-lock-faqs",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 240,
+      "step": 4,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 240,
+      "step": 4,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#1e1e1e"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "FAQ's"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_first",
+      "label": "Open first question by default",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Question"
+        },
+        {
+          "type": "text",
+          "id": "answer",
+          "label": "Answer"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "D-Lock FAQs",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "question"
+        },
+        {
+          "type": "question"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

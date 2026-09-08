@@ -1,0 +1,400 @@
+{%- comment -%}
+  D-Lock Reviews - "Customer Reviews" heading + bleeding card carousel
+  Pixel-matched to Figma nodes 10:4053-10:4256 (2 into 9 D-LOCK Page Design)
+{%- endcomment -%}
+
+{{ 'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,700&display=swap' | stylesheet_tag }}
+
+<section
+  class="d-lock-reviews"
+  id="DLockReviews-{{ section.id }}"
+  style="--dlr-pt: {{ section.settings.padding_top }}; --dlr-pb: {{ section.settings.padding_bottom }}; --dlr-bg: {{ section.settings.background_color }};"
+>
+  <div class="d-lock-reviews__header">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="d-lock-reviews__heading">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+
+    <p class="d-lock-reviews__rating">
+      <span class="d-lock-reviews__rating-value">{{ section.settings.rating_value | escape }}</span>
+      <img
+        class="d-lock-reviews__rating-star"
+        src="{{ 'd-lock-star-rating.svg' | asset_url }}"
+        alt=""
+        width="19"
+        height="21"
+        loading="lazy"
+        decoding="async"
+      >
+      <span class="d-lock-reviews__rating-text">{{ section.settings.reviews_text | escape }}</span>
+    </p>
+  </div>
+
+  {%- if section.blocks.size > 0 -%}
+    <div
+      class="d-lock-reviews__track"
+      tabindex="0"
+      role="region"
+      aria-label="Customer reviews"
+      style="--dlr-duration: {{ section.settings.speed }}s;"
+    >
+      <div class="d-lock-reviews__half">
+        {%- for block in section.blocks -%}
+          <article class="d-lock-reviews__card" {{ block.shopify_attributes }}>
+            <div class="d-lock-reviews__stars" aria-label="Rated 5 out of 5">
+              {%- for i in (1..5) -%}
+                <img
+                  class="d-lock-reviews__star"
+                  src="{{ 'd-lock-star.svg' | asset_url }}"
+                  alt=""
+                  width="22"
+                  height="25"
+                  loading="lazy"
+                  decoding="async"
+                >
+              {%- endfor -%}
+            </div>
+            {%- if block.settings.name != blank -%}
+              <h3 class="d-lock-reviews__name">{{ block.settings.name | escape }}</h3>
+            {%- endif -%}
+            {%- if block.settings.role != blank -%}
+              <p class="d-lock-reviews__role">{{ block.settings.role | escape }}</p>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <p class="d-lock-reviews__text">{{ block.settings.text | escape }}</p>
+            {%- endif -%}
+          </article>
+        {%- endfor -%}
+      </div>
+      <div class="d-lock-reviews__half" aria-hidden="true">
+        {%- for block in section.blocks -%}
+          <article class="d-lock-reviews__card">
+            <div class="d-lock-reviews__stars">
+              {%- for i in (1..5) -%}
+                <img
+                  class="d-lock-reviews__star"
+                  src="{{ 'd-lock-star.svg' | asset_url }}"
+                  alt=""
+                  width="22"
+                  height="25"
+                  loading="lazy"
+                  decoding="async"
+                >
+              {%- endfor -%}
+            </div>
+            {%- if block.settings.name != blank -%}
+              <h3 class="d-lock-reviews__name">{{ block.settings.name | escape }}</h3>
+            {%- endif -%}
+            {%- if block.settings.role != blank -%}
+              <p class="d-lock-reviews__role">{{ block.settings.role | escape }}</p>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <p class="d-lock-reviews__text">{{ block.settings.text | escape }}</p>
+            {%- endif -%}
+          </article>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+{% stylesheet %}
+  .d-lock-reviews {
+    position: relative;
+    width: 100%;
+    background: var(--dlr-bg, #1e1e1e);
+    font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+    container-type: inline-size;
+    padding: calc(var(--dlr-pt, 120) * 0.05208cqw) 0 calc(var(--dlr-pb, 120) * 0.05208cqw);
+  }
+
+  .d-lock-reviews__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .d-lock-reviews__heading {
+    margin: 0;
+    font-size: clamp(32px, 3.125cqw, 60px);
+    font-weight: 300;
+    line-height: 1.5;
+    color: #ffffff;
+    white-space: nowrap;
+  }
+
+  .d-lock-reviews__rating {
+    display: flex;
+    align-items: center;
+    gap: 0.521cqw;
+    margin: 0.4688cqw 0 0;
+    font-size: clamp(16px, 1.3889cqw, 26.667px);
+    font-weight: 300;
+    line-height: 1.5;
+    color: #ffffff;
+    white-space: nowrap;
+  }
+
+  .d-lock-reviews__rating-star {
+    width: 0.9896cqw;
+    height: auto;
+    display: block;
+  }
+
+  .d-lock-reviews__track {
+    display: flex;
+    width: max-content;
+    margin-top: 2.6042cqw;
+    padding-inline: 2.8646cqw;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    animation: d-lock-reviews-scroll var(--dlr-duration, 45s) linear infinite;
+    will-change: transform;
+  }
+
+  .d-lock-reviews__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .d-lock-reviews__track:hover,
+  .d-lock-reviews__track:focus-visible {
+    animation-play-state: paused;
+  }
+
+  .d-lock-reviews__half {
+    display: flex;
+    gap: 1.0417cqw;
+    padding-right: 1.0417cqw;
+  }
+
+  @keyframes d-lock-reviews-scroll {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .d-lock-reviews__track {
+      animation: none;
+    }
+  }
+
+  .d-lock-reviews__card {
+    flex: 0 0 auto;
+    width: 20.3125cqw;
+    aspect-ratio: 390 / 360;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #1b1b1b;
+    padding-top: 3.3333cqw;
+  }
+
+  .d-lock-reviews__stars {
+    display: flex;
+    gap: 0.1563cqw;
+  }
+
+  .d-lock-reviews__star {
+    width: 1.1573cqw;
+    height: auto;
+    display: block;
+  }
+
+  .d-lock-reviews__name {
+    margin: 1.9271cqw 0 0;
+    font-size: clamp(18px, 1.5625cqw, 30px);
+    font-weight: 700;
+    line-height: 1.5;
+    text-transform: uppercase;
+    text-align: center;
+    color: #ffffff;
+  }
+
+  .d-lock-reviews__role {
+    margin: 0;
+    font-size: clamp(13px, 1.0417cqw, 20px);
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+    color: #ffffff;
+  }
+
+  .d-lock-reviews__text {
+    margin: 2.7344cqw 0 0;
+    width: 81.8%;
+    font-size: clamp(13px, 0.8333cqw, 16px);
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+    color: #ffffff;
+  }
+
+  @media screen and (max-width: 749px) {
+    .d-lock-reviews {
+      padding: max(48px, calc(var(--dlr-pt, 120) * 0.05208cqw)) 0 max(48px, calc(var(--dlr-pb, 120) * 0.05208cqw));
+    }
+
+    .d-lock-reviews__heading {
+      font-size: 32px;
+      white-space: normal;
+    }
+
+    .d-lock-reviews__rating {
+      margin-top: 10px;
+      gap: 8px;
+      font-size: 15px;
+    }
+
+    .d-lock-reviews__rating-star {
+      width: 15px;
+    }
+
+    .d-lock-reviews__track {
+      margin-top: 32px;
+      padding-inline: 20px;
+    }
+
+    .d-lock-reviews__half {
+      gap: 16px;
+      padding-right: 16px;
+    }
+
+    .d-lock-reviews__card {
+      width: 78vw;
+      aspect-ratio: auto;
+      min-height: 320px;
+      padding: 28px 18px;
+    }
+
+    .d-lock-reviews__star {
+      width: 17px;
+    }
+
+    .d-lock-reviews__name {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    .d-lock-reviews__role {
+      font-size: 13px;
+    }
+
+    .d-lock-reviews__text {
+      margin-top: 24px;
+      width: 100%;
+      font-size: 13px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "D-Lock Reviews",
+  "tag": "section",
+  "class": "section-d-lock-reviews",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 240,
+      "step": 4,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 240,
+      "step": 4,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#1e1e1e"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Customer Reviews"
+    },
+    {
+      "type": "text",
+      "id": "rating_value",
+      "label": "Rating value",
+      "default": "5"
+    },
+    {
+      "type": "text",
+      "id": "reviews_text",
+      "label": "Reviews text",
+      "default": "|  1000 reviews"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Slide duration (seconds)",
+      "min": 15,
+      "max": 120,
+      "step": 5,
+      "default": 45
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Lorem Ipsum"
+        },
+        {
+          "type": "text",
+          "id": "role",
+          "label": "Role",
+          "default": "Professional Football Player"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Review text",
+          "default": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "D-Lock Reviews",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "review"
+        },
+        {
+          "type": "review"
+        },
+        {
+          "type": "review"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -21,7 +21,233 @@
         "subheading_line_2": "One layer. Maximim hold.",
         "cta_label": "Shop Now"
       }
+    },
+    "features": {
+      "type": "d-lock-features",
+      "name": "D-Lock Features",
+      "blocks": {
+        "feature_pouch": {
+          "type": "feature",
+          "settings": {
+            "title": "Purpose-Built Pouch",
+            "text": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
+          }
+        },
+        "feature_strap": {
+          "type": "feature",
+          "settings": {
+            "title": "Precision Lock Strap System",
+            "text": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
+          }
+        },
+        "feature_breathable": {
+          "type": "feature",
+          "settings": {
+            "title": "Hyper Breathable",
+            "text": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
+          }
+        },
+        "feature_antibacterial": {
+          "type": "feature",
+          "settings": {
+            "title": "Anti-Bacterial & Anti-Odour",
+            "text": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
+          }
+        }
+      },
+      "block_order": [
+        "feature_pouch",
+        "feature_strap",
+        "feature_breathable",
+        "feature_antibacterial"
+      ],
+      "settings": {
+        "eyebrow": "Engineered for Performance",
+        "heading_prefix": "HOW",
+        "heading_accent": "D-LOCK",
+        "heading_suffix": "Changes The Game.",
+        "description": "Traditional jockstraps haven't changed in decades. We rebuilt athletic protection from the ground up to solve the biggest problem athletes face."
+      }
+    },
+    "product": {
+      "type": "d-lock-product",
+      "name": "D-Lock Product",
+      "blocks": {
+        "tile_pouch": {
+          "type": "icon_tile",
+          "settings": {
+            "label": "In-Built Pouch"
+          }
+        },
+        "tile_lock": {
+          "type": "icon_tile",
+          "settings": {
+            "label": "Locking System"
+          }
+        },
+        "tile_breathable": {
+          "type": "icon_tile",
+          "settings": {
+            "label": "Breathable"
+          }
+        },
+        "tile_antibacterial": {
+          "type": "icon_tile",
+          "settings": {
+            "label": "Anti-Bacterial"
+          }
+        },
+        "offer_pro_pack": {
+          "type": "offer",
+          "settings": {
+            "title": "Pro Pack",
+            "subtitle": "1 Pairs",
+            "price": "Rs. 929.00",
+            "per_pair": "Rs. 929.00/ Pairs"
+          }
+        },
+        "offer_tournament": {
+          "type": "offer",
+          "settings": {
+            "title": "Tournament Set",
+            "subtitle": "2 Pairs",
+            "price": "Rs. 929.00",
+            "per_pair": "Rs. 929.00/ Pairs"
+          }
+        },
+        "offer_season": {
+          "type": "offer",
+          "settings": {
+            "title": "Season Supply",
+            "subtitle": "3 Pairs",
+            "price": "Rs. 929.00",
+            "per_pair": "Rs. 929.00/ Pairs"
+          }
+        }
+      },
+      "block_order": [
+        "tile_pouch",
+        "tile_lock",
+        "tile_breathable",
+        "tile_antibacterial",
+        "offer_pro_pack",
+        "offer_tournament",
+        "offer_season"
+      ],
+      "settings": {
+        "product_title": "D-LOCK",
+        "product_subtitle": "Performance Series",
+        "price": "Rs.929.00",
+        "select_size_label": "Select Size",
+        "size_options": "S,M,L,XL,XXL",
+        "default_size": "M",
+        "default_quantity": 15,
+        "atc_label": "Add to Cart"
+      }
+    },
+    "marquee": {
+      "type": "d-lock-marquee",
+      "name": "D-Lock Marquee",
+      "blocks": {
+        "item_1": {
+          "type": "item",
+          "settings": {
+            "text": "All-rounders"
+          }
+        },
+        "item_2": {
+          "type": "item",
+          "settings": {
+            "text": "Wicketkeepers"
+          }
+        },
+        "item_3": {
+          "type": "item",
+          "settings": {
+            "text": "Club & grade cricketers"
+          }
+        },
+        "item_4": {
+          "type": "item",
+          "settings": {
+            "text": "Top-order batters"
+          }
+        },
+        "item_5": {
+          "type": "item",
+          "settings": {
+            "text": "Junior players"
+          }
+        }
+      },
+      "block_order": ["item_1", "item_2", "item_3", "item_4", "item_5"],
+      "settings": {
+        "label": "X-CUP IS BUILT FOR...",
+        "speed": 40
+      }
+    },
+    "faqs": {
+      "type": "d-lock-faqs",
+      "name": "D-Lock FAQs",
+      "blocks": {
+        "faq_1": {
+          "type": "question",
+          "settings": {
+            "question": "What's the difference between a Boxer Brief and Trunk?",
+            "answer": "The only difference between the two is that Boxer Briefs have 3 cm more leg length than the trunks."
+          }
+        },
+        "faq_2": {
+          "type": "question",
+          "settings": {
+            "question": "What type of underwear is best for me?"
+          }
+        },
+        "faq_3": {
+          "type": "question",
+          "settings": {
+            "question": "What underpants should I choose if I play sport?"
+          }
+        }
+      },
+      "block_order": ["faq_1", "faq_2", "faq_3"],
+      "settings": {
+        "title": "FAQ's",
+        "open_first": true
+      }
+    },
+    "reviews": {
+      "type": "d-lock-reviews",
+      "name": "D-Lock Reviews",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {}
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {}
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {}
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {}
+        },
+        "review_5": {
+          "type": "review",
+          "settings": {}
+        }
+      },
+      "block_order": ["review_1", "review_2", "review_3", "review_4", "review_5"],
+      "settings": {
+        "heading": "Customer Reviews",
+        "rating_value": "5",
+        "reviews_text": "|  1000 reviews"
+      }
     }
   },
-  "order": ["hero"]
+  "order": ["hero", "features", "product", "marquee", "faqs", "reviews"]
 }

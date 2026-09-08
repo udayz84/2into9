@@ -1,0 +1,215 @@
+{%- comment -%}
+  D-Lock Marquee - label + lime ticker band
+  Pixel-matched to Figma nodes 10:4020-10:4027 (2 into 9 D-LOCK Page Design)
+{%- endcomment -%}
+
+{{ 'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;1,400;1,600;1,800&display=swap' | stylesheet_tag }}
+
+<section
+  class="d-lock-marquee"
+  id="DLockMarquee-{{ section.id }}"
+  style="--dlmq-bg: {{ section.settings.background_color }}; --dlmq-band: {{ section.settings.band_color }};"
+>
+  {%- if section.settings.label != blank -%}
+    <p class="d-lock-marquee__label">{{ section.settings.label | escape }}</p>
+  {%- endif -%}
+
+  <div class="d-lock-marquee__band">
+    <div class="d-lock-marquee__track" style="--dlmq-duration: {{ section.settings.speed }}s;">
+      {%- if section.blocks.size > 0 -%}
+        <div class="d-lock-marquee__half">
+          {%- for block in section.blocks -%}
+            {%- if block.settings.text != blank -%}
+              <span class="d-lock-marquee__item" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <div class="d-lock-marquee__half" aria-hidden="true">
+          {%- for block in section.blocks -%}
+            {%- if block.settings.text != blank -%}
+              <span class="d-lock-marquee__item">{{ block.settings.text | escape }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .d-lock-marquee {
+    position: relative;
+    width: 100%;
+    background: var(--dlmq-bg, #171717);
+    font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+    container-type: inline-size;
+    overflow: hidden;
+  }
+
+  .d-lock-marquee__label {
+    margin: 0;
+    padding-bottom: 0.7813cqw;
+    text-align: center;
+    font-size: clamp(16px, 1.5625cqw, 30px);
+    font-weight: 600;
+    font-style: italic;
+    line-height: 1.5;
+    color: #ffffff;
+    white-space: nowrap;
+  }
+
+  .d-lock-marquee__band {
+    height: clamp(64px, 6.25cqw, 120px);
+    background: var(--dlmq-band, #c5ff00);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+
+  .d-lock-marquee__track {
+    display: flex;
+    width: max-content;
+    padding-left: 2.2396cqw;
+    animation: d-lock-marquee-scroll var(--dlmq-duration, 40s) linear infinite;
+    will-change: transform;
+  }
+
+  .d-lock-marquee__half {
+    display: flex;
+    align-items: center;
+    gap: 2.0833cqw;
+    padding-right: 2.0833cqw;
+  }
+
+  .d-lock-marquee__item {
+    display: flex;
+    align-items: center;
+    gap: 0.7292cqw;
+    font-size: clamp(16px, 1.5625cqw, 30px);
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1.5;
+    color: #000000;
+    white-space: nowrap;
+  }
+
+  .d-lock-marquee__item::before {
+    content: '';
+    width: 0.4167cqw;
+    height: 0.4167cqw;
+    background: #000000;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  @keyframes d-lock-marquee-scroll {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .d-lock-marquee__track {
+      animation: none;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .d-lock-marquee__label {
+      padding-bottom: 12px;
+      font-size: 18px;
+    }
+
+    .d-lock-marquee__band {
+      height: 72px;
+    }
+
+    .d-lock-marquee__track {
+      padding-left: 20px;
+    }
+
+    .d-lock-marquee__half {
+      gap: 24px;
+      padding-right: 24px;
+    }
+
+    .d-lock-marquee__item {
+      gap: 10px;
+      font-size: 18px;
+    }
+
+    .d-lock-marquee__item::before {
+      width: 7px;
+      height: 7px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "D-Lock Marquee",
+  "tag": "section",
+  "class": "section-d-lock-marquee",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#171717"
+    },
+    {
+      "type": "color",
+      "id": "band_color",
+      "label": "Band color",
+      "default": "#c5ff00"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "X-CUP IS BUILT FOR..."
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Scroll duration (seconds)",
+      "min": 15,
+      "max": 90,
+      "step": 5,
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Ticker item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Item"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "D-Lock Marquee",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "item"
+        },
+        {
+          "type": "item"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

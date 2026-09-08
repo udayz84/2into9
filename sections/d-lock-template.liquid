@@ -8,7 +8,7 @@
 <section
   class="d-lock-hero"
   id="D-LockHero-{{ section.id }}"
-  style="--dlh-mask-url: url({{ 'd-lock-hero-mask.svg' | asset_url }});"
+  style="--dlh-bg: {{ section.settings.background_color }};"
 >
   <div class="d-lock-hero__stage">
     {%- if section.settings.watermark_text != blank -%}
@@ -16,12 +16,12 @@
     {%- endif -%}
 
     <div class="d-lock-hero__media" aria-hidden="true">
-      {%- if section.settings.hero_image_1 != blank -%}
+      {%- if section.settings.hero_image != blank -%}
         {{
-          section.settings.hero_image_1
+          section.settings.hero_image
           | image_url: width: 2400
           | image_tag:
-            class: 'd-lock-hero__img d-lock-hero__img--1',
+            class: 'd-lock-hero__img d-lock-hero__img--main',
             widths: '960, 1440, 2400',
             sizes: '100vw',
             loading: 'lazy',
@@ -29,53 +29,7 @@
         }}
       {%- else -%}
         <img
-          class="d-lock-hero__img d-lock-hero__img--1"
-          src="{{ 'd-lock-hero-image-1.png' | asset_url }}"
-          alt=""
-          width="3946"
-          height="2634"
-          loading="lazy"
-          decoding="async"
-        >
-      {%- endif -%}
-
-      {%- if section.settings.hero_image_2 != blank -%}
-        {{
-          section.settings.hero_image_2
-          | image_url: width: 2400
-          | image_tag:
-            class: 'd-lock-hero__img d-lock-hero__img--2',
-            widths: '960, 1440, 2400',
-            sizes: '100vw',
-            loading: 'lazy',
-            alt: ''
-        }}
-      {%- else -%}
-        <img
-          class="d-lock-hero__img d-lock-hero__img--2"
-          src="{{ 'd-lock-hero-image-2.jpg' | asset_url }}"
-          alt=""
-          width="4096"
-          height="2731"
-          loading="lazy"
-          decoding="async"
-        >
-      {%- endif -%}
-
-      {%- if section.settings.hero_image_3 != blank -%}
-        {{
-          section.settings.hero_image_3
-          | image_url: width: 2400
-          | image_tag:
-            class: 'd-lock-hero__img d-lock-hero__img--3',
-            widths: '960, 1440, 2400',
-            sizes: '100vw',
-            loading: 'lazy',
-            alt: ''
-        }}
-      {%- else -%}
-        <img
-          class="d-lock-hero__img d-lock-hero__img--3"
+          class="d-lock-hero__img d-lock-hero__img--main"
           src="{{ 'd-lock-hero-image-3.jpg' | asset_url }}"
           alt=""
           width="4096"
@@ -133,7 +87,7 @@
   .d-lock-hero {
     position: relative;
     width: 100%;
-    background: #171717;
+    background: var(--dlh-bg, #171717);
     font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif;
     container-type: inline-size;
   }
@@ -176,32 +130,7 @@
     opacity: 0.3;
   }
 
-  .d-lock-hero__img--1 {
-    left: -1.3872%;
-    top: 3.1505%;
-    width: 102.7578%;
-    height: 138.6211%;
-    object-fit: cover;
-    transform: scaleX(-1);
-    -webkit-mask-image: var(--dlh-mask-url);
-    mask-image: var(--dlh-mask-url);
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-size: 97.3163% 72.1378%;
-    mask-size: 97.3163% 72.1378%;
-    -webkit-mask-position: 50.3067% 42.2607%;
-    mask-position: 50.3067% 42.2607%;
-  }
-
-  .d-lock-hero__img--2 {
-    left: -2.1875%;
-    top: -77.3684%;
-    width: 169.2708%;
-    height: 228.1053%;
-    object-fit: cover;
-  }
-
-  .d-lock-hero__img--3 {
+  .d-lock-hero__img--main {
     left: -0.7813%;
     top: -36.8421%;
     width: 101.5625%;
@@ -236,7 +165,7 @@
     background: #c5ff00;
     color: #000000;
     border-radius: 3.125cqw;
-    font-size: 1.25cqw;
+    font-size: clamp(12px, 1.25cqw, 24px);
     font-weight: 400;
     font-style: italic;
     line-height: 1.5;
@@ -245,7 +174,7 @@
 
   .d-lock-hero__title {
     margin: 0;
-    font-size: 6.7708cqw;
+    font-size: clamp(40px, 6.7708cqw, 130px);
     line-height: 1;
     font-weight: 800;
     font-style: italic;
@@ -271,7 +200,7 @@
 
   .d-lock-hero__sub-line {
     margin: 0;
-    font-size: 1.0417cqw;
+    font-size: clamp(14px, 1.0417cqw, 20px);
     font-weight: 400;
     line-height: 1.5;
     color: #ffffff;
@@ -292,7 +221,7 @@
     border: 1px solid #c5ff00;
     border-radius: 2.6042cqw;
     color: #c5ff00;
-    font-size: 0.7292cqw;
+    font-size: clamp(11px, 0.7292cqw, 14px);
     font-weight: 400;
     line-height: 1.5;
     text-transform: uppercase;
@@ -367,19 +296,15 @@
     },
     {
       "type": "image_picker",
-      "id": "hero_image_1",
-      "label": "Image 1 (bottom layer, mirrored)",
-      "info": "Defaults to the Figma hero asset when empty."
+      "id": "hero_image",
+      "label": "Hero image",
+      "info": "Defaults to the Figma asset when empty."
     },
     {
-      "type": "image_picker",
-      "id": "hero_image_2",
-      "label": "Image 2 (middle layer)"
-    },
-    {
-      "type": "image_picker",
-      "id": "hero_image_3",
-      "label": "Image 3 (top layer)"
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#171717"
     },
     {
       "type": "text",

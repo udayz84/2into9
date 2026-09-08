@@ -1,8 +1,8 @@
 {%- comment -%}
   Media Kit Reviews
-  Centered header with average rating line and a row of review cards.
-  Supports fractional star ratings (e.g. 4.5). All visual values are
-  driven by settings (desktop + mobile).
+  Centered header with average rating line and an infinite-loop carousel
+  of review cards. Desktop: auto-slide with pause on hover. Mobile:
+  manual swipe. Supports fractional star ratings (e.g. 4.5).
 {%- endcomment -%}
 
 {{ 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap' | stylesheet_tag }}
@@ -33,46 +33,245 @@
   </div>
 
   {%- if section.blocks.size > 0 -%}
-    <div class="mk-reviews__row">
-      {%- for block in section.blocks -%}
-        <article class="mk-reviews__card" {{ block.shopify_attributes }}>
-          <div class="mk-reviews__stars">
-            {%- for i in (1..5) -%}
-              {%- assign overlay_fraction = i | minus: block.settings.rating -%}
-              {%- if overlay_fraction <= 0 -%}
-                {%- assign overlay_value = 0 -%}
-              {%- elsif overlay_fraction >= 1 -%}
-                {%- assign overlay_value = 1 -%}
-              {%- else -%}
-                {%- assign overlay_value = overlay_fraction | round: 2 -%}
-              {%- endif -%}
-              <span class="mk-reviews__star" style="--overlay: {{ overlay_value }}">
-                {%- render 'media-kit-star' -%}
-                {%- if overlay_value > 0 -%}
-                  <span class="mk-reviews__star-overlay">
-                    {%- render 'media-kit-star' -%}
-                  </span>
+    <div class="mk-reviews__viewport" data-mk-carousel-viewport>
+      <div class="mk-reviews__track" data-mk-carousel-track>
+        {%- for block in section.blocks -%}
+          <article class="mk-reviews__card" data-slide {{ block.shopify_attributes }}>
+            <div class="mk-reviews__stars">
+              {%- for i in (1..5) -%}
+                {%- assign overlay_fraction = i | minus: block.settings.rating -%}
+                {%- if overlay_fraction <= 0 -%}
+                  {%- assign overlay_value = 0 -%}
+                {%- elsif overlay_fraction >= 1 -%}
+                  {%- assign overlay_value = 1 -%}
+                {%- else -%}
+                  {%- assign overlay_value = overlay_fraction | round: 2 -%}
                 {%- endif -%}
-              </span>
-            {%- endfor -%}
-          </div>
+                <span class="mk-reviews__star" style="--overlay: {{ overlay_value }}">
+                  {%- render 'media-kit-star' -%}
+                  {%- if overlay_value > 0 -%}
+                    <span class="mk-reviews__star-overlay">
+                      {%- render 'media-kit-star' -%}
+                    </span>
+                  {%- endif -%}
+                </span>
+              {%- endfor -%}
+            </div>
 
-          {%- if block.settings.reviewer_name != blank -%}
-            <h3 class="mk-reviews__name">{{ block.settings.reviewer_name }}</h3>
-          {%- endif -%}
+            {%- if block.settings.reviewer_name != blank -%}
+              <h3 class="mk-reviews__name">{{ block.settings.reviewer_name }}</h3>
+            {%- endif -%}
 
-          {%- if block.settings.reviewer_role != blank -%}
-            <p class="mk-reviews__role">{{ block.settings.reviewer_role }}</p>
-          {%- endif -%}
+            {%- if block.settings.reviewer_role != blank -%}
+              <p class="mk-reviews__role">{{ block.settings.reviewer_role }}</p>
+            {%- endif -%}
 
-          {%- if block.settings.review_text != blank -%}
-            <p class="mk-reviews__text">{{ block.settings.review_text }}</p>
-          {%- endif -%}
-        </article>
-      {%- endfor -%}
+            {%- if block.settings.review_text != blank -%}
+              <p class="mk-reviews__text">{{ block.settings.review_text }}</p>
+            {%- endif -%}
+          </article>
+        {%- endfor -%}
+      </div>
     </div>
   {%- endif -%}
 </section>
+
+<script>
+  (function () {
+    var root = document.getElementById('MediaKitReviews-{{ section.id }}');
+    if (!root) return;
+    var viewport = root.querySelector('[data-mk-carousel-viewport]');
+    var track = root.querySelector('[data-mk-carousel-track]');
+    if (!viewport || !track) return;
+
+    var originals = Array.prototype.slice.call(track.children);
+    var count = originals.length;
+    if (count === 0) return;
+
+    var AUTOPLAY = {{ section.settings.autoplay_desktop }};
+    var AUTOPLAY_MS = {{ section.settings.autoplay_speed | times: 1000 }};
+    var PAUSE_ON_HOVER = {{ section.settings.pause_on_hover }};
+    var desktop = window.matchMedia('(min-width: 750px)');
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    var index = 0;
+    var slideW = 0;
+    var offsetBase = 0;
+    var timer = null;
+    var dragging = false;
+    var dragStartX = 0;
+    var dragDelta = 0;
+
+    function gapSize() {
+      var g = getComputedStyle(track).columnGap || getComputedStyle(track).gap || '0';
+      return parseFloat(g) || 0;
+    }
+
+    function measure() {
+      var first = track.children[0];
+      slideW = first.getBoundingClientRect().width + gapSize();
+    }
+
+    function buildClones() {
+      track.querySelectorAll('[data-clone]').forEach(function (clone) {
+        clone.remove();
+      });
+      var perRound = count * slideW;
+      if (perRound <= 0) return;
+      var rounds = Math.max(1, Math.ceil((viewport.getBoundingClientRect().width * 2) / perRound));
+      var head = [];
+      var tail = [];
+      for (var r = 0; r < rounds; r++) {
+        originals.forEach(function (slide) {
+          var a = slide.cloneNode(true);
+          a.setAttribute('aria-hidden', 'true');
+          a.setAttribute('data-clone', 'true');
+          head.push(a);
+          var b = slide.cloneNode(true);
+          b.setAttribute('aria-hidden', 'true');
+          b.setAttribute('data-clone', 'true');
+          tail.push(b);
+        });
+      }
+      head.forEach(function (clone) {
+        track.insertBefore(clone, track.firstChild);
+      });
+      tail.forEach(function (clone) {
+        track.appendChild(clone);
+      });
+      offsetBase = head.length * slideW;
+    }
+
+    function setX(x, animate) {
+      track.style.transition = animate && !reduceMotion.matches
+        ? 'transform 0.55s cubic-bezier(0.33, 1, 0.68, 1)'
+        : 'none';
+      track.style.transform = 'translate3d(' + -x + 'px, 0, 0)';
+    }
+
+    function xFor(i) {
+      return offsetBase + i * slideW;
+    }
+
+    function goTo(i, animate) {
+      index = i;
+      setX(xFor(index), animate);
+    }
+
+    function normalize() {
+      if (index < 0 || index >= count) {
+        index = ((index % count) + count) % count;
+        setX(xFor(index), false);
+        void track.offsetWidth;
+      }
+    }
+
+    function startAutoplay() {
+      stopAutoplay();
+      if (!AUTOPLAY || !desktop.matches || reduceMotion.matches || count < 2) return;
+      timer = setInterval(function () {
+        goTo(index + 1, true);
+      }, AUTOPLAY_MS);
+    }
+
+    function stopAutoplay() {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    track.addEventListener('transitionend', function (event) {
+      if (event.target === track) normalize();
+    });
+
+    if (PAUSE_ON_HOVER) {
+      root.addEventListener('mouseenter', stopAutoplay);
+      root.addEventListener('mouseleave', startAutoplay);
+    }
+
+    viewport.addEventListener('pointerdown', function (event) {
+      if (event.pointerType === 'mouse' && event.button !== 0) return;
+      dragging = true;
+      dragStartX = event.clientX;
+      dragDelta = 0;
+      stopAutoplay();
+      viewport.classList.add('is-dragging');
+      setX(xFor(index), false);
+      try {
+        viewport.setPointerCapture(event.pointerId);
+      } catch (error) {}
+    });
+
+    viewport.addEventListener('pointermove', function (event) {
+      if (!dragging) return;
+      dragDelta = event.clientX - dragStartX;
+      setX(xFor(index) + dragDelta, false);
+    });
+
+    function endDrag() {
+      if (!dragging) return;
+      dragging = false;
+      viewport.classList.remove('is-dragging');
+      var steps = Math.round(dragDelta / slideW);
+      goTo(index - steps, true);
+      if (Math.abs(dragDelta) < 4) normalize();
+      startAutoplay();
+    }
+
+    viewport.addEventListener('pointerup', endDrag);
+    viewport.addEventListener('pointercancel', endDrag);
+    viewport.addEventListener('dragstart', function (event) {
+      event.preventDefault();
+    });
+    viewport.addEventListener('click', function (event) {
+      if (Math.abs(dragDelta) > 8) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    }, true);
+
+    var resizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        measure();
+        buildClones();
+        setX(xFor(index), false);
+      }, 150);
+    });
+
+    document.addEventListener('shopify:block:select', function (event) {
+      if (!root.contains(event.target)) return;
+      var slide = event.target.closest('[data-slide]');
+      var i = originals.indexOf(slide);
+      if (i > -1) {
+        stopAutoplay();
+        goTo(i, true);
+      }
+    });
+
+    document.addEventListener('shopify:section:deselect', function () {
+      startAutoplay();
+    });
+
+    document.addEventListener('shopify:section:unload', function (event) {
+      if (event.target.contains(root)) stopAutoplay();
+    });
+
+    if (desktop.addEventListener) {
+      desktop.addEventListener('change', function () {
+        if (desktop.matches) startAutoplay();
+        else stopAutoplay();
+      });
+    }
+
+    measure();
+    buildClones();
+    goTo(0, false);
+    startAutoplay();
+  })();
+</script>
 
 {% style %}
   #MediaKitReviews-{{ section.id }} {
@@ -92,7 +291,6 @@
     --mk-reviews-rating-transform: {{ section.settings.rating_transform }};
     --mk-reviews-rating-star-size: {{ section.settings.rating_star_size }}px;
     --mk-reviews-header-gap: {{ section.settings.header_to_cards_gap }}px;
-    --mk-reviews-row-width: {{ section.settings.cards_row_width }}px;
     --mk-reviews-card-width: {{ section.settings.card_width }}px;
     --mk-reviews-card-gap: {{ section.settings.card_gap }}px;
     --mk-reviews-card-height: {{ section.settings.card_height }}px;
@@ -124,6 +322,7 @@
     --mk-reviews-mobile-rating-size: {{ section.settings.rating_size_mobile }}px;
     --mk-reviews-mobile-card-height: {{ section.settings.card_height_mobile }}px;
     --mk-reviews-mobile-card-gap: {{ section.settings.card_gap_mobile }}px;
+    --mk-reviews-mobile-viewport-padding: {{ section.settings.mobile_padding_inline }}px;
     --mk-reviews-mobile-name-size: {{ section.settings.name_size_mobile }}px;
     --mk-reviews-mobile-role-size: {{ section.settings.role_size_mobile }}px;
     --mk-reviews-mobile-text-size: {{ section.settings.text_size_mobile }}px;
@@ -132,7 +331,7 @@
     background-color: var(--mk-reviews-bg);
     padding-top: var(--mk-reviews-padding-top);
     padding-bottom: var(--mk-reviews-padding-bottom);
-    overflow-x: clip;
+    overflow: hidden;
   }
 
   #MediaKitReviews-{{ section.id }} .mk-reviews__header {
@@ -179,15 +378,26 @@
     height: auto;
   }
 
-  #MediaKitReviews-{{ section.id }} .mk-reviews__row {
+  #MediaKitReviews-{{ section.id }} .mk-reviews__viewport {
     margin-top: var(--mk-reviews-header-gap);
-    width: var(--mk-reviews-row-width);
-    margin-left: calc(50% - var(--mk-reviews-row-width) / 2);
-    margin-right: calc(50% - var(--mk-reviews-row-width) / 2);
+    width: 100%;
+    overflow: hidden;
+    cursor: grab;
+    touch-action: pan-y;
+  }
+
+  #MediaKitReviews-{{ section.id }} .mk-reviews__viewport.is-dragging {
+    cursor: grabbing;
+  }
+
+  #MediaKitReviews-{{ section.id }} .mk-reviews__viewport.is-dragging .mk-reviews__card {
+    user-select: none;
+  }
+
+  #MediaKitReviews-{{ section.id }} .mk-reviews__track {
     display: flex;
-    flex-wrap: nowrap;
-    justify-content: center;
     gap: var(--mk-reviews-card-gap);
+    will-change: transform;
   }
 
   #MediaKitReviews-{{ section.id }} .mk-reviews__card {
@@ -300,16 +510,16 @@
       font-size: var(--mk-reviews-mobile-rating-size);
     }
 
-    #MediaKitReviews-{{ section.id }} .mk-reviews__row {
-      width: 100%;
-      margin-left: 0;
-      margin-right: 0;
-      flex-wrap: wrap;
+    #MediaKitReviews-{{ section.id }} .mk-reviews__viewport {
+      padding-inline: var(--mk-reviews-mobile-viewport-padding);
+    }
+
+    #MediaKitReviews-{{ section.id }} .mk-reviews__track {
       gap: var(--mk-reviews-mobile-card-gap);
     }
 
     #MediaKitReviews-{{ section.id }} .mk-reviews__card {
-      flex: 1 1 100%;
+      flex: 0 0 100%;
       width: 100%;
       min-height: var(--mk-reviews-mobile-card-height);
     }
@@ -387,6 +597,43 @@
     },
     {
       "type": "header",
+      "content": "Carousel"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay_desktop",
+      "label": "Auto-slide on desktop",
+      "default": true,
+      "info": "On mobile the carousel is always manual (swipe)."
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "min": 3,
+      "max": 9,
+      "step": 0.5,
+      "unit": "s",
+      "label": "Auto-slide speed",
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause auto-slide on hover",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_inline",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Carousel side padding (mobile)",
+      "default": 20
+    },
+    {
+      "type": "header",
       "content": "Heading"
     },
     {
@@ -420,26 +667,11 @@
       "id": "heading_weight",
       "label": "Heading font weight",
       "options": [
-        {
-          "value": "300",
-          "label": "Light 300"
-        },
-        {
-          "value": "400",
-          "label": "Regular 400"
-        },
-        {
-          "value": "500",
-          "label": "Medium 500"
-        },
-        {
-          "value": "600",
-          "label": "Semibold 600"
-        },
-        {
-          "value": "700",
-          "label": "Bold 700"
-        }
+        { "value": "300", "label": "Light 300" },
+        { "value": "400", "label": "Regular 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "Semibold 600" },
+        { "value": "700", "label": "Bold 700" }
       ],
       "default": "300"
     },
@@ -467,18 +699,9 @@
       "id": "heading_transform",
       "label": "Heading text transform",
       "options": [
-        {
-          "value": "none",
-          "label": "None"
-        },
-        {
-          "value": "uppercase",
-          "label": "Uppercase"
-        },
-        {
-          "value": "lowercase",
-          "label": "Lowercase"
-        }
+        { "value": "none", "label": "None" },
+        { "value": "uppercase", "label": "Uppercase" },
+        { "value": "lowercase", "label": "Lowercase" }
       ],
       "default": "none"
     },
@@ -533,26 +756,11 @@
       "id": "rating_weight",
       "label": "Rating font weight",
       "options": [
-        {
-          "value": "300",
-          "label": "Light 300"
-        },
-        {
-          "value": "400",
-          "label": "Regular 400"
-        },
-        {
-          "value": "500",
-          "label": "Medium 500"
-        },
-        {
-          "value": "600",
-          "label": "Semibold 600"
-        },
-        {
-          "value": "700",
-          "label": "Bold 700"
-        }
+        { "value": "300", "label": "Light 300" },
+        { "value": "400", "label": "Regular 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "Semibold 600" },
+        { "value": "700", "label": "Bold 700" }
       ],
       "default": "300"
     },
@@ -561,18 +769,9 @@
       "id": "rating_transform",
       "label": "Rating text transform",
       "options": [
-        {
-          "value": "none",
-          "label": "None"
-        },
-        {
-          "value": "uppercase",
-          "label": "Uppercase"
-        },
-        {
-          "value": "lowercase",
-          "label": "Lowercase"
-        }
+        { "value": "none", "label": "None" },
+        { "value": "uppercase", "label": "Uppercase" },
+        { "value": "lowercase", "label": "Lowercase" }
       ],
       "default": "lowercase"
     },
@@ -631,17 +830,6 @@
     {
       "type": "header",
       "content": "Cards"
-    },
-    {
-      "type": "range",
-      "id": "cards_row_width",
-      "min": 1230,
-      "max": 2430,
-      "step": 20,
-      "unit": "px",
-      "label": "Cards row width (desktop)",
-      "default": 2030,
-      "info": "Total width of the card row. Centered on the page; may extend past the viewport edges by design."
     },
     {
       "type": "range",
@@ -847,26 +1035,11 @@
       "id": "name_weight",
       "label": "Name font weight",
       "options": [
-        {
-          "value": "300",
-          "label": "Light 300"
-        },
-        {
-          "value": "400",
-          "label": "Regular 400"
-        },
-        {
-          "value": "500",
-          "label": "Medium 500"
-        },
-        {
-          "value": "600",
-          "label": "Semibold 600"
-        },
-        {
-          "value": "700",
-          "label": "Bold 700"
-        }
+        { "value": "300", "label": "Light 300" },
+        { "value": "400", "label": "Regular 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "Semibold 600" },
+        { "value": "700", "label": "Bold 700" }
       ],
       "default": "700"
     },
@@ -875,18 +1048,9 @@
       "id": "name_transform",
       "label": "Name text transform",
       "options": [
-        {
-          "value": "none",
-          "label": "None"
-        },
-        {
-          "value": "uppercase",
-          "label": "Uppercase"
-        },
-        {
-          "value": "lowercase",
-          "label": "Lowercase"
-        }
+        { "value": "none", "label": "None" },
+        { "value": "uppercase", "label": "Uppercase" },
+        { "value": "lowercase", "label": "Lowercase" }
       ],
       "default": "uppercase"
     },
@@ -915,26 +1079,11 @@
       "id": "role_weight",
       "label": "Role font weight",
       "options": [
-        {
-          "value": "300",
-          "label": "Light 300"
-        },
-        {
-          "value": "400",
-          "label": "Regular 400"
-        },
-        {
-          "value": "500",
-          "label": "Medium 500"
-        },
-        {
-          "value": "600",
-          "label": "Semibold 600"
-        },
-        {
-          "value": "700",
-          "label": "Bold 700"
-        }
+        { "value": "300", "label": "Light 300" },
+        { "value": "400", "label": "Regular 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "Semibold 600" },
+        { "value": "700", "label": "Bold 700" }
       ],
       "default": "400"
     },
@@ -973,26 +1122,11 @@
       "id": "text_weight",
       "label": "Review text font weight",
       "options": [
-        {
-          "value": "300",
-          "label": "Light 300"
-        },
-        {
-          "value": "400",
-          "label": "Regular 400"
-        },
-        {
-          "value": "500",
-          "label": "Medium 500"
-        },
-        {
-          "value": "600",
-          "label": "Semibold 600"
-        },
-        {
-          "value": "700",
-          "label": "Bold 700"
-        }
+        { "value": "300", "label": "Light 300" },
+        { "value": "400", "label": "Regular 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "Semibold 600" },
+        { "value": "700", "label": "Bold 700" }
       ],
       "default": "400"
     },
@@ -1042,15 +1176,9 @@
     {
       "name": "Media Kit Reviews",
       "blocks": [
-        {
-          "type": "review"
-        },
-        {
-          "type": "review"
-        },
-        {
-          "type": "review"
-        }
+        { "type": "review" },
+        { "type": "review" },
+        { "type": "review" }
       ]
     }
   ]

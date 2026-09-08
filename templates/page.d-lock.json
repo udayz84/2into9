@@ -180,7 +180,13 @@
           }
         }
       },
-      "block_order": ["item_1", "item_2", "item_3", "item_4", "item_5"],
+      "block_order": [
+        "item_1",
+        "item_2",
+        "item_3",
+        "item_4",
+        "item_5"
+      ],
       "settings": {
         "label": "X-CUP IS BUILT FOR...",
         "speed": 40
@@ -200,17 +206,23 @@
         "faq_2": {
           "type": "question",
           "settings": {
-            "question": "What type of underwear is best for me?"
+            "question": "What type of underwear is best for me?",
+            "answer": "For all-day everyday comfort, trunks are your best pick. For sport and high-intensity movement, the D-LOCK with its in-built locking pouch keeps everything secure."
           }
         },
         "faq_3": {
           "type": "question",
           "settings": {
-            "question": "What underpants should I choose if I play sport?"
+            "question": "What underpants should I choose if I play sport?",
+            "answer": "The D-LOCK Performance Series is built for sport \u2014 breathable, anti-bacterial and engineered to lock your box in place through every sprint and dive."
           }
         }
       },
-      "block_order": ["faq_1", "faq_2", "faq_3"],
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3"
+      ],
       "settings": {
         "title": "FAQ's",
         "open_first": true
@@ -222,26 +234,42 @@
       "blocks": {
         "review_1": {
           "type": "review",
-          "settings": {}
+          "settings": {
+            "rating": 5
+          }
         },
         "review_2": {
           "type": "review",
-          "settings": {}
+          "settings": {
+            "rating": 5
+          }
         },
         "review_3": {
           "type": "review",
-          "settings": {}
+          "settings": {
+            "rating": 5
+          }
         },
         "review_4": {
           "type": "review",
-          "settings": {}
+          "settings": {
+            "rating": 5
+          }
         },
         "review_5": {
           "type": "review",
-          "settings": {}
+          "settings": {
+            "rating": 5
+          }
         }
       },
-      "block_order": ["review_1", "review_2", "review_3", "review_4", "review_5"],
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "review_5"
+      ],
       "settings": {
         "heading": "Customer Reviews",
         "rating_value": "5",
@@ -249,5 +277,12 @@
       }
     }
   },
-  "order": ["hero", "features", "product", "marquee", "faqs", "reviews"]
+  "order": [
+    "hero",
+    "features",
+    "product",
+    "marquee",
+    "faqs",
+    "reviews"
+  ]
 }

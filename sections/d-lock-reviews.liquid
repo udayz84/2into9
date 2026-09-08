@@ -33,6 +33,7 @@
   {%- if section.blocks.size > 0 -%}
     <div
       class="d-lock-reviews__track"
+      data-dlr-track
       tabindex="0"
       role="region"
       aria-label="Customer reviews"
@@ -41,8 +42,8 @@
       <div class="d-lock-reviews__half">
         {%- for block in section.blocks -%}
           <article class="d-lock-reviews__card" {{ block.shopify_attributes }}>
-            <div class="d-lock-reviews__stars" aria-label="Rated 5 out of 5">
-              {%- for i in (1..5) -%}
+            <div class="d-lock-reviews__stars" aria-label="Rated {{ block.settings.rating }} out of 5">
+              {%- for i in (1..block.settings.rating) -%}
                 <img
                   class="d-lock-reviews__star"
                   src="{{ 'd-lock-star.svg' | asset_url }}"
@@ -70,7 +71,7 @@
         {%- for block in section.blocks -%}
           <article class="d-lock-reviews__card">
             <div class="d-lock-reviews__stars">
-              {%- for i in (1..5) -%}
+              {%- for i in (1..block.settings.rating) -%}
                 <img
                   class="d-lock-reviews__star"
                   src="{{ 'd-lock-star.svg' | asset_url }}"
@@ -254,6 +255,7 @@
     .d-lock-reviews__track {
       margin-top: 32px;
       padding-inline: 20px;
+      animation: none;
     }
 
     .d-lock-reviews__half {
@@ -288,6 +290,21 @@
     }
   }
 {% endstylesheet %}
+
+{% javascript %}
+  document.querySelectorAll('[data-dlr-track]').forEach(function (track) {
+    track.addEventListener('scroll', function () {
+      if (!window.matchMedia('(max-width: 749px)').matches) return;
+      var half = track.scrollWidth / 2;
+      if (half <= 0) return;
+      if (track.scrollLeft >= half) {
+        track.scrollLeft -= half;
+      } else if (track.scrollLeft < 0) {
+        track.scrollLeft += half;
+      }
+    });
+  });
+{% endjavascript %}
 
 {% schema %}
 {
@@ -358,6 +375,15 @@
       "type": "review",
       "name": "Review",
       "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
         {
           "type": "text",
           "id": "name",

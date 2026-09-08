@@ -1,0 +1,58 @@
+{%- comment -%}
+  Renders one Media Kit gallery card.
+  Accepts:
+    - block: {Object} Gallery block (image or highlight type)
+  Priority: picked image > fallback theme asset > placeholder background.
+{%- endcomment -%}
+
+{%- if block.type == 'highlight' -%}
+  <div
+    class="mk-gallery__item mk-gallery__item--highlight"
+    style="--item-h: {{ block.settings.height }}px; --item-h-m: {{ block.settings.height_mobile }}px; --hl-bg: {{ block.settings.background_color }}; --hl-logo-w: {{ block.settings.logo_width }}%;"
+    {{ block.shopify_attributes }}
+  >
+    {%- if block.settings.image != blank -%}
+      {{
+        block.settings.image
+        | image_url: width: 1200
+        | image_tag:
+          widths: '375, 550, 750, 1100, 1200',
+          sizes: '(min-width: 750px) 590px, calc(100vw - 40px)',
+          class: 'mk-gallery__logo',
+          loading: 'lazy',
+          alt: block.settings.image_alt
+      }}
+    {%- elsif block.settings.fallback_asset != blank -%}
+      {{
+        block.settings.fallback_asset
+        | asset_url
+        | image_tag: class: 'mk-gallery__logo', loading: 'lazy', alt: block.settings.image_alt
+      }}
+    {%- endif -%}
+  </div>
+{%- else -%}
+  <div
+    class="mk-gallery__item mk-gallery__item--image"
+    style="--item-h: {{ block.settings.height }}px; --item-h-m: {{ block.settings.height_mobile }}px;"
+    {{ block.shopify_attributes }}
+  >
+    {%- if block.settings.image != blank -%}
+      {{
+        block.settings.image
+        | image_url: width: 1500
+        | image_tag:
+          widths: '375, 550, 590, 750, 1100, 1500',
+          sizes: '(min-width: 750px) 590px, calc(100vw - 40px)',
+          class: 'mk-gallery__image',
+          loading: 'lazy',
+          alt: block.settings.image_alt
+      }}
+    {%- elsif block.settings.fallback_asset != blank -%}
+      {{
+        block.settings.fallback_asset
+        | asset_url
+        | image_tag: class: 'mk-gallery__image', loading: 'lazy', alt: block.settings.image_alt
+      }}
+    {%- endif -%}
+  </div>
+{%- endif -%}

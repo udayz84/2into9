@@ -5,37 +5,29 @@
   (logo) card. All visual values are driven by settings (desktop + mobile).
 {%- endcomment -%}
 
-{%- liquid
-  assign col_1 = ''
-  assign col_2 = ''
-  assign col_3 = ''
+{%- capture col_1 -%}
+  {%- for block in section.blocks -%}
+    {%- if block.settings.column == '1' -%}
+      {%- render 'media-kit-gallery-item', block: block -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
 
-  for block in section.blocks
-    capture item_html
-      if block.type == 'image'
-        echo '<div class="mk-gallery__item mk-gallery__item--image" style="--item-h: ' | append: block.settings.height | append: 'px; --item-h-m: ' | append: block.settings.height_mobile | append: 'px;"' | append: ' ' | append: block.shopify_attributes | append: '>'
-        if block.settings.image != blank
-          echo block.settings.image | image_url: width: 1500 | image_tag: widths: '375, 550, 590, 750, 1100, 1500', sizes: '(min-width: 750px) 590px, calc(100vw - 40px)', class: 'mk-gallery__image', loading: 'lazy', alt: block.settings.image_alt
-        endif
-        echo '</div>'
-      elsif block.type == 'highlight'
-        echo '<div class="mk-gallery__item mk-gallery__item--highlight" style="--item-h: ' | append: block.settings.height | append: 'px; --item-h-m: ' | append: block.settings.height_mobile | append: 'px; --hl-bg: ' | append: block.settings.background_color | append: '; --hl-logo-w: ' | append: block.settings.logo_width | append: '%;"' | append: ' ' | append: block.shopify_attributes | append: '>'
-        if block.settings.image != blank
-          echo block.settings.image | image_url: width: 1200 | image_tag: widths: '375, 550, 750, 1100, 1200', sizes: '(min-width: 750px) 590px, calc(100vw - 40px)', class: 'mk-gallery__logo', loading: 'lazy', alt: block.settings.image_alt
-        endif
-        echo '</div>'
-      endif
-    endcapture
+{%- capture col_2 -%}
+  {%- for block in section.blocks -%}
+    {%- if block.settings.column == '2' -%}
+      {%- render 'media-kit-gallery-item', block: block -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
 
-    if block.settings.column == '1'
-      assign col_1 = col_1 | append: item_html
-    elsif block.settings.column == '2'
-      assign col_2 = col_2 | append: item_html
-    elsif block.settings.column == '3'
-      assign col_3 = col_3 | append: item_html
-    endif
-  endfor
--%}
+{%- capture col_3 -%}
+  {%- for block in section.blocks -%}
+    {%- if block.settings.column == '3' -%}
+      {%- render 'media-kit-gallery-item', block: block -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
 
 <section id="MediaKitGallery-{{ section.id }}" class="mk-gallery">
   <div class="mk-gallery__grid">
@@ -316,18 +308,9 @@
           "id": "column",
           "label": "Column",
           "options": [
-            {
-              "value": "1",
-              "label": "Column 1 (left)"
-            },
-            {
-              "value": "2",
-              "label": "Column 2 (center)"
-            },
-            {
-              "value": "3",
-              "label": "Column 3 (right)"
-            }
+            { "value": "1", "label": "Column 1 (left)" },
+            { "value": "2", "label": "Column 2 (center)" },
+            { "value": "3", "label": "Column 3 (right)" }
           ],
           "default": "1"
         },
@@ -335,6 +318,12 @@
           "type": "image_picker",
           "id": "image",
           "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "fallback_asset",
+          "label": "Fallback asset filename",
+          "info": "Theme asset shown when no image is picked, e.g. media-kit-01.png."
         },
         {
           "type": "text",
@@ -372,18 +361,9 @@
           "id": "column",
           "label": "Column",
           "options": [
-            {
-              "value": "1",
-              "label": "Column 1 (left)"
-            },
-            {
-              "value": "2",
-              "label": "Column 2 (center)"
-            },
-            {
-              "value": "3",
-              "label": "Column 3 (right)"
-            }
+            { "value": "1", "label": "Column 1 (left)" },
+            { "value": "2", "label": "Column 2 (center)" },
+            { "value": "3", "label": "Column 3 (right)" }
           ],
           "default": "1"
         },
@@ -391,6 +371,12 @@
           "type": "image_picker",
           "id": "image",
           "label": "Logo image"
+        },
+        {
+          "type": "text",
+          "id": "fallback_asset",
+          "label": "Fallback asset filename",
+          "info": "Theme asset shown when no image is picked, e.g. media-kit-logo.png."
         },
         {
           "type": "text",
@@ -421,7 +407,7 @@
           "step": 10,
           "unit": "px",
           "label": "Card height (desktop)",
-          "default": 420
+          "default": 920
         },
         {
           "type": "range",
@@ -431,7 +417,7 @@
           "step": 10,
           "unit": "px",
           "label": "Card height (mobile)",
-          "default": 420
+          "default": 500
         }
       ]
     }
@@ -440,15 +426,9 @@
     {
       "name": "Media Kit Gallery",
       "blocks": [
-        {
-          "type": "image"
-        },
-        {
-          "type": "image"
-        },
-        {
-          "type": "image"
-        }
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" }
       ]
     }
   ]

@@ -1,0 +1,27 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "d-lock-template",
+      "name": "D-Lock Hero",
+      "settings": {
+        "watermark_text": "underwear",
+        "eyebrow": "TRUSTED BY PROS",
+        "heading_line_1": "X-STRAPPED.",
+        "heading_line_2": "GAME ON.",
+        "subheading_line_1": "Cricket underwear engineered to lock your box in place.",
+        "subheading_line_2": "One layer. Maximim hold.",
+        "cta_label": "Shop Now"
+      }
+    }
+  },
+  "order": ["hero"]
+}

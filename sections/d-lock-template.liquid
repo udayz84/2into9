@@ -1,0 +1,447 @@
+{%- comment -%}
+  D-Lock Template - Hero
+  Pixel-matched to Figma "2 into 9 D-LOCK Page Design" (hero nodes 10:3769, 10:3823, 10:3824, 10:3829)
+{%- endcomment -%}
+
+{{ 'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;0,800;1,400;1,800&display=swap' | stylesheet_tag }}
+
+<section
+  class="d-lock-hero"
+  id="D-LockHero-{{ section.id }}"
+  style="--dlh-mask-url: url({{ 'd-lock-hero-mask.svg' | asset_url }});"
+>
+  <div class="d-lock-hero__stage">
+    {%- if section.settings.watermark_text != blank -%}
+      <span class="d-lock-hero__watermark" aria-hidden="true">{{ section.settings.watermark_text | escape }}</span>
+    {%- endif -%}
+
+    <div class="d-lock-hero__media" aria-hidden="true">
+      {%- if section.settings.hero_image_1 != blank -%}
+        {{
+          section.settings.hero_image_1
+          | image_url: width: 2400
+          | image_tag:
+            class: 'd-lock-hero__img d-lock-hero__img--1',
+            widths: '960, 1440, 2400',
+            sizes: '100vw',
+            loading: 'lazy',
+            alt: ''
+        }}
+      {%- else -%}
+        <img
+          class="d-lock-hero__img d-lock-hero__img--1"
+          src="{{ 'd-lock-hero-image-1.png' | asset_url }}"
+          alt=""
+          width="3946"
+          height="2634"
+          loading="lazy"
+          decoding="async"
+        >
+      {%- endif -%}
+
+      {%- if section.settings.hero_image_2 != blank -%}
+        {{
+          section.settings.hero_image_2
+          | image_url: width: 2400
+          | image_tag:
+            class: 'd-lock-hero__img d-lock-hero__img--2',
+            widths: '960, 1440, 2400',
+            sizes: '100vw',
+            loading: 'lazy',
+            alt: ''
+        }}
+      {%- else -%}
+        <img
+          class="d-lock-hero__img d-lock-hero__img--2"
+          src="{{ 'd-lock-hero-image-2.jpg' | asset_url }}"
+          alt=""
+          width="4096"
+          height="2731"
+          loading="lazy"
+          decoding="async"
+        >
+      {%- endif -%}
+
+      {%- if section.settings.hero_image_3 != blank -%}
+        {{
+          section.settings.hero_image_3
+          | image_url: width: 2400
+          | image_tag:
+            class: 'd-lock-hero__img d-lock-hero__img--3',
+            widths: '960, 1440, 2400',
+            sizes: '100vw',
+            loading: 'lazy',
+            alt: ''
+        }}
+      {%- else -%}
+        <img
+          class="d-lock-hero__img d-lock-hero__img--3"
+          src="{{ 'd-lock-hero-image-3.jpg' | asset_url }}"
+          alt=""
+          width="4096"
+          height="2731"
+          loading="lazy"
+          decoding="async"
+        >
+      {%- endif -%}
+    </div>
+
+    <div class="d-lock-hero__content">
+      <div class="d-lock-hero__heading-group">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="d-lock-hero__badge">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+        <h1 class="d-lock-hero__title">
+          {%- if section.settings.heading_line_1 != blank -%}
+            <span class="d-lock-hero__title-line">{{ section.settings.heading_line_1 | escape }}</span>
+          {%- endif -%}
+          {%- if section.settings.heading_line_2 != blank -%}
+            <span class="d-lock-hero__title-line d-lock-hero__title-line--accent">
+              {{ section.settings.heading_line_2 | escape }}
+            </span>
+          {%- endif -%}
+        </h1>
+      </div>
+
+      <div class="d-lock-hero__sub">
+        {%- if section.settings.subheading_line_1 != blank -%}
+          <p class="d-lock-hero__sub-line">{{ section.settings.subheading_line_1 | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.subheading_line_2 != blank -%}
+          <p class="d-lock-hero__sub-line d-lock-hero__sub-line--bold">{{ section.settings.subheading_line_2 | escape }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.cta_label != blank -%}
+        <a
+          class="d-lock-hero__cta"
+          {% if section.settings.cta_link != blank %}
+            href="{{ section.settings.cta_link }}"
+          {% else %}
+            role="button"
+            tabindex="0"
+          {% endif %}
+        >
+          {{- section.settings.cta_label | escape -}}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .d-lock-hero {
+    position: relative;
+    width: 100%;
+    background: #171717;
+    font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+    container-type: inline-size;
+  }
+
+  .d-lock-hero__stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1920 / 950;
+  }
+
+  .d-lock-hero__watermark {
+    position: absolute;
+    left: -1.0417cqw;
+    top: -16.3158%;
+    width: 102.7083cqw;
+    z-index: 0;
+    font-size: 16.1458cqw;
+    line-height: 0.7065;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    white-space: nowrap;
+    color: #b5b5b5;
+    opacity: 0.06;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .d-lock-hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .d-lock-hero__img {
+    position: absolute;
+    display: block;
+    max-width: none;
+    opacity: 0.3;
+  }
+
+  .d-lock-hero__img--1 {
+    left: -1.3872%;
+    top: 3.1505%;
+    width: 102.7578%;
+    height: 138.6211%;
+    object-fit: cover;
+    transform: scaleX(-1);
+    -webkit-mask-image: var(--dlh-mask-url);
+    mask-image: var(--dlh-mask-url);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 97.3163% 72.1378%;
+    mask-size: 97.3163% 72.1378%;
+    -webkit-mask-position: 50.3067% 42.2607%;
+    mask-position: 50.3067% 42.2607%;
+  }
+
+  .d-lock-hero__img--2 {
+    left: -2.1875%;
+    top: -77.3684%;
+    width: 169.2708%;
+    height: 228.1053%;
+    object-fit: cover;
+  }
+
+  .d-lock-hero__img--3 {
+    left: -0.7813%;
+    top: -36.8421%;
+    width: 101.5625%;
+    height: 136.8421%;
+    object-fit: cover;
+  }
+
+  .d-lock-hero__content {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.1458cqw;
+    padding-inline: 4cqw;
+    text-align: center;
+  }
+
+  .d-lock-hero__heading-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .d-lock-hero__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.2604cqw 1.5625cqw;
+    background: #c5ff00;
+    color: #000000;
+    border-radius: 3.125cqw;
+    font-size: 1.25cqw;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+
+  .d-lock-hero__title {
+    margin: 0;
+    font-size: 6.7708cqw;
+    line-height: 1;
+    font-weight: 800;
+    font-style: italic;
+    color: #ffffff;
+  }
+
+  .d-lock-hero__title-line {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .d-lock-hero__title-line--accent {
+    color: #c5ff00;
+  }
+
+  .d-lock-hero__sub {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1563cqw;
+    width: 28.9063cqw;
+  }
+
+  .d-lock-hero__sub-line {
+    margin: 0;
+    font-size: 1.0417cqw;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #ffffff;
+    opacity: 0.5;
+  }
+
+  .d-lock-hero__sub-line--bold {
+    font-weight: 700;
+    text-transform: uppercase;
+    opacity: 1;
+  }
+
+  .d-lock-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.7813cqw 3.3854cqw;
+    border: 1px solid #c5ff00;
+    border-radius: 2.6042cqw;
+    color: #c5ff00;
+    font-size: 0.7292cqw;
+    font-weight: 400;
+    line-height: 1.5;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .d-lock-hero__cta:hover,
+  .d-lock-hero__cta:focus-visible {
+    background: #c5ff00;
+    color: #000000;
+  }
+
+  @media screen and (max-width: 749px) {
+    .d-lock-hero__stage {
+      aspect-ratio: auto;
+      height: 100vh;
+      height: 100svh;
+      min-height: 620px;
+    }
+
+    .d-lock-hero__watermark {
+      top: -9%;
+      font-size: 19cqw;
+    }
+
+    .d-lock-hero__content {
+      gap: 16px;
+    }
+
+    .d-lock-hero__badge {
+      padding: 5px 22px;
+      border-radius: 40px;
+      font-size: 13px;
+    }
+
+    .d-lock-hero__title {
+      font-size: clamp(2.5rem, 11.8cqw, 4rem);
+      line-height: 1.06;
+    }
+
+    .d-lock-hero__sub {
+      gap: 4px;
+      width: 88%;
+    }
+
+    .d-lock-hero__sub-line {
+      font-size: 15px;
+    }
+
+    .d-lock-hero__cta {
+      padding: 14px 44px;
+      border-radius: 40px;
+      font-size: 12px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "D-Lock Hero",
+  "tag": "section",
+  "class": "section-d-lock-hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background images"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_1",
+      "label": "Image 1 (bottom layer, mirrored)",
+      "info": "Defaults to the Figma hero asset when empty."
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_2",
+      "label": "Image 2 (middle layer)"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_3",
+      "label": "Image 3 (top layer)"
+    },
+    {
+      "type": "text",
+      "id": "watermark_text",
+      "label": "Watermark text",
+      "default": "underwear"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow badge",
+      "default": "TRUSTED BY PROS"
+    },
+    {
+      "type": "text",
+      "id": "heading_line_1",
+      "label": "Heading line 1",
+      "default": "X-STRAPPED."
+    },
+    {
+      "type": "text",
+      "id": "heading_line_2",
+      "label": "Heading line 2 (accent)",
+      "default": "GAME ON."
+    },
+    {
+      "type": "text",
+      "id": "subheading_line_1",
+      "label": "Subheading line 1",
+      "default": "Cricket underwear engineered to lock your box in place."
+    },
+    {
+      "type": "text",
+      "id": "subheading_line_2",
+      "label": "Subheading line 2",
+      "default": "One layer. Maximim hold."
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "D-Lock Hero",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

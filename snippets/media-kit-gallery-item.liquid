@@ -23,11 +23,12 @@
           alt: block.settings.image_alt
       }}
     {%- elsif block.settings.fallback_asset != blank -%}
-      {{
-        block.settings.fallback_asset
-        | asset_url
-        | image_tag: class: 'mk-gallery__logo', loading: 'lazy', alt: block.settings.image_alt
-      }}
+      <img
+        class="mk-gallery__logo"
+        src="{{ block.settings.fallback_asset | asset_url }}"
+        alt="{{ block.settings.image_alt | escape }}"
+        loading="lazy"
+      >
     {%- endif -%}
   </div>
 {%- else -%}
@@ -48,11 +49,12 @@
           alt: block.settings.image_alt
       }}
     {%- elsif block.settings.fallback_asset != blank -%}
-      {{
-        block.settings.fallback_asset
-        | asset_url
-        | image_tag: class: 'mk-gallery__image', loading: 'lazy', alt: block.settings.image_alt
-      }}
+      <img
+        class="mk-gallery__image"
+        src="{{ block.settings.fallback_asset | asset_url }}"
+        alt="{{ block.settings.image_alt | escape }}"
+        loading="lazy"
+      >
     {%- endif -%}
   </div>
 {%- endif -%}

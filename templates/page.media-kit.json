@@ -58,7 +58,7 @@
             "column": "1",
             "height": 420,
             "height_mobile": 420,
-            "fallback_asset": "media-kit-01.png",
+            "fallback_asset": "media-kit-resting.png",
             "image_alt": "Model wearing 2into9 underwear resting after exercise"
           }
         },
@@ -68,7 +68,7 @@
             "column": "1",
             "height": 420,
             "height_mobile": 420,
-            "fallback_asset": "media-kit-02.png",
+            "fallback_asset": "media-kit-studio.png",
             "image_alt": "Sporty man posing in dark studio wearing 2into9 underwear"
           }
         },
@@ -80,7 +80,7 @@
             "logo_width": 89,
             "height": 920,
             "height_mobile": 500,
-            "fallback_asset": "media-kit-logo.png",
+            "fallback_asset": "media-kit-logo-card.png",
             "image_alt": "2into9 logo"
           }
         },
@@ -90,7 +90,7 @@
             "column": "1",
             "height": 400,
             "height_mobile": 400,
-            "fallback_asset": "media-kit-04.png",
+            "fallback_asset": "image-305.png",
             "image_alt": "Model at the beach wearing 2into9 swim shorts"
           }
         },
@@ -100,7 +100,7 @@
             "column": "1",
             "height": 400,
             "height_mobile": 400,
-            "fallback_asset": "media-kit-05.png",
+            "fallback_asset": "image-307.png",
             "image_alt": "Man in white 2into9 briefs"
           }
         },
@@ -110,7 +110,7 @@
             "column": "1",
             "height": 400,
             "height_mobile": 400,
-            "fallback_asset": "media-kit-06.png",
+            "fallback_asset": "image-308.png",
             "image_alt": "Man in black 2into9 trunks"
           }
         },
@@ -120,7 +120,7 @@
             "column": "2",
             "height": 930,
             "height_mobile": 500,
-            "fallback_asset": "media-kit-07.png",
+            "fallback_asset": "media-kit-flexing.png",
             "image_alt": "Athletic man flexing in 2into9 underwear"
           }
         },
@@ -130,7 +130,7 @@
             "column": "2",
             "height": 920,
             "height_mobile": 500,
-            "fallback_asset": "media-kit-08.png",
+            "fallback_asset": "image-303.png",
             "image_alt": "Boy wearing colorful 2into9 swim trunks"
           }
         },
@@ -140,7 +140,7 @@
             "column": "2",
             "height": 1150,
             "height_mobile": 500,
-            "fallback_asset": "media-kit-09.png",
+            "fallback_asset": "image-304.png",
             "image_alt": "Man walking in the ocean wearing 2into9 trunks"
           }
         },
@@ -150,7 +150,7 @@
             "column": "3",
             "height": 930,
             "height_mobile": 500,
-            "fallback_asset": "media-kit-10.png",
+            "fallback_asset": "image-302.png",
             "image_alt": "Man in white 2into9 trunks against white background"
           }
         },
@@ -160,7 +160,7 @@
             "column": "3",
             "height": 920,
             "height_mobile": 500,
-            "fallback_asset": "media-kit-11.png",
+            "fallback_asset": "media-kit-walking-ocean.png",
             "image_alt": "Man walking out of the ocean in 2into9 swimwear"
           }
         },
@@ -170,7 +170,7 @@
             "column": "3",
             "height": 620,
             "height_mobile": 450,
-            "fallback_asset": "media-kit-12.png",
+            "fallback_asset": "image-306.png",
             "image_alt": "Man by the pool wearing 2into9 trunks"
           }
         },
@@ -180,7 +180,7 @@
             "column": "3",
             "height": 510,
             "height_mobile": 420,
-            "fallback_asset": "media-kit-13.png",
+            "fallback_asset": "image-309.png",
             "image_alt": "Boy at the beach wearing 2into9 swim shorts"
           }
         }

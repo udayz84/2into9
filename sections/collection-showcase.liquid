@@ -1,0 +1,419 @@
+{%- comment -%}
+  Collection Showcase — static section per Figma.
+  Centered heading + row of collection cards. Each card: image with darkened
+  bottom, title on top, 2x2 feature checklist overlay, pill CTA below.
+
+  Desktop: fixed 370px cards in a centered row (40px gap), 1190px container.
+  Mobile: horizontal scroll-snap carousel.
+{%- endcomment -%}
+
+<section class="collection-showcase color-{{ section.settings.color_scheme }}" id="CollectionShowcase-{{ section.id }}">
+  <div class="collection-showcase__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="collection-showcase__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    <div class="collection-showcase__track">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign card_collection = block.settings.collection
+          assign card_image = block.settings.image | default: card_collection.image
+          assign card_title = block.settings.title | default: card_collection.title | default: 'Collection'
+          assign card_link = block.settings.link | default: card_collection.url | default: '#'
+        -%}
+        <div
+          class="collection-showcase__card"
+          style="--showcase-image: url({{ card_image | image_url: width: 900 }});"
+          {{ block.shopify_attributes }}
+        >
+          <a class="collection-showcase__media" href="{{ card_link }}" aria-label="{{ card_title | escape }}">
+            {%- if card_image != blank -%}
+              {{
+                card_image
+                | image_url: width: 900
+                | image_tag:
+                  class: 'collection-showcase__image',
+                  alt: card_title,
+                  widths: '370, 500, 740, 900',
+                  sizes: '(max-width: 749px) 78vw, 370px',
+                  loading: 'lazy'
+              }}
+            {%- else -%}
+              <div class="collection-showcase__image collection-showcase__image--placeholder">
+                {{- 'collection-1' | placeholder_svg_tag: 'placeholder-svg' -}}
+              </div>
+            {%- endif -%}
+            <div class="collection-showcase__shade" aria-hidden="true"></div>
+
+            <p class="collection-showcase__title">{{ card_title }}</p>
+
+            {%- if block.settings.feature_1 != blank
+              or block.settings.feature_2 != blank
+              or block.settings.feature_3 != blank
+              or block.settings.feature_4 != blank
+            -%}
+              <div class="collection-showcase__features">
+                <div class="collection-showcase__features-col">
+                  {%- if block.settings.feature_1 != blank -%}
+                    <span class="collection-showcase__feature">
+                      {% render 'icon-check' %}
+                      {{ block.settings.feature_1 }}
+                    </span>
+                  {%- endif -%}
+                  {%- if block.settings.feature_2 != blank -%}
+                    <span class="collection-showcase__feature">
+                      {% render 'icon-check' %}
+                      {{ block.settings.feature_2 }}
+                    </span>
+                  {%- endif -%}
+                </div>
+                <div class="collection-showcase__features-col">
+                  {%- if block.settings.feature_3 != blank -%}
+                    <span class="collection-showcase__feature">
+                      {% render 'icon-check' %}
+                      {{ block.settings.feature_3 }}
+                    </span>
+                  {%- endif -%}
+                  {%- if block.settings.feature_4 != blank -%}
+                    <span class="collection-showcase__feature">
+                      {% render 'icon-check' %}
+                      {{ block.settings.feature_4 }}
+                    </span>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
+          </a>
+
+          <a
+            class="collection-showcase__button collection-showcase__button--{{ block.settings.button_style }}"
+            href="{{ card_link }}"
+          >
+            {{ block.settings.button_label | default: 'Shop Now' }}
+          </a>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .collection-showcase {
+    padding-block: var(--showcase-padding-block-start, 64px) var(--showcase-padding-block-end, 64px);
+    background: var(--color-background);
+  }
+
+  .collection-showcase__inner {
+    max-width: 1190px;
+    margin-inline: auto;
+    padding-inline: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 54px;
+  }
+
+  .collection-showcase__heading {
+    margin: 0;
+    font-family: var(--font-primary--family);
+    font-size: clamp(30px, 3.125vw, 60px);
+    font-weight: 300;
+    line-height: 1.2;
+    text-align: center;
+    color: #171717;
+  }
+
+  .collection-showcase__track {
+    display: flex;
+    gap: 40px;
+    width: 100%;
+    justify-content: safe center;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-block: 2px;
+  }
+
+  .collection-showcase__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .collection-showcase__card {
+    flex: 0 0 370px;
+    width: 370px;
+    scroll-snap-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    container-type: inline-size;
+  }
+
+  .collection-showcase__media {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 37 / 47;
+    border-radius: 20px;
+    overflow: hidden;
+    text-decoration: none;
+  }
+
+  .collection-showcase__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .collection-showcase__image--placeholder {
+    background: #d9d9d9;
+  }
+
+  .collection-showcase__shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgb(0 0 0 / 0.22) 0%,
+      rgb(0 0 0 / 0) 28%,
+      rgb(0 0 0 / 0.45) 66%,
+      rgb(0 0 0 / 0.85) 100%
+    );
+    pointer-events: none;
+  }
+
+  .collection-showcase__title {
+    position: absolute;
+    top: 7.57cqw; /* 28px at design width */
+    left: 0;
+    right: 0;
+    margin: 0;
+    font-family: var(--font-primary--family);
+    font-size: clamp(18px, 6.49cqw, 24px);
+    font-weight: 800;
+    line-height: 1.5;
+    text-align: center;
+    color: #ffffff;
+  }
+
+  .collection-showcase__features {
+    position: absolute;
+    left: 11.08cqw; /* 41px */
+    right: 8.5cqw;
+    bottom: 8.65cqw; /* 32px */
+    display: flex;
+    gap: 1.89cqw; /* 7px */
+  }
+
+  .collection-showcase__features-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.89cqw; /* 7px */
+  }
+
+  .collection-showcase__feature {
+    display: inline-flex;
+    align-items: center;
+    gap: 2.28cqw; /* 8.43px */
+    font-family: var(--font-primary--family);
+    font-size: clamp(10px, 3.19cqw, 11.8px);
+    font-weight: 400;
+    line-height: 1.2;
+    color: #ffffff;
+    white-space: nowrap;
+  }
+
+  .collection-showcase__feature svg {
+    width: 3.19cqw; /* 11.8px */
+    min-width: 9px;
+    height: auto;
+    flex-shrink: 0;
+  }
+
+  .collection-showcase__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-block-start: 30px;
+    padding: 15px 65px;
+    border-radius: 50px;
+    font-family: var(--font-primary--family);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform 150ms ease, opacity 150ms ease;
+  }
+
+  .collection-showcase__button:hover {
+    transform: translateY(-1px);
+    opacity: 0.92;
+  }
+
+  .collection-showcase__button--solid {
+    background: #171717;
+    color: #ffffff;
+    border: none;
+  }
+
+  .collection-showcase__button--outline {
+    background: #ffffff;
+    color: #171717;
+    border: 1px solid #171717;
+  }
+
+  @media screen and (max-width: 749px) {
+    .collection-showcase__inner {
+      padding-inline: 12px;
+      gap: 32px;
+    }
+
+    .collection-showcase__track {
+      gap: 16px;
+      scroll-padding-inline: 12px;
+    }
+
+    .collection-showcase__card {
+      flex-basis: min(78vw, 340px);
+      width: min(78vw, 340px);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Collection Showcase",
+  "class": "section-wrapper",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Why 2into9 Underwear?"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Collection card",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection",
+          "info": "Uses the collection's title, image and URL. Override below if needed."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image override"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title override",
+          "info": "Leave empty to use the collection title."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link override",
+          "info": "Leave empty to use the collection URL."
+        },
+        {
+          "type": "header",
+          "content": "Features"
+        },
+        {
+          "type": "text",
+          "id": "feature_1",
+          "label": "Feature 1",
+          "default": "Moisture-wicking"
+        },
+        {
+          "type": "text",
+          "id": "feature_2",
+          "label": "Feature 2",
+          "default": "Organic + Sustainable"
+        },
+        {
+          "type": "text",
+          "id": "feature_3",
+          "label": "Feature 3",
+          "default": "Anti-chafe Panels"
+        },
+        {
+          "type": "text",
+          "id": "feature_4",
+          "label": "Feature 4",
+          "default": "3D Pouch Comfort"
+        },
+        {
+          "type": "header",
+          "content": "Button"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop Now"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button style",
+          "options": [
+            { "value": "solid", "label": "Solid dark" },
+            { "value": "outline", "label": "Outline" }
+          ],
+          "default": "outline"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Showcase",
+      "blocks": [
+        { "type": "card", "settings": { "title": "Mens", "button_style": "solid" } },
+        { "type": "card", "settings": { "title": "Kids" } },
+        { "type": "card", "settings": { "title": "D-Lock" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

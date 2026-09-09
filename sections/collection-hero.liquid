@@ -1,13 +1,15 @@
-{% capture children %}
-  {% content_for 'blocks' %}
-{% endcapture %}
+{%- comment -%}
+  Collection page hero.
+  Full-bleed collection image with left-aligned, vertically centered content:
+  eyebrow text, collection title and a button — per the Figma design.
 
-{% comment %}
-  This section is a specialized wrapper for the Collection page hero.
-  It behaves exactly like the standard 'section' but forces the background image
-  to be the Collection's featured image if available.
-{% endcomment %}
-{% liquid
+  Content is dynamic:
+  - Background: collection.metafields.custom.hero_banner -> collection.image
+  - Eyebrow: collection.metafields.custom.hero_eyebrow -> section setting fallback
+  - Title: collection.title
+{%- endcomment -%}
+
+{%- liquid
   assign hero_banner = blank
 
   if collection.metafields.custom.hero_banner != blank
@@ -16,244 +18,213 @@
     assign hero_banner = collection.image
   endif
 
-  assign mobile_hero_image = section.settings.mobile_image
-  assign mobile_hero_alt = section.settings.mobile_image_alt | default: collection.title
-%}
+  assign eyebrow = collection.metafields.custom.hero_eyebrow | default: section.settings.eyebrow_text
 
-<div class="collection-hero-wrapper">
-  <div class="collection-hero-wrapper__desktop">
-    {% render 'section', section: section, children: children, override_image: hero_banner %}
+  assign button_link = section.settings.button_link
+  if button_link == blank
+    assign button_link = '#ResultsList'
+  endif
+-%}
+
+<div class="collection-hero color-{{ section.settings.color_scheme }}" id="CollectionHero-{{ section.id }}">
+  <div class="collection-hero__media" aria-hidden="true">
+    {%- if hero_banner != blank -%}
+      {{
+        hero_banner
+        | image_url: width: 2400
+        | image_tag:
+          class: 'collection-hero__image',
+          alt: collection.title,
+          loading: 'eager',
+          fetchpriority: 'high',
+          sizes: '100vw'
+      }}
+    {%- endif -%}
   </div>
 
-  {% if mobile_hero_image != blank %}
-    <div class="collection-hero-wrapper__mobile">
+  {%- if section.settings.toggle_overlay -%}
+    {% render 'overlay', settings: section.settings, layer: '1' %}
+  {%- endif -%}
+
+  <div class="collection-hero__content">
+    {%- if eyebrow != blank -%}
+      <p class="collection-hero__eyebrow">{{ eyebrow }}</p>
+    {%- endif -%}
+
+    <h1 class="collection-hero__title">{{ collection.title }}</h1>
+
+    {%- if section.settings.button_label != blank -%}
+      <a class="collection-hero__button" href="{{ button_link }}">{{ section.settings.button_label }}</a>
+    {%- endif -%}
+  </div>
+
+  {%- if section.settings.mobile_image != blank -%}
+    <div class="collection-hero__mobile-media" aria-hidden="true">
       {{
-        mobile_hero_image
+        section.settings.mobile_image
         | image_url: width: 1400
-        | image_tag: class: 'collection-hero-wrapper__mobile-image', alt: mobile_hero_alt, loading: 'lazy', fetchpriority: 'high'
+        | image_tag: class: 'collection-hero__mobile-image', alt: collection.title, loading: 'eager'
       }}
     </div>
-  {% endif %}
+  {%- endif -%}
 </div>
 
-<style>
-  #shopify-section-{{ section.id }} .collection-hero-wrapper {
+{% style %}
+  #shopify-section-{{ section.id }} .collection-hero {
     position: relative;
+    display: flex;
+    align-items: center;
+    min-height: {{ section.settings.desktop_height }}px;
+    overflow: hidden;
+    isolation: isolate;
   }
 
-  #shopify-section-{{ section.id }} .collection-hero-wrapper__desktop {
+  #shopify-section-{{ section.id }} .collection-hero__media,
+  #shopify-section-{{ section.id }} .collection-hero__mobile-media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  #shopify-section-{{ section.id }} .collection-hero__image,
+  #shopify-section-{{ section.id }} .collection-hero__mobile-image {
     display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
 
-  #shopify-section-{{ section.id }} .collection-hero-wrapper__mobile {
+  #shopify-section-{{ section.id }} .collection-hero__content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-inline: clamp(20px, 5.57vw, 107px);
+    padding-block: 40px;
+    color: #ffffff;
+    font-family: var(--font-primary--family);
+    font-weight: 300;
+  }
+
+  #shopify-section-{{ section.id }} .collection-hero__eyebrow {
+    margin: 0 0 6px;
+    font-size: clamp(18px, 1.5625vw, 30px);
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  #shopify-section-{{ section.id }} .collection-hero__title {
+    margin: 0 0 30px;
+    font-size: clamp(34px, 3.125vw, 60px);
+    line-height: 1.2;
+    font-weight: 300;
+    text-wrap: balance;
+  }
+
+  #shopify-section-{{ section.id }} .collection-hero__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.7);
+    color: #423f3f;
+    font-family: var(--font-primary--family);
+    font-size: clamp(15px, 1.5625vw, 30px);
+    line-height: 1.5;
+    font-weight: 300;
+    text-decoration: none;
+    transition: background 150ms ease;
+  }
+
+  #shopify-section-{{ section.id }} .collection-hero__button:hover {
+    background: rgba(255, 255, 255, 0.85);
+  }
+
+  #shopify-section-{{ section.id }} .collection-hero__mobile-media {
     display: none;
   }
 
-  #shopify-section-{{ section.id }} .collection-hero-wrapper__mobile-image {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
   @media screen and (max-width: 749px) {
-    #shopify-section-{{ section.id }} .section {
-      --section-min-height: 56.25vw !important; /* Force 16:9 Landscape Aspect Ratio */
+    #shopify-section-{{ section.id }} .collection-hero {
+      min-height: 420px;
     }
 
-    #shopify-section-{{ section.id }} .background-image-container img,
-    #shopify-section-{{ section.id }} .background-image-container svg {
-      object-fit: contain !important;
-      object-position: center;
+    #shopify-section-{{ section.id }} .collection-hero__content {
+      padding-block: 56px;
     }
 
-    {% if mobile_hero_image != blank %}
-      #shopify-section-{{ section.id }} .collection-hero-wrapper__desktop {
+    #shopify-section-{{ section.id }} .collection-hero__title {
+      margin-bottom: 20px;
+    }
+
+    {% if section.settings.mobile_image != blank %}
+      #shopify-section-{{ section.id }} .collection-hero__media {
         display: none;
       }
 
-      #shopify-section-{{ section.id }} .collection-hero-wrapper__mobile {
+      #shopify-section-{{ section.id }} .collection-hero__mobile-media {
         display: block;
       }
     {% endif %}
   }
-</style>
+{% endstyle %}
 
 {% schema %}
 {
   "name": "Collection Hero",
   "class": "section-wrapper",
-  "blocks": [
+  "enabled_on": {
+    "templates": ["collection"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
     {
       "type": "text",
-      "name": "t:names.text",
-      "settings": [
-        {
-          "type": "richtext",
-          "id": "text",
-          "label": "Text"
-        },
-        {
-           "type": "select",
-           "id": "width",
-           "label": "Width",
-           "default": "fit-content",
-           "options": [
-             { "value": "fit-content", "label": "Fit Content" },
-             { "value": "100%", "label": "Full Width" }
-           ]
-        },
-         {
-          "type": "select",
-          "id": "max_width",
-          "label": "t:settings.max_width",
-          "options": [
-            {
-              "value": "narrow",
-              "label": "t:options.narrow"
-            },
-            {
-              "value": "normal",
-              "label": "t:options.normal"
-            },
-            {
-              "value": "wide",
-              "label": "t:options.wide"
-            }
-          ],
-          "default": "normal"
-        },
-        {
-          "type": "text_alignment",
-          "id": "alignment",
-          "label": "t:settings.alignment",
-          "default": "left"
-        },
-        {
-          "type": "select",
-          "id": "type_preset",
-          "label": "t:settings.preset",
-          "options": [
-            {
-              "value": "h1",
-              "label": "H1"
-            },
-            {
-              "value": "h2",
-              "label": "H2"
-            },
-             {
-              "value": "h3",
-              "label": "H3"
-            },
-            {
-              "value": "rte",
-              "label": "Rich Text"
-            }
-          ],
-          "default": "rte"
-        },
-         {
-           "type": "select",
-           "id": "font",
-           "label": "Font Family",
-           "default": "var(--font-body--family)",
-           "options": [
-             { "value": "var(--font-body--family)", "label": "Body" },
-             { "value": "var(--font-primary--family)", "label": "Primary" }
-           ]
-         }
-      ]
-    }
-  ],
-  "settings": [
+      "id": "eyebrow_text",
+      "label": "Eyebrow text",
+      "default": "The newest",
+      "info": "Fallback text. Override per collection with the metafield custom.hero_eyebrow."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "SHOP NEW"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link",
+      "info": "Defaults to scrolling to the product grid."
+    },
     {
       "type": "header",
       "content": "t:content.layout"
     },
     {
-      "type": "select",
-      "id": "content_direction",
-      "label": "t:settings.direction",
-      "default": "column",
-      "options": [
-        { "value": "column", "label": "Vertical" },
-        { "value": "row", "label": "Horizontal" }
-      ]
-    },
-    {
-      "type": "checkbox",
-      "id": "vertical_on_mobile",
-      "label": "Vertical on mobile",
-      "default": true
-    },
-    {
-       "type": "range",
-       "id": "padding-block-start",
-       "label": "Top Padding",
-       "default": 48,
-       "min": 0,
-       "max": 100
-    },
-    {
-       "type": "range",
-       "id": "padding-block-end",
-       "label": "Bottom Padding",
-       "default": 48,
-       "min": 0,
-       "max": 100
-    },
-    {
-      "type": "select",
-      "id": "section_height",
-      "label": "Height",
-      "default": "",
-      "options": [
-        { "value": "", "label": "Auto" },
-        { "value": "small", "label": "Small" },
-        { "value": "medium", "label": "Medium" },
-        { "value": "large", "label": "Large" },
-        { "value": "custom", "label": "Custom" }
-      ]
-    },
-    {
       "type": "range",
-      "id": "section_height_custom",
-      "label": "Custom Height",
-      "default": 50,
-      "min": 0,
-      "max": 100,
-      "unit": "%"
+      "id": "desktop_height",
+      "label": "Hero height",
+      "min": 400,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "default": 600
     },
     {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color Scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "select",
-      "id": "background_image_position",
-      "label": "Image Position",
-      "default": "cover",
-      "options": [
-        { "value": "cover", "label": "Cover" },
-        { "value": "fit", "label": "Fit" }
-      ]
+      "default": "scheme-5"
     },
     {
       "type": "header",
-      "content": "Mobile Image"
-    },
-    {
-      "type": "image_picker",
-      "id": "mobile_image",
-      "label": "Mobile hero image"
-    },
-    {
-      "type": "text",
-      "id": "mobile_image_alt",
-      "label": "Mobile image alt text",
-      "default": "Collection hero image"
+      "content": "Overlay"
     },
     {
       "type": "checkbox",
@@ -265,7 +236,7 @@
       "type": "color",
       "id": "overlay_color",
       "label": "Overlay Color",
-      "default": "#000000"
+      "default": "#00000040"
     },
     {
       "type": "select",
@@ -276,6 +247,26 @@
         { "value": "solid", "label": "Solid" },
         { "value": "gradient", "label": "Gradient" }
       ]
+    },
+    {
+      "type": "select",
+      "id": "gradient_direction",
+      "label": "Gradient Direction",
+      "default": "to top",
+      "options": [
+        { "value": "to top", "label": "From bottom" },
+        { "value": "to bottom", "label": "From top" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Mobile Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile hero image",
+      "info": "Optional. Replaces the collection image on mobile."
     }
   ]
 }

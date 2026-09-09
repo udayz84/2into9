@@ -240,37 +240,46 @@
   .card-gallery {
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
     container-type: inline-size; /* Make card-gallery a container */
     container-name: card-gallery-container; /* Optional: name the container */
   }
 
+  /* Image-filled color swatches displayed as a row below the product image */
   .product-card__color-swatches {
-    position: absolute;
-    top: 50%;
-    left: 20px;
-    transform: translate(-50%, -50%);
-    list-style: none;
-    padding: 0.5rem;
-    margin: 0;
+    position: static;
+    order: 2;
     display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
-    border: 1px solid rgba(15, 23, 42, 0.08);
+    flex-direction: row;
+    align-items: center;
+    gap: 6.55cqw;
+    list-style: none;
+    padding: 5.9cqw 11cqw 0;
+    margin: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
     pointer-events: none;
-    z-index: 2;
+    z-index: auto;
   }
 
   .product-card__color-swatch span {
     display: block;
-    width: 14px;
-    height: 14px;
+    width: 20.3cqw;
+    height: 20.3cqw;
     border-radius: 999px;
-    border: 1px solid rgba(15, 23, 42, 0.15);
+    border: 0.5px solid rgba(23, 23, 23, 0.15);
     background-size: cover;
     background-position: center;
+  }
+
+  /* Selected swatch (first) gets the white-gap + dark ring treatment */
+  .product-card__color-swatch:first-child span {
+    box-shadow:
+      0 0 0 0.81cqw #ffffff,
+      0 0 0 0.9cqw #171717;
   }
 
   .card-gallery__placeholder svg {

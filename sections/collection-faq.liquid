@@ -1,0 +1,309 @@
+{%- comment -%}
+  Collection FAQ — accordion per Figma.
+  Centered heading + 1000px accordion list: Poppins SemiBold 20px questions,
+  16px answers, 1px dividers, 30px circular chevron toggles.
+  First item open by default (setting). Blocks let merchants manage Q&As.
+{%- endcomment -%}
+
+<section class="collection-faq color-{{ section.settings.color_scheme }}" id="CollectionFaq-{{ section.id }}">
+  <div class="collection-faq__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="collection-faq__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    <div class="collection-faq__list">
+      {%- for block in section.blocks -%}
+        <details
+          class="collection-faq__item"
+          {% if forloop.first and section.settings.first_open %}open{% endif %}
+          {{ block.shopify_attributes }}
+        >
+          <summary class="collection-faq__question">
+            <span class="collection-faq__question-text">{{ block.settings.question }}</span>
+            <span class="collection-faq__toggle" aria-hidden="true">
+              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" focusable="false" aria-hidden="true">
+                <path d="M2.5 4.25L6 7.75l3.5-3.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </summary>
+          {%- if block.settings.answer != blank -%}
+            <div class="collection-faq__answer">{{ block.settings.answer }}</div>
+          {%- endif -%}
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% style %}
+  #CollectionFaq-{{ section.id }} {
+    padding-block: {{ section.settings.padding-block-start }}px {{ section.settings.padding-block-end }}px;
+    background: var(--color-background);
+  }
+
+  .collection-faq__inner {
+    max-width: 1030px;
+    margin-inline: auto;
+    padding-inline: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .collection-faq__heading {
+    margin: 0;
+    font-family: var(--font-primary--family);
+    font-size: clamp(30px, 3.125vw, 60px);
+    font-weight: 300;
+    line-height: 1.2;
+    text-align: center;
+    color: #171717;
+  }
+
+  .collection-faq__list {
+    width: 100%;
+    max-width: 1000px;
+  }
+
+  .collection-faq__item {
+    border-bottom: 1px solid #d9d9d9;
+  }
+
+  .collection-faq__question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-block: 22px;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .collection-faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .collection-faq__question-text {
+    font-family: var(--font-primary--family);
+    font-size: clamp(16px, 2vw, 20px);
+    font-weight: 600;
+    line-height: 1.5;
+    color: #171717;
+  }
+
+  .collection-faq__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #ececec;
+    color: #171717;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+
+  .collection-faq__toggle svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .collection-faq__item[open] .collection-faq__toggle {
+    transform: rotate(180deg);
+    background: #e0e0e0;
+  }
+
+  .collection-faq__answer {
+    padding-block: 0 26px;
+    font-family: var(--font-primary--family);
+    font-size: clamp(14px, 1.6vw, 16px);
+    font-weight: 400;
+    line-height: 1.6;
+    color: #171717;
+    overflow: hidden;
+  }
+
+  .collection-faq__answer p {
+    margin: 0;
+  }
+
+  .collection-faq__answer a {
+    color: currentColor;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  @media screen and (max-width: 749px) {
+    .collection-faq__inner {
+      padding-inline: 12px;
+      gap: 24px;
+    }
+
+    .collection-faq__question {
+      gap: 14px;
+      padding-block: 18px;
+    }
+
+    .collection-faq__toggle {
+      width: 26px;
+      height: 26px;
+    }
+
+    .collection-faq__answer {
+      padding-block: 0 20px;
+    }
+  }
+{% endstyle %}
+
+<script>
+  function initCollectionFaq(sectionId) {
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const duration = () => (prefersReducedMotion.matches ? 0 : 350);
+    const easing = 'cubic-bezier(0.4, 0, 0.2, 1)';
+
+    section.querySelectorAll('.collection-faq__item').forEach((item) => {
+      const summary = item.querySelector('.collection-faq__question');
+      const answer = item.querySelector('.collection-faq__answer');
+      if (!summary || !answer) return;
+
+      summary.addEventListener('click', (event) => {
+        event.preventDefault();
+        answer.getAnimations().forEach((animation) => animation.cancel());
+
+        if (item.open) {
+          const height = answer.offsetHeight;
+          const animation = answer.animate(
+            { height: [height + 'px', '0px'], opacity: [1, 0] },
+            { duration: duration(), easing, fill: 'forwards' }
+          );
+          animation.onfinish = () => {
+            item.open = false;
+            animation.cancel();
+          };
+        } else {
+          item.open = true;
+          const height = answer.offsetHeight;
+          answer.animate(
+            { height: ['0px', height + 'px'], opacity: [0, 1] },
+            { duration: duration(), easing }
+          );
+        }
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => initCollectionFaq('CollectionFaq-{{ section.id }}'));
+  document.addEventListener('shopify:section:load', (event) => {
+    if (event.detail.sectionId === '{{ section.id }}') {
+      initCollectionFaq('CollectionFaq-{{ section.id }}');
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Collection FAQ",
+  "class": "section-wrapper",
+  "enabled_on": {
+    "templates": ["collection"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FAQ's"
+    },
+    {
+      "type": "checkbox",
+      "id": "first_open",
+      "label": "Open first question by default",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 120
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "What's the difference between a Boxer Brief and Trunk?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>The only difference between the two is that Boxer Briefs have 3 cm more leg length than the trunks.</p>"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Collection FAQ",
+      "blocks": [
+        {
+          "type": "faq",
+          "settings": {
+            "question": "What's the difference between a Boxer Brief and Trunk?",
+            "answer": "<p>The only difference between the two is that Boxer Briefs have 3 cm more leg length than the trunks.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "What type of underwear is best for me?",
+            "answer": "<p>The best style depends on your day. Boxer briefs give all-day support, trunks are a shorter, closer fit, and briefs stay light and invisible under clothes.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "What underpants should I choose if I play sport?",
+            "answer": "<p>Go for performance styles with moisture-wicking fabric, anti-chafe panels and a supportive 3D pouch — they keep you dry and comfortable through every workout.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

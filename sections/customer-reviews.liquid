@@ -11,9 +11,10 @@
     section--{{ section.settings.section_width }}
     color-{{ section.settings.color_scheme }}
     section-customer-reviews
+    {% unless section.settings.autoplay %}customer-reviews--manual{% endunless %}
     spacing-style
   "
-  style="{% render 'spacing-style', settings: section.settings %}"
+  style="{% render 'spacing-style', settings: section.settings %} --reviews-duration: {{ section.settings.autoplay_speed | default: 30 }}s;"
 >
   <div class="customer-reviews__container">
 
@@ -32,8 +33,7 @@
       {%- endif -%}
     </div>
 
-    <!-- Reviews Grid -->
-    <div class="customer-reviews__grid">
+    {%- capture review_cards -%}
       {%- for block in section.blocks -%}
         <div class="customer-reviews__card" {{ block.shopify_attributes }}>
 
@@ -67,6 +67,29 @@
 
         </div>
       {%- endfor -%}
+    {%- endcapture -%}
+
+    {%- liquid
+      # Repeat the set so one group always covers the widest viewport (~7 cards x 410px)
+      assign repeat_factor = 1
+      if section.blocks.size > 0
+        assign repeat_factor = 7.0 | divided_by: section.blocks.size | ceil
+      endif
+      if repeat_factor < 1
+        assign repeat_factor = 1
+      endif
+    -%}
+
+    <!-- Reviews Carousel (duplicated groups = seamless infinite loop) -->
+    <div class="customer-reviews__viewport" data-reviews-viewport>
+      <div class="customer-reviews__track" data-reviews-track>
+        <div class="customer-reviews__group">
+          {%- for i in (1..repeat_factor) -%}{{ review_cards }}{%- endfor -%}
+        </div>
+        <div class="customer-reviews__group" aria-hidden="true">
+          {%- for i in (1..repeat_factor) -%}{{ review_cards }}{%- endfor -%}
+        </div>
+      </div>
     </div>
 
   </div>
@@ -90,7 +113,6 @@
     max-width: 75rem;
     margin: 0 auto;
     padding: 5rem 1.25rem;
-    overflow-x: hidden;
   }
 
   @media screen and (min-width: 750px) {
@@ -128,28 +150,62 @@
     letter-spacing: 0.1em;
   }
 
-  /* Reviews Grid */
-  .customer-reviews__grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
-    width: 100%;
+  /* Reviews Carousel — duplicated groups make the loop seamless.
+     Full-bleed: the strip spans the entire page width. */
+  .customer-reviews__viewport {
+    width: 100vw;
+    max-width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    overflow: hidden;
   }
 
-  @media screen and (min-width: 640px) {
-    .customer-reviews__grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
-      overflow-x: visible;
+  .customer-reviews__track {
+    --reviews-gap: 20px;
+    display: flex;
+    gap: var(--reviews-gap);
+    width: max-content;
+    animation: customer-reviews-marquee var(--reviews-duration, 30s) linear infinite;
+  }
+
+  /* Pause only when hovering the strip itself, not empty section space */
+  .customer-reviews__viewport:hover .customer-reviews__track {
+    animation-play-state: paused;
+  }
+
+  .customer-reviews__group {
+    display: flex;
+    gap: var(--reviews-gap);
+  }
+
+  @keyframes customer-reviews-marquee {
+    to {
+      transform: translateX(calc(-50% - (var(--reviews-gap) / 2)));
     }
   }
 
-  @media screen and (min-width: 1024px) {
-    .customer-reviews__grid {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
+  /* Manual mode (setting off): swipe instead of auto-slide */
+  .customer-reviews--manual .customer-reviews__viewport {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .customer-reviews--manual .customer-reviews__track {
+    animation: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .section-customer-reviews .customer-reviews__viewport {
+      overflow-x: auto;
+      scrollbar-width: none;
     }
+
+    .section-customer-reviews .customer-reviews__track {
+      animation: none;
+    }
+  }
+
+  .customer-reviews__viewport::-webkit-scrollbar {
+    display: none;
   }
 
   /* Review Card */
@@ -253,7 +309,73 @@
       padding: 2.5rem 2rem;
     }
   }
+
+  /* Carousel card sizing */
+  .customer-reviews__card {
+    flex: 0 0 390px;
+    width: 390px;
+    box-sizing: border-box;
+  }
+
+  @media screen and (max-width: 749px) {
+    .customer-reviews__viewport {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: 16px;
+    }
+
+    .customer-reviews__track {
+      --reviews-gap: 16px;
+      animation: none;
+    }
+
+    .customer-reviews__card {
+      flex-basis: min(78vw, 340px);
+      width: min(78vw, 340px);
+      scroll-snap-align: center;
+    }
+  }
 {% endstylesheet %}
+
+<script>
+  (function () {
+    function initReviewsLoop(sectionId) {
+      const section = document.getElementById(sectionId);
+      if (!section) return;
+      const viewport = section.querySelector('[data-reviews-viewport]');
+      const track = section.querySelector('[data-reviews-track]');
+      if (!viewport || !track || track.children.length < 2) return;
+
+      const isMobile = window.matchMedia('(max-width: 749px)');
+      let ticking = false;
+
+      viewport.addEventListener(
+        'scroll',
+        () => {
+          if (!isMobile.matches || ticking) return;
+          ticking = true;
+          requestAnimationFrame(() => {
+            const group = track.children[0];
+            const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+            const shift = group.offsetWidth + gap;
+            if (viewport.scrollLeft >= shift) {
+              viewport.scrollLeft -= shift;
+            }
+            ticking = false;
+          });
+        },
+        { passive: true }
+      );
+    }
+
+    document.addEventListener('DOMContentLoaded', () => initReviewsLoop('CustomerReviews-{{ section.id }}'));
+    document.addEventListener('shopify:section:load', (event) => {
+      if (event.detail.sectionId === '{{ section.id }}') {
+        initReviewsLoop('CustomerReviews-{{ section.id }}');
+      }
+    });
+  })();
+</script>
 
 {% schema %}
 {
@@ -310,6 +432,27 @@
       "step": 1,
       "unit": "px",
       "default": 64
+    },
+    {
+      "type": "header",
+      "content": "Carousel"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Auto-slide on desktop",
+      "default": true,
+      "info": "Cards loop infinitely. Pauses on hover. Mobile always swipes manually."
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Loop duration",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "s",
+      "default": 30
     },
     {
       "type": "header",

@@ -248,7 +248,158 @@
       font-size: 24px;
     }
   }
+
+  /* ================= Collection product grid — Figma redesign ================= */
+
+  /* Page gutters: 15px desktop / 12px mobile, near full-bleed like the design */
+  .main-collection-grid {
+    padding-inline: 15px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .main-collection-grid {
+      padding-inline: 12px;
+    }
+  }
+
+  /* Grid: fixed 290px cards (design size), auto-wrapping, centered.
+     6 per row at 1920px like the design; fewer columns on smaller screens. */
+  @media screen and (min-width: 750px) {
+    .main-collection-grid .product-grid.product-grid--grid {
+      --product-grid-columns-desktop: repeat(auto-fill, 290px);
+      justify-content: center;
+    }
+  }
+
+  /* Card is size-referenced by its children (cqw units) */
+  .main-collection-grid .product-grid__item {
+    container-type: inline-size;
+    min-width: 0;
+  }
+
+  .main-collection-grid .product-grid__card {
+    gap: 0;
+    background-color: #f0f0f0;
+    border: 0.5px solid #dcdcdc;
+    border-radius: 20px;
+    padding-block: 0 14.14cqw; /* 41px at design width */
+    padding-inline: 0;
+    overflow: hidden;
+    min-width: 0;
+  }
+
+  /* Product image: landscape crop with the card's rounded top */
+  .main-collection-grid .card-gallery {
+    border-radius: 20px 20px 0 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .main-collection-grid .card-gallery {
+      margin-inline: 0;
+    }
+  }
+
+  .main-collection-grid .card-gallery .product-media-container {
+    aspect-ratio: 29 / 23;
+  }
+
+  .main-collection-grid .card-gallery .product-media-container :is(img, svg) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Vendor + title */
+  .main-collection-grid .product-vendor-text {
+    margin-block-start: 10.54cqw; /* 30.5px below swatch at design width */
+    font-size: clamp(11px, 6.9cqw, 20px);
+    font-weight: 700;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  .main-collection-grid .product-title {
+    width: 100%;
+  }
+
+  .main-collection-grid .product-title-text {
+    font-size: clamp(11px, 6.9cqw, 20px);
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
+  /* Buttons scale with the card and stay inside it */
+  .main-collection-grid .buy-buttons-block {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    margin-block-start: auto; /* pin buttons to the card bottom */
+    padding-block-start: 6.55cqw;
+  }
 {% endstylesheet %}
+
+{% style %}
+  /* ID-scoped so these always win over the generic card button styles.
+     Insets live on the wrapper; buttons fill it — no margin/width conflicts. */
+  #shopify-section-{{ section.id }} .buy-buttons-block {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    min-width: 0;
+    margin-block-start: auto; /* pin buttons to the card bottom */
+    padding-block: 6.55cqw 0; /* 19px gap from title */
+    padding-inline: 11.72cqw; /* 34px */
+    gap: 3.79cqw; /* 11px between buttons */
+  }
+
+  #shopify-section-{{ section.id }} .buy-buttons-block add-to-cart-component,
+  #shopify-section-{{ section.id }} .buy-buttons-block product-form-component,
+  #shopify-section-{{ section.id }} .buy-buttons-block .product-form-buttons,
+  #shopify-section-{{ section.id }} .buy-buttons-block .product-form-buttons > * {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+  }
+
+  #shopify-section-{{ section.id }} .buy-buttons-block .shopify-product-form {
+    display: block;
+  }
+
+  #shopify-section-{{ section.id }} .buy-buttons-block .product-card__quick-add {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    margin: 0 0 3.79cqw !important; /* 11px gap to Add To Cart */
+    min-height: clamp(32px, 14.83cqw, 43px);
+    padding: 11px 20px !important;
+    font-size: clamp(10px, 4.83cqw, 14px);
+  }
+
+  #shopify-section-{{ section.id }} .buy-buttons-block .add-to-cart-button {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    margin: 0 !important;
+    min-height: clamp(32px, 14.83cqw, 43px);
+    padding: 11px 20px !important;
+    font-size: clamp(10px, 4.83cqw, 14px);
+  }
+{% endstyle %}
 
 {% schema %}
 {

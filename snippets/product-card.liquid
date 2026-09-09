@@ -52,6 +52,14 @@
   if product.id == empty or product == blank
     assign onboarding = true
   endif
+
+  # Floating flag badge: metafield override, then "limited" tags
+  assign card_badge = product.metafields.custom.badge_label
+  if card_badge == blank and product != blank
+    if product.tags contains 'limited edition' or product.tags contains 'limited'
+      assign card_badge = 'Limited Editions'
+    endif
+  endif
 %}
 
 {%- if settings.transition_to_main_product -%}
@@ -86,6 +94,9 @@
       {{ product.title }}
     </span>
   </a>
+  {% if card_badge != blank %}
+    <p class="product-card__flag-badge" aria-hidden="true">{{ card_badge }}</p>
+  {% endif %}
   <div
     class="
       product-card__content
@@ -123,6 +134,30 @@
   product-card-link,
   :not(product-card-link) product-card {
     width: 100%;
+    position: relative;
+    display: block;
+  }
+
+  /* Floating pill badge overlapping the top edge of the card */
+  .product-card__flag-badge {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    margin: 0;
+    padding: 10px 25px;
+    background: #ffffff;
+    border: 1px solid rgba(23, 23, 23, 0.25);
+    border-radius: 50px;
+    color: #171717;
+    font-family: var(--font-primary--family);
+    font-size: clamp(10px, 4.83cqw, 14px);
+    font-weight: 600;
+    line-height: 1.5;
+    text-transform: uppercase;
+    text-align: center;
+    white-space: nowrap;
   }
 
   .product-card__placeholder-image svg {

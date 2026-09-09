@@ -245,6 +245,19 @@
             </span>
           {%- endunless -%}
 
+          {%- if block_settings.show_quick_add_button and template.name != 'product' -%}
+            <button
+              type="submit"
+              name="add"
+              class="product-card__quick-add"
+              {% unless can_add_to_cart %}
+                disabled
+              {% endunless %}
+            >
+              {{ block_settings.quick_add_label | default: 'Quick Add +' }}
+            </button>
+          {%- endif -%}
+
           {% content_for 'block',
             type: 'add-to-cart',
             id: 'add-to-cart',
@@ -486,35 +499,72 @@
   }
 
   {% unless template.name == 'product' %}
-    .buy-buttons-block .add-to-cart-button {
-      --button-color: var(--color-primary-button-text);
-      --button-background-color: var(--color-primary-button-background);
-      --button-border-color: var(--color-primary-button-border);
-      --button-border-width: var(--style-border-width-primary);
-      --button-padding-block: 7px;
-      width: fit-content;
-      padding-inline: clamp(0.5rem, 4vw, 1rem);
-      border-radius: 10px;
+    /* Product card buttons — stacked full-width pills (Quick Add / Add To Cart) */
+    .buy-buttons-block .product-card__quick-add {
+      display: flex;
+      align-items: center;
       justify-content: center;
+      width: 100%;
+      min-height: 43px;
+      padding: 11px 20px;
+      margin-block: 0 11px;
+      background: #ffffff;
+      color: #171717;
+      border: 0.5px solid #171717;
+      border-radius: 50px;
+      font-family: var(--font-primary--family);
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.5;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-inline: auto;
+      cursor: pointer;
+    }
+
+    .buy-buttons-block .product-card__quick-add:hover:not([disabled]) {
+      background: #f7f7f7;
+    }
+
+    .buy-buttons-block add-to-cart-component {
+      display: block;
+      flex: 1 1 100%;
+      width: 100%;
+    }
+
+    .buy-buttons-block .add-to-cart-button {
+      --button-color: #ffffff;
+      --button-background-color: #171717;
+      --button-border-color: #171717;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 43px;
+      padding: 11px 20px;
+      border: none;
+      border-radius: 50px;
+      font-family: var(--font-primary--family);
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.5;
+      text-transform: uppercase;
       min-height: 0;
-      padding: 7px 16px !important;
-      height: 40px;
     }
 
     .buy-buttons-block .add-to-cart-button:hover:not([disabled]) {
-      --button-color: var(--color-primary-button-hover-text);
-      --button-background-color: var(--color-primary-button-hover-background);
-      --button-border-color: var(--color-primary-button-hover-border);
+      --button-color: #ffffff;
+      --button-background-color: #333333;
+      --button-border-color: #333333;
+    }
+
+    .buy-buttons-block .add-to-cart-button .add-to-cart-icon {
+      display: none;
     }
 
     @media (max-width: 749px) {
+      .buy-buttons-block .product-card__quick-add,
       .buy-buttons-block .add-to-cart-button {
-        padding-inline: 1.5rem;
-        font-size: 0.85rem;
-        min-height: 44px;
+        min-height: 38px;
+        font-size: 12px;
       }
     }
   {% endunless %}
@@ -749,6 +799,19 @@
       "id": "stacking",
       "label": "t:settings.always_stack_buttons",
       "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_add_button",
+      "label": "Show quick add button",
+      "default": false,
+      "info": "Shows a secondary \"Quick Add\" pill button above Add To Cart on product cards."
+    },
+    {
+      "type": "text",
+      "id": "quick_add_label",
+      "label": "Quick add label",
+      "default": "Quick Add +"
     },
     {
       "type": "checkbox",

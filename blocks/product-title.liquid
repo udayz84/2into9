@@ -7,6 +7,9 @@
   {% assign product_title = product_title_wrapper_open | append: text | append: '</p>' %}
   {% render 'text', class: 'product-title', fallback_text: product_title, block: block %}
 {% else %}
+  {% if block.settings.show_vendor and closest.product.vendor != blank %}
+    <p class="product-vendor-text">{{ closest.product.vendor }}</p>
+  {% endif %}
   {% assign product_title = product_title_wrapper_open | append: closest.product.title | append: '</p>' %}
   <a
     class="contents user-select-text"
@@ -20,6 +23,15 @@
 {% stylesheet %}
   .product-title-text {
     font-weight: 700;
+  }
+
+  .product-vendor-text {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.5;
+    text-align: center;
+    color: #171717;
   }
 {% endstylesheet %}
 
@@ -35,6 +47,12 @@
     {
       "type": "header",
       "content": "t:content.layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": false
     },
     {
       "type": "select",

@@ -34,83 +34,43 @@
 
   {%- if section.blocks.size > 0 -%}
     <div class="mk-reviews__viewport" data-mk-carousel-viewport>
-      <div class="mk-reviews__track" data-mk-carousel-track style="--mk-reviews-duration: {{ section.settings.autoplay_speed }}s;">
-        <div class="mk-reviews__half">
-          {%- for block in section.blocks -%}
-            <article class="mk-reviews__card" data-slide {{ block.shopify_attributes }}>
-              <div class="mk-reviews__stars">
-                {%- for i in (1..5) -%}
-                  {%- assign overlay_fraction = i | minus: block.settings.rating -%}
-                  {%- if overlay_fraction <= 0 -%}
-                    {%- assign overlay_value = 0 -%}
-                  {%- elsif overlay_fraction >= 1 -%}
-                    {%- assign overlay_value = 1 -%}
-                  {%- else -%}
-                    {%- assign overlay_value = overlay_fraction | round: 2 -%}
+      <div class="mk-reviews__track" data-mk-carousel-track>
+        {%- for block in section.blocks -%}
+          <article class="mk-reviews__card" data-slide {{ block.shopify_attributes }}>
+            <div class="mk-reviews__stars">
+              {%- for i in (1..5) -%}
+                {%- assign overlay_fraction = i | minus: block.settings.rating -%}
+                {%- if overlay_fraction <= 0 -%}
+                  {%- assign overlay_value = 0 -%}
+                {%- elsif overlay_fraction >= 1 -%}
+                  {%- assign overlay_value = 1 -%}
+                {%- else -%}
+                  {%- assign overlay_value = overlay_fraction | round: 2 -%}
+                {%- endif -%}
+                <span class="mk-reviews__star" style="--overlay: {{ overlay_value }}">
+                  {%- render 'media-kit-star' -%}
+                  {%- if overlay_value > 0 -%}
+                    <span class="mk-reviews__star-overlay">
+                      {%- render 'media-kit-star' -%}
+                    </span>
                   {%- endif -%}
-                  <span class="mk-reviews__star" style="--overlay: {{ overlay_value }}">
-                    {%- render 'media-kit-star' -%}
-                    {%- if overlay_value > 0 -%}
-                      <span class="mk-reviews__star-overlay">
-                        {%- render 'media-kit-star' -%}
-                      </span>
-                    {%- endif -%}
-                  </span>
-                {%- endfor -%}
-              </div>
+                </span>
+              {%- endfor -%}
+            </div>
 
-              {%- if block.settings.reviewer_name != blank -%}
-                <h3 class="mk-reviews__name">{{ block.settings.reviewer_name }}</h3>
-              {%- endif -%}
+            {%- if block.settings.reviewer_name != blank -%}
+              <h3 class="mk-reviews__name">{{ block.settings.reviewer_name }}</h3>
+            {%- endif -%}
 
-              {%- if block.settings.reviewer_role != blank -%}
-                <p class="mk-reviews__role">{{ block.settings.reviewer_role }}</p>
-              {%- endif -%}
+            {%- if block.settings.reviewer_role != blank -%}
+              <p class="mk-reviews__role">{{ block.settings.reviewer_role }}</p>
+            {%- endif -%}
 
-              {%- if block.settings.review_text != blank -%}
-                <p class="mk-reviews__text">{{ block.settings.review_text }}</p>
-              {%- endif -%}
-            </article>
-          {%- endfor -%}
-        </div>
-        <div class="mk-reviews__half" aria-hidden="true">
-          {%- for block in section.blocks -%}
-            <article class="mk-reviews__card">
-              <div class="mk-reviews__stars">
-                {%- for i in (1..5) -%}
-                  {%- assign overlay_fraction = i | minus: block.settings.rating -%}
-                  {%- if overlay_fraction <= 0 -%}
-                    {%- assign overlay_value = 0 -%}
-                  {%- elsif overlay_fraction >= 1 -%}
-                    {%- assign overlay_value = 1 -%}
-                  {%- else -%}
-                    {%- assign overlay_value = overlay_fraction | round: 2 -%}
-                  {%- endif -%}
-                  <span class="mk-reviews__star" style="--overlay: {{ overlay_value }}">
-                    {%- render 'media-kit-star' -%}
-                    {%- if overlay_value > 0 -%}
-                      <span class="mk-reviews__star-overlay">
-                        {%- render 'media-kit-star' -%}
-                      </span>
-                    {%- endif -%}
-                  </span>
-                {%- endfor -%}
-              </div>
-
-              {%- if block.settings.reviewer_name != blank -%}
-                <h3 class="mk-reviews__name">{{ block.settings.reviewer_name }}</h3>
-              {%- endif -%}
-
-              {%- if block.settings.reviewer_role != blank -%}
-                <p class="mk-reviews__role">{{ block.settings.reviewer_role }}</p>
-              {%- endif -%}
-
-              {%- if block.settings.review_text != blank -%}
-                <p class="mk-reviews__text">{{ block.settings.review_text }}</p>
-              {%- endif -%}
-            </article>
-          {%- endfor -%}
-        </div>
+            {%- if block.settings.review_text != blank -%}
+              <p class="mk-reviews__text">{{ block.settings.review_text }}</p>
+            {%- endif -%}
+          </article>
+        {%- endfor -%}
       </div>
     </div>
   {%- endif -%}
@@ -118,18 +78,198 @@
 
 <script>
   (function () {
-    var viewport = document.querySelector('[data-mk-carousel-viewport]');
-    if (!viewport) return;
-    viewport.addEventListener('scroll', function () {
-      if (window.matchMedia('(min-width: 750px)').matches) return;
-      var half = viewport.scrollWidth / 2;
-      if (half <= 0) return;
-      if (viewport.scrollLeft >= half) {
-        viewport.scrollLeft -= half;
-      } else if (viewport.scrollLeft < 0) {
-        viewport.scrollLeft += half;
+    var root = document.getElementById('MediaKitReviews-{{ section.id }}');
+    if (!root) return;
+    var viewport = root.querySelector('[data-mk-carousel-viewport]');
+    var track = root.querySelector('[data-mk-carousel-track]');
+    if (!viewport || !track) return;
+
+    var originals = Array.prototype.slice.call(track.children);
+    var count = originals.length;
+    if (count === 0) return;
+
+    var AUTOPLAY = {{ section.settings.autoplay_desktop }};
+    var AUTOPLAY_MS = {{ section.settings.autoplay_speed | times: 1000 }};
+    var PAUSE_ON_HOVER = {{ section.settings.pause_on_hover }};
+    var desktop = window.matchMedia('(min-width: 750px)');
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    var index = 0;
+    var slideW = 0;
+    var offsetBase = 0;
+    var timer = null;
+    var dragging = false;
+    var dragStartX = 0;
+    var dragDelta = 0;
+
+    function gapSize() {
+      var g = getComputedStyle(track).columnGap || getComputedStyle(track).gap || '0';
+      return parseFloat(g) || 0;
+    }
+
+    function measure() {
+      var first = track.children[0];
+      slideW = first.getBoundingClientRect().width + gapSize();
+    }
+
+    function buildClones() {
+      track.querySelectorAll('[data-clone]').forEach(function (clone) {
+        clone.remove();
+      });
+      var perRound = count * slideW;
+      if (perRound <= 0) return;
+      var rounds = Math.max(1, Math.ceil((viewport.getBoundingClientRect().width * 2) / perRound));
+      var head = [];
+      var tail = [];
+      for (var r = 0; r < rounds; r++) {
+        originals.forEach(function (slide) {
+          var a = slide.cloneNode(true);
+          a.setAttribute('aria-hidden', 'true');
+          a.setAttribute('data-clone', 'true');
+          head.push(a);
+          var b = slide.cloneNode(true);
+          b.setAttribute('aria-hidden', 'true');
+          b.setAttribute('data-clone', 'true');
+          tail.push(b);
+        });
+      }
+      head.forEach(function (clone) {
+        track.insertBefore(clone, track.firstChild);
+      });
+      tail.forEach(function (clone) {
+        track.appendChild(clone);
+      });
+      offsetBase = head.length * slideW;
+    }
+
+    function setX(x, animate) {
+      track.style.transition = animate && !reduceMotion.matches
+        ? 'transform 0.55s cubic-bezier(0.33, 1, 0.68, 1)'
+        : 'none';
+      track.style.transform = 'translate3d(' + -x + 'px, 0, 0)';
+    }
+
+    function xFor(i) {
+      return offsetBase + i * slideW;
+    }
+
+    function goTo(i, animate) {
+      index = i;
+      setX(xFor(index), animate);
+    }
+
+    function normalize() {
+      if (index < 0 || index >= count) {
+        index = ((index % count) + count) % count;
+        setX(xFor(index), false);
+        void track.offsetWidth;
+      }
+    }
+
+    function startAutoplay() {
+      stopAutoplay();
+      if (!AUTOPLAY || !desktop.matches || reduceMotion.matches || count < 2) return;
+      timer = setInterval(function () {
+        goTo(index + 1, true);
+      }, AUTOPLAY_MS);
+    }
+
+    function stopAutoplay() {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    track.addEventListener('transitionend', function (event) {
+      if (event.target === track) normalize();
+    });
+
+    if (PAUSE_ON_HOVER) {
+      root.addEventListener('mouseenter', stopAutoplay);
+      root.addEventListener('mouseleave', startAutoplay);
+    }
+
+    viewport.addEventListener('pointerdown', function (event) {
+      if (event.pointerType === 'mouse' && event.button !== 0) return;
+      dragging = true;
+      dragStartX = event.clientX;
+      dragDelta = 0;
+      stopAutoplay();
+      viewport.classList.add('is-dragging');
+      setX(xFor(index), false);
+      try {
+        viewport.setPointerCapture(event.pointerId);
+      } catch (error) {}
+    });
+
+    viewport.addEventListener('pointermove', function (event) {
+      if (!dragging) return;
+      dragDelta = event.clientX - dragStartX;
+      setX(xFor(index) + dragDelta, false);
+    });
+
+    function endDrag() {
+      if (!dragging) return;
+      dragging = false;
+      viewport.classList.remove('is-dragging');
+      var steps = Math.round(dragDelta / slideW);
+      goTo(index - steps, true);
+      if (Math.abs(dragDelta) < 4) normalize();
+      startAutoplay();
+    }
+
+    viewport.addEventListener('pointerup', endDrag);
+    viewport.addEventListener('pointercancel', endDrag);
+    viewport.addEventListener('dragstart', function (event) {
+      event.preventDefault();
+    });
+    viewport.addEventListener('click', function (event) {
+      if (Math.abs(dragDelta) > 8) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    }, true);
+
+    var resizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        measure();
+        buildClones();
+        setX(xFor(index), false);
+      }, 150);
+    });
+
+    document.addEventListener('shopify:block:select', function (event) {
+      if (!root.contains(event.target)) return;
+      var slide = event.target.closest('[data-slide]');
+      var i = originals.indexOf(slide);
+      if (i > -1) {
+        stopAutoplay();
+        goTo(i, true);
       }
     });
+
+    document.addEventListener('shopify:section:deselect', function () {
+      startAutoplay();
+    });
+
+    document.addEventListener('shopify:section:unload', function (event) {
+      if (event.target.contains(root)) stopAutoplay();
+    });
+
+    if (desktop.addEventListener) {
+      desktop.addEventListener('change', function () {
+        if (desktop.matches) startAutoplay();
+        else stopAutoplay();
+      });
+    }
+
+    measure();
+    buildClones();
+    goTo(0, false);
+    startAutoplay();
   })();
 </script>
 
@@ -242,11 +382,8 @@
     margin-top: var(--mk-reviews-header-gap);
     width: 100%;
     overflow: hidden;
-    scrollbar-width: none;
-  }
-
-  #MediaKitReviews-{{ section.id }} .mk-reviews__viewport::-webkit-scrollbar {
-    display: none;
+    cursor: grab;
+    touch-action: pan-y;
   }
 
   #MediaKitReviews-{{ section.id }} .mk-reviews__viewport.is-dragging {
@@ -259,33 +396,8 @@
 
   #MediaKitReviews-{{ section.id }} .mk-reviews__track {
     display: flex;
-    width: max-content;
-    animation: mk-reviews-scroll var(--mk-reviews-duration, 4s) linear infinite;
-    will-change: transform;
-  }
-
-  #MediaKitReviews-{{ section.id }} .mk-reviews__half {
-    display: flex;
     gap: var(--mk-reviews-card-gap);
-    padding-right: var(--mk-reviews-card-gap);
-  }
-
-  @media (hover: hover) {
-    #MediaKitReviews-{{ section.id }} .mk-reviews__viewport:hover .mk-reviews__track {
-      animation-play-state: paused;
-    }
-  }
-
-  @keyframes mk-reviews-scroll {
-    to {
-      transform: translateX(-50%);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    #MediaKitReviews-{{ section.id }} .mk-reviews__track {
-      animation: none;
-    }
+    will-change: transform;
   }
 
   #MediaKitReviews-{{ section.id }} .mk-reviews__card {
@@ -400,17 +512,6 @@
 
     #MediaKitReviews-{{ section.id }} .mk-reviews__viewport {
       padding-inline: var(--mk-reviews-mobile-viewport-padding);
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      overscroll-behavior-x: contain;
-    }
-
-    #MediaKitReviews-{{ section.id }} .mk-reviews__track {
-      animation: none;
-    }
-
-    #MediaKitReviews-{{ section.id }} .mk-reviews__card {
-      scroll-snap-align: start;
     }
 
     #MediaKitReviews-{{ section.id }} .mk-reviews__track {

@@ -196,13 +196,7 @@
             --peek-next-slide-size: 0px;
           "
         >
-          {% render 'resource-list-carousel',
-            ref: 'bestSellersCarouselMobile-' | append: section.id,
-            slides: slides_array,
-            slide_count: slides_array.size,
-            settings: section.settings,
-            slide_width_max: section.settings.card_max_width
-          %}
+          {% render 'resource-list-carousel', ref: 'bestSellersCarouselMobile-', append: section.id, slides: slides_array, slide_count: slides_array.size, settings: section.settings, slide_width_max: section.settings.card_max_width %}
         </div>
       {% else %}
         <div
@@ -219,13 +213,7 @@
             --peek-next-slide-size: 0px;
           "
         >
-          {% render 'resource-list-carousel',
-            ref: 'bestSellersCarousel-' | append: section.id,
-            slides: slides_array,
-            slide_count: slides_array.size,
-            settings: section.settings,
-            slide_width_max: section.settings.card_max_width
-          %}
+          {% render 'resource-list-carousel', ref: 'bestSellersCarousel-', append: section.id, slides: slides_array, slide_count: slides_array.size, settings: section.settings, slide_width_max: section.settings.card_max_width %}
         </div>
       {% endif %}
     </div>
@@ -739,3 +727,34 @@
   ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: |-
+    {% render 'resource-list-carousel',
+                ref: 'bestSellersCarouselMobile-' | append: section.id,
+                slides: slides_array,
+                slide_count: slides_array.size,
+                settings: section.settings,
+                slide_width_max: section.settings.card_max_width
+              %}
+  to: "{% render 'resource-list-carousel', ref: 'bestSellersCarouselMobile-', append:
+    section.id, slides: slides_array, slide_count: slides_array.size, settings: section.settings,
+    slide_width_max: section.settings.card_max_width %}"
+  position: 7683..7907
+- from: |-
+    {% render 'resource-list-carousel',
+                ref: 'bestSellersCarousel-' | append: section.id,
+                slides: slides_array,
+                slide_count: slides_array.size,
+                settings: section.settings,
+                slide_width_max: section.settings.card_max_width
+              %}
+  to: "{% render 'resource-list-carousel', ref: 'bestSellersCarousel-', append: section.id,
+    slides: slides_array, slide_count: slides_array.size, settings: section.settings,
+    slide_width_max: section.settings.card_max_width %}"
+  position: 8444..8662
+{% endcomment %}

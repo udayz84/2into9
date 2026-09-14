@@ -175,19 +175,19 @@
     object-fit: contain;
   }
 
-  /* Layer 4: Giant Background Text - ABOVE vector */
   .custom-hero__layer--bg-text {
-    z-index: 3;
+    z-index: 100;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    overflow: hidden;
+    overflow-x: clip;
+    overflow-y: visible;
     width: 100%;
-    top: -2vh;
+    top: 0;
   }
 
   .custom-hero__bg-text {
-    font-size: clamp(100px, 16vw, 308px);
+    font-size: clamp(100px, 15.5vw, 320px);
     font-weight: 900;
     color: rgba(255, 255, 255, 0.08);
     line-height: 0.85;
@@ -197,6 +197,7 @@
     user-select: none;
     width: 100%;
     text-align: center;
+    transform: translateY(-50%);
   }
 
   /* Layer 5: Main Content */

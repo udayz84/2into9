@@ -341,9 +341,9 @@
 
   .pcb__grid {
     display: grid;
-    grid-template-columns: 766px minmax(0, 860px);
-    column-gap: 74px;
-    justify-content: center;
+    grid-template-columns: 550px 1fr;
+    column-gap: 60px;
+    justify-content: flex-start;
     align-items: start;
     max-width: 1700px;
     margin-inline: auto;
@@ -351,9 +351,9 @@
 
   .pcb__label {
     display: block;
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 600;
-    line-height: 36px;
+    line-height: 28px;
     color: var(--pcb-ink);
   }
 
@@ -363,15 +363,18 @@
 
   /* Thumbs */
   .pcb__thumbs-col {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 12px;
+    margin-block-start: 0;
     padding-block-start: 0;
   }
 
   .pcb-thumb {
     position: relative;
-    width: 182px;
-    height: 173px;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 182 / 173;
     border-radius: 10px;
     border: 1px solid var(--pcb-border);
     background: #fff;
@@ -592,6 +595,11 @@
   /* Progress */
   .pcb-progress {
     margin-block-start: 40px;
+  }
+
+  product-colour-builder[data-mode="single"] .pcb-progress,
+  product-colour-builder[data-mode="single"] .pcb-tile__stepper {
+    display: none;
   }
 
   .pcb-progress__header {

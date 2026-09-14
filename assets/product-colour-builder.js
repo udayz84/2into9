@@ -1,3 +1,4 @@
+// @ts-nocheck
 class ProductColourBuilder extends HTMLElement {
   constructor() {
     super();
@@ -24,8 +25,15 @@ class ProductColourBuilder extends HTMLElement {
     document.addEventListener('pdp:hero-update', (event) => {
       this.state.quantity = event.detail.quantity || this.state.quantity;
       this.state.variantId = event.detail.variantId || this.state.variantId;
+      if (this.mode === 'single') {
+        const activeTile = this.tiles.find((tile) => this.quantities.get(tile) > 0) || this.tiles[0];
+        if (activeTile) this.selectSingle(activeTile);
+      } else if (this.selectedSum() > this.target()) {
+        this.tiles.forEach(t => this.quantities.set(t, 0)); // Reset if over new target
+      }
       this.render();
     });
+    this.dataset.mode = this.mode;
     this.render();
   }
 
@@ -62,6 +70,7 @@ class ProductColourBuilder extends HTMLElement {
       option.classList.toggle('is-active', isActive);
       option.setAttribute('aria-selected', String(isActive));
     });
+    this.dataset.mode = mode;
     if (mode === 'single') {
       const topTile = this.tiles.reduce(
         (best, tile) => (this.quantities.get(tile) > this.quantities.get(best) ? tile : best),
@@ -119,12 +128,20 @@ class ProductColourBuilder extends HTMLElement {
   }
 
   stepTile(tile, delta) {
-    const value = Math.max(0, (this.quantities.get(tile) || 0) + delta);
-    if (this.mode === 'single' && value > 0) {
-      this.selectSingle(tile);
+    const currentQty = this.quantities.get(tile) || 0;
+    const nextValue = Math.max(0, currentQty + delta);
+    
+    if (this.mode === 'single') {
+      if (nextValue > 0) this.selectSingle(tile);
       return;
     }
-    this.quantities.set(tile, value);
+    
+    // Mixed mode logic
+    if (delta > 0 && this.selectedSum() >= this.target()) {
+      return; // Cannot exceed target
+    }
+    
+    this.quantities.set(tile, nextValue);
     this.render();
   }
 

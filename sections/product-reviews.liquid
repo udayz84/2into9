@@ -14,27 +14,51 @@
   </div>
 
   <div class="pr__scroller">
-    <div class="pr__cards">
-      {%- for block in section.blocks -%}
-        <article class="pr-card" {{ block.shopify_attributes }}>
-          <div class="pr-card__stars" role="img" aria-label="Rated {{ block.settings.rating }} out of 5">
-            {%- for i in (1..5) -%}
-              <span class="pr-card__star{% if i <= block.settings.rating %} is-filled{% endif %}">
-                {%- render 'icon-star-gold' -%}
-              </span>
-            {%- endfor -%}
-          </div>
-          {%- if block.settings.name != blank -%}
-            <p class="pr-card__name">{{ block.settings.name }}</p>
-          {%- endif -%}
-          {%- if block.settings.role != blank -%}
-            <p class="pr-card__role">{{ block.settings.role }}</p>
-          {%- endif -%}
-          {%- if block.settings.text != blank -%}
-            <p class="pr-card__text">{{ block.settings.text }}</p>
-          {%- endif -%}
-        </article>
-      {%- endfor -%}
+    <div class="pr__marquee">
+      <div class="pr__cards">
+        {%- for block in section.blocks -%}
+          <article class="pr-card" {{ block.shopify_attributes }}>
+            <div class="pr-card__stars" role="img" aria-label="Rated {{ block.settings.rating }} out of 5">
+              {%- for i in (1..5) -%}
+                <span class="pr-card__star{% if i <= block.settings.rating %} is-filled{% endif %}">
+                  {%- render 'icon-star-gold' -%}
+                </span>
+              {%- endfor -%}
+            </div>
+            {%- if block.settings.name != blank -%}
+              <p class="pr-card__name">{{ block.settings.name }}</p>
+            {%- endif -%}
+            {%- if block.settings.role != blank -%}
+              <p class="pr-card__role">{{ block.settings.role }}</p>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <p class="pr-card__text">{{ block.settings.text }}</p>
+            {%- endif -%}
+          </article>
+        {%- endfor -%}
+      </div>
+      <div class="pr__cards" aria-hidden="true">
+        {%- for block in section.blocks -%}
+          <article class="pr-card" {{ block.shopify_attributes }}>
+            <div class="pr-card__stars" role="img" aria-label="Rated {{ block.settings.rating }} out of 5">
+              {%- for i in (1..5) -%}
+                <span class="pr-card__star{% if i <= block.settings.rating %} is-filled{% endif %}">
+                  {%- render 'icon-star-gold' -%}
+                </span>
+              {%- endfor -%}
+            </div>
+            {%- if block.settings.name != blank -%}
+              <p class="pr-card__name">{{ block.settings.name }}</p>
+            {%- endif -%}
+            {%- if block.settings.role != blank -%}
+              <p class="pr-card__role">{{ block.settings.role }}</p>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <p class="pr-card__text">{{ block.settings.text }}</p>
+            {%- endif -%}
+          </article>
+        {%- endfor -%}
+      </div>
     </div>
   </div>
 </div>
@@ -234,21 +258,30 @@
   }
 
   .pr__scroller {
-    overflow-x: auto;
-    scrollbar-width: none;
-    scroll-snap-type: x proximity;
+    overflow: hidden;
     margin-inline: calc(var(--pr-padding-inline, 110px) * -1);
-    padding-inline: var(--pr-padding-inline, 110px);
   }
 
-  .pr__scroller::-webkit-scrollbar {
-    display: none;
+  .pr__marquee {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    animation: pr-marquee 35s linear infinite;
+  }
+
+  .pr__marquee:hover {
+    animation-play-state: paused;
   }
 
   .pr__cards {
     display: flex;
     gap: 20px;
     width: max-content;
+  }
+
+  @keyframes pr-marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-50% - 10px)); }
   }
 
   .pr-card {

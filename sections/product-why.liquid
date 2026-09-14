@@ -41,7 +41,7 @@
               <span>{{ section.settings.chip_1 }}</span>
             </div>
             <div class="pw-card__chip">
-              <span class="pw-card__chip-icon">{%- render 'icon-leaf-small' -%}</span>
+              <span class="pw-card__chip-icon">{%- render 'icon-check' -%}</span>
               <span>{{ section.settings.chip_2 }}</span>
             </div>
             <div class="pw-card__chip">
@@ -49,7 +49,7 @@
               <span>{{ section.settings.chip_3 }}</span>
             </div>
             <div class="pw-card__chip">
-              <span class="pw-card__chip-icon">{%- render 'icon-leaf-small' -%}</span>
+              <span class="pw-card__chip-icon">{%- render 'icon-check' -%}</span>
               <span>{{ section.settings.chip_4 }}</span>
             </div>
           </div>
@@ -248,6 +248,7 @@
     right: 41px;
     bottom: 42px;
     display: flex;
+    flex-wrap: wrap;
     gap: 7px;
   }
 
@@ -286,13 +287,15 @@
     border-radius: 50px;
     background: var(--pw-ink);
     color: #fff;
+    border: 1px solid var(--pw-ink);
     font-size: 14px;
     font-weight: 600;
     text-transform: uppercase;
-    transition: opacity 0.15s ease;
+    transition: background 0.15s ease, color 0.15s ease;
   }
 
-  .pw-card:hover .pw-card__button {
-    opacity: 0.9;
+  .pw-card__button:hover {
+    background: #fff;
+    color: var(--pw-ink);
   }
 {% endstylesheet %}

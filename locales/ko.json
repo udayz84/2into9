@@ -303,7 +303,9 @@
       "quantity_maximum": "최대 {{ maximum }}개",
       "in_cart": "카트에 있음",
       "default_title": "기본 이름",
-      "sticky_add_to_cart": "빠른 카트 추가 바"
+      "sticky_add_to_cart": "빠른 카트 추가 바",
+      "select_size_prompt": "사이즈를 선택해 주세요",
+      "color_options": "색상 옵션"
     }
   },
   "fields": {
@@ -327,6 +329,14 @@
       "post": "댓글 달기",
       "success_moderated": "댓글이 게시되었습니다. 조정 대기 중입니다",
       "success": "댓글 게시됨"
+    }
+  },
+  "general": {
+    "rating": "평가: {{ value }}"
+  },
+  "sections": {
+    "collection_list": {
+      "empty": "컬렉션을 찾을 수 없습니다"
     }
   }
 }

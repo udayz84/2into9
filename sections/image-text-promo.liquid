@@ -1,0 +1,246 @@
+{%- comment -%}
+  Homepage — 50/50 image + text promo (Men's Trunk). Photo flush on one half,
+  light heading + SHOP link on white. Ref: section screenshot 6.
+{%- endcomment -%}
+
+{%- assign text_side = section.settings.text_side | default: 'right' -%}
+{%- assign fallback_asset = section.settings.fallback_asset | default: 'promo-trunk.jpg' -%}
+
+<section
+  class="itp itp--text-{{ text_side }}"
+  style="--itp-inset: {{ section.settings.inset_vw | default: 16 }}; margin-block: {{ section.settings.gap_top }}px {{ section.settings.gap_bottom }}px; --itp-heading-size: {{ section.settings.heading_size }}px;"
+>
+  <div class="itp__media">
+    <img
+      class="itp__image"
+      src="{% if section.settings.image %}{{ section.settings.image | image_url: width: 1400 }}{% else %}{{ fallback_asset | asset_url }}{% endif %}"
+      alt="{{ section.settings.image_alt | default: section.settings.heading | escape }}"
+      loading="lazy"
+      width="1000"
+      height="1070"
+    >
+  </div>
+  <div class="itp__content">
+    <h2 class="itp__heading">{{ section.settings.heading }}</h2>
+    {%- if section.settings.shop_label != blank -%}
+      <a class="itp__shop" href="{{ section.settings.link | default: '/collections/all' }}">
+        {{- section.settings.shop_label -}}
+      </a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .itp {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    background: #ffffff;
+  }
+
+  .itp__media {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1 / 1.07;
+  }
+
+  .itp__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 20%;
+    transition: transform 0.6s ease;
+  }
+
+  .itp:hover .itp__image {
+    transform: scale(1.02);
+  }
+
+  .itp__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-inline-start: clamp(2.5rem, calc(var(--itp-inset, 16) * 1vw), 20rem);
+    padding-inline-end: clamp(1.5rem, 4vw, 4rem);
+  }
+
+  .itp--text-left .itp__media {
+    order: 2;
+  }
+
+  .itp--text-left .itp__content {
+    order: 1;
+    padding-inline-start: clamp(2.5rem, calc(var(--itp-inset, 16) * 1vw), 20rem);
+    padding-inline-end: clamp(1.5rem, 4vw, 4rem);
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .itp__heading {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: var(--itp-heading-size, 34px);
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+    text-transform: uppercase;
+    color: #161616;
+  }
+
+  .itp__shop {
+    margin-top: 14px;
+    color: #1c1c1c;
+    font-family: var(--font-heading--family);
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .itp__shop:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .itp {
+      grid-template-columns: 1fr;
+    }
+
+    .itp__media {
+      aspect-ratio: 4 / 3;
+    }
+
+    .itp--text-left .itp__media {
+      order: 0;
+    }
+
+    .itp--text-left .itp__content {
+      order: 0;
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .itp__content {
+      padding: clamp(1.25rem, 5vw, 2rem) clamp(1.25rem, 5vw, 2rem);
+    }
+
+    .itp__heading {
+      font-size: min(var(--itp-heading-size, 34px), 9vw);
+    }
+
+    .itp__shop {
+      margin-top: 12px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}{
+  "name": "Image Text Promo",
+  "tag": "section",
+  "class": "section-image-text-promo",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image alt text"
+    },
+    {
+      "type": "text",
+      "id": "fallback_asset",
+      "label": "Theme image filename",
+      "info": "Used when no image is picked. e.g. promo-trunk.jpg"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "MEN'S TRUNK"
+    },
+    {
+      "type": "text",
+      "id": "shop_label",
+      "label": "Shop label",
+      "default": "SHOP"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "select",
+      "id": "text_side",
+      "label": "Text side",
+      "options": [
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "gap_top",
+      "label": "Top spacing",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "gap_bottom",
+      "label": "Bottom spacing",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 16,
+      "max": 72,
+      "step": 1,
+      "unit": "px",
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "inset_vw",
+      "label": "Text inset",
+      "min": 4,
+      "max": 40,
+      "step": 1,
+      "unit": "vw",
+      "default": 16
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image Text Promo"
+    }
+  ]
+}{% endschema %}

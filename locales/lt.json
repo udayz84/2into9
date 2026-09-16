@@ -340,7 +340,17 @@
       "quantity_maximum": "Daugiausiai {{ maximum }}",
       "in_cart": "krepšelyje",
       "default_title": "Numatytasis pavadinimas",
-      "sticky_add_to_cart": "Greito pridėjimo į krepšelį juosta"
+      "sticky_add_to_cart": "Greito pridėjimo į krepšelį juosta",
+      "select_size_prompt": "Pasirinkite dydį",
+      "color_options": "Spalvų parinktys"
+    }
+  },
+  "general": {
+    "rating": "Įvertinimas: {{ value }}"
+  },
+  "sections": {
+    "collection_list": {
+      "empty": "Kolekcijų nerasta"
     }
   }
 }

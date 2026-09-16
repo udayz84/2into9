@@ -1,0 +1,252 @@
+{%- comment -%}
+  Homepage — FAQ accordion. White, centered heading, left-aligned items with
+  + / x indicator. Smooth open/close via grid-template-rows transition.
+  Ref: section screenshot 11.
+{%- endcomment -%}
+
+<section
+  class="faq"
+  data-faq-root
+  style="padding-block: {{ section.settings.padding_top }}px {{ section.settings.padding_bottom }}px; --faq-heading-size: {{ section.settings.heading_size }}px;"
+>
+  {%- if section.settings.heading != blank -%}
+    <h2 class="faq__heading">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+
+  <div class="faq__list">
+    {%- for block in section.blocks -%}
+      <div
+        class="faq__item{% if forloop.first and section.settings.open_first %} is-open{% endif %}"
+        data-faq-item
+        {{ block.shopify_attributes }}
+      >
+        <button
+          class="faq__question"
+          type="button"
+          aria-expanded="{% if forloop.first and section.settings.open_first %}true{% else %}false{% endif %}"
+          data-faq-toggle
+        >
+          <span>{{ block.settings.question }}</span>
+          <span class="faq__icon" aria-hidden="true">
+            <svg viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.4"/></svg>
+          </span>
+        </button>
+        <div class="faq__answer">
+          <div class="faq__answer-inner">
+            <p>{{ block.settings.answer }}</p>
+          </div>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .faq {
+    background: #ffffff;
+  }
+
+  .faq__heading {
+    margin: 0;
+    text-align: center;
+    font-family: var(--font-heading--family);
+    font-size: var(--faq-heading-size, 48px);
+    font-weight: 600;
+    line-height: 1.05;
+    color: #161616;
+  }
+
+  .faq__list {
+    max-width: 1480px;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 14.5vw, 20rem) clamp(1.25rem, 18vw, 18rem);
+    margin-top: clamp(36px, 5vw, 64px);
+  }
+
+  .faq__item {
+    padding-block: clamp(10px, 1.4vw, 16px);
+    border-block-start: 0;
+  }
+
+  .faq__question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    font-family: var(--font-heading--family);
+    font-size: clamp(0.9rem, 1.1vw, 1.05rem);
+    font-weight: 400;
+    line-height: 1.35;
+    color: #161616;
+  }
+
+  .faq__icon {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    color: #161616;
+    transition: transform 0.35s ease;
+  }
+
+  .faq__icon svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .faq__item.is-open .faq__icon {
+    transform: rotate(45deg);
+  }
+
+  .faq__answer {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s ease;
+  }
+
+  .faq__item.is-open .faq__answer {
+    grid-template-rows: 1fr;
+  }
+
+  .faq__answer-inner {
+    overflow: hidden;
+  }
+
+  .faq__answer-inner p {
+    margin: 12px 0 0;
+    max-width: 92%;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: #5c5c5c;
+  }
+
+  @media screen and (max-width: 749px) {
+    .faq__heading {
+      font-size: min(var(--faq-heading-size, 48px), 10vw);
+    }
+
+    .faq__list {
+      padding-inline: 1.25rem;
+      margin-top: 24px;
+    }
+
+    .faq__item {
+      padding-block: 9px;
+    }
+
+    .faq__question {
+      font-size: 0.95rem;
+      padding-inline-end: 2rem;
+    }
+
+    .faq__answer-inner p {
+      font-size: 0.85rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faq__answer,
+    .faq__icon {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+<script>
+  document.querySelectorAll('[data-faq-root]').forEach(function (root) {
+    root.querySelectorAll('[data-faq-toggle]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var item = btn.closest('[data-faq-item]');
+        var open = item.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    });
+  });
+</script>
+
+{% schema %}{
+  "name": "Home FAQ",
+  "tag": "section",
+  "class": "section-home-faq",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FAQ's"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_first",
+      "label": "Open first question by default",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top spacing",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom spacing",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 20,
+      "max": 90,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "What's the difference between a Boxer Brief and Trunk?"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer",
+          "default": "The only difference between the two is that Boxer Briefs have 3 cm more leg length than the trunks."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home FAQ"
+    }
+  ]
+}{% endschema %}

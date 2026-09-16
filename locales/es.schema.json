@@ -577,7 +577,8 @@
     "x_position": "Posición horizontal",
     "y_position": "Posición vertical",
     "enable_sticky_add_to_cart": "Barra fija de agregar al carrito",
-    "sticky_add_to_cart": "Agregar al carrito fijo"
+    "sticky_add_to_cart": "Agregar al carrito fijo",
+    "border_color": "Color del borde"
   },
   "options": {
     "apple": "Apple",

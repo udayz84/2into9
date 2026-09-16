@@ -340,7 +340,17 @@
       "quantity_maximum": "Maksimum {{ maximum }}",
       "in_cart": "w koszyku",
       "default_title": "Tytuł domyślny",
-      "sticky_add_to_cart": "Pasek szybkiego dodawania do koszyka"
+      "sticky_add_to_cart": "Pasek szybkiego dodawania do koszyka",
+      "select_size_prompt": "Wybierz rozmiar",
+      "color_options": "Opcje kolorów"
+    }
+  },
+  "general": {
+    "rating": "Ocena: {{ value }}"
+  },
+  "sections": {
+    "collection_list": {
+      "empty": "Nie znaleziono kolekcji"
     }
   }
 }

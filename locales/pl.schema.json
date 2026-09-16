@@ -577,7 +577,8 @@
     "x_position": "Pozycja pozioma",
     "y_position": "Pozycja pionowa",
     "enable_sticky_add_to_cart": "Przypięty pasek dodawania do koszyka",
-    "sticky_add_to_cart": "Przypięte dodawanie do koszyka"
+    "sticky_add_to_cart": "Przypięte dodawanie do koszyka",
+    "border_color": "Kolor obramowania"
   },
   "options": {
     "apple": "Apple",

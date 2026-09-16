@@ -577,7 +577,8 @@
     "x_position": "Horizontale positie",
     "y_position": "Verticale positie",
     "enable_sticky_add_to_cart": "Vaste 'Toevoegen aan winkelwagen'-balk",
-    "sticky_add_to_cart": "Vaste 'Toevoegen aan winkelwagen'-balk"
+    "sticky_add_to_cart": "Vaste 'Toevoegen aan winkelwagen'-balk",
+    "border_color": "Randkleur"
   },
   "options": {
     "apple": "Apple",

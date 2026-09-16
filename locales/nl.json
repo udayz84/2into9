@@ -326,7 +326,17 @@
       "quantity_maximum": "Maximum van {{ maximum }}",
       "in_cart": "in winkelwagen",
       "default_title": "Standaardtitel",
-      "sticky_add_to_cart": "Balk voor snel toevoegen aan winkelwagen"
+      "sticky_add_to_cart": "Balk voor snel toevoegen aan winkelwagen",
+      "select_size_prompt": "Kies een maat",
+      "color_options": "Kleuropties"
+    }
+  },
+  "general": {
+    "rating": "Beoordeling: {{ value }}"
+  },
+  "sections": {
+    "collection_list": {
+      "empty": "Geen collecties gevonden"
     }
   }
 }

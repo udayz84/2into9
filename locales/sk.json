@@ -340,7 +340,17 @@
       "quantity_maximum": "Maximálne {{ maximum }} ks",
       "in_cart": "v košíku",
       "default_title": "Predvolený názov",
-      "sticky_add_to_cart": "Panel rýchleho pridania do košíka"
+      "sticky_add_to_cart": "Panel rýchleho pridania do košíka",
+      "select_size_prompt": "Vyberte veľkosť",
+      "color_options": "Farebné možnosti"
+    }
+  },
+  "general": {
+    "rating": "Hodnotenie: {{ value }}"
+  },
+  "sections": {
+    "collection_list": {
+      "empty": "Nenašli sa žiadne kolekcie"
     }
   }
 }

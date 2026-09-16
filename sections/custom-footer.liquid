@@ -579,4 +579,120 @@
     height: auto;
     object-fit: contain;
   }
+
+  /* Tablet */
+  @media screen and (max-width: 989px) {
+    .custom-footer {
+      padding-block: 72px 48px;
+    }
+
+    .custom-footer__container {
+      padding-inline: 24px;
+    }
+
+    .custom-footer__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 36px 24px;
+    }
+
+    .custom-footer__brand {
+      grid-column: 1 / -1;
+    }
+
+    .custom-footer__about {
+      grid-column: 1 / -1;
+    }
+
+    .custom-footer__social {
+      margin-block-start: 32px;
+    }
+  }
+
+  /* Mobile */
+  @media screen and (max-width: 749px) {
+    .custom-footer {
+      padding-block: 56px 36px;
+    }
+
+    .custom-footer__container {
+      padding-inline: 18px;
+    }
+
+    .custom-footer__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 30px 20px;
+    }
+
+    .custom-footer__brand {
+      grid-column: 1 / -1;
+    }
+
+    .custom-footer__about {
+      grid-column: 1 / -1;
+    }
+
+    .custom-footer__logo-img {
+      width: 104px;
+    }
+
+    .custom-footer__newsletter-heading {
+      font-size: 20px;
+    }
+
+    .custom-footer__field {
+      margin-block-start: 12px;
+    }
+
+    .custom-footer__input {
+      height: 52px;
+      font-size: 16px;
+      padding-inline: 22px 60px;
+    }
+
+    .custom-footer__submit {
+      right: 24px;
+    }
+
+    .custom-footer__newsletter-sub {
+      margin-top: 14px;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .custom-footer__social {
+      margin-block-start: 26px;
+    }
+
+    .custom-footer__social-link,
+    .custom-footer__social-icon {
+      width: 40px;
+      height: 40px;
+    }
+
+    .custom-footer__nav-title {
+      margin-bottom: 10px;
+      font-size: 15px;
+    }
+
+    .custom-footer__nav-item {
+      font-size: 13px;
+      line-height: 2;
+    }
+
+    .custom-footer__about-text {
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .custom-footer__bottom {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+      gap: 14px;
+      margin-block-start: 40px;
+    }
+
+    .custom-footer__payment {
+      width: 120px;
+    }
+  }
 {% endstylesheet %}

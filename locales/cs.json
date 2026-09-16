@@ -315,7 +315,9 @@
       "quantity_maximum": "Maximum: {{ maximum }}",
       "in_cart": "v košíku",
       "default_title": "Výchozí název",
-      "sticky_add_to_cart": "Panel Rychle přidat do košíku"
+      "sticky_add_to_cart": "Panel Rychle přidat do košíku",
+      "select_size_prompt": "Vyberte prosím velikost",
+      "color_options": "Možnosti barev"
     }
   },
   "fields": {
@@ -341,6 +343,14 @@
       "post": "Publikovat komentář",
       "success_moderated": "Komentář odeslán, čeká na schválení",
       "success": "Komentář zveřejněn"
+    }
+  },
+  "general": {
+    "rating": "Hodnocení: {{ value }}"
+  },
+  "sections": {
+    "collection_list": {
+      "empty": "Nebyly nalezeny žádné kolekce"
     }
   }
 }

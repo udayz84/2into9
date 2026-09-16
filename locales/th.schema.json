@@ -577,7 +577,8 @@
     "x_position": "ตำแหน่งแนวนอน",
     "y_position": "ตำแหน่งแนวตั้ง",
     "enable_sticky_add_to_cart": "แถบเพิ่มลงในตะกร้าสินค้าแบบตรึง",
-    "sticky_add_to_cart": "เพิ่มลงในตะกร้าสินค้าแบบตรึง"
+    "sticky_add_to_cart": "เพิ่มลงในตะกร้าสินค้าแบบตรึง",
+    "border_color": "สีเส้นขอบ"
   },
   "options": {
     "apple": "Apple",

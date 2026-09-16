@@ -1,513 +1,411 @@
 {%- comment -%}
-  Custom Hero Section - Men's Briefs Hero
-  Displays layered background with model image and vertical text
+  Homepage hero — full-bleed dark slider with giant UNDERWEAR watermark,
+  light editorial copy block and glass SHOP NOW button. Ref: Thanksweb hero.
 {%- endcomment -%}
 
-<section class="custom-hero-wrapper" id="CustomHero-{{ section.id }}">
-  <!-- Desktop View -->
-  <div class="custom-hero custom-hero--desktop">
-
-    <!-- Layer 1: Base Background Texture -->
-    <div class="custom-hero__layer custom-hero__layer--bg">
-      {%- if section.settings.bg_texture != blank -%}
-        {{
-          section.settings.bg_texture
-          | image_url: width: 1920
-          | image_tag: class: 'custom-hero__bg-image', alt: '', loading: 'lazy'
-        }}
-      {%- else -%}
-        <div class="custom-hero__placeholder-bg"></div>
+<section
+  class="hero2"
+  id="Hero2-{{ section.id }}"
+  style="--hero2-min-h: {% if section.settings.height == 'full' %}100svh{% else %}auto{% endif %}; --hero2-eyebrow-size: {{ section.settings.eyebrow_size }}px; --hero2-heading-size: {{ section.settings.heading_size }}px;"
+>
+  {%- if section.blocks.size > 0 -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'slide' -%}
+        <div class="hero2__slide{% if forloop.first %} is-active{% endif %}" data-slide {% if forloop.first %}data-hero2-root{% endif %}>
+          <img
+            class="hero2__image"
+            src="{% if block.settings.image %}{{ block.settings.image | image_url: width: 1920 }}{% else %}{{ section.settings.fallback_image | default: 'hero-home-1.jpg' | asset_url }}{% endif %}"
+            alt="{{ block.settings.image_alt | default: block.settings.heading | escape }}"
+            loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+            {% if forloop.first %}fetchpriority="high"{% endif %}
+            width="1920"
+            height="1000"
+          >
+          <div class="hero2__content">
+            {%- if block.settings.subheading != blank -%}
+              <p class="hero2__eyebrow">{{ block.settings.subheading }}</p>
+            {%- endif -%}
+            {%- if block.settings.heading != blank -%}
+              <h2 class="hero2__heading">{{ block.settings.heading }}</h2>
+            {%- endif -%}
+            {%- if block.settings.button_label != blank -%}
+              <a
+                class="hero2__button"
+                href="{{ block.settings.button_link | default: '/collections/all' }}"
+              >
+                {{- block.settings.button_label -}}
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
       {%- endif -%}
-    </div>
-
-    <!-- Layer 2: Overlay Pattern -->
-    <div class="custom-hero__layer custom-hero__layer--overlay">
-      {%- if section.settings.overlay_pattern != blank -%}
-        {{
-          section.settings.overlay_pattern
-          | image_url: width: 1920
-          | image_tag: class: 'custom-hero__overlay-image', alt: '', loading: 'lazy'
-        }}
-      {%- endif -%}
-    </div>
-
-    <!-- Layer 3: Central Vector (Swirl) -->
-    <div class="custom-hero__layer custom-hero__layer--vector">
-      {%- if section.settings.center_vector != blank -%}
-        {{
-          section.settings.center_vector
-          | image_url: width: 900
-          | image_tag: class: 'custom-hero__vector-image', alt: '', loading: 'lazy'
-        }}
-      {%- endif -%}
-    </div>
-
-    <!-- Layer 4: Giant Background Text "UNDERWEAR" -->
-    <div class="custom-hero__layer custom-hero__layer--bg-text">
-      <p class="custom-hero__bg-text">{{ section.settings.bg_text | default: 'UNDERWEAR' }}</p>
-    </div>
-
-    <!-- Layer 5: Central Content (Model & Text) -->
-    <div class="custom-hero__layer custom-hero__layer--content">
-
-      <!-- Model Image -->
-      <div class="custom-hero__model-container">
-        {%- if section.settings.model_image != blank -%}
-          {{
-            section.settings.model_image
-            | image_url: width: 850
-            | image_tag: class: 'custom-hero__model-image', alt: section.settings.model_alt, loading: 'eager', fetchpriority: 'high'
-          }}
-        {%- else -%}
-          <div class="custom-hero__placeholder-model">{{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
-        {%- endif -%}
+    {%- endfor -%}
+  {%- else -%}
+    {%- comment -%} Fallback single slide so the section renders before blocks are added {%- endcomment -%}
+    <div class="hero2__slide is-active" data-slide>
+      <img
+        class="hero2__image"
+        src="{{ section.settings.fallback_image | default: 'hero-home-1.jpg' | asset_url }}"
+        alt="Model wearing 2into9 boxer briefs"
+        loading="eager"
+        fetchpriority="high"
+        width="1920"
+        height="1000"
+      >
+      <div class="hero2__content">
+        <p class="hero2__eyebrow">{{ section.settings.subheading }}</p>
+        <h2 class="hero2__heading">{{ section.settings.heading }}</h2>
+        <a class="hero2__button" href="{{ section.settings.button_link | default: '/collections/all' }}">
+          {{- section.settings.button_label -}}
+        </a>
       </div>
-
-      <!-- Left Vertical Text: MEN'S -->
-      <div class="custom-hero__side-text custom-hero__side-text--left">
-        <p class="custom-hero__vertical-text">{{ section.settings.left_text | default: "MEN'S" }}</p>
-      </div>
-
-      <!-- Right Vertical Text: BRIEFS -->
-      <div class="custom-hero__side-text custom-hero__side-text--right">
-        <p class="custom-hero__vertical-text">{{ section.settings.right_text | default: 'BRIEFS' }}</p>
-      </div>
-
     </div>
-
-    <!-- Vignette / Gradient Overlay -->
-    <div class="custom-hero__layer custom-hero__layer--vignette"></div>
-
-  </div>
-
-  <!-- Mobile View -->
-  <div class="custom-hero custom-hero--mobile">
-    {%- if section.settings.mobile_image != blank -%}
-      {{
-        section.settings.mobile_image
-        | image_url: width: 750
-        | image_tag: class: 'custom-hero__mobile-image', alt: section.settings.mobile_alt, loading: 'eager', fetchpriority: 'high'
-      }}
-    {%- else -%}
-      <div class="custom-hero__placeholder-mobile">{{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
-    {%- endif -%}
-  </div>
-
-  <!-- Optional Link Wrapper -->
-  {%- if section.settings.link != blank -%}
-    <a href="{{ section.settings.link }}" class="custom-hero__link" {% if section.settings.open_in_new_tab %}target="_blank" rel="noopener"{% endif %}></a>
   {%- endif -%}
+
+  {%- if section.settings.show_watermark -%}
+    <p class="hero2__watermark" aria-hidden="true">{{ section.settings.watermark_text }}</p>
+  {%- endif -%}
+
+  <div class="hero2__dots" data-hero2-dots></div>
 </section>
 
 {% stylesheet %}
-  .custom-hero-wrapper {
+  .hero2 {
     position: relative;
-    width: 100%;
-    background: #000;
-    overflow: hidden;
+    isolation: isolate;
+    min-height: var(--hero2-min-h, 100svh);
+    background: #0c0f0c;
+    overflow: clip;
+    display: grid;
   }
 
-  /* ===== DESKTOP VIEW ===== */
-  .custom-hero--desktop {
-    display: none;
-    width: 100%;
-    min-height: 700px;
-    height: 100vh;
+  .hero2__slide {
+    grid-area: 1 / 1;
     position: relative;
-  }
-
-  @media screen and (min-width: 750px) {
-    .custom-hero--desktop {
-      display: block;
-    }
-  }
-
-  /* Layer System */
-  .custom-hero__layer {
-    position: absolute;
-    inset: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease;
     pointer-events: none;
   }
 
-  /* Layer 1: Background Texture */
-  .custom-hero__layer--bg {
-    z-index: 1;
+  .hero2__slide.is-active {
+    opacity: 1;
+    pointer-events: auto;
   }
 
-  .custom-hero__bg-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.6;
-  }
-
-  .custom-hero__placeholder-bg {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
-  }
-
-  /* Layer 2: Overlay Pattern */
-  .custom-hero__layer--overlay {
-    z-index: 2;
-  }
-
-  .custom-hero__overlay-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    mix-blend-mode: screen;
-  }
-
-  /* Layer 3: Central Vector (Swirl) - BELOW background text */
-  .custom-hero__layer--vector {
-    z-index: 2;
-    overflow: hidden;
-  }
-
-  .custom-hero__vector-image {
+  .hero2__image {
     position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%) translateY(5%);
-    width: 65vw;
-    height: 65vh;
-    object-fit: contain;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 30%;
   }
 
-  .custom-hero__layer--bg-text {
-    z-index: 100;
+  /* Giant watermark under the navbar */
+  .hero2__watermark {
+    position: absolute;
+    z-index: 1;
+    top: clamp(44px, 6vh, 60px);
+    left: 0;
+    width: 100%;
+    margin: 0;
+    text-align: center;
+    font-family: var(--font-heading--family);
+    font-size: clamp(140px, 15.5vw, 300px);
+    font-weight: 800;
+    line-height: 0.82;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: rgba(255, 255, 255, 0.07);
+    user-select: none;
+    pointer-events: none;
+  }
+
+  /* Copy block */
+  .hero2__content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    min-height: var(--hero2-min-h, 100svh);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    overflow-x: clip;
-    overflow-y: visible;
-    width: 100%;
-    top: 0;
+    transform: translateY(4vh);
+    padding-inline: clamp(1.25rem, 14vw, 22rem);
+    padding-block: clamp(140px, 22vh, 220px) clamp(90px, 14vh, 150px);
   }
 
-  .custom-hero__bg-text {
-    font-size: clamp(100px, 15.5vw, 320px);
-    font-weight: 900;
-    color: rgba(255, 255, 255, 0.08);
-    line-height: 0.85;
-    letter-spacing: -0.03em;
+  .hero2__eyebrow {
+    margin: 0 0 0.35rem;
+    font-family: var(--font-heading--family);
+    font-size: var(--hero2-eyebrow-size, 26px);
+    font-weight: 300;
+    line-height: 1.1;
+    color: #ffffff;
+  }
+
+  .hero2__heading {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: var(--hero2-heading-size, 54px);
+    font-weight: 300;
+    line-height: 1.08;
+    letter-spacing: 0.005em;
+    color: #ffffff;
+  }
+
+  .hero2__button {
+    display: inline-block;
+    margin-top: clamp(1.25rem, 3vh, 1.75rem);
+    padding: 13px 42px;
+    border-radius: 4px;
+    background: rgba(110, 110, 104, 0.55);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    color: #ffffff;
+    font-family: var(--font-heading--family);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    white-space: nowrap;
-    user-select: none;
-    width: 100%;
-    text-align: center;
-    transform: translateY(-50%);
+    text-decoration: none;
+    transition: background 0.25s ease;
   }
 
-  /* Layer 5: Main Content */
-  .custom-hero__layer--content {
-    z-index: 5;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    pointer-events: none;
+  .hero2__button:hover {
+    background: rgba(140, 140, 134, 0.6);
+    color: #ffffff;
   }
 
-  /* Model Image */
-  .custom-hero__model-container {
+  /* Carousel dots */
+  .hero2__dots {
     position: absolute;
-    inset: 0;
+    z-index: 3;
+    bottom: clamp(20px, 4vh, 36px);
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-top: 6rem;
-    z-index: 6;
-    pointer-events: auto;
+    gap: 12px;
   }
 
-  .custom-hero__model-image {
-    height: 65vh;
-    max-height: 750px;
-    width: auto;
-    object-fit: contain;
-    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5));
-    transition: transform 0.7s ease-out;
+  .hero2__dots:empty {
+    display: none;
+  }
+
+  .hero2__dot {
+    width: 9px;
+    height: 9px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.45);
     cursor: pointer;
-    pointer-events: auto;
+    transition: background 0.25s ease;
   }
 
-  .custom-hero__model-image:hover {
-    transform: scale(1.05);
+  .hero2__dot.is-active {
+    background: #ffffff;
   }
 
-  .custom-hero__placeholder-model {
-    height: 80%;
-    max-height: 850px;
-    width: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* Side Vertical Text */
-  .custom-hero__side-text {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    z-index: 7;
-    display: grid;
-    place-items: center;
-  }
-
-  .custom-hero__side-text--left {
-    left: 2rem;
-  }
-
-  @media screen and (min-width: 768px) {
-    .custom-hero__side-text--left {
-      left: 3rem;
-    }
-  }
-
-  @media screen and (min-width: 1024px) {
-    .custom-hero__side-text--left {
-      left: 4rem;
-    }
-  }
-
-  .custom-hero__side-text--right {
-    right: 2rem;
-  }
-
-  @media screen and (min-width: 768px) {
-    .custom-hero__side-text--right {
-      right: 3rem;
-    }
-  }
-
-  @media screen and (min-width: 1024px) {
-    .custom-hero__side-text--right {
-      right: 4rem;
-    }
-  }
-
-  .custom-hero__vertical-text {
-    font-size: clamp(3rem, 8vw, 120px);
-    font-weight: 900;
-    text-transform: uppercase;
-    color: #fff;
-    white-space: nowrap;
-    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    user-select: none;
-    display: block;
-  }
-
-  .custom-hero__side-text--left .custom-hero__vertical-text {
-    transform: rotate(-90deg);
-  }
-
-  .custom-hero__side-text--right .custom-hero__vertical-text {
-    transform: rotate(90deg);
-  }
-
-  /* Vignette Overlay */
-  .custom-hero__layer--vignette {
-    z-index: 4;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 40%, rgba(0, 0, 0, 0.4) 100%);
-    pointer-events: none;
-  }
-
-  /* ===== MOBILE VIEW ===== */
-  .custom-hero--mobile {
-    display: block;
-    width: 100%;
-    position: relative;
-    /* padding-top: 6rem; */
-  }
-
-  @media screen and (min-width: 750px) {
-    .custom-hero--mobile {
-      display: none;
-    }
-  }
-
-  .custom-hero__mobile-image {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
-  .custom-hero__placeholder-mobile {
-    width: 100%;
-    aspect-ratio: 3/4;
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .custom-hero__placeholder-mobile .placeholder-svg {
-    width: 100px;
-    height: 100px;
-    opacity: 0.3;
-  }
-
-  /* Optional Link */
-  .custom-hero__link {
-    position: absolute;
-    inset: 0;
-    z-index: 10;
-  }
-
-  /* ===== RESPONSIVE ADJUSTMENTS ===== */
-  /* Laptop screens */
-  @media screen and (max-width: 1440px) {
-    .custom-hero__bg-text {
-      font-size: clamp(80px, 15vw, 200px);
-    }
-  }
-
-  @media screen and (max-width: 1024px) {
-    .custom-hero__vector-image {
-      width: 75vw;
-      height: 75vw;
+  @media screen and (max-width: 749px) {
+    .hero2__watermark {
+      font-size: clamp(64px, 19vw, 120px);
+      top: clamp(56px, 8.5vh, 78px);
     }
 
-    .custom-hero__side-text--left,
-    .custom-hero__side-text--right {
-      display: flex;
-      align-items: center;
+    .hero2__image {
+      object-position: 45% 22%;
     }
 
-    .custom-hero__vertical-text {
-      font-size: clamp(3rem, 10vw, 6rem);
+    .hero2__eyebrow {
+      font-size: min(var(--hero2-eyebrow-size, 26px), 6.2vw);
     }
 
-    .custom-hero__bg-text {
-      font-size: clamp(60px, 14vw, 180px);
-    }
-  }
-
-  @media screen and (max-width: 768px) {
-    .custom-hero--desktop {
-      min-height: 500px;
+    .hero2__heading {
+      font-size: min(var(--hero2-heading-size, 54px), 10.5vw);
     }
 
-    .custom-hero__model-container {
-      padding-top: 4rem;
+    .hero2__content {
+      padding-inline: 1.25rem;
+      justify-content: flex-end;
+      padding-block: 0 13vh;
+      transform: translateY(2vh);
     }
 
-    .custom-hero__model-image {
-      height: 60%;
-    }
-  }
-
-  @media screen and (max-width: 600px) {
-    .custom-hero__bg-text {
-      font-size: clamp(48px, 20vw, 96px);
+    .hero2__button {
+      padding: 13px 38px;
     }
 
-    .custom-hero__vertical-text {
-      font-size: clamp(2.25rem, 11vw, 3rem);
-      letter-spacing: 0.1em;
-    }
-
-    .custom-hero__side-text--left,
-    .custom-hero__side-text--right {
-      inset-inline: auto;
+    .hero2__dots {
+      bottom: 18px;
     }
   }
 {% endstylesheet %}
 
+<script>
+  document.querySelectorAll('.hero2').forEach(function (root) {
+    var slides = Array.prototype.slice.call(root.querySelectorAll('.hero2__slide'));
+    var dotsWrap = root.querySelector('.hero2__dots');
+    if (slides.length < 2) return;
+
+    var current = 0;
+    slides.forEach(function (_, i) {
+      var dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'hero2__dot' + (i === 0 ? ' is-active' : '');
+      dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+      dot.addEventListener('click', function () {
+        go(i);
+      });
+      dotsWrap.appendChild(dot);
+    });
+
+    var dots = Array.prototype.slice.call(dotsWrap.children);
+
+    function go(n) {
+      current = (n + slides.length) % slides.length;
+      slides.forEach(function (s, i) {
+        s.classList.toggle('is-active', i === current);
+      });
+      dots.forEach(function (d, i) {
+        d.classList.toggle('is-active', i === current);
+      });
+    }
+  });
+</script>
+
 {% schema %}
 {
-  "name": "Custom Hero - Briefs",
+  "name": "Homepage Hero",
   "tag": "section",
   "class": "section-custom-hero",
   "settings": [
     {
-      "type": "header",
-      "content": "Desktop Images"
-    },
-    {
-      "type": "image_picker",
-      "id": "bg_texture",
-      "label": "Background Texture"
-    },
-    {
-      "type": "image_picker",
-      "id": "overlay_pattern",
-      "label": "Overlay Pattern"
-    },
-    {
-      "type": "image_picker",
-      "id": "center_vector",
-      "label": "Center Vector/Swirl"
-    },
-    {
-      "type": "image_picker",
-      "id": "model_image",
-      "label": "Model Image"
-    },
-    {
       "type": "text",
-      "id": "model_alt",
-      "label": "Model Image Alt Text",
-      "default": "Model wearing briefs"
-    },
-    {
-      "type": "header",
-      "content": "Mobile Image"
-    },
-    {
-      "type": "image_picker",
-      "id": "mobile_image",
-      "label": "Mobile Hero Image"
-    },
-    {
-      "type": "text",
-      "id": "mobile_alt",
-      "label": "Mobile Image Alt Text",
-      "default": "Hero banner"
-    },
-    {
-      "type": "header",
-      "content": "Text Content"
-    },
-    {
-      "type": "text",
-      "id": "bg_text",
-      "label": "Background Text",
+      "id": "watermark_text",
+      "label": "Watermark text",
       "default": "UNDERWEAR"
     },
     {
-      "type": "text",
-      "id": "left_text",
-      "label": "Left Side Text",
-      "default": "MEN'S"
+      "type": "checkbox",
+      "id": "show_watermark",
+      "label": "Show watermark",
+      "default": true
     },
     {
       "type": "text",
-      "id": "right_text",
-      "label": "Right Side Text",
-      "default": "BRIEFS"
+      "id": "fallback_image",
+      "label": "Theme image filename",
+      "info": "Used when no slide image is picked. e.g. hero-home-1.jpg"
     },
     {
       "type": "header",
-      "content": "Section Link (Optional)"
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size",
+      "label": "Subheading size",
+      "min": 14,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 24,
+      "max": 90,
+      "step": 1,
+      "unit": "px",
+      "default": 54
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Height",
+      "options": [
+        { "value": "full", "label": "Full screen" },
+        { "value": "natural", "label": "Image height" }
+      ],
+      "default": "full"
+    },
+    {
+      "type": "header",
+      "content": "Fallback slide (no blocks added)"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "The newest"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Everyday wear"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "SHOP NOW"
     },
     {
       "type": "url",
-      "id": "link",
-      "label": "Link URL"
-    },
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "blocks": [
     {
-      "type": "checkbox",
-      "id": "open_in_new_tab",
-      "label": "Open in new tab",
-      "default": false
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Background image"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image alt text"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "The newest"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Everyday wear"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "SHOP NOW"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "Custom Hero - Briefs",
-      "category": "Custom"
+      "name": "Homepage Hero"
     }
   ]
 }

@@ -577,7 +577,8 @@
     "x_position": "Vaakasuuntainen sijainti",
     "y_position": "Pystysuuntainen sijainti",
     "enable_sticky_add_to_cart": "Kiinteä Lisää ostoskoriin -palkki",
-    "sticky_add_to_cart": "Kiinteä Lisää ostoskoriin -toiminto"
+    "sticky_add_to_cart": "Kiinteä Lisää ostoskoriin -toiminto",
+    "border_color": "Reunan väri"
   },
   "options": {
     "apple": "Omena",

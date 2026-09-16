@@ -577,7 +577,8 @@
     "x_position": "Position horizontale",
     "y_position": "Position verticale",
     "enable_sticky_add_to_cart": "Barre d’ajout au panier flottante",
-    "sticky_add_to_cart": "Ajout au panier flottant"
+    "sticky_add_to_cart": "Ajout au panier flottant",
+    "border_color": "Couleur de la bordure"
   },
   "options": {
     "apple": "Pomme",

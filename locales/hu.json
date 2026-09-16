@@ -326,7 +326,17 @@
       "quantity_maximum": "Maximum: {{ maximum }}",
       "in_cart": "a kosárban",
       "default_title": "Alapértelmezett cím",
-      "sticky_add_to_cart": "Gyors hozzáadás a kosárhoz sáv"
+      "sticky_add_to_cart": "Gyors hozzáadás a kosárhoz sáv",
+      "select_size_prompt": "Kérjük, válasszon méretet",
+      "color_options": "Színbeállítások"
+    }
+  },
+  "general": {
+    "rating": "Értékelés: {{ value }}"
+  },
+  "sections": {
+    "collection_list": {
+      "empty": "Nincs található kollekció"
     }
   }
 }

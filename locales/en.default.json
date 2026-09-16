@@ -354,7 +354,16 @@
       "in_cart": "in cart",
       "default_title": "Default Title",
       "sticky_add_to_cart": "Quick add to cart bar",
-      "select_size_prompt": "PLEASE SELECT A SIZE"
+      "select_size_prompt": "PLEASE SELECT A SIZE",
+      "color_options": "Color options"
+    }
+  },
+  "general": {
+    "rating": "Rating: {{ value }}"
+  },
+  "sections": {
+    "collection_list": {
+      "empty": "No collections found"
     }
   }
 }

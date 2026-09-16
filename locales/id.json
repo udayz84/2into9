@@ -303,7 +303,9 @@
       "quantity_maximum": "Maksimum {{ maximum }}",
       "in_cart": "di keranjang",
       "default_title": "Judul Bawaan",
-      "sticky_add_to_cart": "Bilah penambahan cepat ke keranjang"
+      "sticky_add_to_cart": "Bilah penambahan cepat ke keranjang",
+      "select_size_prompt": "Silakan pilih ukuran",
+      "color_options": "Opsi warna"
     }
   },
   "fields": {
@@ -327,6 +329,14 @@
       "post": "Posting komentar",
       "success_moderated": "Komentar diposting, menunggu moderasi",
       "success": "Komentar diposting"
+    }
+  },
+  "general": {
+    "rating": "Penilaian: {{ value }}"
+  },
+  "sections": {
+    "collection_list": {
+      "empty": "Tidak ada koleksi ditemukan"
     }
   }
 }

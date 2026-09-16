@@ -498,76 +498,7 @@
     text-transform: var(--button-text-case-secondary);
   }
 
-  {% unless template.name == 'product' %}
-    /* Product card buttons — stacked full-width pills (Quick Add / Add To Cart) */
-    .buy-buttons-block .product-card__quick-add {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      min-height: 43px;
-      padding: 11px 20px;
-      margin-block: 0 11px;
-      background: #ffffff;
-      color: #171717;
-      border: 0.5px solid #171717;
-      border-radius: 50px;
-      font-family: var(--font-primary--family);
-      font-size: 14px;
-      font-weight: 600;
-      line-height: 1.5;
-      text-transform: uppercase;
-      cursor: pointer;
-    }
 
-    .buy-buttons-block .product-card__quick-add:hover:not([disabled]) {
-      background: #f7f7f7;
-    }
-
-    .buy-buttons-block add-to-cart-component {
-      display: block;
-      flex: 1 1 100%;
-      width: 100%;
-    }
-
-    .buy-buttons-block .add-to-cart-button {
-      --button-color: #ffffff;
-      --button-background-color: #171717;
-      --button-border-color: #171717;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      min-height: 43px;
-      padding: 11px 20px;
-      border: none;
-      border-radius: 50px;
-      font-family: var(--font-primary--family);
-      font-size: 14px;
-      font-weight: 600;
-      line-height: 1.5;
-      text-transform: uppercase;
-      min-height: 0;
-    }
-
-    .buy-buttons-block .add-to-cart-button:hover:not([disabled]) {
-      --button-color: #ffffff;
-      --button-background-color: #333333;
-      --button-border-color: #333333;
-    }
-
-    .buy-buttons-block .add-to-cart-button .add-to-cart-icon {
-      display: none;
-    }
-
-    @media (max-width: 749px) {
-      .buy-buttons-block .product-card__quick-add,
-      .buy-buttons-block .add-to-cart-button {
-        min-height: 38px;
-        font-size: 12px;
-      }
-    }
-  {% endunless %}
 
   .product-form-text__error {
     display: flex;
@@ -784,6 +715,80 @@
     font-weight: normal;
   }
 {% endstylesheet %}
+
+{% unless template.name == 'product' %}
+  <style>
+    /* Product card buttons — stacked full-width pills (Quick Add / Add To Cart) */
+    .buy-buttons-block .product-card__quick-add {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 43px;
+      padding: 11px 20px;
+      margin-block: 0 11px;
+      background: #ffffff;
+      color: #171717;
+      border: 0.5px solid #171717;
+      border-radius: 50px;
+      font-family: var(--font-primary--family);
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.5;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .buy-buttons-block .product-card__quick-add:hover:not([disabled]) {
+      background: #f7f7f7;
+    }
+
+    .buy-buttons-block add-to-cart-component {
+      display: block;
+      flex: 1 1 100%;
+      width: 100%;
+    }
+
+    .buy-buttons-block .add-to-cart-button {
+      --button-color: #ffffff;
+      --button-background-color: #171717;
+      --button-border-color: #171717;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 43px;
+      padding: 11px 20px;
+      border: none;
+      border-radius: 50px;
+      font-family: var(--font-primary--family);
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.5;
+      text-transform: uppercase;
+      min-height: 0;
+    }
+
+    .buy-buttons-block .add-to-cart-button:hover:not([disabled]) {
+      --button-color: #ffffff;
+      --button-background-color: #333333;
+      --button-border-color: #333333;
+    }
+
+    .buy-buttons-block .add-to-cart-button .add-to-cart-icon {
+      display: none;
+    }
+
+    @media (max-width: 749px) {
+      .buy-buttons-block .product-card__quick-add,
+      .buy-buttons-block .add-to-cart-button {
+        min-height: 38px;
+        font-size: 12px;
+      }
+    }
+  </style>
+{% endunless %}
+
 
 {% schema %}
 {

@@ -577,7 +577,8 @@
     "x_position": "Horizontale Position",
     "y_position": "Vertikale Position",
     "enable_sticky_add_to_cart": "Fixierte Leiste „In den Warenkorb“",
-    "sticky_add_to_cart": "Fixierte Schaltfläche „In den Warenkorb“"
+    "sticky_add_to_cart": "Fixierte Schaltfläche „In den Warenkorb“",
+    "border_color": "Rahmenfarbe"
   },
   "options": {
     "apple": "Apfel",

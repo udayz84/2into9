@@ -303,7 +303,9 @@
       "quantity_maximum": "最多 {{ maximum }} 个",
       "in_cart": "在购物车中",
       "default_title": "默认标题",
-      "sticky_add_to_cart": "快速添加到购物车栏"
+      "sticky_add_to_cart": "快速添加到购物车栏",
+      "select_size_prompt": "请选择尺码",
+      "color_options": "颜色选项"
     }
   },
   "fields": {
@@ -327,6 +329,14 @@
       "post": "发布评论",
       "success_moderated": "评论已发布，等待审核",
       "success": "评论已发布"
+    }
+  },
+  "general": {
+    "rating": "评分：{{ value }}"
+  },
+  "sections": {
+    "collection_list": {
+      "empty": "未找到系列"
     }
   }
 }

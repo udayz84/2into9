@@ -303,7 +303,9 @@
       "quantity_maximum": "Maximal {{ maximum }}",
       "in_cart": "im Warenkorb",
       "default_title": "Standardtitel",
-      "sticky_add_to_cart": "Leiste „Schnell in den Warenkorb“"
+      "sticky_add_to_cart": "Leiste „Schnell in den Warenkorb“",
+      "select_size_prompt": "Bitte wählen Sie eine Größe",
+      "color_options": "Farboptionen"
     }
   },
   "fields": {
@@ -327,6 +329,14 @@
       "post": "Kommentar posten",
       "success_moderated": "Kommentar gepostet, Moderation ausstehend",
       "success": "Kommentar gepostet"
+    }
+  },
+  "general": {
+    "rating": "Bewertung: {{ value }}"
+  },
+  "sections": {
+    "collection_list": {
+      "empty": "Keine Kollektionen gefunden"
     }
   }
 }

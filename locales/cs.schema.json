@@ -577,7 +577,8 @@
     "x_position": "Horizontální umístění",
     "y_position": "Vertikální umístění",
     "enable_sticky_add_to_cart": "Přilepený panel Přidat do košíku",
-    "sticky_add_to_cart": "Přilepené tlačítko Přidat do košíku"
+    "sticky_add_to_cart": "Přilepené tlačítko Přidat do košíku",
+    "border_color": "Barva ohraničení"
   },
   "options": {
     "apple": "Apple",

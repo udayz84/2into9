@@ -577,7 +577,8 @@
     "x_position": "Vandret position",
     "y_position": "Lodret position",
     "enable_sticky_add_to_cart": "Fastgjort bjælke med 'Læg i kurv'",
-    "sticky_add_to_cart": "Fastgjort 'Læg i kurv'"
+    "sticky_add_to_cart": "Fastgjort 'Læg i kurv'",
+    "border_color": "Kantfarve"
   },
   "options": {
     "apple": "Apple",

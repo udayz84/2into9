@@ -333,7 +333,17 @@
       "quantity_maximum": "Maxim {{ maximum }}",
       "in_cart": "în coș",
       "default_title": "Titlu implicit",
-      "sticky_add_to_cart": "Bara de adăugare rapidă în coș"
+      "sticky_add_to_cart": "Bara de adăugare rapidă în coș",
+      "select_size_prompt": "Selectați o mărime",
+      "color_options": "Opțiuni de culoare"
+    }
+  },
+  "general": {
+    "rating": "Evaluare: {{ value }}"
+  },
+  "sections": {
+    "collection_list": {
+      "empty": "Nu s-au găsit colecții"
     }
   }
 }

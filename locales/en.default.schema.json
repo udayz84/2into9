@@ -747,6 +747,7 @@
   },
   "settings": {
     "accordion": "Accordion",
+    "border_color": "Border color",
     "account": "Account",
     "alignment": "Alignment",
     "alignment_mobile": "Mobile alignment",

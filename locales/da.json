@@ -303,7 +303,9 @@
       "quantity_maximum": "Maksimum på {{ maximum }}",
       "in_cart": "i indkøbskurv",
       "default_title": "Standardtitel",
-      "sticky_add_to_cart": "Bjælken “Læg hurtigt i indkøbskurv”"
+      "sticky_add_to_cart": "Bjælken “Læg hurtigt i indkøbskurv”",
+      "select_size_prompt": "Vælg venligst en størrelse",
+      "color_options": "Farvevalg"
     }
   },
   "fields": {
@@ -327,6 +329,14 @@
       "post": "Send kommentar",
       "success_moderated": "Kommentaren blev indsendt og afventer moderering",
       "success": "Kommentaren blev indsendt"
+    }
+  },
+  "general": {
+    "rating": "Bedømmelse: {{ value }}"
+  },
+  "sections": {
+    "collection_list": {
+      "empty": "Ingen kollektioner fundet"
     }
   }
 }

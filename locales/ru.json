@@ -340,7 +340,17 @@
       "quantity_maximum": "Максимум: {{ maximum }}",
       "in_cart": "в корзине",
       "default_title": "Название по умолчанию",
-      "sticky_add_to_cart": "Быстрое добавление в корзину"
+      "sticky_add_to_cart": "Быстрое добавление в корзину",
+      "select_size_prompt": "Пожалуйста, выберите размер",
+      "color_options": "Варианты цветов"
+    }
+  },
+  "general": {
+    "rating": "Оценка: {{ value }}"
+  },
+  "sections": {
+    "collection_list": {
+      "empty": "Коллекции не найдены"
     }
   }
 }

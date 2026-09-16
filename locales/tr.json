@@ -326,7 +326,17 @@
       "quantity_maximum": "Maksimum: {{ maximum }}",
       "in_cart": "sepette",
       "default_title": "Varsayılan Başlık",
-      "sticky_add_to_cart": "Sepete hızlı ekle çubuğu"
+      "sticky_add_to_cart": "Sepete hızlı ekle çubuğu",
+      "select_size_prompt": "Lütfen bir beden seçin",
+      "color_options": "Renk seçenekleri"
+    }
+  },
+  "general": {
+    "rating": "Değerlendirme: {{ value }}"
+  },
+  "sections": {
+    "collection_list": {
+      "empty": "Koleksiyon bulunamadı"
     }
   }
 }

@@ -326,7 +326,17 @@
       "quantity_maximum": "Maximum {{ maximum }}",
       "in_cart": "i varukorg",
       "default_title": "Standardtitel",
-      "sticky_add_to_cart": "Fält för att lägga till snabbt i varukorgen"
+      "sticky_add_to_cart": "Fält för att lägga till snabbt i varukorgen",
+      "select_size_prompt": "Välj en storlek",
+      "color_options": "Färgalternativ"
+    }
+  },
+  "general": {
+    "rating": "Betyg: {{ value }}"
+  },
+  "sections": {
+    "collection_list": {
+      "empty": "Inga kollektioner hittades"
     }
   }
 }

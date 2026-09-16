@@ -309,7 +309,9 @@
       "quantity_maximum": "Maksimalno {{ maximum }}",
       "in_cart": "u košarici",
       "default_title": "Zadani naziv",
-      "sticky_add_to_cart": "Traka za brzo dodavanje u košaricu"
+      "sticky_add_to_cart": "Traka za brzo dodavanje u košaricu",
+      "select_size_prompt": "Odaberite veličinu",
+      "color_options": "Opcije boja"
     }
   },
   "fields": {
@@ -334,6 +336,14 @@
       "post": "Objavi komentar",
       "success_moderated": "Komentar je objavljen, čeka moderiranje",
       "success": "Komentar objavljen"
+    }
+  },
+  "general": {
+    "rating": "Ocjena: {{ value }}"
+  },
+  "sections": {
+    "collection_list": {
+      "empty": "Nisu pronađene kolekcije"
     }
   }
 }

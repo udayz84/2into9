@@ -326,7 +326,17 @@
       "quantity_maximum": "最多 {{ maximum }} 個",
       "in_cart": "在購物車中",
       "default_title": "預設標題",
-      "sticky_add_to_cart": "快速加入購物車列"
+      "sticky_add_to_cart": "快速加入購物車列",
+      "select_size_prompt": "請選擇尺碼",
+      "color_options": "顏色選項"
+    }
+  },
+  "general": {
+    "rating": "評分：{{ value }}"
+  },
+  "sections": {
+    "collection_list": {
+      "empty": "未找到系列"
     }
   }
 }

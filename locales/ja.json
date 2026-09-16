@@ -303,7 +303,9 @@
       "quantity_maximum": "最大{{ maximum }}",
       "in_cart": "カート内",
       "default_title": "デフォルトのタイトル",
-      "sticky_add_to_cart": "クイック「カートに追加」バー"
+      "sticky_add_to_cart": "クイック「カートに追加」バー",
+      "select_size_prompt": "サイズを選択してください",
+      "color_options": "カラーオプション"
     }
   },
   "fields": {
@@ -327,6 +329,14 @@
       "post": "コメントを投稿する",
       "success_moderated": "コメントを投稿しました。承認待ちです",
       "success": "コメントを投稿しました"
+    }
+  },
+  "general": {
+    "rating": "評価: {{ value }}"
+  },
+  "sections": {
+    "collection_list": {
+      "empty": "コレクションが見つかりません"
     }
   }
 }

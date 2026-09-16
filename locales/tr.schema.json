@@ -577,7 +577,8 @@
     "x_position": "Yatay konum",
     "y_position": "Dikey konum",
     "enable_sticky_add_to_cart": "Sabit sepete ekle çubuğu",
-    "sticky_add_to_cart": "Sabit sepete ekle"
+    "sticky_add_to_cart": "Sabit sepete ekle",
+    "border_color": "Kenarlık rengi"
   },
   "options": {
     "apple": "Apple",

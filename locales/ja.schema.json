@@ -577,7 +577,8 @@
     "x_position": "横位置",
     "y_position": "縦位置",
     "enable_sticky_add_to_cart": "固定「カートに追加」バー",
-    "sticky_add_to_cart": "固定「カートに追加」"
+    "sticky_add_to_cart": "固定「カートに追加」",
+    "border_color": "枠線の色"
   },
   "options": {
     "apple": "Apple",

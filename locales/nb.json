@@ -326,7 +326,17 @@
       "quantity_maximum": "Maksimum {{ maximum }}",
       "in_cart": "i handlekurv",
       "default_title": "Standardtittel",
-      "sticky_add_to_cart": "Hurtiglinje for «Legg i handlekurv»"
+      "sticky_add_to_cart": "Hurtiglinje for «Legg i handlekurv»",
+      "select_size_prompt": "Velg en størrelse",
+      "color_options": "Fargevalg"
+    }
+  },
+  "general": {
+    "rating": "Vurdering: {{ value }}"
+  },
+  "sections": {
+    "collection_list": {
+      "empty": "Ingen samlinger funnet"
     }
   }
 }

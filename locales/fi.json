@@ -303,7 +303,9 @@
       "quantity_maximum": "Enimmäismäärä {{ maximum }}",
       "in_cart": "ostoskorissa",
       "default_title": "Oletusotsikko",
-      "sticky_add_to_cart": "Pikalisäys ostoskoririville"
+      "sticky_add_to_cart": "Pikalisäys ostoskoririville",
+      "select_size_prompt": "Valitse koko",
+      "color_options": "Väriasetukset"
     }
   },
   "fields": {
@@ -327,6 +329,14 @@
       "post": "Julkaise kommentti",
       "success_moderated": "Kommentti on julkaistu; odotetaan moderointia",
       "success": "Kommentti on julkaistu"
+    }
+  },
+  "general": {
+    "rating": "Arvio: {{ value }}"
+  },
+  "sections": {
+    "collection_list": {
+      "empty": "Kokoelmia ei löytynyt"
     }
   }
 }

@@ -577,7 +577,8 @@
     "x_position": "水平位置",
     "y_position": "垂直位置",
     "enable_sticky_add_to_cart": "固定加入購物車列",
-    "sticky_add_to_cart": "固定加入購物車"
+    "sticky_add_to_cart": "固定加入購物車",
+    "border_color": "邊框顏色"
   },
   "options": {
     "apple": "Apple",

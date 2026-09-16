@@ -303,7 +303,9 @@
       "quantity_maximum": "Μέγιστο όριο {{ maximum }}",
       "in_cart": "στο καλάθι",
       "default_title": "Προεπιλεγμένος τίτλος",
-      "sticky_add_to_cart": "Γρήγορη προσθήκη στο καλάθι"
+      "sticky_add_to_cart": "Γρήγορη προσθήκη στο καλάθι",
+      "select_size_prompt": "Παρακαλώ επιλέξτε μέγεθος",
+      "color_options": "Επιλογές χρώματος"
     }
   },
   "fields": {
@@ -327,6 +329,14 @@
       "post": "Ανάρτηση σχολίου",
       "success_moderated": "Το σχόλιο δημοσιεύτηκε, εν αναμονή τροποποίησης",
       "success": "Το σχόλιο δημοσιεύτηκε"
+    }
+  },
+  "general": {
+    "rating": "Αξιολόγηση: {{ value }}"
+  },
+  "sections": {
+    "collection_list": {
+      "empty": "Δεν βρέθηκαν συλλογές"
     }
   }
 }

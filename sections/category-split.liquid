@@ -1,0 +1,271 @@
+{%- comment -%}
+  Homepage — split category banner (Men's / D-Lock). Two full-bleed mirrored
+  photo panels with light white type. Ref: section screenshot 3.
+{%- endcomment -%}
+
+<section
+  class="cat-split"
+  style="padding-block: {{ section.settings.padding_top }}px {{ section.settings.padding_bottom }}px; --cs-heading-size: {{ section.settings.heading_size }}px;"
+>
+  {%- for i in (1..2) -%}
+    {%- assign prefix = 'panel_' | append: i -%}
+    {%- assign img_key = prefix | append: '_image' -%}
+    {%- assign heading_key = prefix | append: '_heading' -%}
+    {%- assign shop_key = prefix | append: '_shop_label' -%}
+    {%- assign link_key = prefix | append: '_link' -%}
+    {%- assign align_key = prefix | append: '_align' -%}
+    {%- assign img = section.settings[img_key] -%}
+    {%- assign fallback = section.settings.panel_1_asset | default: 'panel-mens.jpg' -%}
+    {%- if i == 2 -%}{%- assign fallback = section.settings.panel_2_asset | default: 'panel-dlock.jpg' -%}{%- endif -%}
+    <a
+      class="cat-split__panel cat-split__panel--{{ section.settings[align_key] }}"
+      href="{{ section.settings[link_key] | default: '/collections/all' }}"
+    >
+      <img
+        class="cat-split__image"
+        src="{% if img %}{{ img | image_url: width: 1400 }}{% else %}{{ fallback | asset_url }}{% endif %}"
+        alt="{{ section.settings[heading_key] | default: 'Shop' | escape }}"
+        loading="{% if i == 1 %}eager{% else %}lazy{% endif %}"
+        width="1400"
+        height="1400"
+      >
+      <span class="cat-split__content">
+        <span class="cat-split__heading">{{ section.settings[heading_key] }}</span>
+        <span class="cat-split__shop">{{ section.settings[shop_key] }}</span>
+      </span>
+    </a>
+  {%- endfor -%}
+</section>
+
+{% stylesheet %}
+  .cat-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+
+  .cat-split__panel {
+    position: relative;
+    display: block;
+    aspect-ratio: 1 / 0.96;
+    overflow: hidden;
+    background: #101410;
+  }
+
+  .cat-split__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  .cat-split__panel:hover .cat-split__image {
+    transform: scale(1.03);
+  }
+
+  .cat-split__content {
+    position: absolute;
+    bottom: clamp(20px, 3vw, 40px);
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    color: #ffffff;
+  }
+
+  .cat-split__panel--left .cat-split__content {
+    left: clamp(20px, 3vw, 40px);
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .cat-split__panel--right .cat-split__content {
+    right: clamp(20px, 3vw, 40px);
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .cat-split__heading {
+    font-family: var(--font-heading--family);
+    font-size: var(--cs-heading-size, 40px);
+    font-weight: 300;
+    line-height: 1.1;
+    color: #ffffff;
+  }
+
+  .cat-split__shop {
+    font-family: var(--font-heading--family);
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+
+  .cat-split__panel:hover .cat-split__shop {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .cat-split {
+      grid-template-columns: 1fr;
+    }
+
+    .cat-split__panel {
+      aspect-ratio: 4 / 3;
+    }
+
+    .cat-split__heading {
+      font-size: min(var(--cs-heading-size, 40px), 9vw);
+    }
+
+    .cat-split__content {
+      bottom: 18px;
+    }
+
+    .cat-split__panel--left .cat-split__content,
+    .cat-split__panel--right .cat-split__content {
+      left: 18px;
+      right: 18px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}{
+  "name": "Category Split",
+  "tag": "section",
+  "class": "section-category-split",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Left panel"
+    },
+    {
+      "type": "image_picker",
+      "id": "panel_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "panel_1_heading",
+      "label": "Heading",
+      "default": "Men's"
+    },
+    {
+      "type": "text",
+      "id": "panel_1_shop_label",
+      "label": "Shop label",
+      "default": "SHOP"
+    },
+    {
+      "type": "url",
+      "id": "panel_1_link",
+      "label": "Link"
+    },
+    {
+      "type": "select",
+      "id": "panel_1_align",
+      "label": "Text position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Bottom left"
+        },
+        {
+          "value": "right",
+          "label": "Bottom right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Right panel"
+    },
+    {
+      "type": "image_picker",
+      "id": "panel_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "panel_2_heading",
+      "label": "Heading",
+      "default": "D-Lock"
+    },
+    {
+      "type": "text",
+      "id": "panel_2_shop_label",
+      "label": "Shop label",
+      "default": "SHOP"
+    },
+    {
+      "type": "url",
+      "id": "panel_2_link",
+      "label": "Link"
+    },
+    {
+      "type": "select",
+      "id": "panel_2_align",
+      "label": "Text position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Bottom left"
+        },
+        {
+          "value": "right",
+          "label": "Bottom right"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top spacing",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom spacing",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "header",
+      "content": "Theme image filenames"
+    },
+    {
+      "type": "text",
+      "id": "panel_1_asset",
+      "label": "Left panel",
+      "default": "panel-mens.jpg"
+    },
+    {
+      "type": "text",
+      "id": "panel_2_asset",
+      "label": "Right panel",
+      "default": "panel-dlock.jpg"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category Split"
+    }
+  ]
+}{% endschema %}

@@ -577,7 +577,8 @@
     "x_position": "Vannrett posisjon",
     "y_position": "Loddrett posisjon",
     "enable_sticky_add_to_cart": "Festet «Legg i handlekurv»-linje",
-    "sticky_add_to_cart": "Festet «Legg i handlekurv»"
+    "sticky_add_to_cart": "Festet «Legg i handlekurv»",
+    "border_color": "Kantfarge"
   },
   "options": {
     "apple": "Eple",

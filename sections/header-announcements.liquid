@@ -45,6 +45,13 @@
     color: #ffffff !important;
   }
 
+  /* Transparent header pages (home): let the hero show through behind the text */
+  body:has(.header[transparent]) .announcement-bar,
+  body:has(.header[transparent]) .section-background:has(+ .announcement-bar) {
+    background: transparent !important;
+    border-block-end-color: transparent;
+  }
+
   .announcement-bar * {
     color: #ffffff !important;
   }
@@ -120,6 +127,8 @@
 
   .announcement-bar__text:first-child {
     margin: 0;
+    /* Slide sets --line-height: 1, which clips descenders (p, y) */
+    line-height: 1.5;
   }
 
   .announcement-bar__link {

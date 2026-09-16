@@ -577,7 +577,8 @@
     "x_position": "Posição horizontal",
     "y_position": "Posição vertical",
     "enable_sticky_add_to_cart": "Barra fixa de adicionar ao carrinho",
-    "sticky_add_to_cart": "Barra fixa de adicionar ao carrinho"
+    "sticky_add_to_cart": "Barra fixa de adicionar ao carrinho",
+    "border_color": "Cor da borda"
   },
   "options": {
     "apple": "Maçã",

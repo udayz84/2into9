@@ -577,7 +577,8 @@
     "x_position": "가로 위치",
     "y_position": "세로 위치",
     "enable_sticky_add_to_cart": "고정 카트 추가 바",
-    "sticky_add_to_cart": "고정 카트 추가"
+    "sticky_add_to_cart": "고정 카트 추가",
+    "border_color": "테두리 색상"
   },
   "options": {
     "apple": "Apple",

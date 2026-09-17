@@ -12,11 +12,21 @@ class ProductHero extends HTMLElement {
     this.initGallery();
     this.initSizes();
     this.initBundles();
+    this.initActions();
     this.syncInitialState();
     document.addEventListener('pdp:colour-select', (event) => {
       if (event.detail.variantId) {
         this.activateVariantImage(event.detail.variantId);
       }
+    });
+  }
+
+  initActions() {
+    this.querySelector('[data-scroll-to-builder]')?.addEventListener('click', (event) => {
+      const builder = document.querySelector('[id*="__colour-builder"]');
+      if (!builder) return;
+      event.preventDefault();
+      builder.scrollIntoView({ behavior: 'smooth' });
     });
   }
 

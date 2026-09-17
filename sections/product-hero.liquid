@@ -28,7 +28,7 @@
   {%- endif -%}
 
   <div class="ph__grid">
-    <div class="ph__gallery-col">
+    <div class="ph__gallery-col sticky-content sticky-content--desktop">
       <div class="ph-gallery" data-gallery>
         {%- if section.settings.show_rating -%}
           <a
@@ -107,11 +107,28 @@
     </div>
 
     <div class="ph__buy-col">
+      {%- assign has_bundles = false -%}
+      {%- assign low_as = blank -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'bundle' -%}
+          {%- assign has_bundles = true -%}
+          {%- if low_as == blank -%}
+            {%- assign low_as = block.settings.price_each -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+
       <div class="ph-title">
+        {%- if product.type != blank -%}
+          <span class="ph-title__eyebrow">{{ product.type }}</span>
+        {%- endif -%}
         <h1 class="ph-title__heading">{{ product.title }}</h1>
         <p class="ph-title__price" data-price>
           {{ product.selected_or_first_available_variant.price | money }}
         </p>
+        {%- if has_bundles and low_as != blank -%}
+          <p class="ph-title__low-as">Low as {{ low_as }} with packs</p>
+        {%- endif -%}
       </div>
 
       {%- if section.blocks.size > 0 -%}
@@ -156,16 +173,54 @@
         </div>
       {%- endif -%}
 
+      {%- if has_bundles -%}
+        <div class="ph-step">
+          <span class="ph-step__label">Select your quantity</span>
+          <div class="ph-bundles" role="radiogroup" aria-label="Quantity bundle">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'bundle' -%}
+                {%- liquid
+                  assign qty_digits = block.settings.pairs | replace: ' Pairs', '' | replace: ' Pair', '' | replace: ' pairs', '' | replace: ' pair', ''
+                  assign qty = qty_digits | plus: 0
+                -%}
+                <label
+                  class="ph-bundle{% if block.settings.selected %} is-selected{% endif %}"
+                  {{ block.shopify_attributes }}
+                >
+                  <input
+                    type="radio"
+                    name="ph-bundle-{{ section.id }}"
+                    class="ph-bundle__input"
+                    data-qty="{{ qty }}"
+                    data-price-each="{{ block.settings.price_each | escape }}"
+                    {% if block.settings.selected %}checked{% endif %}
+                  >
+                  {%- if block.settings.top_badge != blank -%}
+                    <span class="ph-bundle__badge ph-bundle__badge--top">{{ block.settings.top_badge }}</span>
+                  {%- endif -%}
+                  <span class="ph-bundle__pairs">{{ block.settings.pairs }}</span>
+                  <span class="ph-bundle__price">{{ block.settings.price_each }}</span>
+                  {%- if block.settings.discount_badge != blank -%}
+                    <span class="ph-bundle__badge ph-bundle__badge--discount">{{ block.settings.discount_badge }}</span>
+                  {%- endif -%}
+                </label>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+      <div class="ph-actions">
+        <a class="ph-actions__btn ph-actions__btn--outline" href="#" data-scroll-to-builder>Build a custom bundle 📦</a>
+        {%- if section.settings.find_fit_url != blank -%}
+          <a class="ph-actions__btn ph-actions__btn--solid" href="{{ section.settings.find_fit_url }}">Find my fit 📏</a>
+        {%- endif -%}
+      </div>
+
       {%- if size_option -%}
         <div class="ph-step">
           <div class="ph-step__header">
             <span class="ph-step__label">Select your fit</span>
-            {%- if section.settings.find_fit_url != blank -%}
-              <a class="ph-step__aux-link" href="{{ section.settings.find_fit_url }}">
-                <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1"><rect x="1" y="3.4" width="8" height="3.2" rx="0.6" transform="rotate(-20 5 5)"/><path d="M3 5.4l.4-.9M5 4.7l.4-.9M7 4l.4-.9" stroke-linecap="round"/></svg>
-                {{ section.settings.find_fit_text }}
-              </a>
-            {%- endif -%}
           </div>
           <div class="ph-sizes" role="radiogroup" aria-label="{{ size_option.name }}">
             {%- for value in size_option.values -%}
@@ -206,54 +261,57 @@
         </div>
       {%- endif -%}
 
-      {%- assign has_bundles = false -%}
+      {%- assign acc_first = true -%}
+      {%- assign has_acc = false -%}
       {%- for block in section.blocks -%}
-        {%- if block.type == 'bundle' -%}
-          {%- assign has_bundles = true -%}
+        {%- if block.type == 'accordion_item' -%}
+          {%- assign has_acc = true -%}
         {%- endif -%}
       {%- endfor -%}
-
-      {%- if has_bundles -%}
-        <div class="ph-step">
-          <span class="ph-step__label">Select your quantity</span>
-          <div class="ph-bundles" role="radiogroup" aria-label="Quantity bundle">
-            {%- for block in section.blocks -%}
-              {%- if block.type == 'bundle' -%}
-                {%- liquid
-                  assign qty_digits = block.settings.pairs | replace: ' Pairs', '' | replace: ' Pair', '' | replace: ' pairs', '' | replace: ' pair', ''
-                  assign qty = qty_digits | plus: 0
-                -%}
-                <label
-                  class="ph-bundle{% if block.settings.selected %} is-selected{% endif %}"
-                  {{ block.shopify_attributes }}
-                >
-                  <input
-                    type="radio"
-                    name="ph-bundle-{{ section.id }}"
-                    class="ph-bundle__input"
-                    data-qty="{{ qty }}"
-                    data-price-each="{{ block.settings.price_each | escape }}"
-                    {% if block.settings.selected %}checked{% endif %}
-                  >
-                  {%- if block.settings.top_badge != blank -%}
-                    <span class="ph-bundle__badge ph-bundle__badge--top">{{ block.settings.top_badge }}</span>
-                  {%- endif -%}
-                  <span class="ph-bundle__pairs">{{ block.settings.pairs }}</span>
-                  <span class="ph-bundle__price">{{ block.settings.price_each }}</span>
-                  {%- if block.settings.discount_badge != blank -%}
-                    <span class="ph-bundle__badge ph-bundle__badge--discount">{{ block.settings.discount_badge }}</span>
-                  {%- endif -%}
-                </label>
-              {%- endif -%}
-            {%- endfor -%}
+      {%- if has_acc -%}
+      <div class="ph-step">
+        <span class="ph-step__label">Product details</span>
+        <product-accordion class="ph-acc">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'accordion_item' -%}
+          <div
+            class="ph-acc__item{% if acc_first %} is-open{% endif %}"
+            data-accordion-item
+            {{ block.shopify_attributes }}
+          >
+            <button
+              type="button"
+              class="ph-acc__header"
+              data-accordion-trigger
+              aria-expanded="{% if acc_first %}true{% else %}false{% endif %}"
+            >
+              <span class="ph-acc__title">{{ block.settings.title }}</span>
+              <span class="ph-acc__icon" aria-hidden="true">
+                <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3.5 5.5l4 4 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </button>
+            <div class="ph-acc__content" data-accordion-content{% unless acc_first %} hidden{% endunless %}>
+              <div class="ph-acc__body">
+                {%- if block.settings.use_product_description -%}
+                  {{ product.description }}
+                {%- else -%}
+                  {{ block.settings.content }}
+                {%- endif -%}
+              </div>
+            </div>
           </div>
-        </div>
+          {%- assign acc_first = false -%}
+          {%- endif -%}
+        {%- endfor -%}
+        </product-accordion>
+      </div>
       {%- endif -%}
     </div>
   </div>
 </product-hero>
 
 <script src="{{ 'product-hero.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'product-accordion.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}
 {
@@ -391,6 +449,29 @@
           "default": false
         }
       ]
+    },
+    {
+      "type": "accordion_item",
+      "name": "Accordion item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Product Description"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_product_description",
+          "label": "Use product description as content",
+          "default": false
+        }
+      ]
     }
   ],
   "presets": [
@@ -466,17 +547,22 @@
   .ph__grid {
     position: relative;
     display: grid;
-    grid-template-columns: 550px 1fr;
-    column-gap: 60px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 64px;
     justify-content: flex-start;
     align-items: start;
-    max-width: 1700px;
+    max-width: 80rem;
     margin-inline: auto;
   }
 
   /* Gallery */
   .ph__gallery-col {
     margin-block-start: 8px;
+  }
+
+  /* If the header is sticky, stick the gallery underneath it */
+  body:has(#header-group #header-component[data-sticky-state='active']) .ph__gallery-col {
+    --sticky-header-offset: var(--header-height);
   }
 
   .ph-gallery {
@@ -623,70 +709,90 @@
     color: var(--ph-ink);
   }
 
-  /* Feature tiles */
-  .ph-features {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    margin-block-start: 24px;
+  .ph-title__eyebrow {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    color: #6b6b6b;
+  }
+
+  .ph-title__low-as {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #4a4a4a;
+  }
+
+  /* Action buttons (bundle builder / find fit) */
+  .ph-actions {
+    display: flex;
+    gap: 10px;
+    margin-block-start: 20px;
     width: 100%;
   }
 
-  @media (min-width: 500px) {
-    .ph-features {
-      gap: 12px;
-    }
+  .ph-actions__btn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 52px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 20px;
+    text-decoration: none;
+    cursor: pointer;
   }
 
-  @media (min-width: 768px) {
-    .ph-features {
-      gap: 20px;
-      margin-block-start: 40px;
-    }
+  .ph-actions__btn--outline {
+    background: #fff;
+    border: 1px solid var(--ph-ink);
+    color: var(--ph-ink);
+  }
+
+  .ph-actions__btn--solid {
+    background: var(--ph-ink);
+    border: 1px solid var(--ph-ink);
+    color: #fff;
+  }
+
+  /* Feature list (vertical, icon + label) */
+  .ph-features {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    margin-block-start: 28px;
+    width: 100%;
   }
 
   .ph-tile {
     position: relative;
-    width: 100%;
-    min-height: 80px;
-    padding: 12px 4px;
-    border-radius: 8px;
-    background: var(--ph-tile-bg);
-    color: var(--ph-ink);
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
-
-  @media (min-width: 768px) {
-    .ph-tile {
-      min-height: 120px;
-      padding: 16px 8px;
-      border-radius: 10px;
-      gap: 12px;
-    }
-  }
-
-  .ph-tile--highlight {
-    background: var(--ph-ink);
-    color: #fff;
+    gap: 14px;
+    color: var(--ph-ink);
   }
 
   .ph-tile__icon {
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
     display: grid;
     place-items: center;
     flex-shrink: 0;
   }
 
-  @media (min-width: 768px) {
-    .ph-tile__icon {
-      width: 40px;
-      height: 40px;
-    }
+  .ph-tile--highlight .ph-tile__icon {
+    width: 38px;
+    height: 38px;
+    padding: 5px;
+    background: var(--ph-lime);
+    border-radius: 999px;
   }
 
   .ph-tile__icon svg,
@@ -697,22 +803,10 @@
   }
 
   .ph-tile__label {
-    text-align: center;
-    font-size: 11px;
-    font-weight: 600;
-    line-height: 1.2;
-  }
-
-  @media (min-width: 500px) {
-    .ph-tile__label {
-      font-size: 13px;
-    }
-  }
-
-  @media (min-width: 768px) {
-    .ph-tile__label {
-      font-size: 14px;
-    }
+    text-align: left;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.35;
   }
 
   /* Steps */
@@ -854,15 +948,15 @@
   }
 
   .ph-bundle__pairs {
-    font-size: 13px;
-    font-weight: 400;
-    line-height: 18px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 20px;
   }
 
   .ph-bundle__price {
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 22px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
   }
 
   .ph-bundle__badge {
@@ -872,20 +966,102 @@
     background: var(--ph-lime);
     color: #000;
     border-radius: 40px;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
     line-height: 18px;
     white-space: nowrap;
+    max-width: calc(100% - 8px);
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .ph-bundle__badge--top {
     top: -15px;
-    padding: 5px 16px;
+    padding: 5px 8px;
   }
 
   .ph-bundle__badge--discount {
     bottom: 13px;
-    padding: 3px 16px;
+    padding: 3px 8px;
+  }
+
+  /* Accordion (in buy column, under step 3 label) */
+  .ph-acc {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-block-start: 20px;
+    width: 100%;
+  }
+
+  .ph-acc__item {
+    border: 1px solid var(--ph-border);
+    border-radius: 12px;
+    background: #fff;
+    overflow: clip;
+  }
+
+  .ph-acc__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    min-height: 56px;
+    padding: 14px 18px;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    font-family: var(--ph-font);
+  }
+
+  .ph-acc__title {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 22px;
+    color: var(--ph-ink);
+    text-align: left;
+  }
+
+  .ph-acc__icon {
+    flex: none;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #f3f3f3;
+    color: var(--ph-ink);
+    display: grid;
+    place-items: center;
+    transition: transform 0.25s ease;
+  }
+
+  .ph-acc__icon svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .ph-acc__item.is-open .ph-acc__icon {
+    transform: rotate(180deg);
+  }
+
+  .ph-acc__content {
+    border-block-start: 1px solid var(--ph-border);
+  }
+
+  .ph-acc__body {
+    padding: 16px 18px 20px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--ph-ink);
+  }
+
+  .ph-acc__body p {
+    margin: 0 0 10px;
+  }
+
+  .ph-acc__body p:last-child {
+    margin-block-end: 0;
   }
 {% endstylesheet %}

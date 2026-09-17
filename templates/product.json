@@ -72,34 +72,6 @@
             "pairs": "1 Pair",
             "price_each": "Rs 929/each"
           }
-        },
-        "acc_description": {
-          "type": "accordion_item",
-          "settings": {
-            "title": "Product Description",
-            "use_product_description": true
-          }
-        },
-        "acc_fit_fabric": {
-          "type": "accordion_item",
-          "settings": {
-            "title": "Fit & Fabric",
-            "content": "<p>Ultra-soft bamboo viscose with anti-chafe panels, a 3D comfort pouch and moisture-wicking finish for all-day freshness.</p>"
-          }
-        },
-        "acc_shipping": {
-          "type": "accordion_item",
-          "settings": {
-            "title": "Shipping",
-            "content": "<p>Complimentary shipping within India. No tariffs apply. Orders dispatch within 24–48 hours and arrive in 3–7 business days.</p>"
-          }
-        },
-        "acc_guarantee": {
-          "type": "accordion_item",
-          "settings": {
-            "title": "30 Day First Pair Guarantee",
-            "content": "<p>Don't love your first pair? Wear it, wash it — if you're not satisfied within 30 days, we'll refund you. No questions asked.</p>"
-          }
         }
       },
       "block_order": [
@@ -110,11 +82,7 @@
         "bundle_best_value",
         "bundle_most_popular",
         "bundle_4_pairs",
-        "bundle_1_pair",
-        "acc_description",
-        "acc_fit_fabric",
-        "acc_shipping",
-        "acc_guarantee"
+        "bundle_1_pair"
       ]
     },
     "colour-builder": {
@@ -130,6 +98,44 @@
         "show_divider": true
       }
     },
+    "accordion": {
+      "type": "product-accordion",
+      "settings": {
+        "page_padding": 110,
+        "open_first": true
+      },
+      "blocks": {
+        "description": {
+          "type": "item",
+          "settings": {
+            "title": "Product Description",
+            "use_product_description": true
+          }
+        },
+        "fit_fabric": {
+          "type": "item",
+          "settings": {
+            "title": "Fit & Fabric",
+            "content": "<p>Ultra-soft bamboo viscose with anti-chafe panels, a 3D comfort pouch and moisture-wicking finish for all-day freshness.</p>"
+          }
+        },
+        "shipping": {
+          "type": "item",
+          "settings": {
+            "title": "Shipping",
+            "content": "<p>Complimentary shipping within India. No tariffs apply. Orders dispatch within 24–48 hours and arrive in 3–7 business days.</p>"
+          }
+        },
+        "guarantee": {
+          "type": "item",
+          "settings": {
+            "title": "30 Day First Pair Guarantee",
+            "content": "<p>Don't love your first pair? Wear it, wash it — if you're not satisfied within 30 days, we'll refund you. No questions asked.</p>"
+          }
+        }
+      },
+      "block_order": ["description", "fit_fabric", "shipping", "guarantee"]
+    },
     "why": {
       "type": "product-why",
       "settings": {
@@ -143,31 +149,18 @@
       "blocks": {
         "mens": {
           "type": "card",
-          "settings": {
-            "label": "Mens",
-            "button_label": "Shop Now"
-          }
+          "settings": { "label": "Mens", "button_label": "Shop Now" }
         },
         "kids": {
           "type": "card",
-          "settings": {
-            "label": "Kids",
-            "button_label": "Shop Now"
-          }
+          "settings": { "label": "Kids", "button_label": "Shop Now" }
         },
         "dlock": {
           "type": "card",
-          "settings": {
-            "label": "D-Lock",
-            "button_label": "Shop Now"
-          }
+          "settings": { "label": "D-Lock", "button_label": "Shop Now" }
         }
       },
-      "block_order": [
-        "mens",
-        "kids",
-        "dlock"
-      ]
+      "block_order": ["mens", "kids", "dlock"]
     },
     "faq": {
       "type": "product-faq",
@@ -199,11 +192,7 @@
           }
         }
       },
-      "block_order": [
-        "q1",
-        "q2",
-        "q3"
-      ]
+      "block_order": ["q1", "q2", "q3"]
     },
     "reviews": {
       "type": "product-reviews",
@@ -262,20 +251,8 @@
           }
         }
       },
-      "block_order": [
-        "r1",
-        "r2",
-        "r3",
-        "r4",
-        "r5"
-      ]
+      "block_order": ["r1", "r2", "r3", "r4", "r5"]
     }
   },
-  "order": [
-    "main",
-    "colour-builder",
-    "why",
-    "faq",
-    "reviews"
-  ]
+  "order": ["main", "colour-builder", "accordion", "why", "faq", "reviews"]
 }

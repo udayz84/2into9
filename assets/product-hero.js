@@ -74,14 +74,12 @@ class ProductHero extends HTMLElement {
         return;
       }
 
-      // Release the moment the pin rail ends — the next section is full-width,
-      // so gliding out would overlap its content.
-      if (topOffset + gallery.offsetHeight > railEnd() - window.scrollY) {
-        gallery.style.cssText = '';
-        return;
-      }
-
-      gallery.style.cssText = `position:fixed;top:${topOffset}px;left:${rect.left}px;width:${rect.width}px;z-index:2;`;
+      // Pinned at topOffset, then glides up 1:1 with the page so it exits
+      // through the accordion's empty left rail and is fully gone exactly
+      // when the last accordion box passes (never reaching the why section).
+      const releasedTop = railEnd() - gallery.offsetHeight - window.scrollY;
+      const top = Math.min(topOffset, releasedTop);
+      gallery.style.cssText = `position:fixed;top:${top}px;left:${rect.left}px;width:${rect.width}px;z-index:2;`;
     };
 
     document.addEventListener('scroll', update, { passive: true });

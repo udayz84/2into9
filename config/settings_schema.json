@@ -21,6 +21,11 @@
       },
       {
         "type": "image_picker",
+        "id": "logo_homepage",
+        "label": "Homepage logo"
+      },
+      {
+        "type": "image_picker",
         "id": "logo_inverse",
         "label": "t:settings.inverse_logo",
         "info": "t:content.inverse_logo_info"

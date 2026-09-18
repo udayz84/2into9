@@ -17,75 +17,7 @@
   data-product-id="{{ product.id }}"
 >
   <div class="pcb__grid">
-    <div class="pcb__thumbs-col">
-      {%- if colour_option -%}
-        {%- for value in colour_option.values limit: 4 -%}
-          {%- liquid
-            assign thumb_variant = null
-            for variant in product.variants
-              if variant.options[colour_index] == value
-                assign thumb_variant = variant
-                break
-              endif
-            endfor
-          -%}
-          <button
-            type="button"
-            class="pcb-thumb{% if forloop.first %} is-selected{% endif %}"
-            data-colour-thumb
-            data-colour="{{ value | escape }}"
-            aria-label="{{ value }}"
-            aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
-          >
-            {%- if thumb_variant and thumb_variant.image -%}
-              {{
-                thumb_variant.image
-                | image_url: width: 240
-                | image_tag:
-                  class: 'pcb-thumb__image',
-                  widths: '111, 222',
-                  sizes: '111px',
-                  loading: 'lazy',
-                  alt: value
-              }}
-            {%- elsif product.featured_image -%}
-              {{
-                product.featured_image
-                | image_url: width: 240
-                | image_tag:
-                  class: 'pcb-thumb__image',
-                  widths: '111, 222',
-                  sizes: '111px',
-                  loading: 'lazy',
-                  alt: value
-              }}
-            {%- endif -%}
-          </button>
-        {%- endfor -%}
-      {%- elsif product.images.size > 1 -%}
-        {%- for image in product.images limit: 4 -%}
-          <button
-            type="button"
-            class="pcb-thumb{% if forloop.first %} is-selected{% endif %}"
-            data-colour-thumb
-            data-colour="image-{{ forloop.index }}"
-            aria-label="Colour {{ forloop.index }}"
-            aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
-          >
-            {{
-              image
-              | image_url: width: 240
-              | image_tag:
-                class: 'pcb-thumb__image',
-                widths: '111, 222',
-                sizes: '111px',
-                loading: 'lazy',
-                alt: image.alt | escape
-            }}
-          </button>
-        {%- endfor -%}
-      {%- endif -%}
-    </div>
+    <div class="pcb__spacer" aria-hidden="true"></div>
 
     <div class="pcb__buy-col">
       <span class="pcb__label pcb__label--step">Select your colours</span>

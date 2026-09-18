@@ -1,7 +1,9 @@
 <product-accordion class="pa" style="--pa-padding-inline: {{ section.settings.page_padding }}px;">
   <div class="pa__grid">
     <div class="pa__spacer" aria-hidden="true"></div>
-    <div class="pa__list">
+    <div>
+      <span class="pa__label">4. Product details</span>
+      <div class="pa__list">
       {%- for block in section.blocks -%}
         <div
           class="pa-item{% if forloop.first and section.settings.open_first %} is-open{% endif %}"
@@ -30,6 +32,7 @@
           </div>
         </div>
       {%- endfor -%}
+      </div>
     </div>
   </div>
 </product-accordion>
@@ -116,6 +119,7 @@
     --pa-ink: #171717;
     --pa-border: #dcdcdc;
     --pa-font: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+    display: block;
     font-family: var(--pa-font);
     color: var(--pa-ink);
     padding-inline: var(--pa-padding-inline, 110px);
@@ -131,6 +135,15 @@
     align-items: start;
     max-width: 1700px;
     margin-inline: auto;
+  }
+
+  .pa__label {
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 28px;
+    color: var(--pa-ink);
+    margin-block-end: 20px;
   }
 
   .pa__list {

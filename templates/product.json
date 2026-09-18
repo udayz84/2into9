@@ -134,7 +134,12 @@
           }
         }
       },
-      "block_order": ["description", "fit_fabric", "shipping", "guarantee"]
+      "block_order": [
+        "description",
+        "fit_fabric",
+        "shipping",
+        "guarantee"
+      ]
     },
     "why": {
       "type": "product-why",
@@ -149,18 +154,31 @@
       "blocks": {
         "mens": {
           "type": "card",
-          "settings": { "label": "Mens", "button_label": "Shop Now" }
+          "settings": {
+            "label": "Mens",
+            "button_label": "Shop Now"
+          }
         },
         "kids": {
           "type": "card",
-          "settings": { "label": "Kids", "button_label": "Shop Now" }
+          "settings": {
+            "label": "Kids",
+            "button_label": "Shop Now"
+          }
         },
         "dlock": {
           "type": "card",
-          "settings": { "label": "D-Lock", "button_label": "Shop Now" }
+          "settings": {
+            "label": "D-Lock",
+            "button_label": "Shop Now"
+          }
         }
       },
-      "block_order": ["mens", "kids", "dlock"]
+      "block_order": [
+        "mens",
+        "kids",
+        "dlock"
+      ]
     },
     "faq": {
       "type": "product-faq",
@@ -192,7 +210,11 @@
           }
         }
       },
-      "block_order": ["q1", "q2", "q3"]
+      "block_order": [
+        "q1",
+        "q2",
+        "q3"
+      ]
     },
     "reviews": {
       "type": "product-reviews",
@@ -251,8 +273,21 @@
           }
         }
       },
-      "block_order": ["r1", "r2", "r3", "r4", "r5"]
+      "block_order": [
+        "r1",
+        "r2",
+        "r3",
+        "r4",
+        "r5"
+      ]
     }
   },
-  "order": ["main", "colour-builder", "accordion", "why", "faq", "reviews"]
+  "order": [
+    "main",
+    "colour-builder",
+    "accordion",
+    "why",
+    "faq",
+    "reviews"
+  ]
 }

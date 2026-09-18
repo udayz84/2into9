@@ -29,6 +29,7 @@
 
   <div class="ph__grid">
     <div class="ph__gallery-col">
+     <div class="ph__gallery-pin">
       <div class="ph-gallery" data-gallery>
         {%- if section.settings.show_rating -%}
           <a
@@ -104,6 +105,31 @@
           </button>
         {%- endif -%}
       </div>
+
+      {%- if product.media.size > 1 -%}
+        <div class="ph-thumbs" data-thumbs>
+          {%- for media in product.media -%}
+            <button
+              type="button"
+              class="ph-thumb{% if forloop.first %} is-active{% endif %}"
+              data-thumb-index="{{ forloop.index0 }}"
+              aria-label="Show image {{ forloop.index }}"
+            >
+              {{
+                media
+                | image_url: width: 200
+                | image_tag:
+                  class: 'ph-thumb__image',
+                  widths: '82, 164',
+                  sizes: '82px',
+                  loading: 'lazy',
+                  alt: media.alt | escape
+              }}
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+     </div>
     </div>
 
     <div class="ph__buy-col">
@@ -596,6 +622,38 @@
 
   .ph-gallery__arrow--next {
     right: 30px;
+  }
+
+  /* Thumbnail grid under the main image */
+  .ph-thumbs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    gap: 10px;
+    margin-block-start: 12px;
+    width: 100%;
+  }
+
+  .ph-thumb {
+    padding: 0;
+    border: 1px solid var(--ph-border);
+    border-radius: 8px;
+    overflow: clip;
+    cursor: pointer;
+    background: var(--ph-card-bg);
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+  }
+
+  .ph-thumb.is-active {
+    border: 2px solid var(--ph-ink);
+  }
+
+  .ph-thumb__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   /* Title + price */

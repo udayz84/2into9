@@ -51,11 +51,13 @@ class ProductHero extends HTMLElement {
         : 0;
     };
 
-    // Bottom of the last section whose left rail stays empty (the accordion).
+    // Where the pin must stop: the top of the first full-width section
+    // after the accordion (the "why" section) — its content owns the left lane.
     const railEnd = () => {
+      const why = document.querySelector('[id*="__why"]');
+      if (why) return why.offsetTop - 20;
       const acc = document.querySelector('[id*="__accordion"]');
-      const end = acc ? acc.offsetTop + acc.offsetHeight : this.offsetTop + this.offsetHeight;
-      return end + 40; // small buffer before the colour builder's thumbs arrive
+      return acc ? acc.offsetTop + acc.offsetHeight : this.offsetTop + this.offsetHeight;
     };
 
     const update = () => {
@@ -72,10 +74,14 @@ class ProductHero extends HTMLElement {
         return;
       }
 
-      // Once the rail's end passes the gallery's bottom, let it slide away
-      // with the page (mimics a released sticky instead of a hard jump).
-      const overshoot = Math.max(0, topOffset + gallery.offsetHeight - (railEnd() - window.scrollY));
-      gallery.style.cssText = `position:fixed;top:${topOffset - overshoot}px;left:${rect.left}px;width:${rect.width}px;z-index:2;`;
+      // Release the moment the pin rail ends — the next section is full-width,
+      // so gliding out would overlap its content.
+      if (topOffset + gallery.offsetHeight > railEnd() - window.scrollY) {
+        gallery.style.cssText = '';
+        return;
+      }
+
+      gallery.style.cssText = `position:fixed;top:${topOffset}px;left:${rect.left}px;width:${rect.width}px;z-index:2;`;
     };
 
     document.addEventListener('scroll', update, { passive: true });

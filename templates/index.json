@@ -125,6 +125,7 @@
       "type": "media-lookbook",
       "name": "Media Lookbook",
       "settings": {
+        "image": "shopify://shop_images/video_fallback.webp",
         "image_alt": "2into9 lookbook campaign",
         "show_play_mark": true,
         "gap_top": 17,
@@ -140,29 +141,37 @@
         "q1": {
           "type": "question",
           "settings": {
-            "question": "What's the difference between a Boxer Brief and Trunk?",
-            "answer": "The only difference between the two is that Boxer Briefs have 3 cm more leg length than the trunks."
+            "question": "Is 2INTO9 underwear made for everyday wear?",
+            "answer": "Yes. 2INTO9 underwear is designed for everyday comfort, support, and movement. Whether you are working, travelling, exercising, or relaxing, our designs help you stay comfortable throughout the day."
           }
         },
         "q2": {
           "type": "question",
           "settings": {
-            "question": "What type of underwear is best for me?",
-            "answer": "For everyday wear, our Trunks and Boxer Briefs are the go-to. Pick Trunks for a shorter leg and a cooler feel, or Boxer Briefs for a bit more coverage. Still unsure? Take the fit quiz and we will match you in under a minute."
+            "question": "What makes 2INTO9 different from regular underwear?",
+            "answer": "2INTO9 focuses on better comfort, supportive fit, and modern design. Our underwear is created to provide a comfortable wearing experience with thoughtful construction and a supportive pouch design."
           }
         },
         "q3": {
           "type": "question",
           "settings": {
-            "question": "What underpants should I choose if I play sport?",
-            "answer": "Go with a compression fit. It gives locked-in support, breathable fabric and zero ride-up, so nothing shifts while you move."
+            "question": "Who is 2INTO9 underwear suitable for?",
+            "answer": "2INTO9 underwear is suitable for men who want comfortable, supportive, and stylish innerwear for everyday use."
+          }
+        },
+        "question_LrzRi7": {
+          "type": "question",
+          "settings": {
+            "question": "What types of underwear does 2INTO9 offer?",
+            "answer": "We offer different styles including Solid, Printed, Kids Solid, D-Lock, and Kids D-Lock collections, designed to match different comfort and style preferences."
           }
         }
       },
       "block_order": [
         "q1",
         "q2",
-        "q3"
+        "q3",
+        "question_LrzRi7"
       ],
       "name": "FAQ's",
       "settings": {

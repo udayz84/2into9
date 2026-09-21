@@ -11,13 +11,6 @@
   "sections": {
     "main": {
       "type": "product-hero",
-      "settings": {
-        "bg_text": "underwear",
-        "page_padding": 110,
-        "show_rating": true,
-        "rating": 4.5,
-        "find_fit_url": "/pages/sizing"
-      },
       "blocks": {
         "feature_shorter_leg": {
           "type": "feature",
@@ -31,21 +24,24 @@
           "type": "feature",
           "settings": {
             "label": "Anti-Chafe",
-            "icon": "shield"
+            "icon": "shield",
+            "highlight": false
           }
         },
         "feature_bamboo": {
           "type": "feature",
           "settings": {
             "label": "Soft Bamboo Viscose",
-            "icon": "leaf"
+            "icon": "leaf",
+            "highlight": false
           }
         },
         "feature_anti_sweat": {
           "type": "feature",
           "settings": {
             "label": "Anti-Sweat",
-            "icon": "sweat"
+            "icon": "sweat",
+            "highlight": false
           }
         },
         "bundle_best_value": {
@@ -54,7 +50,8 @@
             "pairs": "15 Pairs",
             "price_each": "Rs 800/each",
             "top_badge": "Best Value",
-            "discount_badge": "20% OFF"
+            "discount_badge": "20% OFF",
+            "selected": false
           }
         },
         "bundle_most_popular": {
@@ -72,14 +69,19 @@
           "settings": {
             "pairs": "4 Pairs",
             "price_each": "Rs 870/each",
-            "discount_badge": "10% OFF"
+            "top_badge": "",
+            "discount_badge": "10% OFF",
+            "selected": false
           }
         },
         "bundle_1_pair": {
           "type": "bundle",
           "settings": {
             "pairs": "1 Pair",
-            "price_each": "Rs 929/each"
+            "price_each": "Rs 929/each",
+            "top_badge": "",
+            "discount_badge": "",
+            "selected": false
           }
         }
       },
@@ -92,7 +94,16 @@
         "bundle_most_popular",
         "bundle_4_pairs",
         "bundle_1_pair"
-      ]
+      ],
+      "settings": {
+        "bg_text": "underwear",
+        "page_padding": 110,
+        "show_rating": true,
+        "rating": 4.5,
+        "reviews_url": "",
+        "find_fit_text": "Find my Fit",
+        "find_fit_url": "/pages/sizing"
+      }
     },
     "colour-builder": {
       "type": "product-colour-builder",
@@ -109,15 +120,12 @@
     },
     "accordion": {
       "type": "product-accordion",
-      "settings": {
-        "page_padding": 110,
-        "open_first": true
-      },
       "blocks": {
         "description": {
           "type": "item",
           "settings": {
             "title": "Product Description",
+            "content": "",
             "use_product_description": true
           }
         },
@@ -125,21 +133,24 @@
           "type": "item",
           "settings": {
             "title": "Fit & Fabric",
-            "content": "<p>Ultra-soft bamboo viscose with anti-chafe panels, a 3D comfort pouch and moisture-wicking finish for all-day freshness.</p>"
+            "content": "<p>Ultra-soft bamboo viscose with anti-chafe panels, a 3D comfort pouch and moisture-wicking finish for all-day freshness.</p>",
+            "use_product_description": false
           }
         },
         "shipping": {
           "type": "item",
           "settings": {
             "title": "Shipping",
-            "content": "<p>Complimentary shipping within India. No tariffs apply. Orders dispatch within 24–48 hours and arrive in 3–7 business days.</p>"
+            "content": "<p>Complimentary shipping within India. No tariffs apply. Orders dispatch within 24–48 hours and arrive in 3–7 business days.</p>",
+            "use_product_description": false
           }
         },
         "guarantee": {
           "type": "item",
           "settings": {
             "title": "30 Day First Pair Guarantee",
-            "content": "<p>Don't love your first pair? Wear it, wash it — if you're not satisfied within 30 days, we'll refund you. No questions asked.</p>"
+            "content": "<p>Don't love your first pair? Wear it, wash it — if you're not satisfied within 30 days, we'll refund you. No questions asked.</p>",
+            "use_product_description": false
           }
         }
       },
@@ -148,23 +159,21 @@
         "fit_fabric",
         "shipping",
         "guarantee"
-      ]
+      ],
+      "settings": {
+        "page_padding": 110,
+        "open_first": true
+      }
     },
     "why": {
       "type": "product-why",
-      "settings": {
-        "heading": "Why 2into9 Underwear?",
-        "page_padding": 110,
-        "chip_1": "Moisture-wicking",
-        "chip_2": "Organic + Sustainable",
-        "chip_3": "Anti-chafe Panels",
-        "chip_4": "3D Pouch Comfort"
-      },
       "blocks": {
         "mens": {
           "type": "card",
           "settings": {
             "label": "Mens",
+            "image": "shopify://shop_images/Mens_Solid_Color.webp",
+            "link": "",
             "button_label": "Shop Now"
           }
         },
@@ -172,6 +181,7 @@
           "type": "card",
           "settings": {
             "label": "Kids",
+            "link": "",
             "button_label": "Shop Now"
           }
         },
@@ -179,6 +189,8 @@
           "type": "card",
           "settings": {
             "label": "D-Lock",
+            "image": "shopify://shop_images/D_Lock_Category_Img_1.webp",
+            "link": "",
             "button_label": "Shop Now"
           }
         }
@@ -187,15 +199,18 @@
         "mens",
         "kids",
         "dlock"
-      ]
+      ],
+      "settings": {
+        "heading": "Why 2into9 Underwear?",
+        "page_padding": 110,
+        "chip_1": "Moisture-wicking",
+        "chip_2": "Organic + Sustainable",
+        "chip_3": "Anti-chafe Panels",
+        "chip_4": "3D Pouch Comfort"
+      }
     },
     "faq": {
       "type": "product-faq",
-      "settings": {
-        "heading": "FAQ's",
-        "page_padding": 110,
-        "open_first": true
-      },
       "blocks": {
         "q1": {
           "type": "question",
@@ -223,18 +238,15 @@
         "q1",
         "q2",
         "q3"
-      ]
+      ],
+      "settings": {
+        "heading": "FAQ's",
+        "page_padding": 110,
+        "open_first": true
+      }
     },
     "reviews": {
       "type": "product-reviews",
-      "settings": {
-        "heading": "Customer Reviews",
-        "show_rating_summary": true,
-        "rating_value": "5",
-        "reviews_count": "1000",
-        "reviews_label": "reviews",
-        "page_padding": 110
-      },
       "blocks": {
         "r1": {
           "type": "review",
@@ -288,7 +300,15 @@
         "r3",
         "r4",
         "r5"
-      ]
+      ],
+      "settings": {
+        "heading": "Customer Reviews",
+        "show_rating_summary": true,
+        "rating_value": "5",
+        "reviews_count": "1000",
+        "reviews_label": "reviews",
+        "page_padding": 110
+      }
     }
   },
   "order": [

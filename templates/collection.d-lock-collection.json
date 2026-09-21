@@ -9,6 +9,117 @@
  */
 {
   "sections": {
+    "d_lock_template_8fdFGw": {
+      "type": "d-lock-template",
+      "name": "D-Lock Hero",
+      "settings": {
+        "background_color": "#171717",
+        "watermark_text": "underwear",
+        "eyebrow": "TRUSTED BY PROS",
+        "heading_line_1": "X-STRAPPED.",
+        "heading_line_2": "GAME ON.",
+        "subheading_line_1": "Cricket underwear engineered to lock your box in place.",
+        "subheading_line_2": "One layer. Maximim hold.",
+        "cta_label": "Shop Now",
+        "cta_link": ""
+      }
+    },
+    "d_lock_features_rnhVeY": {
+      "type": "d-lock-features",
+      "blocks": {
+        "feature_WCAm7L": {
+          "type": "feature",
+          "settings": {
+            "title": "Feature",
+            "text": ""
+          }
+        },
+        "feature_74pzNg": {
+          "type": "feature",
+          "settings": {
+            "title": "Feature",
+            "text": ""
+          }
+        },
+        "feature_yC6KLh": {
+          "type": "feature",
+          "settings": {
+            "title": "Feature",
+            "text": ""
+          }
+        },
+        "feature_tJpMWj": {
+          "type": "feature",
+          "settings": {
+            "title": "Feature",
+            "text": ""
+          }
+        }
+      },
+      "block_order": [
+        "feature_WCAm7L",
+        "feature_74pzNg",
+        "feature_yC6KLh",
+        "feature_tJpMWj"
+      ],
+      "name": "D-Lock Features",
+      "settings": {
+        "padding_top": 120,
+        "padding_bottom": 120,
+        "background_color": "#1e1e1e",
+        "eyebrow": "Engineered for Performance",
+        "heading_prefix": "HOW",
+        "heading_accent": "D-LOCK",
+        "heading_suffix": "Changes The Game.",
+        "description": "Traditional jockstraps haven't changed in decades. We rebuilt athletic protection from the ground up to solve the biggest problem athletes face."
+      }
+    },
+    "d_lock_product_mPrNDf": {
+      "type": "d-lock-product",
+      "name": "D-Lock Product",
+      "settings": {
+        "padding_top": 120,
+        "padding_bottom": 120,
+        "background_color": "#171717",
+        "product_title": "D-LOCK",
+        "product_subtitle": "Performance Series",
+        "price": "Rs.929.00",
+        "select_size_label": "Select Size",
+        "size_options": "S,M,L,XL,XXL",
+        "default_size": "M",
+        "default_quantity": 15,
+        "atc_label": "Add to Cart",
+        "atc_link": ""
+      }
+    },
+    "d_lock_marquee_yUHPLM": {
+      "type": "d-lock-marquee",
+      "blocks": {
+        "item_FHQT3P": {
+          "type": "item",
+          "settings": {
+            "text": "Item"
+          }
+        },
+        "item_FrathF": {
+          "type": "item",
+          "settings": {
+            "text": "Item"
+          }
+        }
+      },
+      "block_order": [
+        "item_FHQT3P",
+        "item_FrathF"
+      ],
+      "name": "D-Lock Marquee",
+      "settings": {
+        "background_color": "#171717",
+        "band_color": "#c5ff00",
+        "label": "X-CUP IS BUILT FOR...",
+        "speed": 40
+      }
+    },
     "section": {
       "type": "collection-hero",
       "name": "Collection heading",
@@ -179,6 +290,104 @@
         "padding-block-end": 64
       }
     },
+    "collection_showcase": {
+      "type": "collection-showcase",
+      "blocks": {
+        "card_mens": {
+          "type": "card",
+          "settings": {
+            "collection": "men",
+            "title": "Mens",
+            "link": "",
+            "feature_1": "Moisture-wicking",
+            "feature_2": "Organic + Sustainable",
+            "feature_3": "Anti-chafe Panels",
+            "feature_4": "3D Pouch Comfort",
+            "button_label": "Shop Now",
+            "button_style": "solid"
+          }
+        },
+        "card_kids": {
+          "type": "card",
+          "settings": {
+            "collection": "kids",
+            "title": "Kids",
+            "link": "",
+            "feature_1": "Moisture-wicking",
+            "feature_2": "Organic + Sustainable",
+            "feature_3": "Anti-chafe Panels",
+            "feature_4": "3D Pouch Comfort",
+            "button_label": "Shop Now",
+            "button_style": "outline"
+          }
+        },
+        "card_dlock": {
+          "type": "card",
+          "settings": {
+            "collection": "d-lock",
+            "title": "D-Lock",
+            "link": "",
+            "feature_1": "Moisture-wicking",
+            "feature_2": "Organic + Sustainable",
+            "feature_3": "Anti-chafe Panels",
+            "feature_4": "3D Pouch Comfort",
+            "button_label": "Shop Now",
+            "button_style": "outline"
+          }
+        }
+      },
+      "block_order": [
+        "card_mens",
+        "card_kids",
+        "card_dlock"
+      ],
+      "name": "Collection showcase",
+      "settings": {
+        "heading": "Why 2into9 Underwear?",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 120,
+        "padding-block-end": 100
+      }
+    },
+    "collection_faq": {
+      "type": "collection-faq",
+      "blocks": {
+        "faq_1": {
+          "type": "faq",
+          "settings": {
+            "question": "What's the difference between a Boxer Brief and Trunk?",
+            "answer": "<p>The only difference between the two is that Boxer Briefs have 3 cm more leg length than the trunks.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq",
+          "settings": {
+            "question": "What type of underwear is best for me?",
+            "answer": "<p>The best style depends on your day. Boxer briefs give all-day support, trunks are a shorter, closer fit, and briefs stay light and invisible under clothes.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq",
+          "settings": {
+            "question": "What underpants should I choose if I play sport?",
+            "answer": "<p>Go for performance styles with moisture-wicking fabric, anti-chafe panels and a supportive 3D pouch — they keep you dry and comfortable through every workout.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3"
+      ],
+      "name": "Collection FAQ",
+      "settings": {
+        "heading": "FAQ's",
+        "first_open": true,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 40,
+        "padding-block-end": 120
+      }
+    },
     "why_section_gwWUyF": {
       "type": "why-section",
       "blocks": {
@@ -303,6 +512,8 @@
         "color_scheme": "",
         "padding-block-start": 64,
         "padding-block-end": 64,
+        "autoplay": true,
+        "autoplay_speed": 30,
         "heading": "CUSTOMER REVIEWS",
         "show_stars": true,
         "rating_text": "5 | 1000 reviews",
@@ -377,104 +588,13 @@
         "padding-block-end": 24,
         "gap_between_elements": 24
       }
-    },
-    "collection_showcase": {
-      "type": "collection-showcase",
-      "blocks": {
-        "card_mens": {
-          "type": "card",
-          "settings": {
-            "collection": "men",
-            "title": "Mens",
-            "feature_1": "Moisture-wicking",
-            "feature_2": "Organic + Sustainable",
-            "feature_3": "Anti-chafe Panels",
-            "feature_4": "3D Pouch Comfort",
-            "button_label": "Shop Now",
-            "button_style": "solid"
-          }
-        },
-        "card_kids": {
-          "type": "card",
-          "settings": {
-            "collection": "kids",
-            "title": "Kids",
-            "feature_1": "Moisture-wicking",
-            "feature_2": "Organic + Sustainable",
-            "feature_3": "Anti-chafe Panels",
-            "feature_4": "3D Pouch Comfort",
-            "button_label": "Shop Now",
-            "button_style": "outline"
-          }
-        },
-        "card_dlock": {
-          "type": "card",
-          "settings": {
-            "collection": "d-lock",
-            "title": "D-Lock",
-            "feature_1": "Moisture-wicking",
-            "feature_2": "Organic + Sustainable",
-            "feature_3": "Anti-chafe Panels",
-            "feature_4": "3D Pouch Comfort",
-            "button_label": "Shop Now",
-            "button_style": "outline"
-          }
-        }
-      },
-      "block_order": [
-        "card_mens",
-        "card_kids",
-        "card_dlock"
-      ],
-      "name": "Collection showcase",
-      "settings": {
-        "heading": "Why 2into9 Underwear?",
-        "color_scheme": "scheme-1",
-        "padding-block-start": 120,
-        "padding-block-end": 100
-      }
-    },
-    "collection_faq": {
-      "type": "collection-faq",
-      "blocks": {
-        "faq_1": {
-          "type": "faq",
-          "settings": {
-            "question": "What's the difference between a Boxer Brief and Trunk?",
-            "answer": "<p>The only difference between the two is that Boxer Briefs have 3 cm more leg length than the trunks.</p>"
-          }
-        },
-        "faq_2": {
-          "type": "faq",
-          "settings": {
-            "question": "What type of underwear is best for me?",
-            "answer": "<p>The best style depends on your day. Boxer briefs give all-day support, trunks are a shorter, closer fit, and briefs stay light and invisible under clothes.</p>"
-          }
-        },
-        "faq_3": {
-          "type": "faq",
-          "settings": {
-            "question": "What underpants should I choose if I play sport?",
-            "answer": "<p>Go for performance styles with moisture-wicking fabric, anti-chafe panels and a supportive 3D pouch — they keep you dry and comfortable through every workout.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "faq_1",
-        "faq_2",
-        "faq_3"
-      ],
-      "name": "Collection FAQ",
-      "settings": {
-        "heading": "FAQ's",
-        "first_open": true,
-        "color_scheme": "scheme-1",
-        "padding-block-start": 40,
-        "padding-block-end": 120
-      }
     }
   },
   "order": [
+    "d_lock_template_8fdFGw",
+    "d_lock_features_rnhVeY",
+    "d_lock_product_mPrNDf",
+    "d_lock_marquee_yUHPLM",
     "section",
     "main",
     "collection_showcase",

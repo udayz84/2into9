@@ -464,7 +464,8 @@
     color: var(--ph-ink);
     overflow-x: clip;
     overflow-y: visible;
-    padding-inline: var(--ph-padding-inline, 110px);
+    /* padding-inline: var(--ph-padding-inline, 110px); */
+    padding-inline: clamp(20px, 5vw, 110px);
     padding-block-start: 130px;
     padding-block-end: 10px;
   }
@@ -953,9 +954,9 @@
     {
       grid-template-columns: 1fr;
     }
-     .ph
+     /* .ph
      {
       padding-inline: var(20px, 110px)!important;
-     }
+     } */
   }
 {% endstylesheet %}

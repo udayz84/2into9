@@ -1,11 +1,38 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "custom_hero_QUJzBj": {
       "type": "custom-hero",
+      "blocks": {
+        "slide_hL4Rkh": {
+          "type": "slide",
+          "settings": {
+            "image_alt": "D-Lock",
+            "subheading": "The newest",
+            "heading": "Everyday wear",
+            "button_label": "SHOP NOW",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_hL4Rkh"
+      ],
       "name": "Homepage Hero",
       "settings": {
         "watermark_text": "UNDERWEAR",
         "show_watermark": true,
+        "fallback_image": "",
+        "eyebrow_size": 26,
+        "heading_size": 54,
         "height": "full",
         "subheading": "The newest",
         "heading": "Everyday wear",
@@ -24,59 +51,76 @@
         "panel_2_heading": "D-Lock",
         "panel_2_shop_label": "SHOP",
         "panel_2_link": "shopify://collections/d-lock",
-        "panel_2_align": "right"
+        "panel_2_align": "right",
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "panel_1_asset": "panel-mens.jpg",
+        "panel_2_asset": "panel-dlock.jpg"
       }
     },
     "image_text_promo_Vb5cWq": {
       "type": "image-text-promo",
       "name": "Men's Trunk Promo",
       "settings": {
+        "image_alt": "",
+        "fallback_asset": "",
         "heading": "MEN'S TRUNK",
         "shop_label": "SHOP",
         "link": "shopify://collections/men",
-        "text_side": "right"
+        "text_side": "right",
+        "gap_top": 16,
+        "gap_bottom": 16,
+        "heading_size": 34,
+        "inset_vw": 16
       }
     },
     "image_text_promo_Lm9xZv": {
       "type": "image-text-promo",
       "name": "D-Lock Promo",
       "settings": {
+        "image_alt": "D-Lock cricket campaign",
+        "fallback_asset": "promo-dlock.jpg",
         "heading": "D-Lock",
         "shop_label": "SHOP",
         "link": "shopify://collections/d-lock",
         "text_side": "left",
-        "fallback_asset": "promo-dlock.jpg",
-        "image_alt": "D-Lock cricket campaign"
+        "gap_top": 16,
+        "gap_bottom": 16,
+        "heading_size": 34,
+        "inset_vw": 16
       }
     },
     "image_text_promo_Kd4mNp": {
       "type": "image-text-promo",
       "name": "Kid's Promo",
       "settings": {
+        "image_alt": "Kid looking through binoculars at the beach",
+        "fallback_asset": "promo-kids.jpg",
         "heading": "Kid's",
         "shop_label": "SHOP",
         "link": "shopify://collections/kids",
         "text_side": "right",
-        "inset_vw": 27,
-        "fallback_asset": "promo-kids.jpg",
-        "image_alt": "Kid looking through binoculars at the beach"
+        "gap_top": 16,
+        "gap_bottom": 16,
+        "heading_size": 34,
+        "inset_vw": 27
       }
     },
     "media_lookbook_Qw7eJt": {
       "type": "media-lookbook",
       "name": "Media Lookbook",
       "settings": {
+        "image_alt": "2into9 lookbook campaign",
         "show_play_mark": true,
-        "image_alt": "2into9 lookbook campaign"
+        "gap_top": 17,
+        "gap_bottom": 54,
+        "image_position": "top",
+        "mirror": true,
+        "fallback_asset": ""
       }
     },
     "home_faq_Tf3gHw": {
       "type": "home-faq",
-      "name": "FAQ's",
-      "settings": {
-        "heading": "FAQ's",
-        "open_first": true
-      },
       "blocks": {
         "q1": {
           "type": "question",
@@ -104,7 +148,15 @@
         "q1",
         "q2",
         "q3"
-      ]
+      ],
+      "name": "FAQ's",
+      "settings": {
+        "heading": "FAQ's",
+        "open_first": true,
+        "padding_top": 56,
+        "padding_bottom": 80,
+        "heading_size": 48
+      }
     }
   },
   "order": [

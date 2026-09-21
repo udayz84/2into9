@@ -154,25 +154,46 @@
         "atc_link": ""
       }
     },
-    "d_lock_marquee_yUHPLM": {
+    "d_lock_marquee_Kg4ytp": {
       "type": "d-lock-marquee",
       "blocks": {
-        "item_FHQT3P": {
+        "item_HANEpL": {
           "type": "item",
           "settings": {
-            "text": "Item"
+            "text": "All-rounders"
           }
         },
-        "item_FrathF": {
+        "item_ftw8FA": {
           "type": "item",
           "settings": {
-            "text": "Item"
+            "text": "Wicketkeepers"
+          }
+        },
+        "item_7khWLN": {
+          "type": "item",
+          "settings": {
+            "text": "Club & grade cricketers"
+          }
+        },
+        "item_rcWQcN": {
+          "type": "item",
+          "settings": {
+            "text": "Top-order batters"
+          }
+        },
+        "item_tc4eX3": {
+          "type": "item",
+          "settings": {
+            "text": "Junior players"
           }
         }
       },
       "block_order": [
-        "item_FHQT3P",
-        "item_FrathF"
+        "item_HANEpL",
+        "item_ftw8FA",
+        "item_7khWLN",
+        "item_rcWQcN",
+        "item_tc4eX3"
       ],
       "name": "D-Lock Marquee",
       "settings": {
@@ -182,8 +203,48 @@
         "speed": 40
       }
     },
+    "d_lock_faqs_hKDWRa": {
+      "type": "d-lock-faqs",
+      "blocks": {
+        "question_aWkTAJ": {
+          "type": "question",
+          "settings": {
+            "question": "What's the difference between a Boxer Brief and Trunk?",
+            "answer": "The only difference between the two is that Boxer Briefs have 3 cm more leg length than the trunks."
+          }
+        },
+        "question_fHerwh": {
+          "type": "question",
+          "settings": {
+            "question": "What type of underwear is best for me?",
+            "answer": "For all-day everyday comfort, trunks are your best pick. For sport and high-intensity movement, the D-LOCK with its in-built locking pouch keeps everything secure."
+          }
+        },
+        "question_4RqdEi": {
+          "type": "question",
+          "settings": {
+            "question": "What underpants should I choose if I play sport?",
+            "answer": "The D-LOCK Performance Series is built for sport — breathable, anti-bacterial and engineered to lock your box in place through every sprint and dive."
+          }
+        }
+      },
+      "block_order": [
+        "question_aWkTAJ",
+        "question_fHerwh",
+        "question_4RqdEi"
+      ],
+      "name": "D-Lock FAQs",
+      "settings": {
+        "padding_top": 120,
+        "padding_bottom": 120,
+        "background_color": "#1e1e1e",
+        "title": "FAQ's",
+        "open_first": true
+      }
+    },
     "section": {
       "type": "collection-hero",
+      "disabled": true,
       "name": "Collection heading",
       "settings": {
         "eyebrow_text": "The newest",
@@ -333,6 +394,7 @@
           ]
         }
       },
+      "disabled": true,
       "settings": {
         "show_breadcrumbs": false,
         "breadcrumb_prefix": "Shop For",
@@ -403,6 +465,7 @@
         "card_kids",
         "card_dlock"
       ],
+      "disabled": true,
       "name": "Collection showcase",
       "settings": {
         "heading": "Why 2into9 Underwear?",
@@ -441,6 +504,7 @@
         "faq_2",
         "faq_3"
       ],
+      "disabled": true,
       "name": "Collection FAQ",
       "settings": {
         "heading": "FAQ's",
@@ -568,6 +632,7 @@
         "review_FgVmiF",
         "review_Yttc8e"
       ],
+      "disabled": true,
       "name": "Customer Reviews",
       "settings": {
         "section_width": "full-width",
@@ -642,6 +707,7 @@
         "text_yPggEp",
         "text_yqcqQy"
       ],
+      "disabled": true,
       "name": "t:names.marquee_section",
       "settings": {
         "movement_direction": "normal",
@@ -656,7 +722,8 @@
     "d_lock_template_8fdFGw",
     "d_lock_features_aCBKMp",
     "d_lock_product_fXQrFM",
-    "d_lock_marquee_yUHPLM",
+    "d_lock_marquee_Kg4ytp",
+    "d_lock_faqs_hKDWRa",
     "section",
     "main",
     "collection_showcase",

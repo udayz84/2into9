@@ -21,10 +21,21 @@
             "button_label": "SHOP NOW",
             "button_link": ""
           }
+        },
+        "slide_6QYP34": {
+          "type": "slide",
+          "settings": {
+            "image_alt": "",
+            "subheading": "The newest",
+            "heading": "Everyday wear",
+            "button_label": "SHOP NOW",
+            "button_link": ""
+          }
         }
       },
       "block_order": [
-        "slide_hL4Rkh"
+        "slide_hL4Rkh",
+        "slide_6QYP34"
       ],
       "name": "Homepage Hero",
       "settings": {

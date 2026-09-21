@@ -125,6 +125,7 @@
       "type": "media-lookbook",
       "name": "Media Lookbook",
       "settings": {
+        "image": "shopify://shop_images/video_fallback.webp",
         "image_alt": "2into9 lookbook campaign",
         "show_play_mark": true,
         "gap_top": 17,

@@ -317,22 +317,29 @@
     box-sizing: border-box;
   }
 
-  @media screen and (max-width: 749px) {
-    .customer-reviews__viewport {
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scroll-padding-inline: 16px;
-    }
-
-    .customer-reviews__track {
-      --reviews-gap: 16px;
-      animation: none;
-    }
-
+  /* Mobile/tablet (≤1023): run the marquee exactly like the product page
+     reviews section — continuous full-bleed strip, hover to pause. The base
+     rules already provide the animation and full-bleed viewport; only the
+     card size needs adjusting. max-width is explicit because the base
+     `max-width: 100%` resolves against the indefinite max-content chain
+     and clamps unpredictably per browser. */
+  @media screen and (max-width: 1023px) {
     .customer-reviews__card {
-      flex-basis: min(78vw, 340px);
-      width: min(78vw, 340px);
-      scroll-snap-align: center;
+      flex: 0 0 min(85vw, 340px);
+      width: min(85vw, 340px);
+      max-width: min(85vw, 340px);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    /* tighter inter-section spacing: the section's inline spacing-style
+       (64/64) stacks with the container's 5rem — cut both on mobile */
+    .section-customer-reviews {
+      padding-block: 24px !important;
+    }
+
+    .customer-reviews__container {
+      padding: 2rem 1.25rem;
     }
   }
 {% endstylesheet %}

@@ -129,7 +129,8 @@
 
   .pa__grid {
     display: grid;
-    grid-template-columns: 550px 1fr;
+    /* Equal columns, as stepone.life: repeat(2, minmax(0,1fr)) */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 60px;
     justify-content: flex-start;
     align-items: start;
@@ -221,5 +222,41 @@
 
   .pa-item__body p:last-child {
     margin-block-end: 0;
+  }
+
+  /* ---- Mobile: structure ≤1023px, sizing ≤749px. Desktop untouched. ---- */
+  @media (max-width: 1023px) {
+    .pa {
+      padding-inline: 24px;
+      padding-block-end: 64px;
+    }
+
+    .pa__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .pa__spacer {
+      display: none;
+    }
+  }
+
+  @media (max-width: 749px) {
+    .pa__label {
+      font-size: 16px;
+    }
+
+    .pa-item__header {
+      height: 64px;
+      padding-inline: 20px 18px;
+    }
+
+    .pa-item__title {
+      font-size: 17px;
+      line-height: 24px;
+    }
+
+    .pa-item__body {
+      padding: 16px 20px 20px;
+    }
   }
 {% endstylesheet %}

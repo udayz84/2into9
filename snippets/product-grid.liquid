@@ -159,6 +159,37 @@
 
         {{ children }}
       </ul>
+      {% comment %} Mobile progressive reveal: 6 products at a time via Load More {% endcomment %}
+      <div class="product-grid__load-more-wrap">
+        <button type="button" class="product-grid__load-more" hidden>Load More</button>
+      </div>
+      <script>
+        (() => {
+          const wrap = document.currentScript.previousElementSibling;
+          const btn = wrap && wrap.querySelector('.product-grid__load-more');
+          const grid = wrap && wrap.previousElementSibling;
+          if (!btn || !grid) return;
+          const items = () => Array.from(grid.children).filter((el) => el.tagName === 'LI');
+          const mq = window.matchMedia('(max-width: 1023px)');
+          const STEP = 6;
+          const render = () => {
+            if (!mq.matches) {
+              items().forEach((li) => (li.style.display = ''));
+              btn.hidden = true;
+              return;
+            }
+            const revealed = Number(grid.dataset.revealed || STEP);
+            items().forEach((li, i) => (li.style.display = i < revealed ? '' : 'none'));
+            btn.hidden = items().length <= revealed;
+          };
+          btn.addEventListener('click', () => {
+            grid.dataset.revealed = Number(grid.dataset.revealed || STEP) + STEP;
+            render();
+          });
+          mq.addEventListener('change', render);
+          render();
+        })();
+      </script>
       {% if enable_infinite_scroll != false %}
         <span ref="viewMoreNext"></span>
       {% else %}
@@ -226,6 +257,33 @@
   .collection-wrapper--full-width-on-mobile .main-collection-grid__title {
     @media screen and (max-width: 749px) {
       margin-left: var(--page-margin);
+    }
+  }
+
+  /* Load More — progressive reveal of the grid on mobile/tablet only;
+     desktop shows everything as before */
+  .product-grid__load-more-wrap {
+    display: none;
+  }
+
+  .product-grid__load-more {
+    min-width: min(100%, 320px);
+    min-height: 48px;
+    padding: 12px 32px;
+    border: 1px solid var(--color-foreground);
+    border-radius: 50px;
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-primary--family);
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  @media screen and (max-width: 1023px) {
+    .product-grid__load-more-wrap {
+      display: block;
+      margin-block-start: 24px;
+      text-align: center;
     }
   }
 {% endstylesheet %}

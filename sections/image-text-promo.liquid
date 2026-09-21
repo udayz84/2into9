@@ -11,14 +11,16 @@
   style="--itp-inset: {{ section.settings.inset_vw | default: 16 }}; margin-block: {{ section.settings.gap_top }}px {{ section.settings.gap_bottom }}px; --itp-heading-size: {{ section.settings.heading_size }}px;"
 >
   <div class="itp__media">
-    <img
-      class="itp__image"
-      src="{% if section.settings.image %}{{ section.settings.image | image_url: width: 1400 }}{% else %}{{ fallback_asset | asset_url }}{% endif %}"
-      alt="{{ section.settings.image_alt | default: section.settings.heading | escape }}"
-      loading="lazy"
-      width="1000"
-      height="1070"
-    >
+    <a href="{{ section.settings.link | default: '/collections/all' }}" class="itp__media-link" aria-label="{{ section.settings.heading | escape }}">
+      <img
+        class="itp__image"
+        src="{% if section.settings.image %}{{ section.settings.image | image_url: width: 1400 }}{% else %}{{ fallback_asset | asset_url }}{% endif %}"
+        alt="{{ section.settings.image_alt | default: section.settings.heading | escape }}"
+        loading="lazy"
+        width="1000"
+        height="1070"
+      >
+    </a>
   </div>
   <div class="itp__content">
     <h2 class="itp__heading">{{ section.settings.heading }}</h2>
@@ -42,6 +44,10 @@
     position: relative;
     overflow: hidden;
     aspect-ratio: 1 / 1.07;
+  }
+
+  .itp__media-link {
+    display: contents;
   }
 
   .itp__image {

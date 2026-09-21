@@ -347,4 +347,41 @@
     text-align: center;
     color: var(--pr-ink);
   }
+
+  /* ---- Mobile: structure ≤1023px, sizing ≤749px. Desktop untouched. ---- */
+  @media (max-width: 1023px) {
+    .pr {
+      padding-inline: 24px;
+      padding-block-end: 64px;
+    }
+
+    /* keep the marquee full-bleed at the new padding */
+    .pr__scroller {
+      margin-inline: -24px;
+    }
+  }
+
+  @media (max-width: 749px) {
+    .pr__header {
+      margin-block-end: 32px;
+    }
+
+    .pr__heading {
+      font-size: 32px;
+      line-height: 1.3;
+    }
+
+    .pr__summary {
+      font-size: 20px;
+    }
+
+    .pr-card {
+      width: min(85vw, 340px);
+    }
+
+    .pr-card__name {
+      font-size: 24px;
+      line-height: 34px;
+    }
+  }
 {% endstylesheet %}

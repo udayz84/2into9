@@ -273,7 +273,8 @@
 
   .pcb__grid {
     display: grid;
-    grid-template-columns: 550px 1fr;
+    /* Equal columns, as stepone.life: repeat(2, minmax(0,1fr)) */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 60px;
     justify-content: flex-start;
     align-items: start;
@@ -640,5 +641,58 @@
     height: 1px;
     background: var(--pcb-border);
     margin: 40px 0 0;
+  }
+
+  /* ---- Mobile: structure ≤1023px, sizing ≤749px. Desktop untouched. ---- */
+  @media (max-width: 1023px) {
+    .pcb {
+      padding-inline: 24px;
+    }
+
+    .pcb__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .pcb__spacer {
+      display: none;
+    }
+  }
+
+  @media (max-width: 749px) {
+    .pcb-toggle {
+      height: 52px;
+    }
+
+    .pcb-toggle__option {
+      font-size: 16px;
+    }
+
+    .pcb-pill {
+      height: 44px;
+      padding-inline: 20px;
+    }
+
+    .pcb-atc {
+      gap: 12px;
+    }
+
+    .pcb-quantity {
+      width: 160px;
+      height: 56px;
+      grid-template-columns: 48px 1fr 48px;
+    }
+
+    .pcb-quantity__btn {
+      font-size: 20px;
+    }
+
+    .pcb-quantity__value {
+      font-size: 20px;
+    }
+
+    .pcb-atc__btn {
+      height: 56px;
+      font-size: 16px;
+    }
   }
 {% endstylesheet %}

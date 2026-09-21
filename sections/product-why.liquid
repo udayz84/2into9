@@ -298,4 +298,59 @@
     background: #fff;
     color: var(--pw-ink);
   }
+
+  /* ---- Mobile: cards become a swipe carousel ≤1023px, type ≤749px. Desktop untouched. ---- */
+  @media (max-width: 1023px) {
+    .pw {
+      padding-inline: 24px;
+      padding-block-end: 64px;
+    }
+
+    /* Carousel bleeds to the viewport edges so cards travel the full
+       width while scrolling; inner padding + scroll-padding keep the
+       24px side insets at the snap points (heading keeps its inset too). */
+    .pw__cards {
+      justify-content: flex-start;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      margin-inline: -24px;
+      padding-inline: 24px;
+      scroll-padding-inline: 24px;
+      padding-block-end: 4px;
+      gap: 16px;
+    }
+
+    .pw__cards::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* one card per swipe, filling the width between the side insets;
+       the 16px gap keeps a visible break between cards at all times */
+    .pw-card {
+      flex: 0 0 100%;
+      width: 100%;
+      scroll-snap-align: start;
+    }
+
+    .pw-card__media {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 370 / 470;
+    }
+
+    /* placeholder SVG letterboxes with empty bands — crop it like a photo */
+    .pw-card__image--placeholder {
+      object-fit: cover;
+    }
+  }
+
+  @media (max-width: 749px) {
+    .pw__heading {
+      margin-block-end: 28px;
+      font-size: 32px;
+      line-height: 1.3;
+    }
+  }
 {% endstylesheet %}

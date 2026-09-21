@@ -481,6 +481,14 @@
       letter-spacing: 0.06em;
     }
   }
+
+  /* tighter inter-section spacing on mobile (desktop keeps the settings);
+     !important beats the inline spacing-style on the section element */
+  @media (max-width: 749px) {
+    .best-sellers-carousel {
+      padding-block: 40px !important;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}

@@ -34,8 +34,8 @@
                 | image_tag:
                   class: 'collection-showcase__image',
                   alt: card_title,
-                  widths: '370, 500, 740, 900',
-                  sizes: '(max-width: 749px) 78vw, 370px',
+                  widths: '370, 500, 740, 900, 1200',
+                  sizes: '(max-width: 1023px) 92vw, 370px',
                   loading: 'lazy'
               }}
             {%- else -%}
@@ -265,20 +265,43 @@
     border: 1px solid #171717;
   }
 
-  @media screen and (max-width: 749px) {
+  /* Mobile/tablet (≤1023): slide carousel, same pattern as the product page
+     "Why" section — one full-width slide per swipe, track bleeds to the
+     viewport edges, padding + scroll-padding keep the 16px insets at the
+     snap points, 16px gap keeps a visible break between slides. */
+  @media screen and (max-width: 1023px) {
     .collection-showcase__inner {
-      padding-inline: 12px;
+      padding-inline: 16px;
       gap: 32px;
     }
 
     .collection-showcase__track {
+      justify-content: flex-start;
+      flex-wrap: nowrap;
+      /* The inner is a flex-column with align-items:center, so `width: auto`
+         means fit-content (circular with %-based slides) and the base
+         `width: 100%` never bleeds past the content box. An explicit calc
+         against the definite parent size is the only deterministic option:
+         100% (inner content) + both 16px insets, pulled back by margins. */
+      width: calc(100% + 32px);
       gap: 16px;
-      scroll-padding-inline: 12px;
+      margin-inline: -16px;
+      padding-inline: 16px;
+      scroll-padding-inline: 16px;
+      padding-block-end: 4px;
     }
 
     .collection-showcase__card {
-      flex-basis: min(78vw, 340px);
-      width: min(78vw, 340px);
+      flex: 0 0 100%;
+      width: 100%;
+      scroll-snap-align: start;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    /* tighter inter-section spacing on mobile (desktop keeps 64px) */
+    .collection-showcase {
+      padding-block: 40px;
     }
   }
 {% endstylesheet %}

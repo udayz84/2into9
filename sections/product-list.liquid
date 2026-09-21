@@ -81,6 +81,14 @@
 </div>
 
 {% stylesheet %}
+  /* tighter inter-section spacing on mobile (desktop keeps the settings);
+     !important beats the inline spacing-style on the section element */
+  @media screen and (max-width: 749px) {
+    .section-resource-list[data-testid='product-list'] {
+      padding-block: 32px 48px !important;
+    }
+  }
+
   @media screen and (max-width: 640px) {
     .section-resource-list[data-testid='product-list'] .section-resource-list__header {
       text-align: center;

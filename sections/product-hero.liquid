@@ -492,7 +492,8 @@
   .ph__grid {
     position: relative;
     display: grid;
-    grid-template-columns: 550px 1fr;
+    /* Equal columns, as stepone.life: repeat(2, minmax(0,1fr)) */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 60px;
     justify-content: flex-start;
     align-items: start;
@@ -945,5 +946,91 @@
   .ph-bundle__badge--discount {
     bottom: 13px;
     padding: 3px 16px;
+  }
+
+  /* ---- Mobile: structure ≤1023px, sizing ≤749px. Desktop untouched. ---- */
+  @media (max-width: 1023px) {
+    .ph {
+      padding-inline: 24px;
+      /* small top gap under the navbar (was 96px — desktop keeps 130px
+         for the background text, mobile doesn't need it) */
+      padding-block-start: 40px;
+    }
+
+    .ph__grid {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: 32px;
+    }
+
+    .ph-gallery {
+      min-height: 560px;
+    }
+
+    /* bundles: full-width 2×2 grid with a real gap (16px > 15px badge overhang) */
+    .ph-bundles {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 749px) {
+    .ph__bg-text {
+      font-size: clamp(56px, 15.5vw, 320px);
+    }
+
+    .ph-gallery {
+      min-height: 0;
+      aspect-ratio: 1 / 1;
+    }
+
+    .ph-gallery__arrow {
+      width: 36px;
+      height: 36px;
+    }
+
+    .ph-gallery__arrow--prev {
+      left: 12px;
+    }
+
+    .ph-gallery__arrow--next {
+      right: 12px;
+    }
+
+    .ph-title__heading {
+      font-size: 26px;
+    }
+
+    .ph-title__price {
+      font-size: 18px;
+    }
+
+    .ph-features {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .ph-step {
+      margin-block-start: 24px;
+    }
+
+    /* slightly tighter: feature tiles → first step ("Select your fit") */
+    .ph-features + .ph-step {
+      margin-block-start: 16px;
+    }
+
+    .ph-step__label {
+      font-size: 16px;
+    }
+
+    .ph-sizes {
+      flex-wrap: wrap;
+    }
+
+    /* shorter cards on small screens (grid lives in the ≤1023 block above) */
+    .ph-bundle {
+      height: auto;
+      min-height: 110px;
+    }
   }
 {% endstylesheet %}

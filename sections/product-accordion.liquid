@@ -122,7 +122,8 @@
     display: block;
     font-family: var(--pa-font);
     color: var(--pa-ink);
-    padding-inline: var(--pa-padding-inline, 110px);
+    /* padding-inline: var(--pa-padding-inline, 110px); */
+    padding-inline: clamp(20px, 5vw, 110px);
     padding-block-start: 40px;
     padding-block-end: 120px;
   }
@@ -224,10 +225,10 @@
   }
    @media(max-width:768px)
   {
-     .pa
+     /* .pa
      {
       padding-inline: var(20px, 110px)!important;
-     }
+     } */
     .pa__grid
     {
       grid-template-columns: 1fr;

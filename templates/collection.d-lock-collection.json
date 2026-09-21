@@ -146,6 +146,7 @@
         "product_title": "D-LOCK",
         "product_subtitle": "Performance Series",
         "price": "Rs.929.00",
+        "main_image": "shopify://shop_images/D_Lock_Category_Img_1.webp",
         "select_size_label": "Select Size",
         "size_options": "S,M,L,XL,XXL",
         "default_size": "M",

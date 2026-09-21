@@ -57,7 +57,7 @@
       "type": "category-split",
       "name": "Category Split",
       "settings": {
-        "panel_1_image": "shopify://shop_images/Mens_Printed_Color.webp",
+        "panel_1_image": "shopify://shop_images/mens_printed_Color_1.webp",
         "panel_1_heading": "Men's Printed Trunk",
         "panel_1_shop_label": "SHOP",
         "panel_1_link": "shopify://collections/men-printed-trunk",

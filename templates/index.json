@@ -57,6 +57,7 @@
       "type": "category-split",
       "name": "Category Split",
       "settings": {
+        "panel_1_image": "shopify://shop_images/Mens_Printed_Color.webp",
         "panel_1_heading": "Men's",
         "panel_1_shop_label": "SHOP",
         "panel_1_link": "shopify://collections/men",

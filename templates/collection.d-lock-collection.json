@@ -24,43 +24,43 @@
         "cta_link": ""
       }
     },
-    "d_lock_features_rnhVeY": {
+    "d_lock_features_aCBKMp": {
       "type": "d-lock-features",
       "blocks": {
-        "feature_WCAm7L": {
+        "feature_WxGC4M": {
           "type": "feature",
           "settings": {
-            "title": "Feature",
-            "text": ""
+            "title": "Purpose-Built Pouch",
+            "text": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
           }
         },
-        "feature_74pzNg": {
+        "feature_tgHnHF": {
           "type": "feature",
           "settings": {
-            "title": "Feature",
-            "text": ""
+            "title": "Precision Lock Strap System",
+            "text": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
           }
         },
-        "feature_yC6KLh": {
+        "feature_LrUhJh": {
           "type": "feature",
           "settings": {
-            "title": "Feature",
-            "text": ""
+            "title": "Hyper Breathable",
+            "text": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
           }
         },
-        "feature_tJpMWj": {
+        "feature_z9PxRD": {
           "type": "feature",
           "settings": {
-            "title": "Feature",
-            "text": ""
+            "title": "Anti-Bacterial & Anti-Odour",
+            "text": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
           }
         }
       },
       "block_order": [
-        "feature_WCAm7L",
-        "feature_74pzNg",
-        "feature_yC6KLh",
-        "feature_tJpMWj"
+        "feature_WxGC4M",
+        "feature_tgHnHF",
+        "feature_LrUhJh",
+        "feature_z9PxRD"
       ],
       "name": "D-Lock Features",
       "settings": {
@@ -74,8 +74,70 @@
         "description": "Traditional jockstraps haven't changed in decades. We rebuilt athletic protection from the ground up to solve the biggest problem athletes face."
       }
     },
-    "d_lock_product_mPrNDf": {
+    "d_lock_product_fXQrFM": {
       "type": "d-lock-product",
+      "blocks": {
+        "icon_tile_WWTqFp": {
+          "type": "icon_tile",
+          "settings": {
+            "label": "In-Built Pouch"
+          }
+        },
+        "icon_tile_mmyDYf": {
+          "type": "icon_tile",
+          "settings": {
+            "label": "Locking System"
+          }
+        },
+        "icon_tile_j89rG6": {
+          "type": "icon_tile",
+          "settings": {
+            "label": "Breathable"
+          }
+        },
+        "icon_tile_QEKWJH": {
+          "type": "icon_tile",
+          "settings": {
+            "label": "Anti-Bacterial"
+          }
+        },
+        "offer_nPpaYF": {
+          "type": "offer",
+          "settings": {
+            "title": "Pro Pack",
+            "subtitle": "1 Pairs",
+            "price": "Rs. 929.00",
+            "per_pair": "Rs. 929.00/ Pairs"
+          }
+        },
+        "offer_F3Xqmq": {
+          "type": "offer",
+          "settings": {
+            "title": "Tournament Set",
+            "subtitle": "2 Pairs",
+            "price": "Rs. 929.00",
+            "per_pair": "Rs. 929.00/ Pairs"
+          }
+        },
+        "offer_dekwcJ": {
+          "type": "offer",
+          "settings": {
+            "title": "Season Supply",
+            "subtitle": "3 Pairs",
+            "price": "Rs. 929.00",
+            "per_pair": "Rs. 929.00/ Pairs"
+          }
+        }
+      },
+      "block_order": [
+        "icon_tile_WWTqFp",
+        "icon_tile_mmyDYf",
+        "icon_tile_j89rG6",
+        "icon_tile_QEKWJH",
+        "offer_nPpaYF",
+        "offer_F3Xqmq",
+        "offer_dekwcJ"
+      ],
       "name": "D-Lock Product",
       "settings": {
         "padding_top": 120,
@@ -592,8 +654,8 @@
   },
   "order": [
     "d_lock_template_8fdFGw",
-    "d_lock_features_rnhVeY",
-    "d_lock_product_mPrNDf",
+    "d_lock_features_aCBKMp",
+    "d_lock_product_fXQrFM",
     "d_lock_marquee_yUHPLM",
     "section",
     "main",

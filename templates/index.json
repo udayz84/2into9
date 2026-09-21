@@ -158,12 +158,20 @@
             "question": "Who is 2INTO9 underwear suitable for?",
             "answer": "2INTO9 underwear is suitable for men who want comfortable, supportive, and stylish innerwear for everyday use."
           }
+        },
+        "question_LrzRi7": {
+          "type": "question",
+          "settings": {
+            "question": "What types of underwear does 2INTO9 offer?",
+            "answer": "We offer different styles including Solid, Printed, Kids Solid, D-Lock, and Kids D-Lock collections, designed to match different comfort and style preferences."
+          }
         }
       },
       "block_order": [
         "q1",
         "q2",
-        "q3"
+        "q3",
+        "question_LrzRi7"
       ],
       "name": "FAQ's",
       "settings": {

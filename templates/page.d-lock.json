@@ -226,31 +226,46 @@
         "review_1": {
           "type": "review",
           "settings": {
-            "rating": 5
+            "rating": 5,
+            "name": "Rahul Sharma",
+            "role": "Club Cricketer",
+            "text": "The D-Lock keeps everything secure even during long net sessions. No readjusting, no distractions — just pure focus on my game."
           }
         },
         "review_2": {
           "type": "review",
           "settings": {
-            "rating": 5
+            "rating": 5,
+            "name": "Arjun Patel",
+            "role": "State-Level All-Rounder",
+            "text": "I've tried every jockstrap out there. The D-Lock is in a different league — breathable, locked in, and zero bounce."
           }
         },
         "review_3": {
           "type": "review",
           "settings": {
-            "rating": 5
+            "rating": 5,
+            "name": "Vikram Singh",
+            "role": "Wicketkeeper",
+            "text": "Diving, squatting, sprinting — the box stays exactly where it should. Game-changer for keepers like me."
           }
         },
         "review_4": {
           "type": "review",
           "settings": {
-            "rating": 5
+            "rating": 5,
+            "name": "Karan Mehta",
+            "role": "Junior Academy Player",
+            "text": "Super comfortable and doesn't feel bulky at all. My teammates keep asking where I got it!"
           }
         },
         "review_5": {
           "type": "review",
           "settings": {
-            "rating": 5
+            "rating": 5,
+            "name": "Aditya Nair",
+            "role": "Grade Cricketer",
+            "text": "Finally, protection that actually fits the modern game. The anti-bacterial fabric is a huge bonus after long match days."
           }
         }
       },

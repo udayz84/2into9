@@ -15,6 +15,7 @@
         "slide_hL4Rkh": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/Banner_1_1.webp",
             "image_alt": "D-Lock",
             "subheading": "THE EVERYDAY ESSENTIAL",
             "heading": "Comfort in Every Color",
@@ -26,8 +27,8 @@
           "type": "slide",
           "settings": {
             "image_alt": "",
-            "subheading": "The newest",
-            "heading": "Everyday wear",
+            "subheading": "THE NEW D-LOCK",
+            "heading": "Lock in your Comfort",
             "button_label": "SHOP NOW",
             "button_link": ""
           }

@@ -127,13 +127,13 @@
       "type": "media-lookbook",
       "name": "Media Lookbook",
       "settings": {
-        "image": "shopify://shop_images/video_fallback.webp",
+        "image": "shopify://shop_images/about_banner_1.webp",
         "image_alt": "2into9 lookbook campaign",
         "show_play_mark": true,
         "gap_top": 17,
         "gap_bottom": 54,
-        "image_position": "top",
-        "mirror": true,
+        "image_position": "center",
+        "mirror": false,
         "fallback_asset": ""
       }
     },

@@ -39,7 +39,11 @@
 
   @media screen and (max-width: 749px) {
     .about-banner__media {
-      height: {{ section.settings.mobile_height }}px;
+      height: auto;
+    }
+    .about-banner__image {
+      height: auto;
+      object-fit: cover;
     }
   }
 {% endstyle %}

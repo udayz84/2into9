@@ -42,6 +42,21 @@
     line-height: 1.6;
     color: rgba(var(--color-foreground), 0.75);
   }
+
+  @media screen and (max-width: 749px) {
+    #AboutMission-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top | divided_by: 2 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | divided_by: 2 }}px;
+    }
+
+    .about-mission__container {
+      gap: 2.5rem;
+    }
+
+    .about-mission__title {
+      margin-bottom: 1rem;
+    }
+  }
 {% endstyle %}
 
 {% schema %}

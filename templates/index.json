@@ -109,6 +109,7 @@
       "type": "image-text-promo",
       "name": "Kid's Promo",
       "settings": {
+        "image": "shopify://shop_images/Kids_underwear_1.webp",
         "image_alt": "Kid looking through binoculars at the beach",
         "fallback_asset": "promo-kids.jpg",
         "heading": "Kid's",

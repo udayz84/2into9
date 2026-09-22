@@ -173,7 +173,7 @@
           "settings": {
             "label": "Mens",
             "image": "shopify://shop_images/Mens_Solid_Color.webp",
-            "link": "",
+            "link": "shopify://collections/men",
             "button_label": "Shop Now"
           }
         },
@@ -182,7 +182,7 @@
           "settings": {
             "label": "Kids",
             "image": "shopify://shop_images/Kids_underwear.webp",
-            "link": "",
+            "link": "shopify://collections/kids",
             "button_label": "Shop Now"
           }
         },

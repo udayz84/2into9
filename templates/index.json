@@ -93,7 +93,7 @@
       "type": "image-text-promo",
       "name": "D-Lock Promo",
       "settings": {
-        "image": "shopify://shop_images/D_Lock_Category_Img.webp",
+        "image": "shopify://shop_images/D_Lock_Category_Img_1.webp",
         "image_alt": "D-Lock cricket campaign",
         "fallback_asset": "promo-dlock.jpg",
         "heading": "D-Lock",

@@ -12,7 +12,7 @@
     "about_banner": {
       "type": "about-banner",
       "settings": {
-        "image": "shopify://shop_images/about_banner.webp",
+        "image": "shopify://shop_images/about_banner_1.webp",
         "height": 550,
         "mobile_height": 350
       }

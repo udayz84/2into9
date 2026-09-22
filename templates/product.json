@@ -191,7 +191,7 @@
           "settings": {
             "label": "D-Lock",
             "image": "shopify://shop_images/D_Lock_Category_Img_1.webp",
-            "link": "",
+            "link": "shopify://collections/d-lock",
             "button_label": "Shop Now"
           }
         }

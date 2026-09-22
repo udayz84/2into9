@@ -2555,7 +2555,7 @@ product-price.text-block:is(.h1, .h2, .h3, .h4, .h5, .h6) > *:not(.tax-note) {
 }
 
 .shopify-policy__container {
-  padding-block: var(--padding-xl);
+  padding-block: var(--padding-6xl);
   max-width: var(--narrow-page-width)!important;
 
 }

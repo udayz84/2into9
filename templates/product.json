@@ -181,6 +181,7 @@
           "type": "card",
           "settings": {
             "label": "Kids",
+            "image": "shopify://shop_images/Kids_underwear.webp",
             "link": "",
             "button_label": "Shop Now"
           }

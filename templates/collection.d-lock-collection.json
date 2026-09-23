@@ -414,15 +414,22 @@
         "question_fHerwh": {
           "type": "question",
           "settings": {
-            "question": "What type of underwear is best for me?",
-            "answer": "For all-day everyday comfort, trunks are your best pick. For sport and high-intensity movement, the D-LOCK with its in-built locking pouch keeps everything secure."
+            "question": "How does the X-Strap system provide support?",
+            "answer": "The X-Strap design helps keep everything securely positioned while reducing unnecessary movement, giving you confidence during sports and active routines."
           }
         },
         "question_4RqdEi": {
           "type": "question",
           "settings": {
-            "question": "What underpants should I choose if I play sport?",
-            "answer": "The D-LOCK Performance Series is built for sport — breathable, anti-bacterial and engineered to lock your box in place through every sprint and dive."
+            "question": "What sizes are available in D-Lock Men's Premium Boxer Brief?",
+            "answer": "D-Lock Men's Premium Boxer Brief is available in: Small (S), Medium (M), Large (L)"
+          }
+        },
+        "question_mrkzNV": {
+          "type": "question",
+          "settings": {
+            "question": "Is the fabric breathable for long hours of wear?",
+            "answer": "Yes. The lightweight stretch fabric is designed to provide airflow, comfort, and flexibility for extended wear during matches, workouts, or daily activities."
           }
         }
       },
@@ -430,7 +437,8 @@
         "question_aWkTAJ",
         "question_HdyGeX",
         "question_fHerwh",
-        "question_4RqdEi"
+        "question_4RqdEi",
+        "question_mrkzNV"
       ],
       "name": "D-Lock FAQs",
       "settings": {

@@ -73,7 +73,8 @@
   .hero2 {
     position: relative;
     isolation: isolate;
-    min-height: var(--hero2-min-h, 100svh);
+    /* min-height: var(--hero2-min-h, 100svh); */
+    min-height: calc(var(--hero2-min-h, 100svh) - 40svh);
     background: #0c0f0c;
     overflow: clip;
     display: grid;

@@ -118,7 +118,7 @@
           "type": "_product-details",
           "static": true,
           "settings": {
-            "show_breadcrumbs": true,
+            "show_breadcrumbs": false,
             "breadcrumb_prefix": "Shop For",
             "width": "fill",
             "custom_width": 100,

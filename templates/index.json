@@ -110,7 +110,7 @@
       "type": "image-text-promo",
       "name": "Kid's Promo",
       "settings": {
-        "image": "shopify://shop_images/kids_banner_2.webp",
+        "image": "shopify://shop_images/Kid_D_lock.webp",
         "image_alt": "Kid looking through binoculars at the beach",
         "fallback_asset": "promo-kids.jpg",
         "heading": "Kid's",

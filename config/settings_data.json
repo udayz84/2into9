@@ -395,7 +395,7 @@
           "secondary_button_hover_border": "#333333",
           "input_background": "rgba(0,0,0,0)",
           "input_text_color": "#ffffff",
-          "input_border_color": "#dfdfdf",
+          "input_border_color": "#FFFFFF",
           "input_hover_background": "#00000003",
           "variant_background_color": "#ffffff",
           "variant_text_color": "#000000",

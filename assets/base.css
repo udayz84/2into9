@@ -375,6 +375,7 @@ p:empty {
 /* Layout */
 .content-for-layout {
   flex: 1;
+  overflow:hidden;
 }
 
 /* Set up page widths & margins */

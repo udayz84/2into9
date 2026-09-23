@@ -2047,18 +2047,35 @@
 
       });
 
-      var mainImage =
-        root.querySelector(
-          '[data-dlp-main-frame] .d-lock-product__main-img'
-        );
 
-      if (
-        mainImage &&
-        thumbButton.getAttribute('data-dlp-src')
-      ) {
+      var mainImage = root.querySelector(
+        '[data-dlp-main-frame] .d-lock-product__main-img'
+      );
 
-        mainImage.src =
-          thumbButton.getAttribute('data-dlp-src');
+      var imageSrc = thumbButton.getAttribute('data-dlp-src');
+
+
+      if (mainImage && imageSrc) {
+
+        /*
+         * Shopify image_tag adds srcset to the main image.
+         * Remove it before changing src so the browser does
+         * not continue displaying the original responsive image.
+         */
+        mainImage.removeAttribute('srcset');
+        mainImage.removeAttribute('sizes');
+
+        /*
+         * Force the browser to load the newly selected image.
+         */
+        mainImage.src = imageSrc;
+
+        /*
+         * Force image refresh/repaint.
+         */
+        mainImage.classList.remove('is-swap');
+
+        void mainImage.offsetWidth;
 
         mainImage.classList.add('is-swap');
 

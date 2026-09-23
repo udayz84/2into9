@@ -83,7 +83,7 @@
             "image_alt": "2into9 logo",
             "background_color": "#1a1a18",
             "logo_width": 100,
-            "height": 590,
+            "height": 560,
             "height_mobile": 500
           }
         },
@@ -91,6 +91,7 @@
           "type": "image",
           "settings": {
             "column": "1",
+            "image": "shopify://shop_images/VenomRedPrintedBoxerBrief04.webp",
             "fallback_asset": "image-305.png",
             "image_alt": "Model at the beach wearing 2into9 swim shorts",
             "height": 400,
@@ -99,6 +100,7 @@
         },
         "left_5": {
           "type": "image",
+          "disabled": true,
           "settings": {
             "column": "1",
             "fallback_asset": "image-307.png",
@@ -109,6 +111,7 @@
         },
         "left_6": {
           "type": "image",
+          "disabled": true,
           "settings": {
             "column": "1",
             "fallback_asset": "image-308.png",
@@ -132,14 +135,16 @@
           "type": "image",
           "settings": {
             "column": "2",
+            "image": "shopify://shop_images/Candid-13341.webp",
             "fallback_asset": "image-303.png",
             "image_alt": "Boy wearing colorful 2into9 swim trunks",
-            "height": 920,
+            "height": 530,
             "height_mobile": 500
           }
         },
         "center_3": {
           "type": "image",
+          "disabled": true,
           "settings": {
             "column": "2",
             "fallback_asset": "image-304.png",
@@ -163,6 +168,7 @@
           "type": "image",
           "settings": {
             "column": "3",
+            "image": "shopify://shop_images/Candid-13299.webp",
             "fallback_asset": "media-kit-walking-ocean.png",
             "image_alt": "Man walking out of the ocean in 2into9 swimwear",
             "height": 920,
@@ -171,6 +177,7 @@
         },
         "right_3": {
           "type": "image",
+          "disabled": true,
           "settings": {
             "column": "3",
             "fallback_asset": "image-306.png",
@@ -181,6 +188,7 @@
         },
         "right_4": {
           "type": "image",
+          "disabled": true,
           "settings": {
             "column": "3",
             "fallback_asset": "image-309.png",

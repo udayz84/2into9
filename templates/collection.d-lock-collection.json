@@ -274,7 +274,7 @@
               "type": "buy-buttons",
               "name": "t:names.product_buy_buttons",
               "settings": {
-                "stacking": false,
+                "stacking": true,
                 "show_quick_add_button": false,
                 "quick_add_label": "Quick Add +",
                 "show_pickup_availability": true,

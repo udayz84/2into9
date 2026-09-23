@@ -210,6 +210,10 @@
   }
 
   @media screen and (max-width: 749px) {
+    .hero2
+    {
+      min-height: calc(var(--hero2-min-h, 100svh) - 40svh);
+    }
     .hero2__watermark {
       font-size: clamp(64px, 19vw, 120px);
       top: clamp(56px, 8.5vh, 78px);
@@ -232,7 +236,7 @@
       justify-content: flex-end;
       padding-block: 0 13vh;
       transform: translateY(2vh);
-      min-height: (calc(var(--hero2-min-h) - 40svh),100svh);
+      min-height: calc(var(--hero2-min-h, 100svh) - 40svh);
     }
 
     .hero2__button {

@@ -32,7 +32,7 @@
         "announcement_BxgCk9"
       ],
       "custom_css": [
-        ".announcement-bar {border-block-end: var(--border-bottom-width) solid var(--color-border); background-color: #000 !important; color: #fff !important;}"
+        ".announcement-bar {border-block-end: none; background-color: #000 !important; color: #fff !important;}"
       ],
       "name": "t:names.announcement_bar",
       "settings": {

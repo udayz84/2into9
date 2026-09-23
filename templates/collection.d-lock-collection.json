@@ -13,7 +13,7 @@
       "type": "d-lock-template",
       "name": "D-Lock Hero",
       "settings": {
-        "hero_image": "shopify://shop_images/d_lock_banner_1.webp",
+        "hero_image": "shopify://shop_images/d_lock_banner_2.webp",
         "background_color": "#171717",
         "watermark_text": "underwear",
         "eyebrow": "TRUSTED BY PROS",

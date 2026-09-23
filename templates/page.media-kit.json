@@ -223,7 +223,7 @@
         "item_radius": 10,
         "placeholder_color": "#d9d9d9",
         "padding_top": 0,
-        "padding_bottom": 0,
+        "padding_bottom": 100,
         "padding_inline_start": 62,
         "padding_inline_end": 60,
         "padding_top_mobile": 40,
@@ -287,6 +287,7 @@
         "review_4",
         "review_5"
       ],
+      "disabled": true,
       "settings": {
         "background_color": "#ffffff",
         "padding_top": 120,

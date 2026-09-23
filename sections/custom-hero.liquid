@@ -74,7 +74,7 @@
     position: relative;
     isolation: isolate;
     /* min-height: var(--hero2-min-h, 100svh); */
-    min-height: calc(var(--hero2-min-h, 100svh) - 40svh);
+    min-height: (calc(var(--hero2-min-h) - 40svh),100svh);
     background: #0c0f0c;
     overflow: clip;
     display: grid;
@@ -129,7 +129,7 @@
     z-index: 2;
     height: 100%;
     /* min-height: var(--hero2-min-h, 100svh); */
-    min-height: calc(var(--hero2-min-h, 100svh) - 40svh);
+    min-height: (calc(var(--hero2-min-h) - 40svh),100svh);
     display: flex;
     flex-direction: column;
     justify-content: center;

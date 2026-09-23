@@ -329,7 +329,8 @@
       },
       "custom_css": [
         ".product-information {background-color: var(--color-background) !important;}",
-        ".buy-buttons-block .add-to-cart-button{background:white; color:black;}"
+        ".buy-buttons-block .add-to-cart-button {background: white; color: black;}",
+        ".product-form-buttons {display: flex; flex-wrap: wrap;}"
       ],
       "name": "t:names.featured_product_information",
       "settings": {

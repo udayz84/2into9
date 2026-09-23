@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "media_kit_hero": {
@@ -29,7 +38,7 @@
         "heading_transform": "none",
         "heading_color": "#171717",
         "subtitle_prefix": "For PR and media requests please reach out to",
-        "subtitle_highlight": "contact@2into9.Com",
+        "subtitle_highlight": "orders@2into9.Com",
         "subtitle_size": 20,
         "subtitle_size_mobile": 14,
         "subtitle_weight": "400",
@@ -47,132 +56,132 @@
           "type": "image",
           "settings": {
             "column": "1",
-            "height": 420,
-            "height_mobile": 420,
             "fallback_asset": "media-kit-resting.png",
-            "image_alt": "Model wearing 2into9 underwear resting after exercise"
+            "image_alt": "Model wearing 2into9 underwear resting after exercise",
+            "height": 420,
+            "height_mobile": 420
           }
         },
         "left_2": {
           "type": "image",
           "settings": {
             "column": "1",
-            "height": 420,
-            "height_mobile": 420,
             "fallback_asset": "media-kit-studio.png",
-            "image_alt": "Sporty man posing in dark studio wearing 2into9 underwear"
+            "image_alt": "Sporty man posing in dark studio wearing 2into9 underwear",
+            "height": 420,
+            "height_mobile": 420
           }
         },
         "left_3": {
           "type": "highlight",
           "settings": {
             "column": "1",
+            "fallback_asset": "media-kit-logo-card.png",
+            "image_alt": "2into9 logo",
             "background_color": "#1a1a18",
             "logo_width": 89,
             "height": 920,
-            "height_mobile": 500,
-            "fallback_asset": "media-kit-logo-card.png",
-            "image_alt": "2into9 logo"
+            "height_mobile": 500
           }
         },
         "left_4": {
           "type": "image",
           "settings": {
             "column": "1",
-            "height": 400,
-            "height_mobile": 400,
             "fallback_asset": "image-305.png",
-            "image_alt": "Model at the beach wearing 2into9 swim shorts"
+            "image_alt": "Model at the beach wearing 2into9 swim shorts",
+            "height": 400,
+            "height_mobile": 400
           }
         },
         "left_5": {
           "type": "image",
           "settings": {
             "column": "1",
-            "height": 400,
-            "height_mobile": 400,
             "fallback_asset": "image-307.png",
-            "image_alt": "Man in white 2into9 briefs"
+            "image_alt": "Man in white 2into9 briefs",
+            "height": 400,
+            "height_mobile": 400
           }
         },
         "left_6": {
           "type": "image",
           "settings": {
             "column": "1",
-            "height": 400,
-            "height_mobile": 400,
             "fallback_asset": "image-308.png",
-            "image_alt": "Man in black 2into9 trunks"
+            "image_alt": "Man in black 2into9 trunks",
+            "height": 400,
+            "height_mobile": 400
           }
         },
         "center_1": {
           "type": "image",
           "settings": {
             "column": "2",
-            "height": 930,
-            "height_mobile": 500,
             "fallback_asset": "media-kit-flexing.png",
-            "image_alt": "Athletic man flexing in 2into9 underwear"
+            "image_alt": "Athletic man flexing in 2into9 underwear",
+            "height": 930,
+            "height_mobile": 500
           }
         },
         "center_2": {
           "type": "image",
           "settings": {
             "column": "2",
-            "height": 920,
-            "height_mobile": 500,
             "fallback_asset": "image-303.png",
-            "image_alt": "Boy wearing colorful 2into9 swim trunks"
+            "image_alt": "Boy wearing colorful 2into9 swim trunks",
+            "height": 920,
+            "height_mobile": 500
           }
         },
         "center_3": {
           "type": "image",
           "settings": {
             "column": "2",
-            "height": 1150,
-            "height_mobile": 500,
             "fallback_asset": "image-304.png",
-            "image_alt": "Man walking in the ocean wearing 2into9 trunks"
+            "image_alt": "Man walking in the ocean wearing 2into9 trunks",
+            "height": 1150,
+            "height_mobile": 500
           }
         },
         "right_1": {
           "type": "image",
           "settings": {
             "column": "3",
-            "height": 930,
-            "height_mobile": 500,
             "fallback_asset": "image-302.png",
-            "image_alt": "Man in white 2into9 trunks against white background"
+            "image_alt": "Man in white 2into9 trunks against white background",
+            "height": 930,
+            "height_mobile": 500
           }
         },
         "right_2": {
           "type": "image",
           "settings": {
             "column": "3",
-            "height": 920,
-            "height_mobile": 500,
             "fallback_asset": "media-kit-walking-ocean.png",
-            "image_alt": "Man walking out of the ocean in 2into9 swimwear"
+            "image_alt": "Man walking out of the ocean in 2into9 swimwear",
+            "height": 920,
+            "height_mobile": 500
           }
         },
         "right_3": {
           "type": "image",
           "settings": {
             "column": "3",
-            "height": 620,
-            "height_mobile": 450,
             "fallback_asset": "image-306.png",
-            "image_alt": "Man by the pool wearing 2into9 trunks"
+            "image_alt": "Man by the pool wearing 2into9 trunks",
+            "height": 620,
+            "height_mobile": 450
           }
         },
         "right_4": {
           "type": "image",
           "settings": {
             "column": "3",
-            "height": 510,
-            "height_mobile": 420,
             "fallback_asset": "image-309.png",
-            "image_alt": "Boy at the beach wearing 2into9 swim shorts"
+            "image_alt": "Boy at the beach wearing 2into9 swim shorts",
+            "height": 510,
+            "height_mobile": 420
           }
         }
       },
@@ -271,6 +280,10 @@
         "padding_bottom": 120,
         "padding_top_mobile": 64,
         "padding_bottom_mobile": 64,
+        "autoplay_desktop": true,
+        "autoplay_speed": 4,
+        "pause_on_hover": true,
+        "mobile_padding_inline": 20,
         "heading": "Customer Reviews",
         "heading_size": 60,
         "heading_size_mobile": 36,
@@ -321,11 +334,7 @@
         "text_size": 16,
         "text_size_mobile": 14,
         "text_weight": "400",
-        "text_color": "#171717",
-        "autoplay_desktop": true,
-        "autoplay_speed": 4,
-        "pause_on_hover": true,
-        "mobile_padding_inline": 20
+        "text_color": "#171717"
       }
     }
   },

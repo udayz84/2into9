@@ -71,7 +71,8 @@
         "heading_prefix": "HOW",
         "heading_accent": "D-LOCK",
         "heading_suffix": "Changes The Game.",
-        "description": "Traditional jockstraps haven't changed in decades. We rebuilt athletic protection from the ground up to solve the biggest problem athletes face."
+        "description": "Traditional jockstraps haven't changed in decades. We rebuilt athletic protection from the ground up to solve the biggest problem athletes face.",
+        "panel_graphic": "shopify://shop_images/D-LockMen_sPremiumBoxerBrief-Black01.webp"
       }
     },
     "d_lock_product_fXQrFM": {
@@ -103,6 +104,7 @@
         },
         "offer_nPpaYF": {
           "type": "offer",
+          "disabled": true,
           "settings": {
             "title": "Pro Pack",
             "subtitle": "1 Pairs",
@@ -112,6 +114,7 @@
         },
         "offer_F3Xqmq": {
           "type": "offer",
+          "disabled": true,
           "settings": {
             "title": "Tournament Set",
             "subtitle": "2 Pairs",
@@ -121,6 +124,7 @@
         },
         "offer_dekwcJ": {
           "type": "offer",
+          "disabled": true,
           "settings": {
             "title": "Season Supply",
             "subtitle": "3 Pairs",

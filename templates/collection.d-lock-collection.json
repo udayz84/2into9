@@ -438,6 +438,13 @@
             "question": "Can I wear D-Lock under cricket trousers?",
             "answer": "Yes. The slim, supportive design fits comfortably under cricket trousers without adding bulk, making it suitable for match days and training sessions."
           }
+        },
+        "question_ii8D7W": {
+          "type": "question",
+          "settings": {
+            "question": "What is the difference between D-Lock and normal boxer briefs?",
+            "answer": "Normal boxer briefs mainly focus on comfort, while D-Lock adds performance-focused support through its X-Strap system, making it better suited for active movement."
+          }
         }
       },
       "block_order": [
@@ -446,7 +453,8 @@
         "question_fHerwh",
         "question_4RqdEi",
         "question_mrkzNV",
-        "question_EmB9Cw"
+        "question_EmB9Cw",
+        "question_ii8D7W"
       ],
       "name": "D-Lock FAQs",
       "settings": {

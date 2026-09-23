@@ -61,7 +61,7 @@
     "cart_price_font": "secondary",
     "show_cart_note": false,
     "show_add_discount_code": true,
-    "drawer_color_scheme": "scheme-1",
+    "drawer_color_scheme": "scheme-58084d4c-a86e-4d0a-855e-a0966e5043f7",
     "drawer_drop_shadow": true,
     "icon_stroke": "default",
     "input_border_width": 1,
@@ -81,6 +81,14 @@
     "variant_button_border_width": 1,
     "variant_button_radius": 14,
     "variant_button_width": "default-width-buttons",
+    "sections": {
+      "password-footer": {
+        "type": "password-footer",
+        "settings": {
+          "color_scheme": ""
+        }
+      }
+    },
     "content_for_index": [],
     "blocks": {
       "14060646107696862457": {
@@ -365,7 +373,7 @@
       },
       "scheme-2c2e4b04-7b6f-4dea-9b8d-771bd3aeb49e": {
         "settings": {
-          "background": "#1E1E1E",
+          "background": "#1e1e1e",
           "foreground_heading": "#ffffff",
           "foreground": "#ffffffcf",
           "primary": "#ffffffcf",
@@ -384,8 +392,8 @@
           "secondary_button_hover_background": "#fafafa",
           "secondary_button_hover_text": "#333333",
           "secondary_button_hover_border": "#333333",
-          "input_background": "#FFFFFF00",
-          "input_text_color": "#FFFFFF",
+          "input_background": "rgba(0,0,0,0)",
+          "input_text_color": "#ffffff",
           "input_border_color": "#dfdfdf",
           "input_hover_background": "#00000003",
           "variant_background_color": "#ffffff",

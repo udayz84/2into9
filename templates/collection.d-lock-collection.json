@@ -78,12 +78,12 @@
     },
     "d_lock_product_fXQrFM": {
       "type": "d-lock-product",
-      "disabled": true,
       "name": "D-Lock Product",
       "settings": {
         "padding_top": 120,
         "padding_bottom": 120,
-        "background_color": "#171717"
+        "background_color": "#171717",
+        "product": "d-lock-mens-premium-boxer-brief-black"
       }
     },
     "featured_product_information_XK3PnU": {
@@ -317,6 +317,7 @@
           ]
         }
       },
+      "disabled": true,
       "name": "t:names.featured_product_information",
       "settings": {
         "product": "d-lock-mens-premium-boxer-brief-black",

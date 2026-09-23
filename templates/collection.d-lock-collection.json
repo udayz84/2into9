@@ -400,8 +400,15 @@
         "question_aWkTAJ": {
           "type": "question",
           "settings": {
-            "question": "What's the difference between a Boxer Brief and Trunk?",
-            "answer": "The only difference between the two is that Boxer Briefs have 3 cm more leg length than the trunks."
+            "question": "What makes D-Lock different from regular boxer briefs?",
+            "answer": "D-Lock is designed with an advanced X-Strap support system that helps provide better stability and protection during high-movement activities like cricket, training, and everyday wear."
+          }
+        },
+        "question_HdyGeX": {
+          "type": "question",
+          "settings": {
+            "question": "Is D-Lock suitable for cricket and sports activities?",
+            "answer": "Yes. D-Lock is built for active players who need secure support, flexibility, and comfort during intense movements such as running, batting, bowling, and fielding."
           }
         },
         "question_fHerwh": {
@@ -421,6 +428,7 @@
       },
       "block_order": [
         "question_aWkTAJ",
+        "question_HdyGeX",
         "question_fHerwh",
         "question_4RqdEi"
       ],

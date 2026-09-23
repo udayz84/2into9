@@ -56,6 +56,7 @@
           "type": "image",
           "settings": {
             "column": "1",
+            "image": "shopify://shop_images/Candid-13294.webp",
             "fallback_asset": "media-kit-resting.png",
             "image_alt": "Model wearing 2into9 underwear resting after exercise",
             "height": 420,
@@ -66,6 +67,7 @@
           "type": "image",
           "settings": {
             "column": "1",
+            "image": "shopify://shop_images/Candid-13380.webp",
             "fallback_asset": "media-kit-studio.png",
             "image_alt": "Sporty man posing in dark studio wearing 2into9 underwear",
             "height": 420,
@@ -76,11 +78,12 @@
           "type": "highlight",
           "settings": {
             "column": "1",
+            "image": "shopify://shop_images/Candid-13363.webp",
             "fallback_asset": "media-kit-logo-card.png",
             "image_alt": "2into9 logo",
             "background_color": "#1a1a18",
-            "logo_width": 89,
-            "height": 920,
+            "logo_width": 100,
+            "height": 590,
             "height_mobile": 500
           }
         },
@@ -118,6 +121,7 @@
           "type": "image",
           "settings": {
             "column": "2",
+            "image": "shopify://shop_images/Candid-13266.webp",
             "fallback_asset": "media-kit-flexing.png",
             "image_alt": "Athletic man flexing in 2into9 underwear",
             "height": 930,
@@ -148,6 +152,7 @@
           "type": "image",
           "settings": {
             "column": "3",
+            "image": "shopify://shop_images/Candid-13409.webp",
             "fallback_asset": "image-302.png",
             "image_alt": "Man in white 2into9 trunks against white background",
             "height": 930,

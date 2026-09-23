@@ -78,90 +78,12 @@
     },
     "d_lock_product_fXQrFM": {
       "type": "d-lock-product",
-      "blocks": {
-        "icon_tile_WWTqFp": {
-          "type": "icon_tile",
-          "settings": {
-            "label": "In-Built Pouch"
-          }
-        },
-        "icon_tile_mmyDYf": {
-          "type": "icon_tile",
-          "settings": {
-            "label": "Locking System"
-          }
-        },
-        "icon_tile_j89rG6": {
-          "type": "icon_tile",
-          "settings": {
-            "label": "Breathable"
-          }
-        },
-        "icon_tile_QEKWJH": {
-          "type": "icon_tile",
-          "settings": {
-            "label": "Anti-Bacterial"
-          }
-        },
-        "offer_nPpaYF": {
-          "type": "offer",
-          "disabled": true,
-          "settings": {
-            "title": "Pro Pack",
-            "subtitle": "1 Pairs",
-            "price": "Rs. 929.00",
-            "per_pair": "Rs. 929.00/ Pairs"
-          }
-        },
-        "offer_F3Xqmq": {
-          "type": "offer",
-          "disabled": true,
-          "settings": {
-            "title": "Tournament Set",
-            "subtitle": "2 Pairs",
-            "price": "Rs. 929.00",
-            "per_pair": "Rs. 929.00/ Pairs"
-          }
-        },
-        "offer_dekwcJ": {
-          "type": "offer",
-          "disabled": true,
-          "settings": {
-            "title": "Season Supply",
-            "subtitle": "3 Pairs",
-            "price": "Rs. 929.00",
-            "per_pair": "Rs. 929.00/ Pairs"
-          }
-        }
-      },
-      "block_order": [
-        "icon_tile_WWTqFp",
-        "icon_tile_mmyDYf",
-        "icon_tile_j89rG6",
-        "icon_tile_QEKWJH",
-        "offer_nPpaYF",
-        "offer_F3Xqmq",
-        "offer_dekwcJ"
-      ],
       "disabled": true,
       "name": "D-Lock Product",
       "settings": {
         "padding_top": 120,
         "padding_bottom": 120,
-        "background_color": "#171717",
-        "product_title": "D-LOCK",
-        "product_subtitle": "Performance Series",
-        "price": "Rs.929.00",
-        "main_image": "shopify://shop_images/D_Lock_Category_Img_1.webp",
-        "thumb_image_2": "shopify://shop_images/D-LockMen_sPremiumBoxerBrief-Black03.webp",
-        "thumb_image_3": "shopify://shop_images/D-LockMen_sPremiumBoxerBrief-Black01.webp",
-        "thumb_image_4": "shopify://shop_images/D-LockMen_sPremiumBoxerBrief-Black04.webp",
-        "select_size_label": "Select Size",
-        "size_options": "S,M,L,XL,XXL",
-        "default_size": "M",
-        "default_quantity": 15,
-        "atc_label": "Add to Cart",
-        "atc_link": ""
+        "background_color": "#171717"
       }
     },
     "featured_product_information_XK3PnU": {

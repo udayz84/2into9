@@ -108,7 +108,6 @@
     },
     "category_split_NGGdRd": {
       "type": "category-split",
-      "disabled": true,
       "name": "Category Split",
       "settings": {
         "panel_1_image": "shopify://shop_images/mens_printed_Color_1.webp",
@@ -116,7 +115,7 @@
         "panel_1_shop_label": "SHOP",
         "panel_1_link": "shopify://collections/kids-solid-trunk",
         "panel_1_align": "left",
-        "panel_2_image": "shopify://shop_images/Mens_Solid_Color.webp",
+        "panel_2_image": "shopify://shop_images/Kid_D_lock.webp",
         "panel_2_heading": "Kids D Lock",
         "panel_2_shop_label": "SHOP",
         "panel_2_link": "shopify://collections/kids-d-lock",

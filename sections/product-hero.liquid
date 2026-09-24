@@ -239,7 +239,7 @@
         {%- endif -%}
       {%- endfor -%}
 
-      {%- if has_bundles -%}
+      {% comment %} {%- if has_bundles -%}
         <div class="ph-step">
           <span class="ph-step__label">Select your quantity</span>
           <div class="ph-bundles" role="radiogroup" aria-label="Quantity bundle">
@@ -274,7 +274,116 @@
             {%- endfor -%}
           </div>
         </div>
-      {%- endif -%}
+      {%- endif -%} {% endcomment %}
+
+      {%- if has_bundles -%}
+
+  {%- assign current_variant = product.selected_or_first_available_variant -%}
+
+  <div
+    class="ph-step ph-step--quantity"
+    data-bundle-selector
+    data-product-id="{{ product.id }}"
+    data-section-id="{{ section.id }}"
+    data-base-variant-price="{{ current_variant.price }}"
+  >
+
+    <span class="ph-step__label">
+      Select your quantity
+    </span>
+
+    <div
+      class="ph-bundles"
+      role="radiogroup"
+      aria-label="Select your quantity"
+    >
+
+      {%- assign bundle_quantities = '1,2,3,5' | split: ',' -%}
+
+      {%- for quantity_string in bundle_quantities -%}
+
+        {%- assign quantity = quantity_string | plus: 0 -%}
+
+        {%- case quantity -%}
+
+          {%- when 1 -%}
+            {%- assign discount = 0 -%}
+
+          {%- when 2 -%}
+            {%- assign discount = 5 -%}
+
+          {%- when 3 -%}
+            {%- assign discount = 10 -%}
+
+          {%- when 5 -%}
+            {%- assign discount = 12 -%}
+
+        {%- endcase -%}
+
+        {%- assign discount_amount = current_variant.price
+          | times: discount
+          | divided_by: 100
+        -%}
+
+        {%- assign discounted_price = current_variant.price
+          | minus: discount_amount
+        -%}
+
+        <label
+          class="ph-bundle{% if quantity == 1 %} is-selected{% endif %}"
+          data-bundle-option
+          data-quantity="{{ quantity }}"
+          data-discount="{{ discount }}"
+        >
+
+          <input
+            type="radio"
+            class="ph-bundle__input"
+            name="bundle-quantity-{{ section.id }}"
+            value="{{ quantity }}"
+            data-qty="{{ quantity }}"
+            data-discount="{{ discount }}"
+            data-price-each="{{ discounted_price }}"
+            data-total-price="{{ discounted_price | times: quantity }}"
+            data-base-price="{{ current_variant.price }}"
+            {% if quantity == 1 %}
+              checked
+            {% endif %}
+          >
+
+          <span class="ph-bundle__pairs">
+            {{ quantity }}
+            {% if quantity == 1 %}
+              Pair
+            {% else %}
+              Pairs
+            {% endif %}
+          </span>
+
+          <span
+            class="ph-bundle__price"
+            data-bundle-price
+          >
+            {{ discounted_price | money }}/each
+          </span>
+
+          {% if discount > 0 %}
+            <span
+              class="ph-bundle__badge ph-bundle__badge--discount"
+              data-bundle-discount
+            >
+              {{ discount }}% OFF
+            </span>
+          {% endif %}
+
+        </label>
+
+      {%- endfor -%}
+
+    </div>
+  </div>
+
+{%- endif -%}
     </div>
   </div>
 </product-hero>

@@ -1254,9 +1254,10 @@ class ProductHero extends HTMLElement {
     if (!quantityInput) {
 
       const productForm =
-        this.querySelector(
-          'form[action*="/cart/add"]'
-        );
+        this.querySelector('form[action*="/cart/add"]') ||
+        document.querySelector('form[action*="/cart/add"]') ||
+        document.querySelector('form.shopify-product-form') ||
+        document.querySelector('form[data-product-form]');
 
 
       quantityInput =
@@ -1306,69 +1307,322 @@ class ProductHero extends HTMLElement {
 
   initProductForm() {
 
+    /*
+     * The product form is rendered outside <product-hero> in the theme.
+     * Find it globally, while preferring the form inside this component
+     * if a theme version ever renders it here.
+     */
     const form =
-      this.querySelector(
-        'form[action*="/cart/add"]'
-      );
-
+      this.querySelector('form[action*="/cart/add"]') ||
+      document.querySelector('form[action*="/cart/add"]') ||
+      document.querySelector('form.shopify-product-form') ||
+      document.querySelector('form[data-product-form]');
 
     if (!form) {
+      console.warn('2into9: Product form not found.');
       return;
     }
 
-
     /*
-     * Before add-to-cart, make sure
-     * selected variant and quantity are
-     * synchronized.
+     * Add to cart with Shopify's Ajax Cart API.
+     * Shopify returns freshly rendered cart sections so the
+     * cart drawer and cart count update without a page refresh.
      */
     form.addEventListener(
       'submit',
-      () => {
+      async (event) => {
+
+        event.preventDefault();
+
+        if (this.isAddingToCart) {
+          return;
+        }
 
         const selectedBundle =
           this.querySelector(
             '.ph-bundle__input:checked'
           );
 
+        const quantity =
+          parseInt(
+            selectedBundle?.dataset.qty,
+            10
+          ) ||
+          parseInt(
+            this.state.quantity,
+            10
+          ) ||
+          1;
 
-        if (selectedBundle) {
+        this.state.quantity = quantity;
+        this.updateProductQuantity(quantity);
 
-          const quantity =
-            parseInt(
-              selectedBundle.dataset.qty,
-              10
-            ) || 1;
+        const variantInput =
+          form.querySelector('[name="id"]');
 
-
-          this.updateProductQuantity(
-            quantity
-          );
-
+        if (variantInput && this.state.variantId) {
+          variantInput.value = this.state.variantId;
         }
 
+        let quantityInput =
+          form.querySelector('[name="quantity"]');
 
-        /*
-         * Make sure variant ID is current.
-         */
-        const variantInput =
-          form.querySelector(
-            '[name="id"]'
+        if (!quantityInput) {
+          quantityInput = document.createElement('input');
+          quantityInput.type = 'hidden';
+          quantityInput.name = 'quantity';
+          form.appendChild(quantityInput);
+        }
+
+        quantityInput.value = quantity;
+
+        const formData = new FormData(form);
+
+        formData.append(
+          'sections',
+          'cart-drawer,cart-icon-bubble,cart-live-region-text'
+        );
+
+        formData.append(
+          'sections_url',
+          window.location.pathname + window.location.search
+        );
+
+        try {
+
+          this.setAddToCartLoading(true);
+
+          const response = await fetch(
+            window.Shopify.routes.root + 'cart/add.js',
+            {
+              method: 'POST',
+              headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+              },
+              body: formData
+            }
           );
 
+          const data = await response.json();
 
-        if (
-          variantInput &&
-          this.state.variantId
-        ) {
+          if (!response.ok) {
+            throw new Error(
+              data.description ||
+              data.message ||
+              'Unable to add to cart'
+            );
+          }
 
-          variantInput.value =
-            this.state.variantId;
+          this.updateCartSections(data.sections);
 
+          /*
+           * 2into9 uses the theme's jQuery mini-cart. Its own renderer
+           * is the reliable way to refresh the visible cart immediately.
+           */
+          if (
+            window.theme &&
+            window.theme.miniCart
+          ) {
+            if (typeof window.theme.miniCart.updateElements === 'function') {
+              window.theme.miniCart.updateElements();
+            }
+            if (typeof window.theme.miniCart.generateCart === 'function') {
+              window.theme.miniCart.generateCart();
+            }
+          }
+
+          /* Also notify themes/apps listening for cart changes. */
+          document.dispatchEvent(
+            new CustomEvent('cart:updated', {
+              bubbles: true,
+              detail: { cart: data }
+            })
+          );
+
+          document.dispatchEvent(
+            new CustomEvent('cart:refresh', {
+              bubbles: true,
+              detail: { cart: data }
+            })
+          );
+
+          this.openCartDrawer();
+
+        } catch (error) {
+
+          console.error(
+            '2into9 Add to Cart error:',
+            error
+          );
+
+          /*
+           * Keep a safe fallback if the Ajax request fails.
+           */
+          form.submit();
+
+        } finally {
+          this.setAddToCartLoading(false);
         }
 
       }
     );
+
+  }
+
+
+  /*
+   * =========================================================
+   * AJAX CART UI
+   * =========================================================
+   */
+
+  updateCartSections(sections) {
+
+    if (!sections) {
+      return;
+    }
+
+    const parser = new DOMParser();
+
+    /* CART DRAWER */
+    if (sections['cart-drawer']) {
+
+      const currentDrawer =
+        document.querySelector('cart-drawer') ||
+        document.querySelector('#CartDrawer') ||
+        document.querySelector('.cart-drawer');
+
+      if (currentDrawer) {
+
+        const doc = parser.parseFromString(
+          sections['cart-drawer'],
+          'text/html'
+        );
+
+        const newDrawer =
+          doc.querySelector('cart-drawer') ||
+          doc.querySelector('#CartDrawer') ||
+          doc.querySelector('.cart-drawer');
+
+        if (newDrawer) {
+          currentDrawer.replaceWith(newDrawer);
+        }
+      }
+    }
+
+    /* CART ICON / COUNT */
+    if (sections['cart-icon-bubble']) {
+
+      const doc = parser.parseFromString(
+        sections['cart-icon-bubble'],
+        'text/html'
+      );
+
+      const newBubble =
+        doc.querySelector('#cart-icon-bubble') ||
+        doc.querySelector('.cart-count-bubble');
+
+      const currentBubble =
+        document.querySelector('#cart-icon-bubble') ||
+        document.querySelector('.cart-count-bubble');
+
+      if (newBubble && currentBubble) {
+        currentBubble.replaceWith(newBubble);
+      }
+    }
+
+    /* ACCESSIBILITY LIVE REGION */
+    if (sections['cart-live-region-text']) {
+
+      const doc = parser.parseFromString(
+        sections['cart-live-region-text'],
+        'text/html'
+      );
+
+      const newLiveRegion =
+        doc.querySelector('#cart-live-region-text');
+
+      const currentLiveRegion =
+        document.querySelector('#cart-live-region-text');
+
+      if (newLiveRegion && currentLiveRegion) {
+        currentLiveRegion.replaceWith(newLiveRegion);
+      }
+    }
+
+  }
+
+
+  /*
+   * =========================================================
+   * OPEN UPDATED CART DRAWER
+   * =========================================================
+   */
+
+  openCartDrawer() {
+
+    /* Prefer the theme's own mini-cart toggle/open behavior. */
+    const toggle =
+      document.querySelector('.js-toggle-cart');
+
+    const miniCart =
+      document.querySelector('.js-mini-cart');
+
+    if (toggle && miniCart) {
+      miniCart.classList.add('active');
+      return;
+    }
+
+    const drawer =
+      document.querySelector('cart-drawer') ||
+      document.querySelector('#CartDrawer') ||
+      document.querySelector('.cart-drawer');
+
+    if (!drawer) {
+      /* The cart was still added successfully; use the cart page only
+       * when there is no visible drawer implementation at all. */
+      return;
+    }
+
+    if (typeof drawer.open === 'function') {
+      drawer.open();
+      return;
+    }
+
+    drawer.classList.add('active');
+    drawer.classList.add('is-open');
+    drawer.setAttribute('open', '');
+
+  }
+
+  /*
+   * =========================================================
+   * ADD TO CART LOADING STATE
+   * =========================================================
+   */
+
+  setAddToCartLoading(loading) {
+
+    this.isAddingToCart = loading;
+
+    const button =
+      form?.querySelector('[type="submit"]') ||
+      this.querySelector('[type="submit"]') ||
+      document.querySelector('form[action*="/cart/add"] [type="submit"]');
+
+    if (!button) {
+      return;
+    }
+
+    button.disabled = loading;
+    button.classList.toggle('loading', loading);
+
+    if (loading) {
+      button.setAttribute('aria-busy', 'true');
+    } else {
+      button.removeAttribute('aria-busy');
+    }
 
   }
 

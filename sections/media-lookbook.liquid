@@ -1,4 +1,4 @@
-{%- comment -%}
+{% comment %} {%- comment -%}
   Homepage — full-bleed lookbook media strip. Accepts a Shopify-hosted video
   (plays inline on click) or falls back to an image poster. Circular play mark.
   Ref: section screenshot 9.
@@ -231,4 +231,335 @@
       "name": "Media Lookbook"
     }
   ]
-}{% endschema %}
+}{% endschema %} {% endcomment %}
+
+{%- comment -%}
+  Homepage — full-bleed lookbook media strip.
+  Video autoplay + loop with music/sound control.
+  Falls back to an image when no video is selected.
+{%- endcomment -%}
+
+{%- assign vm_pos = section.settings.image_position | default: 'top' -%}
+
+<section
+  class="vm{% if section.settings.mirror %} vm--mirror{% endif %}"
+  data-vm-root
+  data-position="{{ vm_pos }}"
+  style="margin-block: {{ section.settings.gap_top }}px {{ section.settings.gap_bottom }}px;"
+>
+  {%- if section.settings.video != blank -%}
+
+    {{
+      section.settings.video
+      | video_tag:
+        image_placeholder: section.settings.image,
+        class: 'vm__media',
+        playsinline: true,
+        autoplay: true,
+        loop: true,
+        muted: true,
+        controls: false,
+        preload: 'auto'
+    }}
+
+    <!-- Music Control -->
+    <button
+      class="vm__sound"
+      type="button"
+      data-vm-sound
+      aria-label="Turn sound on"
+    >
+      <!-- Muted Icon -->
+      <svg class="vm__sound-off" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/>
+        <path d="M16 9l4 6M20 9l-4 6"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"/>
+      </svg>
+
+      <!-- Sound On Icon -->
+      <svg class="vm__sound-on" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/>
+        <path d="M16 8c1.5 1.5 1.5 6.5 0 8"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"/>
+        <path d="M19 5.5c3 3 3 10 0 13"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"/>
+      </svg>
+    </button>
+
+  {%- else -%}
+
+    <img
+      class="vm__media"
+      src="{% if section.settings.image %}{{ section.settings.image | image_url: width: 2000 }}{% else %}{{ section.settings.fallback_asset | default: 'promo-video.jpg' | asset_url }}{% endif %}"
+      alt="{{ section.settings.image_alt | default: '2into9 lookbook' | escape }}"
+      loading="lazy"
+      width="2000"
+      height="890"
+    >
+
+  {%- endif -%}
+</section>
+
+{% stylesheet %}
+  .vm {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1000 / 445;
+    background: #0d0f0d;
+    overflow: hidden;
+  }
+
+  .vm__media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .vm[data-position='top'] .vm__media {
+    object-position: 50% 15%;
+  }
+
+  .vm[data-position='center'] .vm__media {
+    object-position: 50% 50%;
+  }
+
+  .vm[data-position='bottom'] .vm__media {
+    object-position: 50% 68%;
+  }
+
+  .vm--mirror .vm__media {
+    transform: scaleX(-1);
+  }
+
+  /* Music / Sound Button */
+  .vm__sound {
+    position: absolute;
+    right: 24px;
+    bottom: 24px;
+
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+
+    background: rgba(0, 0, 0, 0.35);
+
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+
+    color: #ffffff;
+    cursor: pointer;
+
+    z-index: 5;
+
+    transition:
+      transform 0.25s ease,
+      background 0.25s ease;
+  }
+
+  .vm__sound:hover {
+    transform: scale(1.08);
+    background: rgba(0, 0, 0, 0.55);
+  }
+
+  .vm__sound svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* Default = muted */
+  .vm__sound-on {
+    display: none;
+  }
+
+  .vm__sound-off {
+    display: block;
+  }
+
+  /* When sound is ON */
+  .vm.sound-on .vm__sound-on {
+    display: block;
+  }
+
+  .vm.sound-on .vm__sound-off {
+    display: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .vm {
+      aspect-ratio: 4 / 3;
+    }
+
+    .vm__sound {
+      right: 15px;
+      bottom: 15px;
+      width: 42px;
+      height: 42px;
+    }
+
+    .vm__sound svg {
+      width: 19px;
+      height: 19px;
+    }
+  }
+{% endstylesheet %}
+
+<script>
+  document.querySelectorAll('[data-vm-root]').forEach(function (root) {
+    var video = root.querySelector('video');
+    var soundBtn = root.querySelector('[data-vm-sound]');
+
+    if (!video) return;
+
+    /*
+     * Autoplay video
+     * Muted is required for reliable autoplay in browsers.
+     */
+    video.muted = true;
+    video.autoplay = true;
+    video.loop = true;
+    video.playsInline = true;
+
+    video.play().catch(function () {
+      // Browser may prevent autoplay.
+    });
+
+    /*
+     * Music / Sound control
+     */
+    if (soundBtn) {
+      soundBtn.addEventListener('click', function () {
+        if (video.muted) {
+          video.muted = false;
+          root.classList.add('sound-on');
+
+          soundBtn.setAttribute('aria-label', 'Turn sound off');
+
+          /*
+           * If video was paused by the browser,
+           * start playing again.
+           */
+          video.play().catch(function () {});
+        } else {
+          video.muted = true;
+          root.classList.remove('sound-on');
+
+          soundBtn.setAttribute('aria-label', 'Turn sound on');
+        }
+      });
+    }
+
+    /*
+     * Keep video looping
+     */
+    video.addEventListener('ended', function () {
+      video.currentTime = 0;
+      video.play().catch(function () {});
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Media Lookbook",
+  "tag": "section",
+  "class": "section-media-lookbook",
+  "settings": [
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image (poster / fallback)"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image alt text"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "gap_top",
+      "label": "Top spacing",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 17
+    },
+    {
+      "type": "range",
+      "id": "gap_bottom",
+      "label": "Bottom spacing",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 54
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image crop position",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "top"
+    },
+    {
+      "type": "checkbox",
+      "id": "mirror",
+      "label": "Mirror image horizontally",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "fallback_asset",
+      "label": "Theme image filename",
+      "info": "Used when no image is picked. e.g. promo-video.jpg"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Media Lookbook"
+    }
+  ]
+}
+{% endschema %}

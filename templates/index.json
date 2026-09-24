@@ -110,7 +110,7 @@
       "type": "category-split",
       "name": "Category Split",
       "settings": {
-        "panel_1_image": "shopify://shop_images/mens_printed_Color_1.webp",
+        "panel_1_image": "shopify://shop_images/kids_solid_f5cb069d-ee51-466c-9538-08c038ce21d9.webp",
         "panel_1_heading": "Kids Solid Trunk",
         "panel_1_shop_label": "SHOP",
         "panel_1_link": "shopify://collections/kids-solid-trunk",
@@ -130,7 +130,7 @@
       "type": "image-text-promo",
       "name": "Kid's Promo",
       "settings": {
-        "image": "shopify://shop_images/Kid_D_lock.webp",
+        "image": "shopify://shop_images/kids_general.webp",
         "image_alt": "Kid looking through binoculars at the beach",
         "fallback_asset": "promo-kids.jpg",
         "heading": "Kid's",
@@ -147,6 +147,7 @@
       "type": "media-lookbook",
       "name": "Media Lookbook",
       "settings": {
+        "video": "shopify://files/videos/2into9 (10 second).mp4",
         "image": "shopify://shop_images/about_banner_1.webp",
         "image_alt": "2into9 lookbook campaign",
         "show_play_mark": true,

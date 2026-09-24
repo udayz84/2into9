@@ -147,10 +147,9 @@
       "type": "media-lookbook",
       "name": "Media Lookbook",
       "settings": {
-        "video": "shopify://files/videos/2into9 (10 second).mp4",
+        "video": "shopify://files/videos/Home Video.mp4",
         "image": "shopify://shop_images/about_banner_1.webp",
         "image_alt": "2into9 lookbook campaign",
-        "show_play_mark": true,
         "gap_top": 17,
         "gap_bottom": 54,
         "image_position": "center",

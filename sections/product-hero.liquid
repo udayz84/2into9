@@ -53,7 +53,7 @@
 
         <div class="ph-gallery__stage">
           {%- if product.media.size > 0 -%}
-            {%- for media in product.media -%}
+            {% comment %} {%- for media in product.media -%}
               <div
                 class="ph-gallery__slide{% if forloop.first %} is-active{% endif %}"
                 data-slide
@@ -76,7 +76,69 @@
                     alt: media.alt | escape
                 }}
               </div>
-            {%- endfor -%}
+            {%- endfor -%} {% endcomment %}
+
+            {%- for media in product.media -%}
+
+  <div
+    class="ph-gallery__slide{% if forloop.first %} is-active{% endif %}"
+    data-slide
+    data-media-type="{{ media.media_type }}"
+    data-media-id="{{ media.id }}"
+    {% if media.variant_ids.size > 0 %}
+      data-variant-image="{{ media.variant_ids | join: ',' }}"
+    {% endif %}
+  >
+
+    {%- case media.media_type -%}
+
+      {%- when 'image' -%}
+
+        {%- assign media_loading = 'lazy' -%}
+        {%- if forloop.first -%}
+          {%- assign media_loading = 'eager' -%}
+        {%- endif -%}
+
+        {{
+          media
+          | image_url: width: 1200
+          | image_tag:
+            class: 'ph-gallery__image',
+            widths: '490, 740, 980, 1200',
+            sizes: '490px',
+            loading: media_loading,
+            alt: media.alt | escape
+        }}
+
+      {%- when 'video' -%}
+
+        {{
+          media
+          | video_tag:
+            class: 'ph-gallery__video',
+            controls: true,
+            autoplay: false,
+            loop: false,
+            muted: true,
+            playsinline: true,
+            image_size: '1200x'
+        }}
+
+      {%- when 'external_video' -%}
+
+        <div class="ph-gallery__external-video">
+          {{ media | external_video_tag }}
+        </div>
+
+      {%- when 'model' -%}
+
+        {{ media | model_viewer_tag }}
+
+    {%- endcase -%}
+
+  </div>
+
+{%- endfor -%}
           {%- else -%}
             <div class="ph-gallery__slide is-active" data-slide>
               {{ 'product-1' | placeholder_svg_tag: 'ph-gallery__image ph-gallery__image--placeholder' }}

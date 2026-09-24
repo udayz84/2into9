@@ -98,7 +98,7 @@
       "settings": {
         "bg_text": "underwear",
         "page_padding": 110,
-        "show_rating": true,
+        "show_rating": false,
         "rating": 4.5,
         "reviews_url": "",
         "find_fit_text": "Find my Fit",

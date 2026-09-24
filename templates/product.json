@@ -47,7 +47,7 @@
         "bundle_best_value": {
           "type": "bundle",
           "settings": {
-            "pairs": "15 Pairs",
+            "pairs": "5 Pairs",
             "price_each": "Rs 800/each",
             "top_badge": "Best Value",
             "discount_badge": "20% OFF",
@@ -57,20 +57,20 @@
         "bundle_most_popular": {
           "type": "bundle",
           "settings": {
-            "pairs": "15 Pairs",
-            "price_each": "Rs 840/each",
+            "pairs": "3 Pairs",
+            "price_each": "Rs 830/each",
             "top_badge": "Most Popular",
-            "discount_badge": "15% OFF",
+            "discount_badge": "10% OFF",
             "selected": true
           }
         },
         "bundle_4_pairs": {
           "type": "bundle",
           "settings": {
-            "pairs": "4 Pairs",
-            "price_each": "Rs 870/each",
+            "pairs": "2 Pairs",
+            "price_each": "Rs 880/each",
             "top_badge": "",
-            "discount_badge": "10% OFF",
+            "discount_badge": "5% OFF",
             "selected": false
           }
         },

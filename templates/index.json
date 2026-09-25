@@ -186,6 +186,52 @@
         "fallback_asset": ""
       }
     },
+    "image_card_ENV7k3": {
+      "type": "image-card",
+      "blocks": {
+        "image_whTEcb": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Candid-13266.webp",
+            "image_alt": "Image",
+            "link": "",
+            "open_in_new_tab": false
+          }
+        },
+        "image_p7WX8x": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Candid-13341.webp",
+            "image_alt": "Image",
+            "link": "",
+            "open_in_new_tab": false
+          }
+        }
+      },
+      "block_order": [
+        "image_whTEcb",
+        "image_p7WX8x"
+      ],
+      "name": "Image Card",
+      "settings": {
+        "section_width": "full-width",
+        "color_scheme": "",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "media_lookbook_DhQ6NX": {
+      "type": "media-lookbook",
+      "name": "Media Lookbook",
+      "settings": {
+        "image_alt": "",
+        "gap_top": 0,
+        "gap_bottom": 0,
+        "image_position": "center",
+        "mirror": true,
+        "fallback_asset": ""
+      }
+    },
     "home_faq_Tf3gHw": {
       "type": "home-faq",
       "blocks": {
@@ -243,6 +289,8 @@
     "category_split_NGGdRd",
     "image_text_promo_Kd4mNp",
     "media_lookbook_Qw7eJt",
+    "image_card_ENV7k3",
+    "media_lookbook_DhQ6NX",
     "home_faq_Tf3gHw"
   ]
 }

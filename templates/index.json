@@ -253,6 +253,18 @@
         "fallback_asset": ""
       }
     },
+    "media_lookbook_B94iAr": {
+      "type": "media-lookbook",
+      "name": "Media Lookbook",
+      "settings": {
+        "image_alt": "",
+        "gap_top": 0,
+        "gap_bottom": 0,
+        "image_position": "center",
+        "mirror": true,
+        "fallback_asset": ""
+      }
+    },
     "image_card_a4np3X": {
       "type": "image-card",
       "blocks": {
@@ -348,6 +360,7 @@
     "image_card_ENV7k3",
     "media_lookbook_DhQ6NX",
     "image_card_a4np3X",
+    "media_lookbook_B94iAr",
     "home_faq_Tf3gHw"
   ]
 }

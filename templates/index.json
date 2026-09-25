@@ -232,6 +232,40 @@
         "fallback_asset": ""
       }
     },
+    "image_card_a4np3X": {
+      "type": "image-card",
+      "blocks": {
+        "image_9eHQKj": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Candid-13363.webp",
+            "image_alt": "Image",
+            "link": "",
+            "open_in_new_tab": false
+          }
+        },
+        "image_6GzUAU": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Candid-13299.webp",
+            "image_alt": "Image",
+            "link": "",
+            "open_in_new_tab": false
+          }
+        }
+      },
+      "block_order": [
+        "image_9eHQKj",
+        "image_6GzUAU"
+      ],
+      "name": "Image Card",
+      "settings": {
+        "section_width": "full-width",
+        "color_scheme": "",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
     "home_faq_Tf3gHw": {
       "type": "home-faq",
       "blocks": {
@@ -291,6 +325,7 @@
     "media_lookbook_Qw7eJt",
     "image_card_ENV7k3",
     "media_lookbook_DhQ6NX",
+    "image_card_a4np3X",
     "home_faq_Tf3gHw"
   ]
 }

@@ -79,6 +79,8 @@
       "settings": {
         "image_alt": "",
         "fallback_asset": "",
+        "small_image": "shopify://shop_images/blue_2into9.webp",
+        "small_image_alt": "",
         "heading": "MEN'S TRUNK",
         "shop_label": "SHOP",
         "link": "shopify://collections/men",
@@ -86,7 +88,8 @@
         "gap_top": 16,
         "gap_bottom": 16,
         "heading_size": 34,
-        "inset_vw": 16
+        "inset_vw": 16,
+        "small_image_width": 58
       }
     },
     "image_text_promo_Lm9xZv": {
@@ -96,6 +99,7 @@
         "image": "shopify://shop_images/D_Lock_Home.webp",
         "image_alt": "D-Lock cricket campaign",
         "fallback_asset": "promo-dlock.jpg",
+        "small_image_alt": "",
         "heading": "D-Lock",
         "shop_label": "SHOP",
         "link": "shopify://collections/d-lock",
@@ -103,7 +107,8 @@
         "gap_top": 16,
         "gap_bottom": 16,
         "heading_size": 34,
-        "inset_vw": 16
+        "inset_vw": 16,
+        "small_image_width": 58
       }
     },
     "category_split_NGGdRd": {
@@ -134,6 +139,7 @@
         "image": "shopify://shop_images/kids_general.webp",
         "image_alt": "Kid looking through binoculars at the beach",
         "fallback_asset": "promo-kids.jpg",
+        "small_image_alt": "",
         "heading": "Kid's",
         "shop_label": "SHOP",
         "link": "shopify://collections/kids",
@@ -141,7 +147,8 @@
         "gap_top": 16,
         "gap_bottom": 16,
         "heading_size": 34,
-        "inset_vw": 27
+        "inset_vw": 27,
+        "small_image_width": 58
       }
     },
     "media_lookbook_Qw7eJt": {

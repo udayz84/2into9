@@ -96,6 +96,7 @@
       "type": "image-text-promo",
       "name": "Men's Trunk Promo",
       "settings": {
+        "image": "shopify://shop_images/home_d-lock_img.webp",
         "image_alt": "",
         "fallback_asset": "",
         "small_image": "shopify://shop_images/D-Lock_product.webp",

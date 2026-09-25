@@ -108,6 +108,7 @@
     },
     "category_split_NGGdRd": {
       "type": "category-split",
+      "disabled": true,
       "name": "Category Split",
       "settings": {
         "panel_1_image": "shopify://shop_images/kids_solid_f5cb069d-ee51-466c-9538-08c038ce21d9.webp",

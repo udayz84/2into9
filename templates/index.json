@@ -92,6 +92,25 @@
         "small_image_width": 85
       }
     },
+    "image_text_promo_Addbdw": {
+      "type": "image-text-promo",
+      "name": "Men's Trunk Promo",
+      "settings": {
+        "image_alt": "",
+        "fallback_asset": "",
+        "small_image": "shopify://shop_images/D-Lock_product.webp",
+        "small_image_alt": "",
+        "heading": "D-LOCK",
+        "shop_label": "SHOP",
+        "link": "shopify://collections/d-lock",
+        "text_side": "left",
+        "gap_top": 16,
+        "gap_bottom": 16,
+        "heading_size": 34,
+        "inset_vw": 16,
+        "small_image_width": 85
+      }
+    },
     "image_text_promo_Lm9xZv": {
       "type": "image-text-promo",
       "name": "D-Lock Promo",
@@ -217,6 +236,7 @@
     "custom_hero_QUJzBj",
     "category_split_Bn3RtY",
     "image_text_promo_Vb5cWq",
+    "image_text_promo_Addbdw",
     "image_text_promo_Lm9xZv",
     "category_split_NGGdRd",
     "image_text_promo_Kd4mNp",

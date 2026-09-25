@@ -1,4 +1,4 @@
-{%- comment -%}
+{% comment %} {%- comment -%}
   Homepage — 50/50 image + text promo (Men's Trunk). Photo flush on one half,
   light heading + SHOP link on white. Ref: section screenshot 6.
 {%- endcomment -%}
@@ -255,4 +255,509 @@
       "name": "Image Text Promo"
     }
   ]
-}{% endschema %}
+}{% endschema %} {% endcomment %}
+{%- comment -%}
+  Homepage — Large Image + Product Showcase
+
+  Desktop:
+  Left  = Large lifestyle image
+  Right = Small product image + heading + price + link
+
+  Mobile:
+  Large image
+  Product image
+  Heading
+  Price
+  Link
+{%- endcomment -%}
+
+{%- assign main_fallback = section.settings.main_fallback_asset | default: 'promo-trunk.jpg' -%}
+{%- assign product_fallback = section.settings.product_fallback_asset | default: 'promo-product.jpg' -%}
+{%- assign product_link = section.settings.link | default: '/collections/all' -%}
+
+<section
+  class="itp"
+  style="
+    margin-block: {{ section.settings.gap_top }}px {{ section.settings.gap_bottom }}px;
+    --itp-heading-size: {{ section.settings.heading_size }}px;
+    --itp-content-width: {{ section.settings.content_width }}%;
+  "
+>
+  <!-- LEFT: BIG IMAGE -->
+  <div class="itp__main-media">
+    <a
+      href="{{ product_link }}"
+      class="itp__main-link"
+      aria-label="{{ section.settings.heading | escape }}"
+    >
+      <img
+        class="itp__main-image"
+        src="{% if section.settings.main_image %}{{ section.settings.main_image | image_url: width: 1800 }}{% else %}{{ main_fallback | asset_url }}{% endif %}"
+        alt="{{ section.settings.main_image_alt | default: section.settings.heading | escape }}"
+        loading="lazy"
+        width="1200"
+        height="1600"
+      >
+    </a>
+  </div>
+
+  <!-- RIGHT: PRODUCT CONTENT -->
+  <div class="itp__content">
+
+    <!-- SMALL PRODUCT IMAGE -->
+    <a
+      href="{{ product_link }}"
+      class="itp__product-link"
+      aria-label="{{ section.settings.heading | escape }}"
+    >
+      <div class="itp__product-media">
+        <img
+          class="itp__product-image"
+          src="{% if section.settings.product_image %}{{ section.settings.product_image | image_url: width: 900 }}{% else %}{{ product_fallback | asset_url }}{% endif %}"
+          alt="{{ section.settings.product_image_alt | default: section.settings.heading | escape }}"
+          loading="lazy"
+          width="900"
+          height="900"
+        >
+      </div>
+    </a>
+
+    <!-- PRODUCT TITLE -->
+    {%- if section.settings.heading != blank -%}
+      <h2 class="itp__heading">
+        {{ section.settings.heading }}
+      </h2>
+    {%- endif -%}
+
+    <!-- PRICE -->
+    {%- if section.settings.price != blank -%}
+      <div class="itp__price">
+        {{ section.settings.price }}
+      </div>
+    {%- endif -%}
+
+    <!-- LINK -->
+    {%- if section.settings.shop_label != blank -%}
+      <a
+        class="itp__shop"
+        href="{{ product_link }}"
+      >
+        {{ section.settings.shop_label }}
+      </a>
+    {%- endif -%}
+
+  </div>
+</section>
+
+
+{% stylesheet %}
+
+  /* =========================================
+     MAIN SECTION
+     ========================================= */
+
+  .itp {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    background: #ffffff;
+    overflow: hidden;
+  }
+
+
+  /* =========================================
+     LEFT LARGE IMAGE
+     ========================================= */
+
+  .itp__main-media {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 700px;
+    overflow: hidden;
+  }
+
+  .itp__main-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .itp__main-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 700px;
+
+    object-fit: cover;
+    object-position: center center;
+
+    transition: transform 0.7s ease;
+  }
+
+  .itp__main-media:hover .itp__main-image {
+    transform: scale(1.015);
+  }
+
+
+  /* =========================================
+     RIGHT CONTENT
+     ========================================= */
+
+  .itp__content {
+    width: 100%;
+    min-height: 700px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 60px 40px;
+
+    background: #ffffff;
+  }
+
+
+  /* =========================================
+     SMALL PRODUCT IMAGE
+     ========================================= */
+
+  .itp__product-link {
+    display: block;
+    width: var(--itp-content-width, 58%);
+    max-width: 520px;
+
+    text-decoration: none;
+  }
+
+  .itp__product-media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .itp__product-image {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    transition: transform 0.5s ease;
+  }
+
+  .itp__product-link:hover .itp__product-image {
+    transform: scale(1.03);
+  }
+
+
+  /* =========================================
+     HEADING
+     ========================================= */
+
+  .itp__heading {
+    margin: 35px 0 0;
+
+    font-family: var(--font-heading--family);
+
+    font-size: var(--itp-heading-size, 34px);
+    font-weight: 400;
+
+    line-height: 1.15;
+    letter-spacing: 0.01em;
+
+    color: #161616;
+
+    text-align: center;
+  }
+
+
+  /* =========================================
+     PRICE
+     ========================================= */
+
+  .itp__price {
+    margin-top: 8px;
+
+    font-family: var(--font-body--family);
+
+    font-size: 13px;
+    font-weight: 400;
+
+    line-height: 1.4;
+    letter-spacing: 0.08em;
+
+    color: #161616;
+
+    text-align: center;
+  }
+
+
+  /* =========================================
+     SHOP / PRODUCT LINK
+     ========================================= */
+
+  .itp__shop {
+    display: inline-block;
+
+    margin-top: 18px;
+
+    color: #161616;
+
+    font-family: var(--font-heading--family);
+
+    font-size: 11px;
+    font-weight: 400;
+
+    letter-spacing: 0.18em;
+
+    text-transform: uppercase;
+    text-decoration: none;
+
+    border-bottom: 1px solid #161616;
+
+    padding-bottom: 3px;
+
+    transition:
+      opacity 0.25s ease,
+      border-color 0.25s ease;
+  }
+
+  .itp__shop:hover {
+    opacity: 0.6;
+  }
+
+
+  /* =========================================
+     TABLET
+     ========================================= */
+
+  @media screen and (max-width: 989px) {
+
+    .itp__main-media,
+    .itp__content {
+      min-height: 600px;
+    }
+
+    .itp__main-image {
+      min-height: 600px;
+    }
+
+    .itp__content {
+      padding: 40px 25px;
+    }
+
+    .itp__product-link {
+      width: 65%;
+    }
+
+    .itp__heading {
+      margin-top: 25px;
+    }
+
+  }
+
+
+  /* =========================================
+     MOBILE
+     ========================================= */
+
+  @media screen and (max-width: 749px) {
+
+    .itp {
+      grid-template-columns: 1fr;
+    }
+
+    /* Big lifestyle image */
+    .itp__main-media {
+      min-height: auto;
+      height: auto;
+      aspect-ratio: 4 / 5;
+    }
+
+    .itp__main-image {
+      min-height: 0;
+      height: 100%;
+    }
+
+    /* Product content */
+    .itp__content {
+      min-height: auto;
+
+      padding: 45px 20px 50px;
+    }
+
+    /* Product image */
+    .itp__product-link {
+      width: 65%;
+      max-width: 320px;
+    }
+
+    .itp__product-media {
+      aspect-ratio: 1 / 1;
+    }
+
+    /* Heading */
+    .itp__heading {
+      margin-top: 25px;
+
+      font-size: min(var(--itp-heading-size, 34px), 9vw);
+    }
+
+    /* Price */
+    .itp__price {
+      margin-top: 7px;
+      font-size: 12px;
+    }
+
+    /* Link */
+    .itp__shop {
+      margin-top: 16px;
+      font-size: 10px;
+    }
+
+  }
+
+
+  /* =========================================
+     SMALL MOBILE
+     ========================================= */
+
+  @media screen and (max-width: 480px) {
+
+    .itp__content {
+      padding: 35px 15px 40px;
+    }
+
+    .itp__product-link {
+      width: 72%;
+    }
+
+  }
+
+{% endstylesheet %}
+
+
+{% schema %}
+{
+  "name": "Image Product Promo",
+  "tag": "section",
+  "class": "section-image-product-promo",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Large lifestyle image"
+    },
+    {
+      "type": "text",
+      "id": "main_image_alt",
+      "label": "Large image alt text"
+    },
+    {
+      "type": "text",
+      "id": "main_fallback_asset",
+      "label": "Main fallback image",
+      "info": "Theme asset filename, e.g. promo-trunk.jpg"
+    },
+    {
+      "type": "image_picker",
+      "id": "product_image",
+      "label": "Small product image"
+    },
+    {
+      "type": "text",
+      "id": "product_image_alt",
+      "label": "Product image alt text"
+    },
+    {
+      "type": "text",
+      "id": "product_fallback_asset",
+      "label": "Product fallback image",
+      "info": "Theme asset filename, e.g. promo-product.jpg"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Product heading",
+      "default": "Django"
+    },
+    {
+      "type": "text",
+      "id": "price",
+      "label": "Price",
+      "default": "$925.00"
+    },
+    {
+      "type": "text",
+      "id": "shop_label",
+      "label": "Link label",
+      "default": "SHOP"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Product link"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "gap_top",
+      "label": "Top spacing",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "gap_bottom",
+      "label": "Bottom spacing",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 16,
+      "max": 72,
+      "step": 1,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "label": "Product image width",
+      "min": 30,
+      "max": 80,
+      "step": 1,
+      "unit": "%",
+      "default": 58
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image Product Promo"
+    }
+  ]
+}
+{% endschema %}

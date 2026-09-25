@@ -253,18 +253,6 @@
         "fallback_asset": ""
       }
     },
-    "media_lookbook_B94iAr": {
-      "type": "media-lookbook",
-      "name": "Media Lookbook",
-      "settings": {
-        "image_alt": "",
-        "gap_top": 0,
-        "gap_bottom": 0,
-        "image_position": "center",
-        "mirror": true,
-        "fallback_asset": ""
-      }
-    },
     "image_card_a4np3X": {
       "type": "image-card",
       "blocks": {
@@ -297,6 +285,19 @@
         "color_scheme": "",
         "padding-block-start": 0,
         "padding-block-end": 0
+      }
+    },
+    "media_lookbook_B94iAr": {
+      "type": "media-lookbook",
+      "name": "Media Lookbook",
+      "settings": {
+        "image": "shopify://shop_images/Banner.webp",
+        "image_alt": "",
+        "gap_top": 0,
+        "gap_bottom": 0,
+        "image_position": "center",
+        "mirror": true,
+        "fallback_asset": ""
       }
     },
     "home_faq_Tf3gHw": {

@@ -140,7 +140,7 @@
               "name": "t:names.product_buy_buttons",
               "settings": {
                 "stacking": true,
-                "show_quick_add_button": false,
+                "show_quick_add_button": true,
                 "quick_add_label": "Quick Add +",
                 "show_pickup_availability": false,
                 "gift_card_form": false,

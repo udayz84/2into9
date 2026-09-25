@@ -113,6 +113,7 @@
     },
     "image_text_promo_Lm9xZv": {
       "type": "image-text-promo",
+      "disabled": true,
       "name": "D-Lock Promo",
       "settings": {
         "image": "shopify://shop_images/D_Lock_Home.webp",

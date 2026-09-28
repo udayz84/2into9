@@ -227,6 +227,7 @@
             "image_alt": "Image",
             "link": "",
             "open_in_new_tab": false,
+            "background_color": "#8b1114",
             "shape": "none"
           }
         },
@@ -237,6 +238,7 @@
             "image_alt": "Image",
             "link": "",
             "open_in_new_tab": false,
+            "background_color": "#607049",
             "shape": "circle"
           }
         }
@@ -275,6 +277,7 @@
             "image_alt": "Image",
             "link": "",
             "open_in_new_tab": false,
+            "background_color": "#904117",
             "shape": "rectangle"
           }
         },
@@ -285,6 +288,7 @@
             "image_alt": "Image",
             "link": "",
             "open_in_new_tab": false,
+            "background_color": "#8b1114",
             "shape": "none"
           }
         }

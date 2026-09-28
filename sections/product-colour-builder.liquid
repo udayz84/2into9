@@ -718,6 +718,7 @@
   style="--pcb-padding-inline: {{ section.settings.page_padding }}px;"
   data-section-id="{{ section.id }}"
   data-product-id="{{ product.id }}"
+  data-is-combo="{% if product.tags contains 'combo' %}true{% else %}false{% endif %}"
 >
   <div class="pcb__grid">
     <div class="pcb__spacer" aria-hidden="true"></div>

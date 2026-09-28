@@ -5,10 +5,10 @@
   - One large image on one side
   - Smaller product image on the opposite side
   - Heading + shop link below the smaller image
-  - Entire image and content areas are clickable
+  - Large image has its own separate link
+  - Small image + text use the existing Link setting
 
-  The existing Text Side option controls which side contains
-  the smaller image + text content.
+  Text Side option is preserved.
 {%- endcomment -%}
 
 {%- assign text_side = section.settings.text_side | default: 'right' -%}
@@ -24,13 +24,16 @@
   "
 >
 
-  <!-- LARGE IMAGE SIDE -->
+  <!-- =========================================
+       LARGE IMAGE SIDE
+  ========================================== -->
+
   <div class="itp__media">
 
     <a
-      href="{{ section.settings.link | default: '/collections/all' }}"
+      href="{{ section.settings.image_link | default: '/collections/all' }}"
       class="itp__media-link"
-      aria-label="{{ section.settings.heading | escape }}"
+      aria-label="{{ section.settings.image_link_label | default: section.settings.heading | escape }}"
     >
       <img
         class="itp__image"
@@ -45,7 +48,11 @@
   </div>
 
 
-  <!-- SMALL IMAGE + TEXT SIDE -->
+  <!-- =========================================
+       SMALL IMAGE + TEXT SIDE
+       Uses separate "Link" setting
+  ========================================== -->
+
   <div class="itp__content">
 
     <a
@@ -53,6 +60,8 @@
       class="itp__content-link"
       aria-label="{{ section.settings.heading | escape }}"
     >
+
+      <!-- SMALL PRODUCT IMAGE -->
 
       {%- if section.settings.small_image != blank -%}
 
@@ -72,6 +81,8 @@
       {%- endif -%}
 
 
+      <!-- HEADING -->
+
       {%- if section.settings.heading != blank -%}
 
         <h2 class="itp__heading">
@@ -80,6 +91,8 @@
 
       {%- endif -%}
 
+
+      <!-- SHOP -->
 
       {%- if section.settings.shop_label != blank -%}
 
@@ -104,6 +117,7 @@
 
   .itp {
     display: grid;
+
     grid-template-columns: 1fr 1fr;
 
     width: 100%;
@@ -142,6 +156,7 @@
     height: 100%;
 
     object-fit: cover;
+
     object-position: 50% 20%;
 
     display: block;
@@ -165,9 +180,11 @@
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     padding-top: 5rem;
+
     padding-bottom: 5rem;
 
     padding-inline-start: clamp(
@@ -185,8 +202,9 @@
 
 
   /* =========================================
-     ENTIRE CONTENT SIDE LINK
-  ========================================= */
+     CONTENT LINK
+     Small image + heading + shop
+     ========================================= */
 
   .itp__content-link {
     display: flex;
@@ -194,9 +212,11 @@
     flex-direction: column;
 
     align-items: center;
+
     justify-content: center;
 
     width: 100%;
+
     height: 100%;
 
     color: inherit;
@@ -225,6 +245,7 @@
     display: block;
 
     width: 100%;
+
     height: auto;
 
     aspect-ratio: 1 / 1;
@@ -264,7 +285,7 @@
 
 
   /* =========================================
-     SHOP LINK
+     SHOP
   ========================================= */
 
   .itp__shop {
@@ -336,10 +357,7 @@
     }
 
 
-    /*
-      Always show the large image first
-      on mobile.
-    */
+    /* Large image first */
 
     .itp__media {
       order: 1 !important;
@@ -348,9 +366,7 @@
     }
 
 
-    /*
-      Content section
-    */
+    /* Content second */
 
     .itp__content {
       order: 2 !important;
@@ -373,18 +389,14 @@
     }
 
 
-    /*
-      Full content link
-    */
+    /* Content clickable area */
 
     .itp__content-link {
       width: 100%;
     }
 
 
-    /*
-      Small image
-    */
+    /* Small image */
 
     .itp__small-image-wrap {
       width: min(
@@ -394,9 +406,7 @@
     }
 
 
-    /*
-      Heading
-    */
+    /* Heading */
 
     .itp__heading {
       margin-top: 1.75rem;
@@ -408,9 +418,7 @@
     }
 
 
-    /*
-      Shop
-    */
+    /* Shop */
 
     .itp__shop {
       margin-top: 12px;
@@ -440,6 +448,18 @@
       "type": "text",
       "id": "image_alt",
       "label": "Large image alt text"
+    },
+
+    {
+      "type": "url",
+      "id": "image_link",
+      "label": "Large Image Link"
+    },
+
+    {
+      "type": "text",
+      "id": "image_link_label",
+      "label": "Large image link label"
     },
 
     {

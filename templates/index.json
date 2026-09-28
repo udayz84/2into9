@@ -78,6 +78,8 @@
       "name": "Men's Trunk Promo",
       "settings": {
         "image_alt": "",
+        "image_link": "shopify://collections/men",
+        "image_link_label": "",
         "fallback_asset": "",
         "small_image": "shopify://shop_images/blue_2into9.webp",
         "small_image_alt": "",
@@ -98,12 +100,14 @@
       "settings": {
         "image": "shopify://shop_images/home_d-lock_img.webp",
         "image_alt": "",
+        "image_link": "shopify://collections/d-lock",
+        "image_link_label": "",
         "fallback_asset": "",
         "small_image": "shopify://shop_images/D-Lock_product.webp",
         "small_image_alt": "",
         "heading": "D-LOCK",
         "shop_label": "SHOP",
-        "link": "shopify://collections/d-lock",
+        "link": "shopify://products/d-lock-mens-premium-trunk-black",
         "text_side": "left",
         "gap_top": 16,
         "gap_bottom": 16,
@@ -118,6 +122,8 @@
       "settings": {
         "image": "shopify://shop_images/LittleExplorerKidsBoxerBrief-OliveGreen02.webp",
         "image_alt": "",
+        "image_link": "shopify://collections/kids",
+        "image_link_label": "",
         "fallback_asset": "",
         "small_image": "shopify://shop_images/Kids_img.webp",
         "small_image_alt": "",
@@ -139,6 +145,8 @@
       "settings": {
         "image": "shopify://shop_images/D_Lock_Home.webp",
         "image_alt": "D-Lock cricket campaign",
+        "image_link": "",
+        "image_link_label": "",
         "fallback_asset": "promo-dlock.jpg",
         "small_image_alt": "",
         "heading": "D-Lock",
@@ -180,6 +188,8 @@
       "settings": {
         "image": "shopify://shop_images/kids_general.webp",
         "image_alt": "Kid looking through binoculars at the beach",
+        "image_link": "",
+        "image_link_label": "",
         "fallback_asset": "promo-kids.jpg",
         "small_image_alt": "",
         "heading": "Kid's",

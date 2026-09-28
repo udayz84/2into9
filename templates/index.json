@@ -226,7 +226,8 @@
             "image": "shopify://shop_images/Candid-13266.webp",
             "image_alt": "Image",
             "link": "",
-            "open_in_new_tab": false
+            "open_in_new_tab": false,
+            "shape": "none"
           }
         },
         "image_p7WX8x": {
@@ -235,7 +236,8 @@
             "image": "shopify://shop_images/Candid-13341.webp",
             "image_alt": "Image",
             "link": "",
-            "open_in_new_tab": false
+            "open_in_new_tab": false,
+            "shape": "circle"
           }
         }
       },
@@ -272,7 +274,8 @@
             "image": "shopify://shop_images/Candid-13363.webp",
             "image_alt": "Image",
             "link": "",
-            "open_in_new_tab": false
+            "open_in_new_tab": false,
+            "shape": "none"
           }
         },
         "image_6GzUAU": {
@@ -281,7 +284,8 @@
             "image": "shopify://shop_images/Candid-13299.webp",
             "image_alt": "Image",
             "link": "",
-            "open_in_new_tab": false
+            "open_in_new_tab": false,
+            "shape": "none"
           }
         }
       },

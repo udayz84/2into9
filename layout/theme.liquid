@@ -111,7 +111,62 @@
     >
       {{ content_for_layout }}
     </main>
+{% if request.page_type == 'policy' %}
+  <style>
+    .shopify-policy-breadcrumb {
+      margin-top: 12px;
+      margin-bottom: 30px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
 
+    .shopify-policy-breadcrumb a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .shopify-policy-breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    .shopify-policy-breadcrumb__separator {
+      margin: 0 8px;
+      opacity: 0.5;
+    }
+
+    .shopify-policy-breadcrumb__current {
+      opacity: 0.65;
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var policyTitle = document.querySelector(
+        '.shopify-policy__title h1, .shopify-policy__title, .shopify-policy-container h1, main h1'
+      );
+
+      if (!policyTitle) {
+        return;
+      }
+
+      if (document.querySelector('.shopify-policy-breadcrumb')) {
+        return;
+      }
+
+      var breadcrumb = document.createElement('nav');
+
+      breadcrumb.className = 'shopify-policy-breadcrumb';
+      breadcrumb.setAttribute('aria-label', 'Breadcrumb');
+
+      breadcrumb.innerHTML =
+        '<a href="{{ routes.root_url }}">Home</a>' +
+        '<span class="shopify-policy-breadcrumb__separator">/</span>' +
+        '<span class="shopify-policy-breadcrumb__current">{{ page_title | escape }}</span>';
+
+      policyTitle.insertAdjacentElement('afterend', breadcrumb);
+    });
+  </script>
+{% endif %}
     {% sections 'footer-group' %}
 
     {% render 'search-modal' %}

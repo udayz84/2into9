@@ -109,25 +109,6 @@
       data-product-transition="{{ settings.transition_to_main_product }}"
       data-template="{{ template }}"
     >
-      {% if request.page_type == 'policy' %}
-  <nav class="policy-breadcrumb" aria-label="Breadcrumb">
-    <div class="page-width">
-      <ol class="policy-breadcrumb__list">
-        <li>
-          <a href="{{ routes.root_url }}">Home</a>
-        </li>
-
-        <li class="policy-breadcrumb__separator" aria-hidden="true">
-          /
-        </li>
-
-        <li class="policy-breadcrumb__current">
-          {{ page_title }}
-        </li>
-      </ol>
-    </div>
-  </nav>
-{% endif %}
       {{ content_for_layout }}
     </main>
 

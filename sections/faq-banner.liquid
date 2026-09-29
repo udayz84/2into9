@@ -4,9 +4,6 @@
   id="FaqBanner-{{ section.id }}"
   class="faq-banner color-{{ section.settings.color_scheme }}"
 >
-  {%- if section.settings.watermark_text != blank -%}
-    <div class="faq-banner__watermark" aria-hidden="true">{{ section.settings.watermark_text }}</div>
-  {%- endif -%}
   <div class="faq-banner__container">
     <div class="faq-banner__content">
       {% if section.settings.breadcrumb != blank %}
@@ -32,24 +29,6 @@
     padding: 0;
     position: relative;
     overflow: hidden;
-  }
-
-  .faq-banner__watermark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
-    font-family: 'Poppins', sans-serif;
-    font-size: clamp(120px, 31vw, 310px);
-    font-weight: 700;
-    line-height: 1;
-    text-transform: uppercase;
-    color: #b5b5b5;
-    opacity: 0.06;
-    white-space: nowrap;
-    letter-spacing: normal;
-    pointer-events: none;
-    user-select: none;
   }
 
   .faq-banner__container {
@@ -149,17 +128,6 @@
     "templates": ["page"]
   },
   "settings": [
-    {
-      "type": "header",
-      "content": "Watermark"
-    },
-    {
-      "type": "text",
-      "id": "watermark_text",
-      "label": "Watermark text",
-      "default": "underwear",
-      "info": "Large faded text behind the banner. Leave blank to hide."
-    },
     {
       "type": "header",
       "content": "Banner"

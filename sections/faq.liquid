@@ -4,9 +4,6 @@
   id="Faq-{{ section.id }}"
   class="faq color-{{ section.settings.color_scheme }} section"
 >
-  {%- if section.settings.watermark_text != blank -%}
-    <div class="faq__watermark" aria-hidden="true">{{ section.settings.watermark_text }}</div>
-  {%- endif -%}
   <div class="faq__container page-width">
     <div class="faq__body">
       {% render 'faq-content' %}
@@ -19,23 +16,6 @@
     padding-block: clamp(3rem, 6vw, 5rem);
     position: relative;
     overflow: hidden;
-  }
-
-  .faq__watermark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
-    font-family: 'Poppins', sans-serif;
-    font-size: clamp(120px, 31vw, 310px);
-    font-weight: 700;
-    line-height: 1;
-    text-transform: uppercase;
-    color: #b5b5b5;
-    opacity: 0.06;
-    white-space: nowrap;
-    pointer-events: none;
-    user-select: none;
   }
 
   .faq__container {
@@ -289,13 +269,6 @@
     "templates": ["page"]
   },
   "settings": [
-    {
-      "type": "text",
-      "id": "watermark_text",
-      "label": "Watermark text",
-      "default": "underwear",
-      "info": "Large faded text behind the section top. Leave blank to hide."
-    },
     {
       "type": "color_scheme",
       "id": "color_scheme",

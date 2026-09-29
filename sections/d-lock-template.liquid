@@ -11,10 +11,6 @@
   style="--dlh-bg: {{ section.settings.background_color }};"
 >
   <div class="d-lock-hero__stage">
-    {%- if section.settings.watermark_text != blank -%}
-      <span class="d-lock-hero__watermark" aria-hidden="true">{{ section.settings.watermark_text | escape }}</span>
-    {%- endif -%}
-
     <div class="d-lock-hero__media" aria-hidden="true">
       {%- if section.settings.hero_image != blank -%}
         {{
@@ -96,24 +92,6 @@
     position: relative;
     width: 100%;
     aspect-ratio: 1920 / 950;
-  }
-
-  .d-lock-hero__watermark {
-    position: absolute;
-    left: -1.0417cqw;
-    top: -16.3158%;
-    width: 102.7083cqw;
-    z-index: 0;
-    font-size: 16.1458cqw;
-    line-height: 0.7065;
-    font-weight: 700;
-    text-transform: uppercase;
-    text-align: center;
-    white-space: nowrap;
-    color: #b5b5b5;
-    opacity: 0.06;
-    user-select: none;
-    pointer-events: none;
   }
 
   .d-lock-hero__media {
@@ -253,11 +231,6 @@
         min-height: 450px;
     }
 
-    .d-lock-hero__watermark {
-      top: -9%;
-      font-size: 19cqw;
-    }
-
     .d-lock-hero__content {
       gap: 16px;
     }
@@ -311,12 +284,6 @@
       "id": "background_color",
       "label": "Background color",
       "default": "#171717"
-    },
-    {
-      "type": "text",
-      "id": "watermark_text",
-      "label": "Watermark text",
-      "default": "underwear"
     },
     {
       "type": "header",

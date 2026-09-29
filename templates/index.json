@@ -33,16 +33,41 @@
             "button_label": "SHOP NOW",
             "button_link": ""
           }
+        },
+        "product_1": {
+          "type": "product",
+          "settings": {
+            "product": "mens-printed-trunk",
+            "title": "Sleepwear Set",
+            "subtitle": "NITEKNIT"
+          }
+        },
+        "product_2": {
+          "type": "product",
+          "settings": {
+            "product": "d-lock",
+            "title": "Sleepwear Shirt",
+            "subtitle": "NITEKNIT"
+          }
+        },
+        "product_3": {
+          "type": "product",
+          "settings": {
+            "product": "kids-solid-trunk",
+            "title": "Sleepwear Shorts",
+            "subtitle": "NITEKNIT"
+          }
         }
       },
       "block_order": [
         "slide_hL4Rkh",
-        "slide_6QYP34"
+        "slide_6QYP34",
+        "product_1",
+        "product_2",
+        "product_3"
       ],
       "name": "Homepage Hero",
       "settings": {
-        "watermark_text": "UNDERWEAR",
-        "show_watermark": true,
         "fallback_image": "",
         "eyebrow_size": 26,
         "heading_size": 54,

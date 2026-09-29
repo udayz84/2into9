@@ -1,21 +1,12 @@
 {%- comment -%}
   Media Kit Hero
-  Giant watermark text behind centered page title and PR contact line.
+  Centered page title and PR contact line.
   All visual values are driven by section settings (desktop + mobile).
 {%- endcomment -%}
 
 {{ 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap' | stylesheet_tag }}
 
-{%- liquid
-  assign watermark_alpha = section.settings.watermark_opacity | divided_by: 100.0
-  assign watermark_color = section.settings.watermark_color | color_modify: 'alpha', watermark_alpha
--%}
-
 <section id="MediaKitHero-{{ section.id }}" class="mk-hero">
-  {%- if section.settings.show_watermark and section.settings.watermark_text != blank -%}
-    <span class="mk-hero__watermark" aria-hidden="true">{{ section.settings.watermark_text }}</span>
-  {%- endif -%}
-
   <div class="mk-hero__content">
     {%- if section.settings.heading != blank -%}
       <h1 class="mk-hero__heading">{{ section.settings.heading }}</h1>
@@ -58,38 +49,12 @@
     --mk-hero-subtitle-color: {{ section.settings.subtitle_color }};
     --mk-hero-subtitle-mobile-size: {{ section.settings.subtitle_size_mobile }}px;
     --mk-hero-heading-gap: {{ section.settings.heading_to_subtitle_gap }}px;
-    --mk-hero-watermark-size: {{ section.settings.watermark_size }}px;
-    --mk-hero-watermark-weight: {{ section.settings.watermark_weight }};
-    --mk-hero-watermark-color: {{ watermark_color }};
-    --mk-hero-watermark-letter-spacing: {{ section.settings.watermark_letter_spacing }}em;
-    --mk-hero-watermark-transform: {{ section.settings.watermark_transform }};
-    --mk-hero-watermark-top: {{ section.settings.watermark_top_offset }}px;
-    --mk-hero-watermark-mobile-size: {{ section.settings.watermark_size_mobile }}px;
-    --mk-hero-watermark-mobile-top: {{ section.settings.watermark_top_offset_mobile }}px;
 
     position: relative;
     background-color: var(--mk-hero-bg);
     padding-top: var(--mk-hero-padding-top);
     padding-bottom: var(--mk-hero-padding-bottom);
     overflow-x: clip;
-  }
-
-  #MediaKitHero-{{ section.id }} .mk-hero__watermark {
-    position: absolute;
-    top: var(--mk-hero-watermark-top);
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif;
-    font-size: var(--mk-hero-watermark-size);
-    font-weight: var(--mk-hero-watermark-weight);
-    line-height: 1;
-    letter-spacing: var(--mk-hero-watermark-letter-spacing);
-    text-transform: var(--mk-hero-watermark-transform);
-    color: var(--mk-hero-watermark-color);
-    white-space: nowrap;
-    pointer-events: none;
-    user-select: none;
-    z-index: 0;
   }
 
   #MediaKitHero-{{ section.id }} .mk-hero__content {
@@ -136,11 +101,6 @@
     #MediaKitHero-{{ section.id }} {
       padding-top: {{ section.settings.padding_top_mobile }}px;
       padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
-    }
-
-    #MediaKitHero-{{ section.id }} .mk-hero__watermark {
-      font-size: var(--mk-hero-watermark-mobile-size);
-      top: var(--mk-hero-watermark-mobile-top);
     }
 
     #MediaKitHero-{{ section.id }} .mk-hero__heading {
@@ -218,137 +178,6 @@
       "unit": "px",
       "label": "Bottom padding (mobile)",
       "default": 64
-    },
-    {
-      "type": "header",
-      "content": "Watermark"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_watermark",
-      "label": "Show watermark text",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "watermark_text",
-      "label": "Watermark text",
-      "default": "UNDERWEAR"
-    },
-    {
-      "type": "range",
-      "id": "watermark_size",
-      "min": 40,
-      "max": 500,
-      "step": 5,
-      "unit": "px",
-      "label": "Watermark font size (desktop)",
-      "default": 310
-    },
-    {
-      "type": "range",
-      "id": "watermark_size_mobile",
-      "min": 20,
-      "max": 300,
-      "step": 4,
-      "unit": "px",
-      "label": "Watermark font size (mobile)",
-      "default": 120
-    },
-    {
-      "type": "select",
-      "id": "watermark_weight",
-      "label": "Watermark font weight",
-      "options": [
-        {
-          "value": "300",
-          "label": "Light 300"
-        },
-        {
-          "value": "400",
-          "label": "Regular 400"
-        },
-        {
-          "value": "500",
-          "label": "Medium 500"
-        },
-        {
-          "value": "600",
-          "label": "Semibold 600"
-        },
-        {
-          "value": "700",
-          "label": "Bold 700"
-        }
-      ],
-      "default": "700"
-    },
-    {
-      "type": "color",
-      "id": "watermark_color",
-      "label": "Watermark color",
-      "default": "#b5b5b5"
-    },
-    {
-      "type": "range",
-      "id": "watermark_opacity",
-      "min": 0,
-      "max": 30,
-      "step": 1,
-      "unit": "%",
-      "label": "Watermark opacity",
-      "default": 6
-    },
-    {
-      "type": "range",
-      "id": "watermark_letter_spacing",
-      "min": -0.5,
-      "max": 2,
-      "step": 0.1,
-      "unit": "em",
-      "label": "Watermark letter spacing",
-      "default": 0
-    },
-    {
-      "type": "select",
-      "id": "watermark_transform",
-      "label": "Watermark text transform",
-      "options": [
-        {
-          "value": "none",
-          "label": "None"
-        },
-        {
-          "value": "uppercase",
-          "label": "Uppercase"
-        },
-        {
-          "value": "lowercase",
-          "label": "Lowercase"
-        }
-      ],
-      "default": "uppercase"
-    },
-    {
-      "type": "range",
-      "id": "watermark_top_offset",
-      "min": -200,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "Watermark top offset (desktop)",
-      "default": -60,
-      "info": "Position of the watermark relative to the top of this section. Negative values move it up behind the header."
-    },
-    {
-      "type": "range",
-      "id": "watermark_top_offset_mobile",
-      "min": -200,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "Watermark top offset (mobile)",
-      "default": -40
     },
     {
       "type": "header",

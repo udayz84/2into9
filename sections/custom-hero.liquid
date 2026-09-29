@@ -1,5 +1,5 @@
 {%- comment -%}
-  Homepage hero — full-bleed dark slider with giant UNDERWEAR watermark,
+  Homepage hero — full-bleed dark slider with
   light editorial copy block and glass SHOP NOW button. Ref: Thanksweb hero.
 {%- endcomment -%}
 
@@ -62,9 +62,48 @@
     </div>
   {%- endif -%}
 
-  {%- if section.settings.show_watermark -%}
-    <p class="hero2__watermark" aria-hidden="true">{{ section.settings.watermark_text }}</p>
+  {%- assign product_blocks = section.blocks | where: 'type', 'product' -%}
+  {%- if product_blocks.size > 0 -%}
+    <div class="hero2__products-wrapper">
+      <div class="hero2__products">
+        {%- for block in product_blocks -%}
+          {%- assign prod = block.settings.product -%}
+          {%- if prod != blank -%}
+            <a href="{{ prod.url }}" class="hero2-product-card" {{ block.shopify_attributes }}>
+              <div class="hero2-product-card__image-wrapper">
+                <img src="{{ prod.featured_image | image_url: width: 120 }}" alt="{{ prod.title | escape }}" class="hero2-product-card__image" width="60" height="75" loading="lazy">
+              </div>
+              <div class="hero2-product-card__info">
+                {%- if block.settings.subtitle != blank -%}
+                  <span class="hero2-product-card__subtitle">{{ block.settings.subtitle }}</span>
+                {%- endif -%}
+                <span class="hero2-product-card__title">{{ block.settings.title | default: prod.title }}</span>
+              </div>
+              <div class="hero2-product-card__arrow">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </a>
+          {%- else -%}
+            <a href="#" class="hero2-product-card" {{ block.shopify_attributes }}>
+              <div class="hero2-product-card__image-wrapper" style="background:#eee;"></div>
+              <div class="hero2-product-card__info">
+                <span class="hero2-product-card__subtitle">{{ block.settings.subtitle | default: 'SUBTITLE' }}</span>
+                <span class="hero2-product-card__title">{{ block.settings.title | default: 'Example Product' }}</span>
+              </div>
+              <div class="hero2-product-card__arrow">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
   {%- endif -%}
+
 
   <div class="hero2__dots" data-hero2-dots></div>
 </section>
@@ -99,27 +138,6 @@
     height: 100%;
     object-fit: cover;
     object-position: 50% 30%;
-  }
-
-  /* Giant watermark under the navbar */
-  .hero2__watermark {
-    position: absolute;
-    z-index: 1;
-    top: clamp(44px, 6vh, 60px);
-    left: 0;
-    width: 100%;
-    margin: 0;
-    text-align: center;
-    font-family: var(--font-heading--family);
-    font-size: clamp(140px, 15.5vw, 300px);
-    font-weight: 800;
-    line-height: 0.82;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    color: rgba(255, 255, 255, 0.07);
-    user-select: none;
-    pointer-events: none;
   }
 
   /* Copy block */
@@ -218,7 +236,104 @@
       font-size: clamp(64px, 19vw, 120px);
       top: clamp(56px, 8.5vh, 78px);
     }
+  }
 
+  /* Products */
+  .hero2__products-wrapper {
+    position: absolute;
+    bottom: clamp(60px, 10vh, 90px);
+    left: 0;
+    width: 100%;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    padding: 0 20px;
+  }
+
+  .hero2__products {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    max-width: 100%;
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .hero2__products::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hero2-product-card {
+    display: flex;
+    align-items: center;
+    background: rgba(20, 20, 20, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 6px 14px 6px 6px;
+    text-decoration: none;
+    color: white;
+    gap: 12px;
+    min-width: 240px;
+    transition: background 0.3s ease;
+  }
+
+  .hero2-product-card:hover {
+    background: rgba(40, 40, 40, 0.6);
+  }
+
+  .hero2-product-card__image-wrapper {
+    width: 48px;
+    height: 64px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .hero2-product-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero2-product-card__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+  }
+
+  .hero2-product-card__subtitle {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #e0e0e0;
+    margin-bottom: 3px;
+    font-weight: 600;
+    font-family: var(--font-body--family);
+  }
+
+  .hero2-product-card__title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: white;
+    font-family: var(--font-body--family);
+  }
+
+  .hero2-product-card__arrow {
+    width: 26px;
+    height: 26px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-left: 4px;
+  }
+
+  @media screen and (max-width: 749px) {
     .hero2__image {
       object-position: 45% 22%;
     }
@@ -245,6 +360,16 @@
 
     .hero2__dots {
       bottom: 18px;
+    }
+
+    .hero2__products-wrapper {
+      bottom: clamp(50px, 8vh, 70px);
+      justify-content: flex-start;
+      padding: 0 16px;
+    }
+    
+    .hero2-product-card {
+      min-width: 220px;
     }
   }
 {% endstylesheet %}
@@ -287,18 +412,6 @@
   "tag": "section",
   "class": "section-custom-hero",
   "settings": [
-    {
-      "type": "text",
-      "id": "watermark_text",
-      "label": "Watermark text",
-      "default": "UNDERWEAR"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_watermark",
-      "label": "Show watermark",
-      "default": true
-    },
     {
       "type": "text",
       "id": "fallback_image",
@@ -404,6 +517,29 @@
           "type": "url",
           "id": "button_link",
           "label": "Button link"
+        }
+      ]
+    },
+    {
+      "type": "product",
+      "name": "Product Card",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Custom Title",
+          "info": "Overrides the default product title"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "NITEKNIT"
         }
       ]
     }

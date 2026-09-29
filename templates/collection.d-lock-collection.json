@@ -78,7 +78,6 @@
     },
     "d_lock_product_fXQrFM": {
       "type": "d-lock-product",
-      "disabled": true,
       "name": "D-Lock Product",
       "settings": {
         "padding_top": 120,
@@ -327,6 +326,7 @@
           ]
         }
       },
+      "disabled": true,
       "custom_css": [
         ".product-information {background-color: var(--color-background) !important;}",
         ".buy-buttons-block .add-to-cart-button {background: white; color: black;}",
@@ -576,6 +576,7 @@
           ]
         }
       },
+      "disabled": true,
       "custom_css": [
         ".product-information {background-color: var(--color-background) !important;}",
         ".buy-buttons-block .add-to-cart-button {background: white; color: black;}",

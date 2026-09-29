@@ -1,0 +1,855 @@
+{%- comment -%}
+  Video Section
+  Full-width autoplay video with:
+  - Loop
+  - Sound toggle
+  - Optional fallback image
+  - Optional dark overlay
+  - Heading
+  - Description
+  - CTA button
+  - Content alignment controls
+{%- endcomment -%}
+
+{%- assign vm_pos = section.settings.image_position | default: 'top' -%}
+
+<section
+  class="vm{% if section.settings.mirror %} vm--mirror{% endif %}"
+  data-vm-root
+  data-position="{{ vm_pos }}"
+  style="margin-block: {{ section.settings.gap_top }}px {{ section.settings.gap_bottom }}px;"
+>
+
+  {%- if section.settings.video != blank -%}
+
+    {{
+      section.settings.video
+      | video_tag:
+        image_placeholder: section.settings.image,
+        class: 'vm__media',
+        playsinline: true,
+        autoplay: true,
+        loop: true,
+        muted: true,
+        controls: false,
+        preload: 'auto'
+    }}
+
+    <button
+      class="vm__sound"
+      type="button"
+      data-vm-sound
+      aria-label="Turn sound on"
+    >
+      <svg
+        class="vm__sound-off"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path
+          d="M4 9v6h4l5 4V5L8 9H4z"
+          fill="currentColor"
+        />
+        <path
+          d="M16 9l4 6M20 9l-4 6"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+        />
+      </svg>
+
+      <svg
+        class="vm__sound-on"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path
+          d="M4 9v6h4l5 4V5L8 9H4z"
+          fill="currentColor"
+        />
+        <path
+          d="M16 8c1.5 1.5 1.5 6.5 0 8"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+        />
+        <path
+          d="M19 5.5c3 3 3 10 0 13"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+        />
+      </svg>
+    </button>
+
+  {%- else -%}
+
+    <img
+      class="vm__media"
+      src="
+        {% if section.settings.image %}
+          {{ section.settings.image | image_url: width: 2000 }}
+        {% else %}
+          {{ section.settings.fallback_asset | default: 'promo-video.jpg' | asset_url }}
+        {% endif %}
+      "
+      alt="{{ section.settings.image_alt | default: 'Video section' | escape }}"
+      loading="lazy"
+      width="2000"
+      height="1000"
+    >
+
+  {%- endif -%}
+
+
+  {%- if section.settings.show_content_overlay -%}
+
+    <div
+      class="vm__shade"
+      style="
+        --vm-overlay-opacity:
+        {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+      "
+    ></div>
+
+    <div
+      class="
+        vm__content
+        vm__content--{{ section.settings.content_alignment }}
+        vm__vertical--{{ section.settings.vertical_alignment }}
+      "
+    >
+      <div class="vm__content-inner">
+
+        {%- if section.settings.overlay_heading != blank -%}
+          <h2 class="vm__heading">
+            {{ section.settings.overlay_heading }}
+          </h2>
+        {%- endif -%}
+
+
+        {%- if section.settings.overlay_text != blank -%}
+          <div class="vm__text">
+            {{ section.settings.overlay_text }}
+          </div>
+        {%- endif -%}
+
+
+        {%- if section.settings.button_label != blank -%}
+          <a
+            class="vm__button"
+            {% if section.settings.button_link != blank %}
+              href="{{ section.settings.button_link }}"
+            {% else %}
+              role="link"
+              aria-disabled="true"
+            {% endif %}
+          >
+            {{ section.settings.button_label }}
+          </a>
+        {%- endif -%}
+
+      </div>
+    </div>
+
+  {%- endif -%}
+
+</section>
+
+
+{% stylesheet %}
+
+  .vm {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1000 / 500;
+    background: #0d0f0d;
+    overflow: hidden;
+  }
+
+
+  /* =========================
+     VIDEO / IMAGE
+  ========================== */
+
+  .vm__media {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    display: block;
+  }
+
+
+  .vm[data-position='top'] .vm__media {
+    object-position: 50% 15%;
+  }
+
+
+  .vm[data-position='center'] .vm__media {
+    object-position: 50% 50%;
+  }
+
+
+  .vm[data-position='bottom'] .vm__media {
+    object-position: 50% 68%;
+  }
+
+
+  .vm--mirror .vm__media {
+    transform: scaleX(-1);
+  }
+
+
+  /* =========================
+     DARK VIDEO OVERLAY
+  ========================== */
+
+  .vm__shade {
+    position: absolute;
+    inset: 0;
+
+    background: rgba(
+      0,
+      0,
+      0,
+      var(--vm-overlay-opacity, 0.25)
+    );
+
+    pointer-events: none;
+
+    z-index: 2;
+  }
+
+
+  /* =========================
+     CONTENT
+  ========================== */
+
+  .vm__content {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+
+    padding:
+      clamp(30px, 6vw, 100px);
+
+    pointer-events: none;
+
+    z-index: 3;
+  }
+
+
+  /* Horizontal Alignment */
+
+  .vm__content--left {
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+
+  .vm__content--center {
+    justify-content: center;
+    text-align: center;
+  }
+
+
+  .vm__content--right {
+    justify-content: flex-end;
+    text-align: right;
+  }
+
+
+  /* Vertical Alignment */
+
+  .vm__vertical--top {
+    align-items: flex-start;
+  }
+
+
+  .vm__vertical--center {
+    align-items: center;
+  }
+
+
+  .vm__vertical--bottom {
+    align-items: flex-end;
+  }
+
+
+  .vm__content-inner {
+    width: 100%;
+    max-width: 680px;
+
+    color: #ffffff;
+
+    pointer-events: auto;
+  }
+
+
+  /* =========================
+     HEADING
+  ========================== */
+
+  .vm__heading {
+    margin:
+      0
+      0
+      16px;
+
+    color: #ffffff;
+
+    font-size:
+      clamp(34px, 5vw, 72px);
+
+    line-height: 1.05;
+
+    font-weight: 500;
+  }
+
+
+  /* =========================
+     DESCRIPTION
+  ========================== */
+
+  .vm__text {
+    margin-bottom: 28px;
+
+    color: #ffffff;
+
+    font-size:
+      clamp(16px, 1.5vw, 20px);
+
+    line-height: 1.5;
+  }
+
+
+  .vm__text p {
+    margin: 0;
+  }
+
+
+  /* =========================
+     CTA BUTTON
+  ========================== */
+
+  .vm__button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 48px;
+
+    padding:
+      12px
+      30px;
+
+    border:
+      1px solid #ffffff;
+
+    background: #ffffff;
+
+    color: #111111;
+
+    font-size: 14px;
+    line-height: 1;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+      background 0.25s ease,
+      color 0.25s ease,
+      transform 0.25s ease;
+  }
+
+
+  .vm__button:hover {
+    background: transparent;
+
+    color: #ffffff;
+
+    transform:
+      translateY(-2px);
+  }
+
+
+  .vm__button[aria-disabled='true'] {
+    cursor: default;
+  }
+
+
+  /* =========================
+     SOUND BUTTON
+  ========================== */
+
+  .vm__sound {
+    position: absolute;
+
+    right: 24px;
+    bottom: 24px;
+
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border:
+      1px solid
+      rgba(255, 255, 255, 0.6);
+
+    border-radius: 50%;
+
+    background:
+      rgba(0, 0, 0, 0.35);
+
+    -webkit-backdrop-filter:
+      blur(6px);
+
+    backdrop-filter:
+      blur(6px);
+
+    color: #ffffff;
+
+    cursor: pointer;
+
+    z-index: 6;
+
+    transition:
+      transform 0.25s ease,
+      background 0.25s ease;
+  }
+
+
+  .vm__sound:hover {
+    transform: scale(1.08);
+
+    background:
+      rgba(0, 0, 0, 0.55);
+  }
+
+
+  .vm__sound svg {
+    width: 22px;
+    height: 22px;
+  }
+
+
+  /* Default muted */
+
+  .vm__sound-on {
+    display: none;
+  }
+
+
+  .vm__sound-off {
+    display: block;
+  }
+
+
+  /* Sound ON */
+
+  .vm.sound-on .vm__sound-on {
+    display: block;
+  }
+
+
+  .vm.sound-on .vm__sound-off {
+    display: none;
+  }
+
+
+  /* =========================
+     MOBILE
+  ========================== */
+
+  @media screen and (max-width: 749px) {
+
+    .vm {
+      aspect-ratio: 4 / 3;
+    }
+
+
+    .vm__content {
+      padding:
+        30px
+        22px
+        78px;
+    }
+
+
+    .vm__content-inner {
+      max-width: 100%;
+    }
+
+
+    .vm__heading {
+      margin-bottom: 12px;
+
+      font-size:
+        clamp(28px, 9vw, 44px);
+
+      line-height: 1.08;
+    }
+
+
+    .vm__text {
+      margin-bottom: 20px;
+
+      font-size: 15px;
+
+      line-height: 1.5;
+    }
+
+
+    .vm__button {
+      min-height: 44px;
+
+      padding:
+        11px
+        24px;
+
+      font-size: 13px;
+    }
+
+
+    .vm__sound {
+      right: 15px;
+      bottom: 15px;
+
+      width: 42px;
+      height: 42px;
+    }
+
+
+    .vm__sound svg {
+      width: 19px;
+      height: 19px;
+    }
+
+  }
+
+{% endstylesheet %}
+
+
+<script>
+  document
+    .querySelectorAll('[data-vm-root]')
+    .forEach(function (root) {
+
+      var video =
+        root.querySelector('video');
+
+      var soundBtn =
+        root.querySelector(
+          '[data-vm-sound]'
+        );
+
+
+      if (!video) return;
+
+
+      /*
+       * Autoplay setup
+       */
+
+      video.muted = true;
+
+      video.autoplay = true;
+
+      video.loop = true;
+
+      video.playsInline = true;
+
+
+      video
+        .play()
+        .catch(function () {
+          /*
+           * Some browsers may
+           * prevent autoplay.
+           */
+        });
+
+
+      /*
+       * Sound control
+       */
+
+      if (soundBtn) {
+
+        soundBtn.addEventListener(
+          'click',
+          function () {
+
+            if (video.muted) {
+
+              video.muted = false;
+
+              root.classList.add(
+                'sound-on'
+              );
+
+              soundBtn.setAttribute(
+                'aria-label',
+                'Turn sound off'
+              );
+
+
+              video
+                .play()
+                .catch(function () {});
+
+            } else {
+
+              video.muted = true;
+
+              root.classList.remove(
+                'sound-on'
+              );
+
+              soundBtn.setAttribute(
+                'aria-label',
+                'Turn sound on'
+              );
+
+            }
+
+          }
+        );
+
+      }
+
+
+      /*
+       * Ensure loop
+       */
+
+      video.addEventListener(
+        'ended',
+        function () {
+
+          video.currentTime = 0;
+
+          video
+            .play()
+            .catch(function () {});
+
+        }
+      );
+
+    });
+</script>
+
+
+{% schema %}
+{
+  "name": "Video Section",
+  "tag": "section",
+  "class": "section-video-section",
+
+  "settings": [
+
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Poster / fallback image"
+    },
+
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image alt text"
+    },
+
+
+    {
+      "type": "header",
+      "content": "Content overlay"
+    },
+
+    {
+      "type": "checkbox",
+      "id": "show_content_overlay",
+      "label": "Show content overlay",
+      "default": true
+    },
+
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Dark overlay opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 25
+    },
+
+    {
+      "type": "text",
+      "id": "overlay_heading",
+      "label": "Heading",
+      "default": "Designed for everyday living"
+    },
+
+    {
+      "type": "richtext",
+      "id": "overlay_text",
+      "label": "Description",
+      "default": "<p>Discover considered pieces created to bring character and comfort into your space.</p>"
+    },
+
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "EXPLORE COLLECTION"
+    },
+
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Horizontal content alignment",
+
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+
+      "default": "center"
+    },
+
+    {
+      "type": "select",
+      "id": "vertical_alignment",
+      "label": "Vertical content position",
+
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ],
+
+      "default": "center"
+    },
+
+
+    {
+      "type": "header",
+      "content": "Video layout"
+    },
+
+    {
+      "type": "range",
+      "id": "gap_top",
+      "label": "Top spacing",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 17
+    },
+
+    {
+      "type": "range",
+      "id": "gap_bottom",
+      "label": "Bottom spacing",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 54
+    },
+
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Video / image crop position",
+
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ],
+
+      "default": "top"
+    },
+
+    {
+      "type": "checkbox",
+      "id": "mirror",
+      "label": "Mirror video / image horizontally",
+      "default": false
+    },
+
+    {
+      "type": "text",
+      "id": "fallback_asset",
+      "label": "Theme fallback image filename",
+      "info": "Used only when no video or image is selected. Example: promo-video.jpg"
+    }
+
+  ],
+
+  "presets": [
+    {
+      "name": "Video Section"
+    }
+  ]
+}
+{% endschema %}

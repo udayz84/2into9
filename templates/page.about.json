@@ -11,6 +11,7 @@
   "sections": {
     "about_banner": {
       "type": "about-banner",
+      "disabled": true,
       "settings": {
         "image": "shopify://shop_images/Banner.webp",
         "height": 450,

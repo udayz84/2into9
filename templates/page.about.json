@@ -15,7 +15,7 @@
         "ai_gen_block_ece3ca2_brVXxJ": {
           "type": "ai_gen_block_ece3ca2",
           "settings": {
-            "title": "About us",
+            "title": "{{ closest.page.title }}",
             "show_breadcrumb": true,
             "home_label": "Home",
             "separator": "/",
@@ -337,7 +337,7 @@
         "border_opacity": 100,
         "border_radius": 0,
         "toggle_overlay": true,
-        "overlay_color": "#E3E3E1",
+        "overlay_color": "#e3e3e1",
         "overlay_style": "solid",
         "gradient_direction": "to top",
         "padding-block-start": 48,

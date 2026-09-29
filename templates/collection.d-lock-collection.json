@@ -78,6 +78,38 @@
     },
     "d_lock_product_fXQrFM": {
       "type": "d-lock-product",
+      "blocks": {
+        "icon_tile_3cBwwF": {
+          "type": "icon_tile",
+          "settings": {
+            "label": "Feature"
+          }
+        },
+        "icon_tile_ekwgij": {
+          "type": "icon_tile",
+          "settings": {
+            "label": "Feature"
+          }
+        },
+        "icon_tile_dfQB6F": {
+          "type": "icon_tile",
+          "settings": {
+            "label": "Feature"
+          }
+        },
+        "icon_tile_tfM3F8": {
+          "type": "icon_tile",
+          "settings": {
+            "label": "Feature"
+          }
+        }
+      },
+      "block_order": [
+        "icon_tile_3cBwwF",
+        "icon_tile_ekwgij",
+        "icon_tile_dfQB6F",
+        "icon_tile_tfM3F8"
+      ],
       "name": "D-Lock Product",
       "settings": {
         "padding_top": 120,

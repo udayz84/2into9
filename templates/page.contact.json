@@ -15,7 +15,7 @@
         "ai_gen_block_ece3ca2_6HMXTf": {
           "type": "ai_gen_block_ece3ca2",
           "settings": {
-            "title": "About us",
+            "title": "{{ closest.page.title }}",
             "show_breadcrumb": true,
             "home_label": "Home",
             "separator": "/",

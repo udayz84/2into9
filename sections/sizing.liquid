@@ -7,13 +7,13 @@
   "
 >
   <div class="sizing__classic page-width">
-    {% if section.settings.breadcrumb != blank %}
+    {% comment %} {% if section.settings.breadcrumb != blank %}
       <p class="sizing__breadcrumb">{{ section.settings.breadcrumb }}</p>
-    {% endif %}
+    {% endif %} {% endcomment %}
 
-    {% if section.settings.heading != blank %}
+    {% comment %} {% if section.settings.heading != blank %}
       <h1 class="sizing__title">{{ section.settings.heading }}</h1>
-    {% endif %}
+    {% endif %} {% endcomment %}
 
     <div class="sizing__body">
       {% render 'sizing-content' %}

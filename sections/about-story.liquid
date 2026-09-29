@@ -1,8 +1,6 @@
 <section id="AboutStory-{{ section.id }}" class="about-story section">
   <div class="page-width">
-    {%- if section.settings.title != blank -%}
-      <h2 class="about-story__main-heading">{{ section.settings.title }}</h2>
-    {%- endif -%}
+    
     
     <div class="about-story__container">
       <div class="about-story__image-wrapper">
@@ -16,6 +14,9 @@
         {%- endif -%}
       </div>
       <div class="about-story__content">
+        {%- if section.settings.title != blank -%}
+      <h2 class="about-story__main-heading">{{ section.settings.title }}</h2>
+    {%- endif -%}
         {%- if section.settings.text != blank -%}
           <div class="about-story__text rte">
             {{ section.settings.text }}

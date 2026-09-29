@@ -803,6 +803,7 @@
         "review_tnXdWa",
         "review_PtHPaV"
       ],
+      "disabled": true,
       "name": "D-Lock Reviews",
       "settings": {
         "padding_top": 20,

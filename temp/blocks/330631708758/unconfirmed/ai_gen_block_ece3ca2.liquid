@@ -1,0 +1,126 @@
+{% doc %}
+  @prompt
+    want section with page title and breadcrumb with alignment, sizes and color change options and it must be responsive, want breadcrumb after title
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-page-heading-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: {{ block.settings.vertical_padding }}px 20px;
+    background: {{ block.settings.background_color }};
+  }
+
+  .ai-page-heading-{{ ai_gen_id }}__inner {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: {{ block.settings.alignment }};
+  }
+
+  .ai-page-heading-{{ ai_gen_id }}__title {
+    margin: 0;
+    color: {{ block.settings.title_color }};
+    font-size: {{ block.settings.title_size }}px;
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+  }
+
+  .ai-page-heading-{{ ai_gen_id }}__breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: {% if block.settings.alignment == 'center' %}center{% elsif block.settings.alignment == 'right' %}flex-end{% else %}flex-start{% endif %};
+    gap: 8px;
+    margin: 12px 0 0;
+    color: {{ block.settings.breadcrumb_color }};
+    font-size: {{ block.settings.breadcrumb_size }}px;
+    line-height: 1.5;
+  }
+
+  .ai-page-heading-{{ ai_gen_id }}__breadcrumb a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .ai-page-heading-{{ ai_gen_id }}__breadcrumb a:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+
+  .ai-page-heading-{{ ai_gen_id }}__separator {
+    color: {{ block.settings.breadcrumb_color }};
+    opacity: 0.8;
+    user-select: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-page-heading-{{ ai_gen_id }} {
+      width: 100%;
+      padding: {{ block.settings.mobile_vertical_padding }}px 16px;
+    }
+
+    .ai-page-heading-{{ ai_gen_id }}__title {
+      font-size: {{ block.settings.mobile_title_size }}px;
+    }
+
+    .ai-page-heading-{{ ai_gen_id }}__breadcrumb {
+      font-size: {{ block.settings.mobile_breadcrumb_size }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-page-heading-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-page-heading-{{ ai_gen_id }}__inner">
+    <h1 class="ai-page-heading-{{ ai_gen_id }}__title">{{ block.settings.title | default: page.title | escape }}</h1>
+    {% if block.settings.show_breadcrumb %}
+      <nav class="ai-page-heading-{{ ai_gen_id }}__breadcrumb" aria-label="Breadcrumb">
+        <a href="{{ routes.root_url }}">{{ block.settings.home_label | escape }}</a>
+        <span class="ai-page-heading-{{ ai_gen_id }}__separator" aria-hidden="true">{{ block.settings.separator | escape }}</span>
+        <span aria-current="page">{{ block.settings.title | default: page.title | escape }}</span>
+      </nav>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Page title and breadcrumb",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Page title", "default": "About us" },
+    { "type": "checkbox", "id": "show_breadcrumb", "label": "Show breadcrumb", "default": true },
+    { "type": "text", "id": "home_label", "label": "Home label", "default": "Home" },
+    { "type": "text", "id": "separator", "label": "Separator", "default": "/" },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    { "type": "range", "id": "desktop_width_percent", "label": "Desktop width", "min": 50, "max": 100, "step": 5, "unit": "%", "default": 100 },
+    { "type": "header", "content": "Typography" },
+    { "type": "range", "id": "title_size", "label": "Title size", "min": 24, "max": 72, "step": 2, "unit": "px", "default": 48 },
+    { "type": "range", "id": "mobile_title_size", "label": "Mobile title size", "min": 20, "max": 48, "step": 2, "unit": "px", "default": 32 },
+    { "type": "range", "id": "breadcrumb_size", "label": "Breadcrumb size", "min": 10, "max": 20, "step": 1, "unit": "px", "default": 14 },
+    { "type": "range", "id": "mobile_breadcrumb_size", "label": "Mobile breadcrumb size", "min": 10, "max": 18, "step": 1, "unit": "px", "default": 12 },
+    { "type": "header", "content": "Colors and spacing" },
+    { "type": "color", "id": "title_color", "label": "Title color", "default": "#000000" },
+    { "type": "color", "id": "breadcrumb_color", "label": "Breadcrumb color", "default": "#333333" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#FFFFFF" },
+    { "type": "range", "id": "vertical_padding", "label": "Desktop vertical padding", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 32 },
+    { "type": "range", "id": "mobile_vertical_padding", "label": "Mobile vertical padding", "min": 0, "max": 48, "step": 4, "unit": "px", "default": 24 }
+  ],
+  "presets": [{ "name": "Page title and breadcrumb" }],
+  "tag": null,
+  "class": "page-title-breadcrumb-block"
+}
+{% endschema %}

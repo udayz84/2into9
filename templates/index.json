@@ -37,25 +37,25 @@
         "product_1": {
           "type": "product",
           "settings": {
-            "product": "mens-printed-trunk",
-            "title": "Sleepwear Set",
-            "subtitle": "NITEKNIT"
+            "product": "safari-tan-printed-trunk",
+            "title": "Safari Tan Printed",
+            "subtitle": "Men's Trunk"
           }
         },
         "product_2": {
           "type": "product",
           "settings": {
-            "product": "d-lock",
-            "title": "Sleepwear Shirt",
-            "subtitle": "NITEKNIT"
+            "product": "little-rockstar-kids-trunk-grey",
+            "title": "Grey little Rockstar Kids",
+            "subtitle": "kid's Trunk"
           }
         },
         "product_3": {
           "type": "product",
           "settings": {
-            "product": "kids-solid-trunk",
-            "title": "Sleepwear Shorts",
-            "subtitle": "NITEKNIT"
+            "product": "d-lock-trunk-for-men",
+            "title": "D Lock",
+            "subtitle": "Men's Trunk"
           }
         }
       },

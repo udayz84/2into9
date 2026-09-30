@@ -15,7 +15,7 @@
       "settings": {
         "eyebrow_text": "The newest",
         "button_label": "SHOP NEW",
-        "button_link": "",
+        "button_link": "shopify://collections/men",
         "desktop_height": 500,
         "color_scheme": "scheme-5",
         "toggle_overlay": true,

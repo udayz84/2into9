@@ -138,6 +138,7 @@
         "image_5",
         "image_6"
       ],
+      "disabled": true,
       "name": "Scrolling Banner",
       "settings": {
         "direction": "left",

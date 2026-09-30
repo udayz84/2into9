@@ -25,9 +25,7 @@
     assign transparent_color_scheme = section.settings.collection_color_scheme
   endif
 
-  if section.settings.enable_sticky_header == 'always'
-    assign sticky = 'always'
-  elsif section.settings.enable_sticky_header == 'scroll-up'
+  if section.settings.enable_sticky_header != 'never'
     assign sticky = 'scroll-up'
   endif
 
@@ -364,6 +362,67 @@
   type="module"
 ></script>
 
+<script>
+  (function() {
+    let lastScrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+    let ticking = false;
+
+    function handleScroll() {
+      const header = document.getElementById('header-component') || document.querySelector('header-component');
+      if (!header) return;
+
+      const scrollTop = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+
+      if (scrollTop <= 0) {
+        lastScrollTop = 0;
+        header.dataset.scrollDirection = 'none';
+        header.dataset.stickyState = 'inactive';
+        header.classList.remove('header--hidden');
+        return;
+      }
+
+      if (scrollTop <= 20) {
+        header.dataset.scrollDirection = 'none';
+        header.dataset.stickyState = 'inactive';
+        header.classList.remove('header--hidden');
+        lastScrollTop = scrollTop;
+        return;
+      }
+
+      const delta = scrollTop - lastScrollTop;
+      const threshold = 3;
+
+      if (delta > threshold) {
+        // Scrolling down -> hide
+        header.dataset.scrollDirection = 'down';
+        header.dataset.stickyState = 'idle';
+        header.classList.add('header--hidden');
+      } else if (delta < -threshold) {
+        // Scrolling up -> show
+        header.dataset.scrollDirection = 'up';
+        header.dataset.stickyState = 'active';
+        header.classList.remove('header--hidden');
+      }
+
+      lastScrollTop = scrollTop;
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(function() {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('scroll', onScroll, { passive: true });
+    handleScroll();
+  })();
+</script>
+
 {% stylesheet %}
   body {
     --header-height: 60px;
@@ -464,31 +523,45 @@
     z-index: var(--layer-heightened);
   }
 
-  #header-group:has(#header-component[sticky]) {
+  #header-group {
     display: contents;
   }
 
-  .header-section:has(> #header-component[sticky='always']),
-  .header-section:has(> #header-component[sticky='scroll-up'][data-sticky-state='active']) {
+  .header-section {
     position: sticky;
-
-    /* Use -1 instead of 0 so intersection observer can track sticky state */
-    top: -1px;
-    z-index: var(--layer-sticky);
+    top: 0;
+    z-index: var(--layer-sticky, 500);
   }
 
-  .header[data-sticky-state] {
-    transition: opacity var(--animation-speed) var(--animation-easing);
-    opacity: 1;
+  /* StepOne Auto-hide & Reveal Header Styles */
+  #header-component {
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.25s ease;
+    will-change: transform;
+    transform: translateY(0);
+  }
+
+  #header-component.header--hidden,
+  #header-component[data-sticky-state='idle'],
+  #header-component[data-scroll-direction='down']:not([data-sticky-state='inactive']) {
+    transform: translateY(-100%) !important;
+    pointer-events: none !important;
+  }
+
+  #header-component[data-sticky-state='active'] {
+    transform: translateY(0) !important;
+    pointer-events: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  #header-component[data-sticky-state='inactive'] {
+    transform: translateY(0) !important;
+    pointer-events: auto;
+    box-shadow: none;
   }
 
   .header[data-sticky-state='active'] {
     view-transition-name: sticky-header;
-  }
-
-  .header[data-sticky-state='idle'],
-  .header[data-sticky-state='active'][data-animating] {
-    opacity: 0;
   }
 
   .header__row {

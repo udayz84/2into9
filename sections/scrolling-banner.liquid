@@ -1,0 +1,348 @@
+{%- comment -%}
+  Scrolling Banner - buttery smooth infinite image marquee.
+  Fully self-contained: every style is scoped to .scrolling-banner* classes only,
+  so nothing else in the theme is affected.
+{%- endcomment -%}
+
+<script
+  src="{{ 'scrolling-banner.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+
+{%- assign sb_placeholders = 'lifestyle-1,lifestyle-2,product-1,product-2' | split: ',' -%}
+
+<scrolling-banner-component
+  class="scrolling-banner"
+  data-speed="{{ section.settings.speed }}"
+  data-direction="{{ section.settings.direction }}"
+  {% if section.settings.pause_on_hover %}
+    data-pause-on-hover
+  {% endif %}
+  style="
+    --sb-slide-h-mobile: {{ section.settings.slide_height_mobile }}px;
+    --sb-slide-h-desktop: {{ section.settings.slide_height_desktop }}px;
+    --sb-gap: {{ section.settings.gap }}px;
+    --sb-radius: {{ section.settings.radius }}px;
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  "
+>
+  <div class="scrolling-banner__viewport">
+    <div class="scrolling-banner__track">
+      <div class="scrolling-banner__group">
+        {%- for block in section.blocks -%}
+          <div class="scrolling-banner__slide" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              {%- if block.settings.link != blank -%}
+                <a
+                  href="{{ block.settings.link }}"
+                  class="scrolling-banner__link"
+                  {% if block.settings.open_in_new_tab %}
+                    target="_blank" rel="noopener"
+                  {% endif %}
+                >
+                  {{
+                    block.settings.image
+                    | image_url: width: 1600
+                    | image_tag:
+                      class: 'scrolling-banner__image',
+                      alt: block.settings.image_alt,
+                      loading: 'eager',
+                      widths: '400, 600, 800, 1000, 1200, 1600',
+                      sizes: 'auto'
+                  }}
+                </a>
+              {%- else -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 1600
+                  | image_tag:
+                    class: 'scrolling-banner__image',
+                    alt: block.settings.image_alt,
+                    loading: 'eager',
+                    widths: '400, 600, 800, 1000, 1200, 1600',
+                    sizes: 'auto'
+                }}
+              {%- endif -%}
+            {%- else -%}
+              {%- assign sb_index = forloop.index0 | modulo: 4 -%}
+              <div class="scrolling-banner__placeholder">
+                {{ sb_placeholders[sb_index] | placeholder_svg_tag: 'scrolling-banner__placeholder-svg' }}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</scrolling-banner-component>
+
+{% stylesheet %}
+  scrolling-banner-component.scrolling-banner {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    --sb-slide-h: var(--sb-slide-h-mobile, 220px);
+  }
+
+  @media screen and (min-width: 750px) {
+    .scrolling-banner {
+      --sb-slide-h: var(--sb-slide-h-desktop, 380px);
+    }
+  }
+
+  .scrolling-banner__viewport {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .scrolling-banner__track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .scrolling-banner__track {
+      animation: scrolling-banner-scroll var(--sb-duration, 40s) linear infinite;
+      animation-direction: var(--sb-direction, normal);
+    }
+
+    .scrolling-banner[data-pause-on-hover]:hover .scrolling-banner__track,
+    .scrolling-banner[data-pause-on-hover]:focus-within .scrolling-banner__track {
+      animation-play-state: paused;
+    }
+  }
+
+  @keyframes scrolling-banner-scroll {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  .scrolling-banner__group {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: var(--sb-gap, 20px);
+    padding-right: var(--sb-gap, 20px);
+  }
+
+  .scrolling-banner__slide {
+    position: relative;
+    flex-shrink: 0;
+    height: var(--sb-slide-h);
+  }
+
+  .scrolling-banner__link {
+    display: block;
+    height: 100%;
+    text-decoration: none;
+  }
+
+  .scrolling-banner__image {
+    display: block;
+    width: auto;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--sb-radius, 0px);
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  .scrolling-banner__placeholder {
+    height: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--sb-radius, 0px);
+    background: #f1f1f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .scrolling-banner__placeholder-svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Scrolling Banner",
+  "tag": "section",
+  "class": "section-scrolling-banner",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "max_blocks": 20,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Motion"
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "Scroll direction",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Speed (pixels per second)",
+      "min": 20,
+      "max": 200,
+      "step": 10,
+      "default": 60
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause on hover",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "slide_height_desktop",
+      "label": "Banner height (desktop)",
+      "min": 180,
+      "max": 640,
+      "step": 10,
+      "unit": "px",
+      "default": 380
+    },
+    {
+      "type": "range",
+      "id": "slide_height_mobile",
+      "label": "Banner height (mobile)",
+      "min": 120,
+      "max": 480,
+      "step": 10,
+      "unit": "px",
+      "default": 220
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap between images",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "radius",
+      "label": "Image corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Banner image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Alt text"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_in_new_tab",
+          "label": "Open link in new tab",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scrolling Banner",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

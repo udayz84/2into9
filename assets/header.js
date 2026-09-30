@@ -142,57 +142,47 @@ class HeaderComponent extends Component {
   };
 
   #updateScrollState = () => {
-    const stickyMode = this.getAttribute('sticky');
-    if (!this.#offscreen && stickyMode !== 'always') return;
+    const scrollTop = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
 
-    const scrollTop = document.scrollingElement?.scrollTop ?? 0;
-    const headerTop = this.getBoundingClientRect().top;
-    const isScrollingUp = scrollTop < this.#lastScrollTop;
-    const isAtTop = headerTop >= 0;
-
-    if (this.#timeout) {
-      clearTimeout(this.#timeout);
-      this.#timeout = null;
+    // Safety: ignore rubber-banding / negative scroll at top of document
+    if (scrollTop <= 0) {
+      this.#lastScrollTop = 0;
+      this.dataset.scrollDirection = 'none';
+      this.dataset.stickyState = 'inactive';
+      this.classList.remove('header--hidden');
+      return;
     }
 
-    if (stickyMode === 'always') {
-      if (isAtTop) {
-        this.dataset.scrollDirection = 'none';
-      } else if (isScrollingUp) {
-        this.dataset.scrollDirection = 'up';
-      } else {
-        this.dataset.scrollDirection = 'down';
-      }
-
+    // Safety: ignore rubber-banding at bottom of document
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    if (maxScroll > 0 && scrollTop >= maxScroll) {
       this.#lastScrollTop = scrollTop;
       return;
     }
 
-    if (isScrollingUp) {
-      this.removeAttribute('data-animating');
-
-      if (isAtTop) {
-        // reset sticky state when header is scrolled up to natural position
-        this.#offscreen = false;
-        this.dataset.stickyState = 'inactive';
-        this.dataset.scrollDirection = 'none';
-      } else {
-        // show sticky header when scrolling up
-        this.dataset.stickyState = 'active';
-        this.dataset.scrollDirection = 'up';
-      }
-    } else if (this.dataset.stickyState === 'active') {
+    // Top threshold (when within first 20px of page): show natural header
+    if (scrollTop <= 20) {
       this.dataset.scrollDirection = 'none';
-      // delay transitioning to idle hidden state for hiding animation
-      this.setAttribute('data-animating', '');
+      this.dataset.stickyState = 'inactive';
+      this.classList.remove('header--hidden');
+      this.#lastScrollTop = scrollTop;
+      return;
+    }
 
-      this.#timeout = setTimeout(() => {
-        this.dataset.stickyState = 'idle';
-        this.removeAttribute('data-animating');
-      }, this.#animationDelay);
-    } else {
-      this.dataset.scrollDirection = 'none';
+    const delta = scrollTop - this.#lastScrollTop;
+    const SCROLL_THRESHOLD = 3;
+
+    if (delta > SCROLL_THRESHOLD) {
+      // User is scrolling DOWN: slide header up to hide
+      this.dataset.scrollDirection = 'down';
       this.dataset.stickyState = 'idle';
+      this.classList.add('header--hidden');
+    } else if (delta < -SCROLL_THRESHOLD) {
+      // User is scrolling UP: slide header down to reveal
+      this.dataset.scrollDirection = 'up';
+      this.dataset.stickyState = 'active';
+      this.classList.remove('header--hidden');
+      if (this.dataset.themeColor) changeMetaThemeColor(this.dataset.themeColor);
     }
 
     this.#lastScrollTop = scrollTop;
@@ -203,14 +193,9 @@ class HeaderComponent extends Component {
     this.#resizeObserver.observe(this);
     this.addEventListener('overflowMinimum', this.#handleOverflowMinimum);
 
-    const stickyMode = this.getAttribute('sticky');
-    if (stickyMode) {
-      this.#observeStickyPosition(stickyMode === 'always');
-
-      if (stickyMode === 'scroll-up' || stickyMode === 'always') {
-        document.addEventListener('scroll', this.#handleWindowScroll);
-      }
-    }
+    window.addEventListener('scroll', this.#handleWindowScroll, { passive: true });
+    document.addEventListener('scroll', this.#handleWindowScroll, { passive: true });
+    this.#updateScrollState();
   }
 
   disconnectedCallback() {
@@ -218,10 +203,15 @@ class HeaderComponent extends Component {
     this.#resizeObserver.disconnect();
     this.#intersectionObserver?.disconnect();
     this.removeEventListener('overflowMinimum', this.#handleOverflowMinimum);
+    window.removeEventListener('scroll', this.#handleWindowScroll);
     document.removeEventListener('scroll', this.#handleWindowScroll);
     if (this.#scrollRafId !== null) {
       cancelAnimationFrame(this.#scrollRafId);
       this.#scrollRafId = null;
+    }
+    if (this.#timeout) {
+      clearTimeout(this.#timeout);
+      this.#timeout = null;
     }
     document.body.style.setProperty('--header-height', '0px');
   }

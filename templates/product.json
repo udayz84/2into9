@@ -96,7 +96,7 @@
         "bundle_1_pair"
       ],
       "settings": {
-        "bg_text": "underwear",
+        "bg_text": "",
         "page_padding": 110,
         "show_rating": false,
         "rating": 4.5,

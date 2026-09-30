@@ -44,23 +44,13 @@
             "highlight": false
           }
         },
-        "bundle_best_value": {
+        "bundle_1_pair": {
           "type": "bundle",
           "settings": {
-            "pairs": "5 Pairs",
-            "price_each": "Rs 800/each",
-            "top_badge": "Best Value",
-            "discount_badge": "20% OFF",
-            "selected": false
-          }
-        },
-        "bundle_most_popular": {
-          "type": "bundle",
-          "settings": {
-            "pairs": "3 Pairs",
-            "price_each": "Rs 830/each",
-            "top_badge": "Most Popular",
-            "discount_badge": "10% OFF",
+            "pairs": "1 Pair",
+            "price_each": "₹929/each",
+            "top_badge": "",
+            "discount_badge": "",
             "selected": true
           }
         },
@@ -68,19 +58,29 @@
           "type": "bundle",
           "settings": {
             "pairs": "2 Pairs",
-            "price_each": "Rs 880/each",
+            "price_each": "₹880/each",
             "top_badge": "",
             "discount_badge": "5% OFF",
             "selected": false
           }
         },
-        "bundle_1_pair": {
+        "bundle_most_popular": {
           "type": "bundle",
           "settings": {
-            "pairs": "1 Pair",
-            "price_each": "Rs 929/each",
-            "top_badge": "",
-            "discount_badge": "",
+            "pairs": "3 Pairs",
+            "price_each": "₹830/each",
+            "top_badge": "Most Popular",
+            "discount_badge": "10% OFF",
+            "selected": false
+          }
+        },
+        "bundle_best_value": {
+          "type": "bundle",
+          "settings": {
+            "pairs": "5 Pairs",
+            "price_each": "₹800/each",
+            "top_badge": "Best Value",
+            "discount_badge": "20% OFF",
             "selected": false
           }
         }
@@ -90,14 +90,14 @@
         "feature_anti_chafe",
         "feature_bamboo",
         "feature_anti_sweat",
-        "bundle_best_value",
-        "bundle_most_popular",
+        "bundle_1_pair",
         "bundle_4_pairs",
-        "bundle_1_pair"
+        "bundle_most_popular",
+        "bundle_best_value"
       ],
       "settings": {
         "bg_text": "",
-        "page_padding": 110,
+        "page_padding": 60,
         "show_rating": false,
         "rating": 4.5,
         "reviews_url": "",
@@ -107,8 +107,9 @@
     },
     "colour-builder": {
       "type": "product-colour-builder",
+      "disabled": true,
       "settings": {
-        "page_padding": 110,
+        "page_padding": 60,
         "single_label": "Single Colour",
         "mixed_label": "Mixed Colours",
         "selected_label": "Selected",
@@ -162,7 +163,7 @@
         "guarantee"
       ],
       "settings": {
-        "page_padding": 110,
+        "page_padding": 60,
         "open_first": true
       }
     },
@@ -245,11 +246,12 @@
       "settings": {
         "heading": "FAQ's",
         "page_padding": 110,
-        "open_first": true
+        "open_first": false
       }
     },
     "reviews": {
       "type": "product-reviews",
+      "disabled": true,
       "blocks": {
         "r1": {
           "type": "review",

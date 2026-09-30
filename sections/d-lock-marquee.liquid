@@ -8,12 +8,8 @@
 <section
   class="d-lock-marquee"
   id="DLockMarquee-{{ section.id }}"
-  style="--dlmq-bg: {{ section.settings.background_color }}; --dlmq-band: {{ section.settings.band_color }};"
+  style="--dlmq-band: {{ section.settings.band_color }};"
 >
-  {%- if section.settings.label != blank -%}
-    <p class="d-lock-marquee__label">{{ section.settings.label | escape }}</p>
-  {%- endif -%}
-
   <div class="d-lock-marquee__band">
     <div class="d-lock-marquee__track" style="--dlmq-duration: {{ section.settings.speed }}s;">
       {%- if section.blocks.size > 0 -%}
@@ -40,26 +36,15 @@
   .d-lock-marquee {
     position: relative;
     width: 100%;
-    background: var(--dlmq-bg, #171717);
+    background: var(--dlmq-band, #c5ff00);
     font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif;
-    container-type: inline-size;
     overflow: hidden;
-  }
-
-  .d-lock-marquee__label {
     margin: 0;
-    padding-bottom: 0.7813cqw;
-    text-align: center;
-    font-size: clamp(16px, 1.5625cqw, 30px);
-    font-weight: 600;
-    font-style: italic;
-    line-height: 1.5;
-    color: #ffffff;
-    white-space: nowrap;
+    padding: 0;
   }
 
   .d-lock-marquee__band {
-    height: clamp(64px, 6.25cqw, 120px);
+    height: clamp(54px, 5.5vw, 76px);
     background: var(--dlmq-band, #c5ff00);
     overflow: hidden;
     display: flex;
@@ -69,7 +54,7 @@
   .d-lock-marquee__track {
     display: flex;
     width: max-content;
-    padding-left: 2.2396cqw;
+    padding-left: 20px;
     animation: d-lock-marquee-scroll var(--dlmq-duration, 40s) linear infinite;
     will-change: transform;
   }
@@ -77,33 +62,37 @@
   .d-lock-marquee__half {
     display: flex;
     align-items: center;
-    gap: 2.0833cqw;
-    padding-right: 2.0833cqw;
+    gap: clamp(20px, 2.5vw, 40px);
+    padding-right: clamp(20px, 2.5vw, 40px);
   }
 
   .d-lock-marquee__item {
     display: flex;
     align-items: center;
-    gap: 0.7292cqw;
-    font-size: clamp(16px, 1.5625cqw, 30px);
+    gap: 12px;
+    font-size: clamp(16px, 1.4vw, 22px);
     font-weight: 700;
     text-transform: uppercase;
-    line-height: 1.5;
+    line-height: 1;
     color: #000000;
     white-space: nowrap;
+    letter-spacing: 0.5px;
   }
 
   .d-lock-marquee__item::before {
     content: '';
-    width: 0.4167cqw;
-    height: 0.4167cqw;
+    width: 6px;
+    height: 6px;
     background: #000000;
     border-radius: 50%;
     flex-shrink: 0;
   }
 
   @keyframes d-lock-marquee-scroll {
-    to {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
       transform: translateX(-50%);
     }
   }
@@ -115,32 +104,27 @@
   }
 
   @media screen and (max-width: 749px) {
-    .d-lock-marquee__label {
-      padding-bottom: 12px;
-      font-size: 18px;
-    }
-
     .d-lock-marquee__band {
-      height: 72px;
+      height: 52px;
     }
 
     .d-lock-marquee__track {
-      padding-left: 20px;
+      padding-left: 16px;
     }
 
     .d-lock-marquee__half {
-      gap: 24px;
-      padding-right: 24px;
+      gap: 20px;
+      padding-right: 20px;
     }
 
     .d-lock-marquee__item {
-      gap: 10px;
-      font-size: 18px;
+      gap: 8px;
+      font-size: 15px;
     }
 
     .d-lock-marquee__item::before {
-      width: 7px;
-      height: 7px;
+      width: 5px;
+      height: 5px;
     }
   }
 {% endstylesheet %}

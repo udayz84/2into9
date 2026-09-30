@@ -90,7 +90,7 @@
               "type": "product-title",
               "name": "t:names.product_title",
               "settings": {
-                "show_vendor": true,
+                "show_vendor": false,
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "center",
@@ -114,6 +114,7 @@
             },
             "price_pBRkKF": {
               "type": "price",
+              "disabled": true,
               "name": "t:names.product_price",
               "settings": {
                 "show_sale_price_first": true,
@@ -295,7 +296,7 @@
       "name": "Collection FAQ",
       "settings": {
         "heading": "FAQ's",
-        "first_open": true,
+        "first_open": false,
         "color_scheme": "scheme-1",
         "padding-block-start": 40,
         "padding-block-end": 120
@@ -419,6 +420,7 @@
         "review_FgVmiF",
         "review_Yttc8e"
       ],
+      "disabled": true,
       "name": "Customer Reviews",
       "settings": {
         "section_width": "full-width",
@@ -436,6 +438,7 @@
     },
     "marquee_3AGFHY": {
       "type": "marquee",
+      "disabled": true,
       "blocks": {
         "text_yPggEp": {
           "type": "text",

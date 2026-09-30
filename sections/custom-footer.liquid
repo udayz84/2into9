@@ -38,7 +38,7 @@
               <p class="custom-footer__newsletter-heading">{{ section.settings.newsletter_heading }}</p>
             {%- endif -%}
 
-            {%- form 'customer', class: 'custom-footer__form' -%}
+            {%- form 'customer', class: 'custom-footer__form', id: 'CustomFooterForm' -%}
               <input type="hidden" name="contact[tags]" value="newsletter">
               <div class="custom-footer__field">
                 <input
@@ -53,18 +53,20 @@
                   required
                 >
                 <button type="submit" class="custom-footer__submit" name="commit" aria-label="Subscribe">
-                  <svg viewBox="0 0 20 15" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 7.5h17M12 1.5l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <svg viewBox="0 0 20 15" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M1 7.5h17M12 1.5l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
               </div>
-              {%- if form.errors -%}
-                <p class="custom-footer__form-error">
-                  {{ form.errors.translated_fields.email | capitalize }}
-                  {{ form.errors.messages.email }}
-                </p>
-              {%- endif -%}
-              {%- if form.posted_successfully? -%}
-                <p class="custom-footer__form-success">Thanks for subscribing!</p>
-              {%- endif -%}
+              <div class="custom-footer__message" aria-live="polite">
+                {%- if form.errors -%}
+                  <p class="custom-footer__form-error">
+                    {{ form.errors.translated_fields.email | capitalize }}
+                    {{ form.errors.messages.email }}
+                  </p>
+                {%- endif -%}
+                {%- if form.posted_successfully? -%}
+                  <p class="custom-footer__form-success">Thanks for subscribing!</p>
+                {%- endif -%}
+              </div>
             {%- endform -%}
 
             {%- if section.settings.newsletter_subheading != blank -%}
@@ -161,6 +163,60 @@
     </div>
   </div>
 </footer>
+
+<script>
+  (function () {
+    function initFooterNewsletter() {
+      var form = document.querySelector('.custom-footer__form');
+      if (!form || form.dataset.ajaxAttached) return;
+      form.dataset.ajaxAttached = 'true';
+
+      form.addEventListener('submit', function (e) {
+        var emailInput = form.querySelector('input[type="email"]');
+        var submitBtn = form.querySelector('.custom-footer__submit');
+        var msgBox = form.querySelector('.custom-footer__message');
+
+        if (!emailInput || !emailInput.value || !emailInput.checkValidity()) {
+          return;
+        }
+
+        e.preventDefault();
+        if (submitBtn) submitBtn.disabled = true;
+
+        var formData = new FormData(form);
+        fetch(form.getAttribute('action') || '/contact', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        })
+          .then(function (response) {
+            if (response.ok || response.status === 200 || response.type === 'opaqueredirect') {
+              if (msgBox) {
+                msgBox.innerHTML = '<p class="custom-footer__form-success">Thanks for subscribing!</p>';
+              }
+              emailInput.value = '';
+            } else {
+              form.submit();
+            }
+          })
+          .catch(function () {
+            form.submit();
+          })
+          .finally(function () {
+            if (submitBtn) submitBtn.disabled = false;
+          });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initFooterNewsletter);
+    } else {
+      initFooterNewsletter();
+    }
+  })();
+</script>
 
 {% schema %}
 {
@@ -266,7 +322,7 @@
       "type": "text",
       "id": "copyright_text",
       "label": "Copyright text",
-      "default": "© 2026, 2into9 UNDERWEAR."
+      "default": "© 2026 2INTO9 | Website & Marketing Managed by Thanksweb"
     },
     {
       "type": "image_picker",
@@ -314,7 +370,7 @@
           "type": "richtext",
           "id": "text",
           "label": "Text",
-          "default": "<p>9into2 is a leading direct-to-consumer online retailer for underwear in India. 9into2 offers an exclusive range of high-quality, sustainably and ethically manufactured underwear designed to suit a broad range of body types. With innovative designs focused on comfort, quality, and fit, 9into2 is redefining the underwear market for customers across India.</p>"
+          "default": "<p>2into9 is a leading direct-to-consumer online retailer for underwear in India. 2into9 offers an exclusive range of high-quality, sustainably and ethically manufactured underwear designed to suit a broad range of body types. With innovative designs focused on comfort, quality, and fit, 2into9 is redefining the underwear market for customers across India.</p>"
         }
       ]
     }
@@ -401,6 +457,7 @@
 
   .custom-footer__logo {
     display: inline-block;
+    margin-block-end: clamp(38px, 4vw, 54px);
   }
 
   .custom-footer__logo-img {
@@ -411,7 +468,7 @@
   }
 
   .custom-footer__newsletter {
-    margin-block-start: 10px;
+    margin-block-start: 0;
   }
 
   .custom-footer__newsletter-heading {
@@ -426,19 +483,21 @@
   .custom-footer__field {
     position: relative;
     margin-block-start: 13px;
+    max-width: 510px;
+    width: 100%;
   }
 
   .custom-footer__input {
     width: 100%;
-    max-width: 510px;
     height: 60px;
     border: 1px solid #d9d9d9;
     border-radius: 50px;
     background: transparent;
     color: #fff;
     font-size: 12px;
-    padding-inline: 31px 80px;
+    padding-inline: 31px 64px;
     outline: none;
+    box-sizing: border-box;
   }
 
   .custom-footer__input::placeholder {
@@ -452,26 +511,31 @@
   .custom-footer__submit {
     position: absolute;
     top: 50%;
-    right: 47px;
+    right: 24px;
     transform: translateY(-50%);
-    width: 20px;
-    height: 15px;
+    width: 28px;
+    height: 28px;
     padding: 0;
     border: 0;
-    background: none;
+    background: transparent;
     color: #fff;
     cursor: pointer;
-    display: grid;
-    place-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: transform 0.2s ease, opacity 0.2s ease;
   }
 
   .custom-footer__submit svg {
     width: 20px;
     height: 15px;
+    display: block;
+    transition: transform 0.2s ease;
   }
 
-  .custom-footer__submit:hover {
-    opacity: 0.8;
+  .custom-footer__submit:hover svg {
+    transform: translateX(3px);
   }
 
   .custom-footer__form-error,
@@ -486,7 +550,8 @@
   }
 
   .custom-footer__form-success {
-    color: #c5ff00;
+    color: #4ade80;
+    font-weight: 500;
   }
 
   .custom-footer__newsletter-sub {
@@ -501,7 +566,7 @@
   .custom-footer__social {
     display: flex;
     gap: 11px;
-    margin-block-start: 96px;
+    margin-block-start: 48px;
   }
 
   .custom-footer__social-link {
@@ -509,6 +574,12 @@
     place-items: center;
     width: 46px;
     height: 46px;
+    border-radius: 50%;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  .custom-footer__social-link:hover {
+    transform: translateY(-2px);
   }
 
   .custom-footer__social-icon {
@@ -547,12 +618,19 @@
     text-decoration: underline;
   }
 
+  /* About Us column on the right: INCREASED font size as requested */
+  .custom-footer__about .custom-footer__nav-title {
+    font-size: clamp(20px, 2vw, 24px);
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+
   .custom-footer__about-text {
-    font-size: clamp(12px, 1.5vw, 14px);
+    font-size: clamp(15px, 1.35vw, 18px);
     font-weight: 400;
-    line-height: 1.8;
+    line-height: 1.85;
     color: #fff;
-    max-width: 428px;
+    max-width: 440px;
   }
 
   .custom-footer__about-text p {
@@ -606,6 +684,10 @@
     .custom-footer__social {
       margin-block-start: 32px;
     }
+
+    .custom-footer__logo {
+      margin-block-end: 42px;
+    }
   }
 
   /* Mobile */
@@ -631,6 +713,10 @@
       grid-column: 1 / -1;
     }
 
+    .custom-footer__logo {
+      margin-block-end: 34px;
+    }
+
     .custom-footer__logo-img {
       width: 104px;
     }
@@ -641,16 +727,24 @@
 
     .custom-footer__field {
       margin-block-start: 12px;
+      max-width: 100%;
     }
 
     .custom-footer__input {
       height: 52px;
-      font-size: 16px;
-      padding-inline: 22px 60px;
+      font-size: 14px;
+      padding-inline: 22px 50px;
     }
 
     .custom-footer__submit {
-      right: 24px;
+      right: 18px;
+      width: 28px;
+      height: 28px;
+    }
+
+    .custom-footer__submit svg {
+      width: 18px;
+      height: 14px;
     }
 
     .custom-footer__newsletter-sub {
@@ -679,9 +773,16 @@
       line-height: 2;
     }
 
+    /* About Us column on mobile: INCREASED font size */
+    .custom-footer__about .custom-footer__nav-title {
+      font-size: 18px;
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+
     .custom-footer__about-text {
-      font-size: 13px;
-      line-height: 1.7;
+      font-size: 15px;
+      line-height: 1.75;
     }
 
     .custom-footer__bottom {
@@ -689,6 +790,10 @@
       align-items: flex-start;
       gap: 14px;
       margin-block-start: 40px;
+    }
+
+    .custom-footer__copyright {
+      font-size: 13px;
     }
 
     .custom-footer__payment {

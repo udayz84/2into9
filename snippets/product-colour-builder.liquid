@@ -1,0 +1,283 @@
+{%- liquid
+  assign colour_option = null
+  for option in product.options_with_values
+    assign option_name = option.name | downcase
+    if option_name contains 'colour' or option_name contains 'color'
+      assign colour_option = option
+      break
+    endif
+  endfor
+
+  if colour_option
+    assign colour_index = colour_option.position | minus: 1
+  endif
+
+  assign single_label = section.settings.single_label | default: 'Single Colour'
+  assign mixed_label = section.settings.mixed_label | default: 'Mixed Colours'
+  assign selected_label = section.settings.selected_label | default: 'Selected'
+  assign grid_view_label = section.settings.grid_view_label | default: 'Grid View'
+  assign progress_label = section.settings.progress_label | default: 'Select your items'
+  assign atc_label = section.settings.atc_label | default: 'Add to Cart'
+  assign show_divider = true
+  if section.settings.show_divider == false
+    assign show_divider = false
+  endif
+-%}
+
+<product-colour-builder
+  class="pcb"
+  data-section-id="{{ section.id }}"
+  data-product-id="{{ product.id }}"
+  data-is-combo="{% if product.tags contains 'combo' %}true{% else %}false{% endif %}"
+>
+  <div class="pcb__buy-col">
+    {%- if colour_option -%}
+      <span class="pcb__label pcb__label--step">
+        Select your colour
+      </span>
+
+      <div class="pcb-toggle" role="tablist">
+        <button
+          type="button"
+          class="pcb-toggle__option is-active"
+          data-mode="single"
+          role="tab"
+          aria-selected="true"
+        >
+          {{ single_label }}
+        </button>
+
+        <button
+          type="button"
+          class="pcb-toggle__option"
+          data-mode="mixed"
+          role="tab"
+          aria-selected="false"
+        >
+          {{ mixed_label }}
+        </button>
+
+        <span
+          class="pcb-toggle__indicator"
+          aria-hidden="true"
+        ></span>
+      </div>
+
+      <div class="pcb-controls">
+        <button
+          type="button"
+          class="pcb-pill"
+          data-filter="selected"
+        >
+          {{ selected_label }}
+        </button>
+
+        <button
+          type="button"
+          class="pcb-pill is-active"
+          data-filter="grid"
+        >
+          {{ grid_view_label }}
+        </button>
+      </div>
+
+      <div class="pcb-grid-wrap">
+        <button
+          type="button"
+          class="pcb-grid-arrow pcb-grid-arrow--prev"
+          data-grid-prev
+          aria-label="Scroll colours back"
+        >
+          <svg
+            viewBox="0 0 18 18"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <path
+              d="M11.5 4 6.5 9l5 5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+
+        <div
+          class="pcb-grid"
+          data-grid
+          data-filter-mode="grid"
+        >
+          {%- for value in colour_option.values -%}
+            {%- liquid
+              assign tile_variant = null
+              for variant in product.variants
+                if variant.options[colour_index] == value
+                  assign tile_variant = variant
+                  break
+                endif
+              endfor
+            -%}
+
+            <div
+              class="pcb-tile"
+              data-tile
+              data-colour="{{ value | escape }}"
+            >
+              <div class="pcb-tile__card">
+                {%- if tile_variant and tile_variant.image -%}
+                  {{
+                    tile_variant.image
+                    | image_url: width: 160
+                    | image_tag:
+                      class: 'pcb-tile__image',
+                      widths: '63, 126',
+                      sizes: '63px',
+                      loading: 'lazy',
+                      alt: value
+                  }}
+                {%- elsif product.featured_image -%}
+                  {{
+                    product.featured_image
+                    | image_url: width: 160
+                    | image_tag:
+                      class: 'pcb-tile__image',
+                      widths: '63, 126',
+                      sizes: '63px',
+                      loading: 'lazy',
+                      alt: value
+                  }}
+                {%- endif -%}
+              </div>
+
+              <div
+                class="pcb-tile__stepper"
+                data-stepper
+              >
+                <button
+                  type="button"
+                  class="pcb-tile__step-btn"
+                  data-step="-1"
+                  aria-label="Decrease {{ value }}"
+                >
+                  -
+                </button>
+                <span
+                  class="pcb-tile__count"
+                  data-count
+                >
+                  1
+                </span>
+                <button
+                  type="button"
+                  class="pcb-tile__step-btn"
+                  data-step="1"
+                  aria-label="Increase {{ value }}"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <button
+          type="button"
+          class="pcb-grid-arrow pcb-grid-arrow--next"
+          data-grid-next
+          aria-label="Scroll colours forward"
+        >
+          <svg
+            viewBox="0 0 18 18"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <path
+              d="M6.5 4l5 5-5 5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <div class="pcb-progress">
+        <div class="pcb-progress__header">
+          <span class="pcb-progress__label">
+            {{ progress_label }}
+          </span>
+          <span class="pcb-progress__counter">
+            <span data-selected-count>1</span>
+            /
+            <span data-total-count>15</span>
+          </span>
+        </div>
+        <div
+          class="pcb-progress__track"
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="15"
+        >
+          <div
+            class="pcb-progress__fill"
+            data-progress-fill
+          ></div>
+        </div>
+      </div>
+    {%- endif -%}
+
+    <!-- Quantity + Add To Cart ALWAYS SHOW -->
+    <div class="pcb-atc">
+      <div class="pcb-quantity">
+        <button
+          type="button"
+          class="pcb-quantity__btn"
+          data-main-step="-1"
+          aria-label="Decrease quantity"
+        >
+          -
+        </button>
+        <span
+          class="pcb-quantity__value"
+          data-main-count
+        >
+          15
+        </span>
+        <button
+          type="button"
+          class="pcb-quantity__btn"
+          data-main-step="1"
+          aria-label="Increase quantity"
+        >
+          +
+        </button>
+      </div>
+
+      <button
+        type="button"
+        class="pcb-atc__btn"
+        data-add-to-cart
+      >
+        <span data-atc-text>
+          {{ atc_label }}
+        </span>
+      </button>
+    </div>
+
+    {%- if show_divider -%}
+      <hr class="pcb__divider">
+    {%- endif -%}
+  </div>
+
+  <script
+    type="application/json"
+    data-variants-json
+  >
+    {{ product.variants | json }}
+  </script>
+</product-colour-builder>
+
+<script
+  src="{{ 'product-colour-builder.js' | asset_url }}"
+  defer="defer"
+></script>

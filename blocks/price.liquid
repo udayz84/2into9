@@ -36,6 +36,7 @@
   endcapture
 %}
 
+{%- unless template.name == 'collection' -%}
 <product-price
   class="text-block {{ text_block_classes }} text-{{ block_settings.alignment }} {{ block_settings.type_preset | default: 'paragraph' }} spacing-style"
   data-block-id="{{ block.id }}"
@@ -83,6 +84,7 @@
     </div>
   {%- endif -%}
 </product-price>
+{%- endunless -%}
 
 {% # theme-check-disable %}
 {% stylesheet %}

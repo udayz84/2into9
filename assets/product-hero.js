@@ -1002,12 +1002,8 @@ class ProductHero extends HTMLElement {
    */
 
   updateBundlePrices() {
-
-    let basePrice =
-      parseInt(
-        this.currentVariantPrice,
-        10
-      );
+    /* Preserve dynamic Shopify blocks - do not override */
+    return;
 
 
     /*
@@ -1713,18 +1709,31 @@ class ProductHero extends HTMLElement {
           10
         ) || 1;
 
-
-      this.state.discount =
-        parseInt(
-          checkedBundle.dataset.discount,
-          10
-        ) || 0;
+      this.state.priceEach =
+        checkedBundle.dataset.priceEach || '';
 
     } else {
 
-      this.state.quantity =
-        this.state.quantity ||
-        1;
+      const firstBundle =
+        this.querySelector(
+          '.ph-bundle__input'
+        );
+
+      if (firstBundle) {
+        firstBundle.checked = true;
+        firstBundle.closest('.ph-bundle')?.classList.add('is-selected');
+        this.state.quantity =
+          parseInt(
+            firstBundle.dataset.qty,
+            10
+          ) || 1;
+        this.state.priceEach =
+          firstBundle.dataset.priceEach || '';
+      } else {
+        this.state.quantity =
+          this.state.quantity ||
+          1;
+      }
 
     }
 

@@ -140,7 +140,8 @@
         "select_size_label": "Select Size",
         "size_options": "S,M,L,XL,XXL",
         "default_size": "M",
-        "default_quantity": 15,
+        "product": "d-lock-trunk-for-men",
+        "default_quantity": 1,
         "atc_label": "Add to Cart"
       }
     },
@@ -187,7 +188,7 @@
         "item_5"
       ],
       "settings": {
-        "label": "X-CUP IS BUILT FOR...",
+        "label": "",
         "speed": 40
       }
     },
@@ -224,11 +225,12 @@
       ],
       "settings": {
         "title": "FAQ's",
-        "open_first": true
+        "open_first": false
       }
     },
     "reviews": {
       "type": "d-lock-reviews",
+      "disabled": true,
       "name": "D-Lock Reviews",
       "blocks": {
         "review_1": {

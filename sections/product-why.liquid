@@ -180,10 +180,11 @@
   }
 
   .pw__heading {
-    margin: 0 0 49px;
-    font-size: 60px;
-    font-weight: 300;
-    line-height: 90px;
+    margin: 0 0 clamp(24px, 3.2vw, 42px);
+    font-size: clamp(24px, 2.4vw, 34px);
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
     text-align: center;
     color: var(--pw-ink);
   }
@@ -229,75 +230,106 @@
   .pw-card__overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.15) 38%, transparent 62%);
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.4) 0%,
+      rgba(0, 0, 0, 0) 22%,
+      rgba(0, 0, 0, 0.1) 45%,
+      rgba(0, 0, 0, 0.6) 72%,
+      rgba(0, 0, 0, 0.9) 100%
+    );
   }
 
   .pw-card__label {
     position: absolute;
-    top: 28px;
+    top: 24px;
     left: 0;
     right: 0;
     text-align: center;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
     color: #fff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
   }
 
   .pw-card__chips {
     position: absolute;
-    left: 41px;
-    right: 41px;
-    bottom: 42px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7px;
+    left: 16px;
+    right: 16px;
+    bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 14px;
+    padding: 12px 14px;
+    background: rgba(0, 0, 0, 0.42);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 14px;
+    box-sizing: border-box;
+    z-index: 2;
   }
 
   .pw-card__chip {
     display: flex;
     align-items: center;
     gap: 8px;
-    width: calc(50% - 3.5px);
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 18px;
+    min-width: 0;
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1.25;
     color: #fff;
-    white-space: nowrap;
+    letter-spacing: 0.1px;
+    white-space: normal;
+    overflow-wrap: break-word;
   }
 
   .pw-card__chip-icon {
-    flex: none;
-    width: 12px;
-    height: 12px;
-    display: grid;
-    place-items: center;
-  }
-
-  .pw-card__chip-icon svg {
-    width: 12px;
-    height: 12px;
-  }
-
-  .pw-card__button {
-    margin-block-start: 30px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 51px;
-    padding-inline: 65px;
+    width: 17px;
+    height: 17px;
+    min-width: 17px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #171717;
+    flex-shrink: 0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .pw-card__chip-icon svg {
+    width: 9px;
+    height: 9px;
+    stroke: #171717;
+    stroke-width: 2.4;
+  }
+
+  .pw-card__button {
+    margin-block-start: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    padding-inline: 48px;
     border-radius: 50px;
     background: var(--pw-ink);
     color: #fff;
-    border: 1px solid var(--pw-ink);
-    font-size: 14px;
-    font-weight: 600;
+    border: 1.5px solid var(--pw-ink);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
     text-transform: uppercase;
-    transition: background 0.15s ease, color 0.15s ease;
+    transition: all 0.25s ease;
   }
 
   .pw-card__button:hover {
-    background: #fff;
-    color: var(--pw-ink);
+    background: #333333;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
   }
 
   /* ---- Mobile: cards become a swipe carousel ≤1023px, type ≤749px. Desktop untouched. ---- */
@@ -307,9 +339,6 @@
       padding-block-end: 64px;
     }
 
-    /* Carousel bleeds to the viewport edges so cards travel the full
-       width while scrolling; inner padding + scroll-padding keep the
-       24px side insets at the snap points (heading keeps its inset too). */
     .pw__cards {
       justify-content: flex-start;
       flex-wrap: nowrap;
@@ -319,7 +348,7 @@
       margin-inline: -24px;
       padding-inline: 24px;
       scroll-padding-inline: 24px;
-      padding-block-end: 4px;
+      padding-block-end: 8px;
       gap: 16px;
     }
 
@@ -327,11 +356,9 @@
       display: none;
     }
 
-    /* one card per swipe, filling the width between the side insets;
-       the 16px gap keeps a visible break between cards at all times */
     .pw-card {
-      flex: 0 0 100%;
-      width: 100%;
+      flex: 0 0 310px;
+      max-width: 310px;
       scroll-snap-align: start;
     }
 
@@ -341,7 +368,6 @@
       aspect-ratio: 370 / 470;
     }
 
-    /* placeholder SVG letterboxes with empty bands — crop it like a photo */
     .pw-card__image--placeholder {
       object-fit: cover;
     }
@@ -349,9 +375,45 @@
 
   @media (max-width: 749px) {
     .pw__heading {
-      margin-block-end: 28px;
-      font-size: 32px;
-      line-height: 1.3;
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .pw-card {
+      flex: 0 0 85%;
+      max-width: 320px;
+      scroll-snap-align: center;
+    }
+
+    .pw-card__chips {
+      left: 12px;
+      right: 12px;
+      bottom: 14px;
+      padding: 10px 12px;
+      gap: 8px 10px;
+      border-radius: 12px;
+    }
+
+    .pw-card__chip {
+      font-size: 11px;
+    }
+
+    .pw-card__chip-icon {
+      width: 15px;
+      height: 15px;
+      min-width: 15px;
+    }
+
+    .pw-card__chip-icon svg {
+      width: 8px;
+      height: 8px;
+    }
+
+    .pw-card__button {
+      margin-block-start: 16px;
+      height: 44px;
+      max-width: 220px;
+      font-size: 12px;
     }
   }
 {% endstylesheet %}

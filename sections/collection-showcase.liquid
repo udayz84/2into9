@@ -1,93 +1,162 @@
 {%- comment -%}
-  Collection Showcase — static section per Figma.
-  Centered heading + row of collection cards. Each card: image with darkened
-  bottom, title on top, 2x2 feature checklist overlay, pill CTA below.
-
-  Desktop: fixed 370px cards in a centered row (40px gap), 1190px container.
-  Mobile: horizontal scroll-snap carousel.
+  Collection Showcase — Redesigned with StepOne aesthetics and fully advanced schema.
+  - Bold, compact header with custom color, size, and alignment options.
+  - Multi-card showcase with responsive grid/carousel modes.
+  - Frosted glass badge panel with 2x2 grid features and circular checkmarks.
+  - Fully customizable schema settings for spacing, typography, colors, badges, and mobile layout.
 {%- endcomment -%}
 
-<section class="collection-showcase color-{{ section.settings.color_scheme }}" id="CollectionShowcase-{{ section.id }}">
-  <div class="collection-showcase__inner">
-    {%- if section.settings.heading != blank -%}
-      <h2 class="collection-showcase__heading">{{ section.settings.heading }}</h2>
+{%- liquid
+  assign c_width = section.settings.container_width | default: 'standard'
+  assign a_ratio = section.settings.card_aspect_ratio | default: '37_47'
+  assign check_style = section.settings.badge_check_style | default: 'white_badge'
+  assign m_layout = section.settings.mobile_layout | default: 'carousel'
+-%}
+
+<section
+  class="collection-showcase color-{{ section.settings.color_scheme }}"
+  id="CollectionShowcase-{{ section.id }}"
+  style="
+    {% if section.settings.custom_bg_color != blank and section.settings.custom_bg_color != 'rgba(0,0,0,0)' and section.settings.custom_bg_color != 'transparent' %}
+      background-color: {{ section.settings.custom_bg_color }};
+    {% endif %}
+    --showcase-padding-top: {{ section.settings.padding-block-start | default: 64 }}px;
+    --showcase-padding-bottom: {{ section.settings.padding-block-end | default: 64 }}px;
+    --showcase-padding-top-mobile: {{ section.settings.mobile_padding_block_start | default: 40 }}px;
+    --showcase-padding-bottom-mobile: {{ section.settings.mobile_padding_block_end | default: 40 }}px;
+    --showcase-heading-size: {{ section.settings.heading_size | default: 32 }}px;
+    --showcase-heading-size-mobile: {{ section.settings.heading_size_mobile | default: 24 }}px;
+    --showcase-heading-weight: {{ section.settings.heading_weight | default: '800' }};
+    --showcase-heading-align: {{ section.settings.heading_alignment | default: 'center' }};
+    --showcase-heading-color: {{ section.settings.heading_color | default: '#171717' }};
+    --showcase-gap-desktop: {{ section.settings.card_gap_desktop | default: 32 }}px;
+    --showcase-gap-mobile: {{ section.settings.card_gap_mobile | default: 16 }}px;
+    --showcase-card-radius: {{ section.settings.card_radius | default: 20 }}px;
+    --showcase-card-title-size: {{ section.settings.card_title_size | default: 22 }}px;
+    --showcase-card-title-case: {{ section.settings.card_title_case | default: 'uppercase' }};
+    --showcase-badge-bg: {{ section.settings.badge_panel_bg | default: '#000000' }};
+    --showcase-badge-opacity: {{ section.settings.badge_panel_opacity | default: 42 | divided_by: 100.0 }};
+    --showcase-badge-blur: {{ section.settings.badge_panel_blur | default: 8 }}px;
+    --showcase-feature-color: {{ section.settings.feature_text_color | default: '#ffffff' }};
+    --showcase-feature-size: {{ section.settings.feature_font_size | default: 11.5 }}px;
+    --showcase-btn-radius: {{ section.settings.button_border_radius | default: 50 }}px;
+    --showcase-btn-height: {{ section.settings.button_height | default: 48 }}px;
+    --showcase-mobile-width: {{ section.settings.mobile_card_width | default: 85 }}%;
+  "
+>
+  <div class="collection-showcase__inner collection-showcase__inner--{{ c_width }}">
+    {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="collection-showcase__header collection-showcase__header--{{ section.settings.heading_alignment | default: 'center' }}">
+        {%- if section.settings.subheading != blank -%}
+          <p class="collection-showcase__subheading">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="collection-showcase__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+      </div>
     {%- endif -%}
 
-    <div class="collection-showcase__track">
+    <div class="collection-showcase__track collection-showcase__track--mobile-{{ m_layout }}">
       {%- for block in section.blocks -%}
         {%- liquid
           assign card_collection = block.settings.collection
           assign card_image = block.settings.image | default: card_collection.image
+          assign mobile_image = block.settings.image_mobile | default: card_image
           assign card_title = block.settings.title | default: card_collection.title | default: 'Collection'
           assign card_link = block.settings.link | default: card_collection.url | default: '#'
+          assign btn_style = block.settings.button_style | default: section.settings.button_style_default | default: 'outline'
         -%}
         <div
           class="collection-showcase__card"
           style="--showcase-image: url({{ card_image | image_url: width: 900 }});"
           {{ block.shopify_attributes }}
         >
-          <a class="collection-showcase__media" href="{{ card_link }}" aria-label="{{ card_title | escape }}">
+          <a
+            class="collection-showcase__media collection-showcase__media--aspect-{{ a_ratio }}{% if section.settings.enable_card_shadow %} collection-showcase__media--shadow{% endif %}{% if section.settings.enable_hover_zoom %} collection-showcase__media--hover-zoom{% endif %}"
+            href="{{ card_link }}"
+            aria-label="{{ card_title | escape }}"
+          >
             {%- if card_image != blank -%}
-              {{
-                card_image
-                | image_url: width: 900
-                | image_tag:
-                  class: 'collection-showcase__image',
-                  alt: card_title,
-                  widths: '370, 500, 740, 900, 1200',
-                  sizes: '(max-width: 1023px) 92vw, 370px',
-                  loading: 'lazy'
-              }}
+              <picture>
+                {%- if block.settings.image_mobile != blank -%}
+                  <source
+                    media="(max-width: 749px)"
+                    srcset="{{ mobile_image | image_url: width: 750 }}"
+                  >
+                {%- endif -%}
+                {{
+                  card_image
+                  | image_url: width: 900
+                  | image_tag:
+                    class: 'collection-showcase__image',
+                    alt: card_title,
+                    widths: '370, 500, 740, 900, 1200',
+                    sizes: '(max-width: 1023px) 92vw, 370px',
+                    loading: 'lazy'
+                }}
+              </picture>
             {%- else -%}
               <div class="collection-showcase__image collection-showcase__image--placeholder">
                 {{- 'collection-1' | placeholder_svg_tag: 'placeholder-svg' -}}
               </div>
             {%- endif -%}
+
+            {%- if block.settings.tag_badge != blank -%}
+              <span class="collection-showcase__tag">{{ block.settings.tag_badge }}</span>
+            {%- endif -%}
+
             <div class="collection-showcase__shade" aria-hidden="true"></div>
 
             <p class="collection-showcase__title">{{ card_title }}</p>
 
-            {%- if block.settings.feature_1 != blank
-              or block.settings.feature_2 != blank
-              or block.settings.feature_3 != blank
-              or block.settings.feature_4 != blank
-            -%}
-              <div class="collection-showcase__features">
-                <div class="collection-showcase__features-col">
+            {%- if section.settings.enable_features -%}
+              {%- if block.settings.feature_1 != blank
+                or block.settings.feature_2 != blank
+                or block.settings.feature_3 != blank
+                or block.settings.feature_4 != blank
+              -%}
+                <div class="collection-showcase__features collection-showcase__features--check-{{ check_style }}">
                   {%- if block.settings.feature_1 != blank -%}
-                    <span class="collection-showcase__feature">
-                      {% render 'icon-check' %}
-                      {{ block.settings.feature_1 }}
-                    </span>
+                    <div class="collection-showcase__feature">
+                      <span class="collection-showcase__feature-icon">{% render 'icon-check' %}</span>
+                      <span class="collection-showcase__feature-text">{{ block.settings.feature_1 }}</span>
+                    </div>
+                  {%- endif -%}
+                  {%- if block.settings.feature_3 != blank -%}
+                    <div class="collection-showcase__feature">
+                      <span class="collection-showcase__feature-icon">{% render 'icon-check' %}</span>
+                      <span class="collection-showcase__feature-text">{{ block.settings.feature_3 }}</span>
+                    </div>
                   {%- endif -%}
                   {%- if block.settings.feature_2 != blank -%}
-                    <span class="collection-showcase__feature">
-                      {% render 'icon-check' %}
-                      {{ block.settings.feature_2 }}
-                    </span>
-                  {%- endif -%}
-                </div>
-                <div class="collection-showcase__features-col">
-                  {%- if block.settings.feature_3 != blank -%}
-                    <span class="collection-showcase__feature">
-                      {% render 'icon-check' %}
-                      {{ block.settings.feature_3 }}
-                    </span>
+                    <div class="collection-showcase__feature">
+                      <span class="collection-showcase__feature-icon">{% render 'icon-check' %}</span>
+                      <span class="collection-showcase__feature-text">{{ block.settings.feature_2 }}</span>
+                    </div>
                   {%- endif -%}
                   {%- if block.settings.feature_4 != blank -%}
-                    <span class="collection-showcase__feature">
-                      {% render 'icon-check' %}
-                      {{ block.settings.feature_4 }}
-                    </span>
+                    <div class="collection-showcase__feature">
+                      <span class="collection-showcase__feature-icon">{% render 'icon-check' %}</span>
+                      <span class="collection-showcase__feature-text">{{ block.settings.feature_4 }}</span>
+                    </div>
                   {%- endif -%}
                 </div>
-              </div>
+              {%- endif -%}
             {%- endif -%}
           </a>
 
           <a
-            class="collection-showcase__button collection-showcase__button--{{ block.settings.button_style }}"
+            class="collection-showcase__button collection-showcase__button--{{ btn_style }}"
             href="{{ card_link }}"
+            style="
+              {% if block.settings.custom_button_bg != blank and block.settings.custom_button_bg != 'rgba(0,0,0,0)' and block.settings.custom_button_bg != 'transparent' %}
+                background: {{ block.settings.custom_button_bg }};
+                border-color: {{ block.settings.custom_button_bg }};
+              {% endif %}
+              {% if block.settings.custom_button_text != blank and block.settings.custom_button_text != 'rgba(0,0,0,0)' and block.settings.custom_button_text != 'transparent' %}
+                color: {{ block.settings.custom_button_text }};
+              {% endif %}
+            "
           >
             {{ block.settings.button_label | default: 'Shop Now' }}
           </a>
@@ -99,39 +168,65 @@
 
 {% stylesheet %}
   .collection-showcase {
-    padding-block: var(--showcase-padding-block-start, 64px) var(--showcase-padding-block-end, 64px);
+    padding-block-start: var(--showcase-padding-top, 64px);
+    padding-block-end: var(--showcase-padding-bottom, 64px);
     background: var(--color-background);
   }
 
   .collection-showcase__inner {
-    max-width: 1190px;
     margin-inline: auto;
-    padding-inline: 15px;
+    padding-inline: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 54px;
+    gap: clamp(24px, 3.2vw, 42px);
+    box-sizing: border-box;
+  }
+
+  .collection-showcase__inner--narrow { max-width: 1000px; }
+  .collection-showcase__inner--standard { max-width: 1200px; }
+  .collection-showcase__inner--wide { max-width: 1400px; }
+  .collection-showcase__inner--full { max-width: 100%; padding-inline: 32px; }
+
+  .collection-showcase__header {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .collection-showcase__header--left { align-items: flex-start; text-align: left; }
+  .collection-showcase__header--center { align-items: center; text-align: center; }
+  .collection-showcase__header--right { align-items: flex-end; text-align: right; }
+
+  .collection-showcase__subheading {
+    margin: 0 0 8px;
+    font-family: var(--font-primary--family);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #666666;
   }
 
   .collection-showcase__heading {
     margin: 0;
     font-family: var(--font-primary--family);
-    font-size: clamp(30px, 3.125vw, 60px);
-    font-weight: 300;
-    line-height: 1.2;
-    text-align: center;
-    color: #171717;
+    font-size: var(--showcase-heading-size, 32px);
+    font-weight: var(--showcase-heading-weight, 800);
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    color: var(--showcase-heading-color, #171717);
+    text-align: inherit;
   }
 
   .collection-showcase__track {
     display: flex;
-    gap: 40px;
+    gap: var(--showcase-gap-desktop, 32px);
     width: 100%;
-    justify-content: safe center;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    padding-block: 2px;
+    justify-content: center;
+    align-items: stretch;
+    padding-block: 4px;
+    box-sizing: border-box;
   }
 
   .collection-showcase__track::-webkit-scrollbar {
@@ -139,23 +234,38 @@
   }
 
   .collection-showcase__card {
-    flex: 0 0 370px;
-    width: 370px;
-    scroll-snap-align: center;
+    flex: 0 1 360px;
+    max-width: 360px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    container-type: inline-size;
+    box-sizing: border-box;
   }
 
   .collection-showcase__media {
     position: relative;
     display: block;
     width: 100%;
-    aspect-ratio: 37 / 47;
-    border-radius: 20px;
+    border-radius: var(--showcase-card-radius, 20px);
     overflow: hidden;
     text-decoration: none;
+    background: #e5e5e5;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .collection-showcase__media--aspect-37_47 { aspect-ratio: 37 / 47; }
+  .collection-showcase__media--aspect-3_4 { aspect-ratio: 3 / 4; }
+  .collection-showcase__media--aspect-4_5 { aspect-ratio: 4 / 5; }
+  .collection-showcase__media--aspect-1_1 { aspect-ratio: 1 / 1; }
+
+  .collection-showcase__media--shadow {
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+  }
+
+  .collection-showcase__media--shadow:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
   }
 
   .collection-showcase__image {
@@ -164,10 +274,32 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .collection-showcase__media--hover-zoom:hover .collection-showcase__image {
+    transform: scale(1.03);
   }
 
   .collection-showcase__image--placeholder {
     background: #d9d9d9;
+  }
+
+  .collection-showcase__tag {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    padding: 6px 12px;
+    background: #171717;
+    color: #ffffff;
+    font-family: var(--font-primary--family);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-radius: 999px;
+    z-index: 3;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   }
 
   .collection-showcase__shade {
@@ -175,133 +307,272 @@
     inset: 0;
     background: linear-gradient(
       180deg,
-      rgb(0 0 0 / 0.22) 0%,
-      rgb(0 0 0 / 0) 28%,
-      rgb(0 0 0 / 0.45) 66%,
-      rgb(0 0 0 / 0.85) 100%
+      rgba(0, 0, 0, 0.4) 0%,
+      rgba(0, 0, 0, 0) 22%,
+      rgba(0, 0, 0, 0.1) 45%,
+      rgba(0, 0, 0, 0.6) 72%,
+      rgba(0, 0, 0, 0.9) 100%
     );
     pointer-events: none;
+    z-index: 1;
   }
 
   .collection-showcase__title {
     position: absolute;
-    top: 7.57cqw; /* 28px at design width */
+    top: 22px;
     left: 0;
     right: 0;
     margin: 0;
     font-family: var(--font-primary--family);
-    font-size: clamp(18px, 6.49cqw, 24px);
+    font-size: var(--showcase-card-title-size, 22px);
     font-weight: 800;
-    line-height: 1.5;
+    line-height: 1.2;
+    letter-spacing: 0.5px;
+    text-transform: var(--showcase-card-title-case, uppercase);
     text-align: center;
     color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    z-index: 2;
   }
 
   .collection-showcase__features {
     position: absolute;
-    left: 11.08cqw; /* 41px */
-    right: 8.5cqw;
-    bottom: 8.65cqw; /* 32px */
-    display: flex;
-    gap: 1.89cqw; /* 7px */
-  }
-
-  .collection-showcase__features-col {
-    display: flex;
-    flex-direction: column;
-    gap: 1.89cqw; /* 7px */
+    left: 16px;
+    right: 16px;
+    bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 14px;
+    padding: 12px 14px;
+    background: rgba(0, 0, 0, var(--showcase-badge-opacity, 0.42));
+    backdrop-filter: blur(var(--showcase-badge-blur, 8px));
+    -webkit-backdrop-filter: blur(var(--showcase-badge-blur, 8px));
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 14px;
+    box-sizing: border-box;
+    z-index: 2;
   }
 
   .collection-showcase__feature {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 2.28cqw; /* 8.43px */
-    font-family: var(--font-primary--family);
-    font-size: clamp(10px, 3.19cqw, 11.8px);
-    font-weight: 400;
-    line-height: 1.2;
-    color: #ffffff;
-    white-space: nowrap;
+    gap: 8px;
+    min-width: 0;
   }
 
-  .collection-showcase__feature svg {
-    width: 3.19cqw; /* 11.8px */
-    min-width: 9px;
-    height: auto;
+  .collection-showcase__feature-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 17px;
+    height: 17px;
+    min-width: 17px;
+    border-radius: 50%;
     flex-shrink: 0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Checkmark style variants */
+  .collection-showcase__features--check-white_badge .collection-showcase__feature-icon {
+    background: #ffffff;
+    color: #171717;
+  }
+  .collection-showcase__features--check-white_badge .collection-showcase__feature-icon svg {
+    width: 9px;
+    height: 9px;
+    stroke: #171717;
+    stroke-width: 2.4;
+  }
+
+  .collection-showcase__features--check-glass_badge .collection-showcase__feature-icon {
+    background: rgba(255, 255, 255, 0.24);
+    color: #ffffff;
+    backdrop-filter: blur(4px);
+  }
+  .collection-showcase__features--check-glass_badge .collection-showcase__feature-icon svg {
+    width: 9px;
+    height: 9px;
+    stroke: #ffffff;
+    stroke-width: 2.4;
+  }
+
+  .collection-showcase__features--check-check_only .collection-showcase__feature-icon {
+    background: transparent;
+    box-shadow: none;
+    color: #ffffff;
+    width: 14px;
+    height: 14px;
+    min-width: 14px;
+  }
+  .collection-showcase__features--check-check_only .collection-showcase__feature-icon svg {
+    width: 12px;
+    height: 12px;
+    stroke: #ffffff;
+    stroke-width: 2.4;
+  }
+
+  .collection-showcase__feature-text {
+    font-family: var(--font-primary--family);
+    font-size: var(--showcase-feature-size, 11.5px);
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--showcase-feature-color, #ffffff);
+    letter-spacing: 0.1px;
+    white-space: normal;
+    overflow-wrap: break-word;
   }
 
   .collection-showcase__button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-block-start: 30px;
-    padding: 15px 65px;
-    border-radius: 50px;
+    margin-block-start: 22px;
+    width: 100%;
+    max-width: 250px;
+    height: var(--showcase-btn-height, 48px);
+    padding: 0 28px;
+    border-radius: var(--showcase-btn-radius, 50px);
     font-family: var(--font-primary--family);
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1.5;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.8px;
     text-transform: uppercase;
     text-decoration: none;
     white-space: nowrap;
-    transition: transform 150ms ease, opacity 150ms ease;
-  }
-
-  .collection-showcase__button:hover {
-    transform: translateY(-1px);
-    opacity: 0.92;
+    box-sizing: border-box;
+    transition: all 0.25s ease;
+    cursor: pointer;
   }
 
   .collection-showcase__button--solid {
     background: #171717;
     color: #ffffff;
-    border: none;
+    border: 1.5px solid #171717;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .collection-showcase__button--solid:hover {
+    background: #333333;
+    border-color: #333333;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
   }
 
   .collection-showcase__button--outline {
     background: #ffffff;
     color: #171717;
-    border: 1px solid #171717;
+    border: 1.5px solid #171717;
   }
 
-  /* Mobile/tablet (≤1023): slide carousel, same pattern as the product page
-     "Why" section — one full-width slide per swipe, track bleeds to the
-     viewport edges, padding + scroll-padding keep the 16px insets at the
-     snap points, 16px gap keeps a visible break between slides. */
+  .collection-showcase__button--outline:hover {
+    background: #171717;
+    color: #ffffff;
+    border-color: #171717;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
+  }
+
+  .collection-showcase__button--white_solid {
+    background: #ffffff;
+    color: #171717;
+    border: 1.5px solid #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .collection-showcase__button--white_solid:hover {
+    background: #f0f0f0;
+    border-color: #f0f0f0;
+    color: #171717;
+    transform: translateY(-2px);
+  }
+
+  /* Tablet & mobile carousel: smooth swiping with peek of next card */
   @media screen and (max-width: 1023px) {
     .collection-showcase__inner {
       padding-inline: 16px;
-      gap: 32px;
+      gap: 28px;
     }
 
-    .collection-showcase__track {
+    .collection-showcase__track--mobile-carousel {
       justify-content: flex-start;
       flex-wrap: nowrap;
-      /* The inner is a flex-column with align-items:center, so `width: auto`
-         means fit-content (circular with %-based slides) and the base
-         `width: 100%` never bleeds past the content box. An explicit calc
-         against the definite parent size is the only deterministic option:
-         100% (inner content) + both 16px insets, pulled back by margins. */
       width: calc(100% + 32px);
-      gap: 16px;
+      gap: var(--showcase-gap-mobile, 16px);
       margin-inline: -16px;
       padding-inline: 16px;
       scroll-padding-inline: 16px;
-      padding-block-end: 4px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-block-end: 8px;
     }
 
-    .collection-showcase__card {
-      flex: 0 0 100%;
-      width: 100%;
+    .collection-showcase__track--mobile-carousel .collection-showcase__card {
+      flex: 0 0 310px;
+      max-width: 310px;
       scroll-snap-align: start;
+    }
+
+    .collection-showcase__track--mobile-stacked {
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .collection-showcase__track--mobile-stacked .collection-showcase__card {
+      flex: 0 0 auto;
+      max-width: 380px;
+      width: 100%;
     }
   }
 
   @media screen and (max-width: 749px) {
-    /* tighter inter-section spacing on mobile (desktop keeps 64px) */
     .collection-showcase {
-      padding-block: 40px;
+      padding-block-start: var(--showcase-padding-top-mobile, 40px);
+      padding-block-end: var(--showcase-padding-bottom-mobile, 40px);
+    }
+
+    .collection-showcase__heading {
+      font-size: var(--showcase-heading-size-mobile, 24px);
+    }
+
+    .collection-showcase__track--mobile-carousel .collection-showcase__card {
+      flex: 0 0 var(--showcase-mobile-width, 85%);
+      max-width: 320px;
+      scroll-snap-align: center;
+    }
+
+    .collection-showcase__features {
+      left: 12px;
+      right: 12px;
+      bottom: 14px;
+      padding: 10px 12px;
+      gap: 8px 10px;
+      border-radius: 12px;
+    }
+
+    .collection-showcase__feature-text {
+      font-size: calc(var(--showcase-feature-size, 11.5px) - 0.5px);
+    }
+
+    .collection-showcase__feature-icon {
+      width: 15px;
+      height: 15px;
+      min-width: 15px;
+    }
+
+    .collection-showcase__feature-icon svg {
+      width: 8px;
+      height: 8px;
+    }
+
+    .collection-showcase__button {
+      margin-block-start: 16px;
+      height: calc(var(--showcase-btn-height, 48px) - 4px);
+      max-width: 220px;
+      font-size: 12px;
     }
   }
 {% endstylesheet %}
@@ -310,13 +581,147 @@
 {
   "name": "Collection Showcase",
   "class": "section-wrapper",
-  "max_blocks": 4,
+  "max_blocks": 8,
   "settings": [
+    {
+      "type": "header",
+      "content": "Heading & Text"
+    },
     {
       "type": "text",
       "id": "heading",
       "label": "Heading",
       "default": "Why 2into9 Underwear?"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size (Desktop)",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading size (Mobile)",
+      "min": 18,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading font weight",
+      "options": [
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra Bold (800)" },
+        { "value": "900", "label": "Black (900)" }
+      ],
+      "default": "800"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#171717"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Eyebrow / Subheading text (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Layout & Spacing"
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container width",
+      "options": [
+        { "value": "narrow", "label": "Narrow (1000px)" },
+        { "value": "standard", "label": "Standard (1200px)" },
+        { "value": "wide", "label": "Wide (1400px)" },
+        { "value": "full", "label": "Full width" }
+      ],
+      "default": "standard"
+    },
+    {
+      "type": "range",
+      "id": "card_gap_desktop",
+      "label": "Gap between cards (Desktop)",
+      "min": 16,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "card_gap_mobile",
+      "label": "Gap between cards (Mobile)",
+      "min": 10,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding (Desktop)",
+      "min": 0,
+      "max": 180,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding (Desktop)",
+      "min": 0,
+      "max": 180,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_block_start",
+      "label": "Top padding (Mobile)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_block_end",
+      "label": "Bottom padding (Mobile)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
     },
     {
       "type": "color_scheme",
@@ -325,28 +730,176 @@
       "default": "scheme-1"
     },
     {
+      "type": "color",
+      "id": "custom_bg_color",
+      "label": "Custom background color override",
+      "default": "transparent"
+    },
+    {
       "type": "header",
-      "content": "Layout"
+      "content": "Card Style & Effects"
     },
     {
       "type": "range",
-      "id": "padding-block-start",
-      "label": "Top padding",
-      "min": 0,
-      "max": 200,
-      "step": 4,
+      "id": "card_radius",
+      "label": "Card corner radius",
+      "min": 8,
+      "max": 36,
+      "step": 2,
       "unit": "px",
-      "default": 64
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "card_aspect_ratio",
+      "label": "Card image aspect ratio",
+      "options": [
+        { "value": "37_47", "label": "37:47 (Tall Showcase)" },
+        { "value": "3_4", "label": "3:4 (Portrait)" },
+        { "value": "4_5", "label": "4:5 (Standard)" },
+        { "value": "1_1", "label": "1:1 (Square)" }
+      ],
+      "default": "37_47"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_card_shadow",
+      "label": "Enable card drop shadow & elevation",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_hover_zoom",
+      "label": "Enable image zoom effect on hover",
+      "default": true
     },
     {
       "type": "range",
-      "id": "padding-block-end",
-      "label": "Bottom padding",
-      "min": 0,
-      "max": 200,
-      "step": 4,
+      "id": "card_title_size",
+      "label": "Card title size",
+      "min": 16,
+      "max": 28,
+      "step": 1,
       "unit": "px",
-      "default": 64
+      "default": 22
+    },
+    {
+      "type": "select",
+      "id": "card_title_case",
+      "label": "Card title letter case",
+      "options": [
+        { "value": "uppercase", "label": "UPPERCASE" },
+        { "value": "capitalize", "label": "Title Case" },
+        { "value": "none", "label": "Normal" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "header",
+      "content": "Feature Badges (Frosted Glass Panel)"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_features",
+      "label": "Show feature badges on cards",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "badge_check_style",
+      "label": "Checkmark style",
+      "options": [
+        { "value": "white_badge", "label": "Solid white circle with dark check (StepOne)" },
+        { "value": "glass_badge", "label": "Frosted glass circle with white check" },
+        { "value": "check_only", "label": "Checkmark icon only (No circle background)" }
+      ],
+      "default": "white_badge"
+    },
+    {
+      "type": "range",
+      "id": "badge_panel_opacity",
+      "label": "Badge panel dark opacity",
+      "min": 10,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "badge_panel_blur",
+      "label": "Glass blur intensity",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "feature_text_color",
+      "label": "Feature text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "CTA Button Settings"
+    },
+    {
+      "type": "select",
+      "id": "button_style_default",
+      "label": "Default button style",
+      "options": [
+        { "value": "solid", "label": "Solid Dark" },
+        { "value": "outline", "label": "Outline" },
+        { "value": "white_solid", "label": "Solid White" }
+      ],
+      "default": "outline"
+    },
+    {
+      "type": "range",
+      "id": "button_height",
+      "label": "Button height",
+      "min": 38,
+      "max": 56,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Button corner radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Mobile Settings"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Mobile layout mode",
+      "options": [
+        { "value": "carousel", "label": "Horizontal Carousel with Peek (StepOne)" },
+        { "value": "stacked", "label": "Stacked vertical cards" }
+      ],
+      "default": "carousel"
+    },
+    {
+      "type": "range",
+      "id": "mobile_card_width",
+      "label": "Mobile carousel card width",
+      "info": "85% provides a peek of the next card to encourage swiping.",
+      "min": 70,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 85
     }
   ],
   "blocks": [
@@ -363,13 +916,24 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Image override"
+          "label": "Desktop Image override"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Mobile Image override (optional)"
         },
         {
           "type": "text",
           "id": "title",
           "label": "Title override",
           "info": "Leave empty to use the collection title."
+        },
+        {
+          "type": "text",
+          "id": "tag_badge",
+          "label": "Corner Tag / Badge (optional)",
+          "info": "E.g., BEST SELLER, NEW, LIMITED"
         },
         {
           "type": "url",
@@ -379,35 +943,35 @@
         },
         {
           "type": "header",
-          "content": "Features"
+          "content": "Features (Bulletpoints)"
         },
         {
           "type": "text",
           "id": "feature_1",
-          "label": "Feature 1",
+          "label": "Feature 1 (Top Left)",
           "default": "Moisture-wicking"
         },
         {
           "type": "text",
-          "id": "feature_2",
-          "label": "Feature 2",
-          "default": "Organic + Sustainable"
-        },
-        {
-          "type": "text",
           "id": "feature_3",
-          "label": "Feature 3",
+          "label": "Feature 2 (Top Right)",
           "default": "Anti-chafe Panels"
         },
         {
           "type": "text",
+          "id": "feature_2",
+          "label": "Feature 3 (Bottom Left)",
+          "default": "Organic + Sustainable"
+        },
+        {
+          "type": "text",
           "id": "feature_4",
-          "label": "Feature 4",
+          "label": "Feature 4 (Bottom Right)",
           "default": "3D Pouch Comfort"
         },
         {
           "type": "header",
-          "content": "Button"
+          "content": "CTA Button"
         },
         {
           "type": "text",
@@ -420,10 +984,21 @@
           "id": "button_style",
           "label": "Button style",
           "options": [
-            { "value": "solid", "label": "Solid dark" },
-            { "value": "outline", "label": "Outline" }
+            { "value": "solid", "label": "Solid Dark" },
+            { "value": "outline", "label": "Outline" },
+            { "value": "white_solid", "label": "Solid White" }
           ],
           "default": "outline"
+        },
+        {
+          "type": "color",
+          "id": "custom_button_bg",
+          "label": "Custom button background (optional)"
+        },
+        {
+          "type": "color",
+          "id": "custom_button_text",
+          "label": "Custom button text (optional)"
         }
       ]
     }
@@ -433,8 +1008,8 @@
       "name": "Collection Showcase",
       "blocks": [
         { "type": "card", "settings": { "title": "Mens", "button_style": "solid" } },
-        { "type": "card", "settings": { "title": "Kids" } },
-        { "type": "card", "settings": { "title": "D-Lock" } }
+        { "type": "card", "settings": { "title": "Kids", "button_style": "outline" } },
+        { "type": "card", "settings": { "title": "D-Lock", "button_style": "outline" } }
       ]
     }
   ]

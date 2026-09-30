@@ -111,8 +111,8 @@
       ],
       "name": "D-Lock Product",
       "settings": {
-        "padding_top": 120,
-        "padding_bottom": 120,
+        "padding_top": 32,
+        "padding_bottom": 32,
         "background_color": "#171717",
         "product": "d-lock-trunk-for-men",
         "product_title": "D-LOCK",
@@ -671,7 +671,7 @@
       "settings": {
         "background_color": "#171717",
         "band_color": "#c5ff00",
-        "label": "X-CUP IS BUILT FOR...",
+        "label": "",
         "speed": 40
       }
     },
@@ -743,11 +743,12 @@
         "padding_bottom": 120,
         "background_color": "#1e1e1e",
         "title": "FAQ's",
-        "open_first": true
+        "open_first": false
       }
     },
     "d_lock_reviews_eKajfH": {
       "type": "d-lock-reviews",
+      "disabled": true,
       "blocks": {
         "review_VtMKxt": {
           "type": "review",
@@ -897,7 +898,7 @@
               "type": "product-title",
               "name": "t:names.product_title",
               "settings": {
-                "show_vendor": true,
+                "show_vendor": false,
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "center",
@@ -1080,7 +1081,7 @@
       "name": "Collection FAQ",
       "settings": {
         "heading": "FAQ's",
-        "first_open": true,
+        "first_open": false,
         "color_scheme": "scheme-1",
         "padding-block-start": 40,
         "padding-block-end": 120

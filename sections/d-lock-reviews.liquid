@@ -5,6 +5,15 @@
 
 {{ 'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,700&display=swap' | stylesheet_tag }}
 
+{%- if template.name == 'collection' or template.name == 'product' -%}
+  {%- style -%}
+    #DLockReviews-{{ section.id }},
+    .d-lock-reviews {
+      display: none !important;
+    }
+  {%- endstyle -%}
+{%- endif -%}
+
 <section
   class="d-lock-reviews"
   id="DLockReviews-{{ section.id }}"

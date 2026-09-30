@@ -3,6 +3,15 @@
   Displays testimonial cards in a grid layout
 {%- endcomment -%}
 
+{%- if template.name == 'collection' or template.name == 'product' -%}
+  {%- style -%}
+    #CustomerReviews-{{ section.id }},
+    .section-customer-reviews {
+      display: none !important;
+    }
+  {%- endstyle -%}
+{%- endif -%}
+
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <section
   id="CustomerReviews-{{ section.id }}"

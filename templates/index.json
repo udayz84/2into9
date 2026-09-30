@@ -445,7 +445,7 @@
       "name": "FAQ's",
       "settings": {
         "heading": "FAQ's",
-        "open_first": true,
+        "open_first": false,
         "padding_top": 56,
         "padding_bottom": 80,
         "heading_size": 48

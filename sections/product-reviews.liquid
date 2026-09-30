@@ -1,5 +1,14 @@
 {{ 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap' | stylesheet_tag }}
 
+{%- if template.name == 'collection' or template.name == 'product' -%}
+  {%- style -%}
+    .section-pr,
+    .pr {
+      display: none !important;
+    }
+  {%- endstyle -%}
+{%- endif -%}
+
 <div class="pr" style="--pr-padding-inline: {{ section.settings.page_padding }}px;">
   <div class="pr__header">
     {%- if section.settings.heading != blank -%}

@@ -1,32 +1,36 @@
 <div class="pf" style="--pf-padding-inline: {{ section.settings.page_padding }}px;">
-  {%- if section.settings.heading != blank -%}
-    <h2 class="pf__heading">{{ section.settings.heading }}</h2>
-  {%- endif -%}
+  <div class="pf__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="pf__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
 
-  <product-faq class="pf__list" data-single="true">
-    {%- for block in section.blocks -%}
-      <div
-        class="pf-item{% if forloop.first and section.settings.open_first %} is-open{% endif %}"
-        data-accordion-item
-        {{ block.shopify_attributes }}
-      >
-        <button
-          type="button"
-          class="pf-item__trigger"
-          data-accordion-trigger
-          aria-expanded="{% if forloop.first and section.settings.open_first %}true{% else %}false{% endif %}"
+    <product-faq class="pf__list" data-single="true">
+      {%- for block in section.blocks -%}
+        <div
+          class="pf-item{% if forloop.first and section.settings.open_first %} is-open{% endif %}"
+          data-accordion-item
+          {{ block.shopify_attributes }}
         >
-          <span class="pf-item__question">{{ block.settings.question }}</span>
-          <span class="pf-item__icon" aria-hidden="true">
-            <svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 12l7 7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-        </button>
-        <div class="pf-item__answer" data-accordion-content{% unless forloop.first and section.settings.open_first %} hidden{% endunless %}>
-          <div class="pf-item__answer-body">{{ block.settings.answer }}</div>
+          <button
+            type="button"
+            class="pf-item__trigger"
+            data-accordion-trigger
+            aria-expanded="{% if forloop.first and section.settings.open_first %}true{% else %}false{% endif %}"
+          >
+            <span class="pf-item__question">{{ block.settings.question }}</span>
+            <span class="pf-item__icon" aria-hidden="true">
+              <svg viewBox="0 0 10 6" width="10" height="6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 1l4 4 4-4"/>
+              </svg>
+            </span>
+          </button>
+          <div class="pf-item__answer" data-accordion-content{% unless forloop.first and section.settings.open_first %} hidden{% endunless %}>
+            <div class="pf-item__answer-body">{{ block.settings.answer }}</div>
+          </div>
         </div>
-      </div>
-    {%- endfor -%}
-  </product-faq>
+      {%- endfor -%}
+    </product-faq>
+  </div>
 </div>
 
 <script src="{{ 'product-faq.js' | asset_url }}" defer="defer"></script>
@@ -47,17 +51,17 @@
       "type": "range",
       "id": "page_padding",
       "label": "Side padding",
-      "min": 40,
+      "min": 20,
       "max": 160,
       "step": 2,
       "unit": "px",
-      "default": 110
+      "default": 40
     },
     {
       "type": "checkbox",
       "id": "open_first",
       "label": "Open first question by default",
-      "default": true
+      "default": false
     }
   ],
   "blocks": [
@@ -120,107 +124,159 @@
   }
 
   .pf {
-    --pf-ink: #171717;
+    --pf-ink: #111111;
     --pf-font: 'Poppins', ui-sans-serif, system-ui, sans-serif;
     font-family: var(--pf-font);
     color: var(--pf-ink);
-    padding-inline: var(--pf-padding-inline, 110px);
-    padding-block-end: 120px;
+    padding-inline: var(--pf-padding-inline, 40px);
+    padding-block: 40px 100px;
+  }
+
+  .pf__inner {
+    max-width: 960px;
+    margin-inline: auto;
+    width: 100%;
   }
 
   .pf__heading {
-    margin: 0 0 40px;
-    font-size: 60px;
-    font-weight: 300;
-    line-height: 90px;
+    margin: 0 0 clamp(24px, 3vw, 36px);
+    font-family: var(--pf-font);
+    font-size: clamp(28px, 3.2vw, 42px);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
     text-align: center;
     color: var(--pf-ink);
   }
 
   .pf__list {
-    max-width: 1000px;
+    display: block;
+    width: 100%;
+    max-width: 960px;
     margin-inline: auto;
+    background-color: #f6f6f6;
+    border-radius: 20px;
+    padding: 8px 36px;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
   .pf-item {
-    border-block-end: 1px solid #d9d9d9;
+    border-block-end: 1px solid #e5e5e5;
   }
 
-  .pf-item:first-child {
-    border-block-start: 0;
+  .pf-item:last-child {
+    border-block-end: none;
   }
 
   .pf-item__trigger {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 24px;
+    gap: 20px;
     width: 100%;
-    padding-block: 13px;
+    padding-block: 20px;
     padding-inline: 0;
     background: none;
     border: 0;
     cursor: pointer;
     font-family: var(--pf-font);
     text-align: left;
+    user-select: none;
   }
 
   .pf-item__question {
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 30px;
+    font-size: clamp(14.5px, 1.15vw, 16px);
+    font-weight: 700;
+    line-height: 1.45;
+    letter-spacing: -0.01em;
     color: var(--pf-ink);
+    flex: 1;
   }
 
   .pf-item__icon {
-    flex: none;
-    width: 30px;
-    height: 30px;
-    display: grid;
-    place-items: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #e5e5e5;
     color: var(--pf-ink);
-    transition: transform 0.25s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s ease;
   }
 
   .pf-item__icon svg {
-    width: 30px;
-    height: 30px;
+    width: 10px;
+    height: 6px;
+    transition: transform 0.3s ease;
   }
 
   .pf-item.is-open .pf-item__icon {
     transform: rotate(180deg);
+    background-color: #dedede;
   }
 
   .pf-item__answer-body {
-    padding-block: 0 18px;
-    font-size: 16px;
+    padding-block: 0 20px;
+    font-size: clamp(14px, 1.05vw, 15px);
     font-weight: 400;
-    line-height: 24px;
-    color: var(--pf-ink);
+    line-height: 1.65;
+    color: #3f3f46;
   }
 
   .pf-item__answer-body p {
     margin: 0;
   }
 
-  /* ---- Mobile: structure ≤1023px, sizing ≤749px. Desktop untouched. ---- */
+  .pf-item__answer-body p + p {
+    margin-top: 10px;
+  }
+
+  /* ---- Mobile: structure ≤1023px, sizing ≤749px. ---- */
   @media (max-width: 1023px) {
     .pf {
-      padding-inline: 24px;
-      padding-block-end: 64px;
+      padding-inline: 20px;
+      padding-block: 32px 64px;
     }
   }
 
   @media (max-width: 749px) {
+    .pf {
+      padding-inline: 16px;
+      padding-block: 28px 48px;
+    }
+
     .pf__heading {
-      margin-block-end: 24px;
-      font-size: 32px;
-      line-height: 1.3;
+      margin-block-end: 20px;
+      font-size: 26px;
+      line-height: 1.2;
+    }
+
+    .pf__list {
+      border-radius: 16px;
+      padding: 4px 18px;
+    }
+
+    .pf-item__trigger {
+      gap: 14px;
+      padding-block: 16px;
     }
 
     .pf-item__question {
-      font-size: 17px;
-      line-height: 26px;
+      font-size: 14.5px;
+    }
+
+    .pf-item__icon {
+      width: 26px;
+      height: 26px;
+    }
+
+    .pf-item__answer-body {
+      padding-block: 0 16px;
+      font-size: 13.5px;
+      line-height: 1.55;
     }
   }
 {% endstylesheet %}

@@ -165,10 +165,12 @@
     height: 100%;
   }
 
-  @media screen and (max-width: 749px) {
-    .product-card slideshow-arrows .slideshow-control {
-      display: none;
-    }
+  .product-card slideshow-arrows,
+  .product-card .slideshow-arrows,
+  .product-card .slideshow-control {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
   }
 
   /* Hide "Add" button when "Choose" button is shown */

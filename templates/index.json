@@ -408,7 +408,7 @@
         "gap_top": 0,
         "gap_bottom": 0,
         "image_position": "center",
-        "mirror": true,
+        "mirror": false,
         "fallback_asset": ""
       }
     },

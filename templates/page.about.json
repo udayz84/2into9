@@ -78,7 +78,7 @@
       "type": "about-story",
       "settings": {
         "title": "Our Story",
-        "image": "shopify://shop_images/Group_10191.png",
+        "image": "shopify://shop_images/Our_Story_img.webp",
         "text": "<p>After learning about alternative resources and sustainability at university, we decided to launch 2INTO9 with the aim of producing the best quality, longest lasting most sustainable accessories possible.</p><p>We are well on our way to achieving that goal with over 7,000 five star reviews and 1,000 stockists raving about the quality, comfort and sustainability on our range of products.</p><p>Moving into our ninth year, we are so excited to share with you our biggest range of sustainable accessories yet including our biggest range of bamboo socks, belts made from recycled plastics and clothing.</p><p>We hope you find what you're looking for.</p>",
         "background_color": "#ffffff",
         "padding_top": 60,
@@ -397,7 +397,7 @@
           "settings": {
             "title": "REVOLUTIONARY BY DESIGN",
             "text": "<p>We can go on about our superior craftsmanship, calculative design and stylish appearance, but nothing will convince you quite like slipping into a pair of 2INTO9 Underwear for yourself. It feels as if the jewels are being treated like royalty, given their own private sanctum which keeps them secure and you in a state of bliss.</p>",
-            "image": "shopify://shop_images/sheath_revolutionary_by_design.webp"
+            "image": "shopify://shop_images/modern_design.webp"
           }
         }
       },

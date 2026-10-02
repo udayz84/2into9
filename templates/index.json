@@ -45,7 +45,7 @@
         "product_2": {
           "type": "product",
           "settings": {
-            "product": "little-rockstar-kids-trunk-grey",
+            "product": "little-rockstar-kids-trunk",
             "title": "Grey little Rockstar Kids",
             "subtitle": "kid's Trunk"
           }
@@ -83,27 +83,51 @@
       "blocks": {
         "image_1": {
           "type": "image",
-          "settings": {}
+          "settings": {
+            "link": "",
+            "image_alt": "",
+            "open_in_new_tab": false
+          }
         },
         "image_2": {
           "type": "image",
-          "settings": {}
+          "settings": {
+            "link": "",
+            "image_alt": "",
+            "open_in_new_tab": false
+          }
         },
         "image_3": {
           "type": "image",
-          "settings": {}
+          "settings": {
+            "link": "",
+            "image_alt": "",
+            "open_in_new_tab": false
+          }
         },
         "image_4": {
           "type": "image",
-          "settings": {}
+          "settings": {
+            "link": "",
+            "image_alt": "",
+            "open_in_new_tab": false
+          }
         },
         "image_5": {
           "type": "image",
-          "settings": {}
+          "settings": {
+            "link": "",
+            "image_alt": "",
+            "open_in_new_tab": false
+          }
         },
         "image_6": {
           "type": "image",
-          "settings": {}
+          "settings": {
+            "link": "",
+            "image_alt": "",
+            "open_in_new_tab": false
+          }
         }
       },
       "block_order": [
@@ -114,8 +138,19 @@
         "image_5",
         "image_6"
       ],
+      "disabled": true,
       "name": "Scrolling Banner",
-      "settings": {}
+      "settings": {
+        "direction": "left",
+        "speed": 60,
+        "pause_on_hover": true,
+        "slide_height_desktop": 380,
+        "slide_height_mobile": 220,
+        "gap": 20,
+        "radius": 0,
+        "padding_top": 32,
+        "padding_bottom": 32
+      }
     },
     "category_split_Bn3RtY": {
       "type": "category-split",
@@ -124,12 +159,12 @@
         "panel_1_image": "shopify://shop_images/mens_printed_Color_1.webp",
         "panel_1_heading": "Men's Printed Trunk",
         "panel_1_shop_label": "SHOP",
-        "panel_1_link": "shopify://collections/men",
+        "panel_1_link": "shopify://products/venom-red-printed-trunk",
         "panel_1_align": "left",
         "panel_2_image": "shopify://shop_images/Mens_Solid_Color.webp",
         "panel_2_heading": "Men Solid Trunk",
         "panel_2_shop_label": "SHOP",
-        "panel_2_link": "shopify://collections/men",
+        "panel_2_link": "shopify://products/the-dreamer-mens-trunk",
         "panel_2_align": "right",
         "padding_top": 28,
         "padding_bottom": 28,
@@ -149,7 +184,7 @@
         "small_image_alt": "",
         "heading": "Men's Trunk",
         "shop_label": "SHOP NOW",
-        "link": "shopify://products/the-captain-mens-trunk-navy-blue",
+        "link": "shopify://products/the-captain-mens-trunk",
         "text_side": "right",
         "gap_top": 16,
         "gap_bottom": 16,
@@ -193,7 +228,7 @@
         "small_image_alt": "",
         "heading": "Kid's Trunk",
         "shop_label": "SHOP NOW",
-        "link": "shopify://products/little-explorer-kids-trunk-olive-green",
+        "link": "shopify://products/little-explorer-kids-trunk",
         "text_side": "right",
         "gap_top": 16,
         "gap_bottom": 16,
@@ -208,12 +243,20 @@
       "settings": {
         "video": "shopify://files/videos/Home Video.mp4",
         "image_alt": "",
+        "enable_shadow": true,
+        "shadow_style": "cinematic",
+        "shadow_intensity": 70,
+        "top_shadow_intensity": 60,
+        "bottom_shadow_intensity": 75,
+        "vignette_intensity": 70,
+        "enable_box_shadow": false,
+        "box_shadow_intensity": 50,
         "show_content_overlay": true,
         "overlay_opacity": 25,
         "overlay_heading": "",
         "overlay_text": "",
         "button_label": "",
-        "button_link": "",
+        "button_link": "shopify://collections/all",
         "content_alignment": "center",
         "vertical_alignment": "center",
         "gap_top": 20,
@@ -296,6 +339,14 @@
         "video": "shopify://files/videos/Home Video.mp4",
         "image": "shopify://shop_images/about_banner_1.webp",
         "image_alt": "2into9 lookbook campaign",
+        "enable_shadow": true,
+        "shadow_style": "cinematic",
+        "shadow_intensity": 70,
+        "top_shadow_intensity": 60,
+        "bottom_shadow_intensity": 75,
+        "vignette_intensity": 70,
+        "enable_box_shadow": false,
+        "box_shadow_intensity": 50,
         "gap_top": 17,
         "gap_bottom": 54,
         "image_position": "center",
@@ -311,7 +362,7 @@
           "settings": {
             "image": "shopify://shop_images/Candid-13266.webp",
             "image_alt": "Image",
-            "link": "",
+            "link": "shopify://products/reptile-green-printed-trunk",
             "open_in_new_tab": false,
             "background_color": "#8b1114",
             "shape": "none"
@@ -322,7 +373,7 @@
           "settings": {
             "image": "shopify://shop_images/Candid-13341.webp",
             "image_alt": "Image",
-            "link": "",
+            "link": "shopify://products/the-rebel-mens-trunk",
             "open_in_new_tab": false,
             "background_color": "#607049",
             "shape": "circle"
@@ -346,10 +397,18 @@
       "name": "Media Lookbook",
       "settings": {
         "image_alt": "",
+        "enable_shadow": true,
+        "shadow_style": "cinematic",
+        "shadow_intensity": 70,
+        "top_shadow_intensity": 60,
+        "bottom_shadow_intensity": 75,
+        "vignette_intensity": 70,
+        "enable_box_shadow": false,
+        "box_shadow_intensity": 50,
         "gap_top": 0,
         "gap_bottom": 0,
         "image_position": "center",
-        "mirror": true,
+        "mirror": false,
         "fallback_asset": ""
       }
     },
@@ -361,7 +420,7 @@
           "settings": {
             "image": "shopify://shop_images/Candid-13363.webp",
             "image_alt": "Image",
-            "link": "",
+            "link": "shopify://products/the-rebel-mens-trunk",
             "open_in_new_tab": false,
             "background_color": "#904117",
             "shape": "rectangle"
@@ -372,7 +431,7 @@
           "settings": {
             "image": "shopify://shop_images/Candid-13299.webp",
             "image_alt": "Image",
-            "link": "",
+            "link": "shopify://products/the-rebel-mens-trunk",
             "open_in_new_tab": false,
             "background_color": "#8b1114",
             "shape": "none"
@@ -397,6 +456,14 @@
       "settings": {
         "image": "shopify://shop_images/Banner.webp",
         "image_alt": "",
+        "enable_shadow": true,
+        "shadow_style": "cinematic",
+        "shadow_intensity": 70,
+        "top_shadow_intensity": 60,
+        "bottom_shadow_intensity": 75,
+        "vignette_intensity": 70,
+        "enable_box_shadow": false,
+        "box_shadow_intensity": 50,
         "gap_top": 0,
         "gap_bottom": 0,
         "image_position": "center",

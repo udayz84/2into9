@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "collection_hero": {
@@ -154,6 +163,7 @@
         }
       },
       "settings": {
+        "show_breadcrumbs": false,
         "layout_type": "grid",
         "product_card_size": "medium",
         "mobile_product_card_size": "small",
@@ -167,8 +177,7 @@
         "padding-inline-end": 0,
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
-        "padding-block-end": 32,
-        "show_breadcrumbs": false
+        "padding-block-end": 32
       }
     },
     "best_sellers": {
@@ -336,6 +345,7 @@
               "type": "product-title",
               "name": "t:names.product_title",
               "settings": {
+                "show_vendor": false,
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "center",
@@ -353,14 +363,14 @@
                 "padding-block-start": 4,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
-                "padding-inline-end": 0,
-                "show_vendor": false
+                "padding-inline-end": 0
               },
               "blocks": {}
             },
             "price": {
               "type": "price",
               "name": "t:names.product_price",
+              "disabled": true,
               "settings": {
                 "show_sale_price_first": true,
                 "show_installments": false,
@@ -379,8 +389,7 @@
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
-              "blocks": {},
-              "disabled": true
+              "blocks": {}
             },
             "buy_buttons": {
               "type": "buy-buttons",
@@ -454,7 +463,6 @@
     },
     "why_section": {
       "type": "why-section",
-      "name": "Why 2into9",
       "blocks": {
         "feature_1": {
           "type": "feature",
@@ -491,6 +499,7 @@
         "feature_3",
         "feature_4"
       ],
+      "name": "Why 2into9",
       "settings": {
         "section_width": "page-width",
         "color_scheme": "",
@@ -503,7 +512,6 @@
     },
     "reviews": {
       "type": "customer-reviews",
-      "name": "Customer reviews",
       "blocks": {
         "review_1": {
           "type": "review",
@@ -538,6 +546,8 @@
         "review_2",
         "review_3"
       ],
+      "disabled": true,
+      "name": "Customer reviews",
       "settings": {
         "section_width": "full-width",
         "color_scheme": "",
@@ -548,13 +558,10 @@
         "rating_text": "5 | 1000 reviews",
         "star_icon": "★",
         "star_empty_icon": "☆"
-      },
-      "disabled": true
+      }
     },
     "marquee": {
       "type": "marquee",
-      "disabled": true,
-      "name": "USP marquee",
       "blocks": {
         "text_1": {
           "type": "text",
@@ -612,6 +619,8 @@
         "text_1",
         "text_2"
       ],
+      "disabled": true,
+      "name": "USP marquee",
       "settings": {
         "movement_direction": "normal",
         "color_scheme": "scheme-5",
@@ -622,13 +631,6 @@
     },
     "collection_showcase": {
       "type": "collection-showcase",
-      "name": "Collection showcase",
-      "settings": {
-        "heading": "Why 2into9 Underwear?",
-        "color_scheme": "scheme-1",
-        "padding-block-start": 120,
-        "padding-block-end": 100
-      },
       "blocks": {
         "card_mens": {
           "type": "card",
@@ -636,13 +638,12 @@
             "collection": "men",
             "title": "Mens",
             "feature_1": "Moisture-wicking",
-            "feature_2": "Organic + Sustainable",
             "feature_3": "Anti-chafe Panels",
+            "feature_2": "Organic + Sustainable",
             "feature_4": "3D Pouch Comfort",
             "button_label": "Shop Now",
             "button_style": "outline"
-          },
-          "blocks": {}
+          }
         },
         "card_kids": {
           "type": "card",
@@ -650,13 +651,12 @@
             "collection": "kids",
             "title": "Kids",
             "feature_1": "Moisture-wicking",
-            "feature_2": "Organic + Sustainable",
             "feature_3": "Anti-chafe Panels",
+            "feature_2": "Organic + Sustainable",
             "feature_4": "3D Pouch Comfort",
             "button_label": "Shop Now",
             "button_style": "outline"
-          },
-          "blocks": {}
+          }
         },
         "card_dlock": {
           "type": "card",
@@ -664,23 +664,57 @@
             "collection": "d-lock",
             "title": "D-Lock",
             "feature_1": "Moisture-wicking",
-            "feature_2": "Organic + Sustainable",
             "feature_3": "Anti-chafe Panels",
+            "feature_2": "Organic + Sustainable",
             "feature_4": "3D Pouch Comfort",
             "button_label": "Shop Now",
             "button_style": "outline"
-          },
-          "blocks": {}
+          }
         }
       },
       "block_order": [
         "card_mens",
         "card_kids",
         "card_dlock"
-      ]
+      ],
+      "name": "Collection showcase",
+      "settings": {
+        "heading": "Why 2into9 Underwear?",
+        "padding-block-start": 120,
+        "padding-block-end": 100,
+        "color_scheme": "scheme-1"
+      }
     },
     "collection_faq": {
       "type": "collection-faq",
+      "blocks": {
+        "faq_1": {
+          "type": "faq",
+          "settings": {
+            "question": "What's the difference between a Boxer Brief and Trunk?",
+            "answer": "<p>The only difference between the two is that Boxer Briefs have 3 cm more leg length than the trunks.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq",
+          "settings": {
+            "question": "What type of underwear is best for me?",
+            "answer": "<p>The best style depends on your day. Boxer briefs give all-day support, trunks are a shorter, closer fit, and briefs stay light and invisible under clothes.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq",
+          "settings": {
+            "question": "What underpants should I choose if I play sport?",
+            "answer": "<p>Go for performance styles with moisture-wicking fabric, anti-chafe panels and a supportive 3D pouch — they keep you dry and comfortable through every workout.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3"
+      ],
       "name": "Collection FAQ",
       "settings": {
         "heading": "FAQ's",
@@ -688,38 +722,7 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 40,
         "padding-block-end": 120
-      },
-      "blocks": {
-        "faq_1": {
-          "type": "faq",
-          "settings": {
-            "question": "What's the difference between a Boxer Brief and Trunk?",
-            "answer": "<p>The only difference between the two is that Boxer Briefs have 3 cm more leg length than the trunks.</p>"
-          },
-          "blocks": {}
-        },
-        "faq_2": {
-          "type": "faq",
-          "settings": {
-            "question": "What type of underwear is best for me?",
-            "answer": "<p>The best style depends on your day. Boxer briefs give all-day support, trunks are a shorter, closer fit, and briefs stay light and invisible under clothes.</p>"
-          },
-          "blocks": {}
-        },
-        "faq_3": {
-          "type": "faq",
-          "settings": {
-            "question": "What underpants should I choose if I play sport?",
-            "answer": "<p>Go for performance styles with moisture-wicking fabric, anti-chafe panels and a supportive 3D pouch — they keep you dry and comfortable through every workout.</p>"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "faq_1",
-        "faq_2",
-        "faq_3"
-      ]
+      }
     }
   },
   "order": [

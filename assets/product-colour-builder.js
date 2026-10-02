@@ -1049,6 +1049,17 @@ class ProductColourBuilder extends HTMLElement {
           'Added ✓';
       }
 
+      // Green success pop on the button.
+      this.atcBtn?.classList.add(
+        'is-success'
+      );
+
+      setTimeout(() => {
+        this.atcBtn?.classList.remove(
+          'is-success'
+        );
+      }, 1800);
+
       const addedQty = items.reduce(
         (sum, it) => sum + (Number(it.quantity) || 1),
         0
@@ -1291,6 +1302,18 @@ class ProductColourBuilder extends HTMLElement {
     if (this.mainCount) {
       this.mainCount.textContent =
         target;
+
+      // Restart the bump animation so every
+      // quantity change pops visibly.
+      this.mainCount.classList.remove(
+        'is-bump'
+      );
+
+      void this.mainCount.offsetWidth;
+
+      this.mainCount.classList.add(
+        'is-bump'
+      );
     }
 
     /*

@@ -48,12 +48,25 @@
       <!-- Right Column: Product Diagram -->
       <div class="product-difference__diagram">
         <div class="product-difference__diagram-container">
-          {%- if section.settings.diagram_image != blank -%}
-            {{
-              section.settings.diagram_image
-              | image_url: width: 600
-              | image_tag: class: 'product-difference__diagram-image', alt: section.settings.diagram_alt, loading: 'lazy'
-            }}
+          {%- if section.settings.diagram_image != blank or section.settings.diagram_image_mobile != blank -%}
+            <picture class="product-difference__picture">
+              {%- if section.settings.diagram_image_mobile != blank -%}
+                <source media="(max-width: 749px)" srcset="{{ section.settings.diagram_image_mobile | image_url: width: 600 }}">
+              {%- endif -%}
+              {%- if section.settings.diagram_image != blank -%}
+                {{
+                  section.settings.diagram_image
+                  | image_url: width: 600
+                  | image_tag: class: 'product-difference__diagram-image', alt: section.settings.diagram_alt, loading: 'lazy'
+                }}
+              {%- else -%}
+                {{
+                  section.settings.diagram_image_mobile
+                  | image_url: width: 600
+                  | image_tag: class: 'product-difference__diagram-image', alt: section.settings.diagram_alt, loading: 'lazy'
+                }}
+              {%- endif -%}
+            </picture>
           {%- else -%}
             <div class="product-difference__diagram-placeholder">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
           {%- endif -%}
@@ -209,6 +222,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .product-difference__picture {
+    display: block;
+    width: 100%;
+    height: auto;
   }
 
   .product-difference__diagram-image {
@@ -373,7 +392,12 @@
     {
       "type": "image_picker",
       "id": "diagram_image",
-      "label": "Product Diagram Image"
+      "label": "Product Diagram Image (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "diagram_image_mobile",
+      "label": "Product Diagram Image (Mobile)"
     },
     {
       "type": "text",

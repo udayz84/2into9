@@ -22,8 +22,9 @@
         "overlay_color": "#00000040",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "mobile_asset_image": "banner-mobile.jpg",
-        "mobile_height_mode": "portrait",
+        "mobile_asset_image": "collection-mobile-303.jpg",
+        "mobile_height_mode": "custom",
+        "mobile_height": 300,
         "mobile_content_position": "top-left"
       }
     },
@@ -636,39 +637,45 @@
           "type": "card",
           "settings": {
             "collection": "men",
+            "image": "shopify://shop_images/ReptileGreenPrintedBoxerBrief01.webp",
             "title": "Mens",
             "feature_1": "Moisture-wicking",
-            "feature_3": "Anti-chafe Panels",
             "feature_2": "Organic + Sustainable",
+            "feature_3": "Anti-chafe Panels",
             "feature_4": "3D Pouch Comfort",
+            "feature_5": "Soft Bamboo Viscose",
             "button_label": "Shop Now",
-            "button_style": "outline"
+            "button_style": "solid"
           }
         },
         "card_kids": {
           "type": "card",
           "settings": {
             "collection": "kids",
+            "image": "shopify://shop_images/kids_solid_f5cb069d-ee51-466c-9538-08c038ce21d9.webp",
             "title": "Kids",
             "feature_1": "Moisture-wicking",
-            "feature_3": "Anti-chafe Panels",
             "feature_2": "Organic + Sustainable",
+            "feature_3": "Anti-chafe Panels",
             "feature_4": "3D Pouch Comfort",
+            "feature_5": "Soft Bamboo Viscose",
             "button_label": "Shop Now",
-            "button_style": "outline"
+            "button_style": "solid"
           }
         },
         "card_dlock": {
           "type": "card",
           "settings": {
             "collection": "d-lock",
+            "image": "shopify://shop_images/D_Lock_Category_Img_1.webp",
             "title": "D-Lock",
             "feature_1": "Moisture-wicking",
-            "feature_3": "Anti-chafe Panels",
             "feature_2": "Organic + Sustainable",
+            "feature_3": "Anti-chafe Panels",
             "feature_4": "3D Pouch Comfort",
+            "feature_5": "Soft Bamboo Viscose",
             "button_label": "Shop Now",
-            "button_style": "outline"
+            "button_style": "solid"
           }
         }
       },
@@ -680,9 +687,15 @@
       "name": "Collection showcase",
       "settings": {
         "heading": "Why 2into9 Underwear?",
-        "padding-block-start": 120,
-        "padding-block-end": 100,
-        "color_scheme": "scheme-1"
+        "padding-block-start": 80,
+        "padding-block-end": 80,
+        "mobile_padding_block_start": 32,
+        "mobile_padding_block_end": 40,
+        "color_scheme": "scheme-1",
+        "button_style_default": "solid",
+        "button_border_radius": 12,
+        "mobile_layout": "carousel",
+        "mobile_card_width": 82
       }
     },
     "collection_faq": {

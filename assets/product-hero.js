@@ -447,6 +447,11 @@ class ProductHero extends HTMLElement {
       }
     );
 
+    const counterCurrent = this.querySelector('[data-counter-current]');
+    if (counterCurrent) {
+      counterCurrent.textContent = clamped + 1;
+    }
+
     /*
      * Keep the active thumbnail visible
      * inside the single-row slider.
@@ -473,6 +478,17 @@ class ProductHero extends HTMLElement {
       this.slides = this.gallery
         ? Array.from(this.gallery.querySelectorAll('[data-slide]'))
         : [];
+    }
+
+    const counterCurrent = this.querySelector('[data-counter-current]');
+    if (counterCurrent && this.slides.length) {
+      const activeIdx = this.slides.findIndex(slide => slide.classList.contains('is-active'));
+      counterCurrent.textContent = (activeIdx >= 0 ? activeIdx : 0) + 1;
+    }
+
+    const counterTotal = this.querySelector('[data-counter-total]');
+    if (counterTotal && this.slides.length) {
+      counterTotal.textContent = this.slides.length;
     }
 
     if (
@@ -864,43 +880,26 @@ class ProductHero extends HTMLElement {
 
 
             /*
-             * Update main displayed price.
+             * Update main displayed price across all headers (desktop + mobile).
              */
-            if (
-              input.dataset.price &&
-              this.priceEl
-            ) {
-
-              this.priceEl.textContent =
-                input.dataset.price;
-
+            if (input.dataset.price) {
+              this.querySelectorAll('[data-price]').forEach(el => {
+                el.textContent = input.dataset.price;
+              });
             }
 
 
             /*
-             * Update strikethrough compare price.
+             * Update strikethrough compare price across all headers.
              */
-            const compareEl =
-              this.querySelector(
-                '[data-compare-price]'
-              );
-
-            if (compareEl) {
-
+            this.querySelectorAll('[data-compare-price]').forEach(compareEl => {
               if (input.dataset.comparePrice) {
-
-                compareEl.textContent =
-                  input.dataset.comparePrice;
-
+                compareEl.textContent = input.dataset.comparePrice;
                 compareEl.hidden = false;
-
               } else {
-
                 compareEl.hidden = true;
-
               }
-
-            }
+            });
 
 
             /*
@@ -1190,25 +1189,15 @@ class ProductHero extends HTMLElement {
 
     });
 
-    const lowAsEl =
-      this.querySelector('[data-low-as]');
-
-    if (lowAsEl) {
-
+    this.querySelectorAll('[data-low-as]').forEach(lowAsEl => {
       if (minPaise < variantPrice) {
-
         lowAsEl.textContent =
           'Low as ' + this.formatMoneyPaise(minPaise);
-
         lowAsEl.hidden = false;
-
       } else {
-
         lowAsEl.hidden = true;
-
       }
-
-    }
+    });
 
   }
 

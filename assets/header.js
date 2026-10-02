@@ -230,20 +230,21 @@ onDocumentLoaded(() => {
 
   // Update header group height on resize of any child
   if (headerGroup) {
-    const resizeObserver = new ResizeObserver((entries) => {
-      const headerGroupHeight = entries.reduce((totalHeight, entry) => {
-        if (
-          entry.target !== header ||
-          (header.hasAttribute('transparent') && header.parentElement?.nextElementSibling)
-        ) {
-          return totalHeight + (entry.borderBoxSize[0]?.blockSize ?? 0);
-        }
-        return totalHeight;
-      }, 0);
-      // The initial height is calculated using the .offsetHeight property, which returns an integer.
-      // We round to the nearest integer to avoid unnecessaary reflows.
-      const roundedHeaderGroupHeight = Math.round(headerGroupHeight);
-      document.body.style.setProperty('--header-group-height', `${roundedHeaderGroupHeight}px`);
+    const resizeObserver = new ResizeObserver(() => {
+      // Recompute the total from the DOM on every resize. Summing only the
+      // entries in this callback's batch made --header-group-height flap
+      // between single element heights (and transient in-header drawer
+      // sizes), breaking every offset that consumes the variable.
+      // Mirrors the inline script in theme.liquid.
+      let headerGroupHeight = 0;
+      for (const element of headerGroup.children) {
+        if (element === header || !(element instanceof HTMLElement)) continue;
+        headerGroupHeight += element.offsetHeight;
+      }
+      if (header.hasAttribute('transparent') && header.parentElement?.nextElementSibling) {
+        headerGroupHeight += header.offsetHeight;
+      }
+      document.body.style.setProperty('--header-group-height', `${Math.round(headerGroupHeight)}px`);
     });
 
     if (header instanceof HTMLElement) {

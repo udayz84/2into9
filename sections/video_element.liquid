@@ -104,20 +104,25 @@
 
   {%- else -%}
 
-    <img
-      class="vm__media"
-      src="
-        {% if section.settings.image %}
-          {{ section.settings.image | image_url: width: 2000 }}
-        {% else %}
-          {{ section.settings.fallback_asset | default: 'promo-video.jpg' | asset_url }}
-        {% endif %}
-      "
-      alt="{{ section.settings.image_alt | default: 'Video section' | escape }}"
-      loading="lazy"
-      width="2000"
-      height="1000"
-    >
+    <picture class="vm__picture">
+      {%- if section.settings.image_mobile != blank -%}
+        <source media="(max-width: 749px)" srcset="{{ section.settings.image_mobile | image_url: width: 1000 }}">
+      {%- endif -%}
+      <img
+        class="vm__media"
+        src="
+          {% if section.settings.image %}
+            {{ section.settings.image | image_url: width: 2000 }}
+          {% else %}
+            {{ section.settings.fallback_asset | default: 'promo-video.jpg' | asset_url }}
+          {% endif %}
+        "
+        alt="{{ section.settings.image_alt | default: 'Video section' | escape }}"
+        loading="lazy"
+        width="2000"
+        height="1000"
+      >
+    </picture>
 
   {%- endif -%}
 
@@ -203,6 +208,14 @@
   /* =========================
      VIDEO / IMAGE
   ========================== */
+
+  .vm__picture {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
 
   .vm__media {
     position: absolute;
@@ -791,7 +804,12 @@
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Poster / fallback image"
+      "label": "Poster / fallback image (desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Poster / fallback image (mobile / phone)"
     },
 
     {

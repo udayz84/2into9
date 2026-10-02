@@ -32,9 +32,11 @@
 >
   <div class="pcb__buy-col">
     {%- if colour_option -%}
-      <span class="pcb__label pcb__label--step">
-        Select your colour
-      </span>
+      <div class="ph-step__header" style="margin-top: 14px; margin-bottom: 8px;">
+        <span class="ph-step__label">
+          <span class="ph-step__num">3.</span> SELECT YOUR COLOUR
+        </span>
+      </div>
 
       <div class="pcb-toggle" role="tablist">
         <button
@@ -258,9 +260,26 @@
         class="pcb-atc__btn"
         data-add-to-cart
       >
-        <span data-atc-text>
-          {{ atc_label }}
+        <span class="pcb-atc__btn-inner">
+          <svg
+            class="pcb-atc__icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            aria-hidden="true"
+          >
+            <path d="M6 7h12l1.2 13H4.8L6 7z" stroke-linejoin="round"/>
+            <path d="M9 10V7a3 3 0 0 1 6 0v3" stroke-linecap="round"/>
+          </svg>
+          <span data-atc-text>
+            {{ atc_label }}
+          </span>
         </span>
+        <span
+          class="pcb-atc__spinner"
+          aria-hidden="true"
+        ></span>
       </button>
     </div>
 

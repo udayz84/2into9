@@ -39,14 +39,19 @@
         controls: false
     }}
   {%- else -%}
-    <img
-      class="vm__media"
-      src="{% if section.settings.image %}{{ section.settings.image | image_url: width: 2000 }}{% else %}{{ section.settings.fallback_asset | default: 'promo-video.jpg' | asset_url }}{% endif %}"
-      alt="{{ section.settings.image_alt | default: '2into9 lookbook' | escape }}"
-      loading="lazy"
-      width="2000"
-      height="890"
-    >
+    <picture class="vm__picture">
+      {%- if section.settings.image_mobile != blank -%}
+        <source media="(max-width: 749px)" srcset="{{ section.settings.image_mobile | image_url: width: 1000 }}">
+      {%- endif -%}
+      <img
+        class="vm__media"
+        src="{% if section.settings.image %}{{ section.settings.image | image_url: width: 2000 }}{% else %}{{ section.settings.fallback_asset | default: 'promo-video.jpg' | asset_url }}{% endif %}"
+        alt="{{ section.settings.image_alt | default: '2into9 lookbook' | escape }}"
+        loading="lazy"
+        width="2000"
+        height="890"
+      >
+    </picture>
   {%- endif -%}
 
   {%- if enable_shadow -%}
@@ -75,6 +80,14 @@
     aspect-ratio: 1000 / 445;
     background: #0d0f0d;
     overflow: hidden;
+  }
+
+  .vm__picture {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
   }
 
   .vm__media {
@@ -603,7 +616,12 @@
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Image (poster / fallback)"
+      "label": "Image (desktop fallback)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Image (mobile / phone fallback)"
     },
     {
       "type": "text",

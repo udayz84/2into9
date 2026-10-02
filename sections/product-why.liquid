@@ -17,44 +17,127 @@
         {{ block.shopify_attributes }}
       >
         <div class="pw-card__media">
-          {%- if block.settings.image != blank -%}
-            {{
-              block.settings.image
-              | image_url: width: 740
-              | image_tag:
-                class: 'pw-card__image',
-                widths: '370, 555, 740',
-                sizes: '370px',
-                loading: 'lazy',
-                alt: block.settings.label
-            }}
+          {%- if block.settings.image != blank or block.settings.image_mobile != blank -%}
+            <picture class="pw-card__picture">
+              {%- if block.settings.image_mobile != blank -%}
+                <source media="(max-width: 749px)" srcset="{{ block.settings.image_mobile | image_url: width: 600 }}">
+              {%- endif -%}
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 740
+                  | image_tag:
+                    class: 'pw-card__image',
+                    widths: '370, 555, 740',
+                    sizes: '370px',
+                    loading: 'lazy',
+                    alt: block.settings.label
+                }}
+              {%- else -%}
+                {{
+                  block.settings.image_mobile
+                  | image_url: width: 740
+                  | image_tag:
+                    class: 'pw-card__image',
+                    widths: '370, 555, 740',
+                    sizes: '370px',
+                    loading: 'lazy',
+                    alt: block.settings.label
+                }}
+              {%- endif -%}
+            </picture>
           {%- else -%}
             {{ 'lifestyle-1' | placeholder_svg_tag: 'pw-card__image pw-card__image--placeholder' }}
           {%- endif -%}
-          <div class="pw-card__overlay" aria-hidden="true"></div>
+        </div>
+
+        <div class="pw-card__content">
           {%- if block.settings.label != blank -%}
             <span class="pw-card__label">{{ block.settings.label }}</span>
           {%- endif -%}
-          <div class="pw-card__chips">
-            <div class="pw-card__chip">
-              <span class="pw-card__chip-icon">{%- render 'icon-check' -%}</span>
-              <span>{{ section.settings.chip_1 }}</span>
-            </div>
-            <div class="pw-card__chip">
-              <span class="pw-card__chip-icon">{%- render 'icon-check' -%}</span>
-              <span>{{ section.settings.chip_2 }}</span>
-            </div>
-            <div class="pw-card__chip">
-              <span class="pw-card__chip-icon">{%- render 'icon-check' -%}</span>
-              <span>{{ section.settings.chip_3 }}</span>
-            </div>
-            <div class="pw-card__chip">
-              <span class="pw-card__chip-icon">{%- render 'icon-check' -%}</span>
-              <span>{{ section.settings.chip_4 }}</span>
-            </div>
+
+          {% liquid
+            assign f1 = block.settings.feature_1 | default: section.settings.chip_1
+            assign f2 = block.settings.feature_2 | default: section.settings.chip_2
+            assign f3 = block.settings.feature_3 | default: section.settings.chip_3
+            assign f4 = block.settings.feature_4 | default: section.settings.chip_4
+            assign f5 = block.settings.feature_5 | default: section.settings.chip_5
+          %}
+
+          <div class="pw-card__features">
+            {%- if f1 != blank -%}
+              <div class="pw-card__feature-item">
+                <span class="pw-card__feature-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <circle cx="9" cy="9" r="8" fill="#F4F0FF" stroke="#DDD6FE" stroke-width="1"/>
+                    <path d="M5.5 9.2L7.8 11.5L12.5 6.8" stroke="#7C3AED" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span>{{ f1 }}</span>
+              </div>
+            {%- endif -%}
+            {%- if f2 != blank -%}
+              <div class="pw-card__feature-item">
+                <span class="pw-card__feature-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <circle cx="9" cy="9" r="8" fill="#F4F0FF" stroke="#DDD6FE" stroke-width="1"/>
+                    <path d="M5.5 9.2L7.8 11.5L12.5 6.8" stroke="#7C3AED" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span>{{ f2 }}</span>
+              </div>
+            {%- endif -%}
+            {%- if f3 != blank -%}
+              <div class="pw-card__feature-item">
+                <span class="pw-card__feature-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <circle cx="9" cy="9" r="8" fill="#F4F0FF" stroke="#DDD6FE" stroke-width="1"/>
+                    <path d="M5.5 9.2L7.8 11.5L12.5 6.8" stroke="#7C3AED" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span>{{ f3 }}</span>
+              </div>
+            {%- endif -%}
+            {%- if f4 != blank -%}
+              <div class="pw-card__feature-item">
+                <span class="pw-card__feature-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <circle cx="9" cy="9" r="8" fill="#F4F0FF" stroke="#DDD6FE" stroke-width="1"/>
+                    <path d="M5.5 9.2L7.8 11.5L12.5 6.8" stroke="#7C3AED" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span>{{ f4 }}</span>
+              </div>
+            {%- endif -%}
+            {%- if f5 != blank -%}
+              <div class="pw-card__feature-item">
+                <span class="pw-card__feature-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <circle cx="9" cy="9" r="8" fill="#F4F0FF" stroke="#DDD6FE" stroke-width="1"/>
+                    <path d="M5.5 9.2L7.8 11.5L12.5 6.8" stroke="#7C3AED" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span>{{ f5 }}</span>
+              </div>
+            {%- endif -%}
           </div>
+
+          {% liquid
+            if block.settings.button_label != blank and block.settings.button_label != 'Shop Now'
+              assign btn_text = block.settings.button_label
+            elsif block.settings.label != blank
+              assign btn_text = 'Shop ' | append: block.settings.label
+            else
+              assign btn_text = 'Shop Now'
+            endif
+          %}
+          <span class="pw-card__button">
+            <span>{{ btn_text }}</span>
+            <svg class="pw-card__btn-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
         </div>
-        <span class="pw-card__button">{{ block.settings.button_label }}</span>
       </a>
     {%- endfor -%}
   </div>
@@ -84,38 +167,44 @@
     },
     {
       "type": "header",
-      "content": "Feature chips"
+      "content": "Feature list (defaults)"
     },
     {
       "type": "text",
       "id": "chip_1",
-      "label": "Chip 1",
+      "label": "Feature 1",
       "default": "Moisture-wicking"
     },
     {
       "type": "text",
       "id": "chip_2",
-      "label": "Chip 2",
-      "default": "Organic + Sustainable"
-    },
-    {
-      "type": "text",
-      "id": "chip_3",
-      "label": "Chip 3",
+      "label": "Feature 2",
       "default": "Anti-chafe Panels"
     },
     {
       "type": "text",
+      "id": "chip_3",
+      "label": "Feature 3",
+      "default": "Soft Bamboo Viscose"
+    },
+    {
+      "type": "text",
       "id": "chip_4",
-      "label": "Chip 4",
+      "label": "Feature 4",
       "default": "3D Pouch Comfort"
+    },
+    {
+      "type": "text",
+      "id": "chip_5",
+      "label": "Feature 5",
+      "default": "Organic + Sustainable"
     }
   ],
   "blocks": [
     {
       "type": "card",
       "name": "Collection card",
-      "limit": 4,
+      "limit": 6,
       "settings": [
         {
           "type": "text",
@@ -126,7 +215,12 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Image"
+          "label": "Desktop image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Mobile image (optional)"
         },
         {
           "type": "url",
@@ -138,6 +232,35 @@
           "id": "button_label",
           "label": "Button label",
           "default": "Shop Now"
+        },
+        {
+          "type": "header",
+          "content": "Custom Features (Optional)"
+        },
+        {
+          "type": "text",
+          "id": "feature_1",
+          "label": "Feature 1"
+        },
+        {
+          "type": "text",
+          "id": "feature_2",
+          "label": "Feature 2"
+        },
+        {
+          "type": "text",
+          "id": "feature_3",
+          "label": "Feature 3"
+        },
+        {
+          "type": "text",
+          "id": "feature_4",
+          "label": "Feature 4"
+        },
+        {
+          "type": "text",
+          "id": "feature_5",
+          "label": "Feature 5"
         }
       ]
     }
@@ -175,14 +298,13 @@
     font-family: var(--pw-font);
     color: var(--pw-ink);
     padding-inline: var(--pw-padding-inline, 110px);
-    padding-block: 0 120px;
-    overflow:hidden;
-    padding-top: 120px;
+    padding-block: 60px 100px;
+    overflow: hidden;
   }
 
   .pw__heading {
-    margin: 0 0 clamp(24px, 3.2vw, 42px);
-    font-size: clamp(24px, 2.4vw, 34px);
+    margin: 0 0 clamp(28px, 3.5vw, 44px);
+    font-size: clamp(24px, 2.5vw, 36px);
     font-weight: 800;
     line-height: 1.25;
     letter-spacing: -0.02em;
@@ -193,152 +315,163 @@
   .pw__cards {
     display: flex;
     justify-content: center;
-    gap: 40px;
+    gap: 32px;
   }
 
   .pw-card {
     position: relative;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 370px;
+    width: 350px;
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.06);
     text-decoration: none;
     color: inherit;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .pw-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.12);
   }
 
   .pw-card__media {
     position: relative;
-    width: 370px;
-    height: 470px;
-    border-radius: 20px;
-    background: #d9d9d9;
+    width: 100%;
+    height: 290px;
+    background: #f5f5f5;
     overflow: hidden;
   }
 
+  .pw-card__picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
   .pw-card__image {
-    position: absolute;
-    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center top;
+    display: block;
+    transition: transform 0.35s ease;
+  }
+
+  .pw-card:hover .pw-card__image {
+    transform: scale(1.03);
   }
 
   .pw-card__image--placeholder {
     width: 100%;
     height: 100%;
+    object-fit: cover;
   }
 
-  .pw-card__overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.4) 0%,
-      rgba(0, 0, 0, 0) 22%,
-      rgba(0, 0, 0, 0.1) 45%,
-      rgba(0, 0, 0, 0.6) 72%,
-      rgba(0, 0, 0, 0.9) 100%
-    );
+  .pw-card__content {
+    padding: 24px 22px 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    background: #ffffff;
   }
 
   .pw-card__label {
-    position: absolute;
-    top: 24px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    font-size: 22px;
+    font-size: 1.2rem;
     font-weight: 800;
+    font-style: italic;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    color: #fff;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    text-align: center;
+    color: #111827;
+    margin: 0 0 18px;
+    display: block;
   }
 
-  .pw-card__chips {
-    position: absolute;
-    left: 16px;
-    right: 16px;
-    bottom: 20px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px 14px;
-    padding: 12px 14px;
-    background: rgba(0, 0, 0, 0.42);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    border-radius: 14px;
-    box-sizing: border-box;
-    z-index: 2;
+  .pw-card__features {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex: 1;
   }
 
-  .pw-card__chip {
+  .pw-card__feature-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-    min-width: 0;
-    font-size: 11.5px;
-    font-weight: 600;
-    line-height: 1.25;
-    color: #fff;
-    letter-spacing: 0.1px;
-    white-space: normal;
-    overflow-wrap: break-word;
+    gap: 12px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #4b5563;
+    line-height: 1.35;
   }
 
-  .pw-card__chip-icon {
+  .pw-card__feature-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 17px;
-    height: 17px;
-    min-width: 17px;
-    border-radius: 50%;
-    background: #ffffff;
-    color: #171717;
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
     flex-shrink: 0;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   }
 
-  .pw-card__chip-icon svg {
-    width: 9px;
-    height: 9px;
-    stroke: #171717;
-    stroke-width: 2.4;
+  .pw-card__feature-icon svg {
+    display: block;
+    width: 18px;
+    height: 18px;
   }
 
   .pw-card__button {
-    margin-block-start: 22px;
-    display: inline-flex;
+    width: 100%;
+    height: 48px;
+    display: flex;
     align-items: center;
     justify-content: center;
-    height: 48px;
-    padding-inline: 48px;
-    border-radius: 50px;
-    background: #ffffff;
-    color: var(--pw-ink);
-    border: 1.5px solid var(--pw-ink);
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    transition: all 0.25s ease;
+    gap: 8px;
+    background: #000000;
+    color: #ffffff;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-transform: none;
+    box-sizing: border-box;
+    margin-top: auto;
+    transition: background-color 0.2s ease, transform 0.2s ease;
   }
 
-  .pw-card__button:hover,
-  .pw-card__button:active {
-    background: var(--pw-ink);
-    color: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  .pw-card:hover .pw-card__button {
+    background: #1f2937;
   }
 
-  /* ---- Mobile: cards become a swipe carousel ≤1023px, type ≤749px. Desktop untouched. ---- */
+  .pw-card__btn-arrow {
+    display: block;
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    transition: transform 0.2s ease;
+  }
+
+  .pw-card:hover .pw-card__btn-arrow {
+    transform: translateX(4px);
+  }
+
+  /* ---- Mobile / Tablet: Swipe Carousel ≤1023px ---- */
   @media (max-width: 1023px) {
     .pw {
-      padding-inline: 24px;
-      padding-block-end: 64px;
+      padding-inline: 20px;
+      padding-top: 24px;
+      padding-block-end: 48px;
+    }
+
+    .pw__heading {
+      font-size: 26px;
+      font-weight: 800;
+      margin-bottom: 24px;
     }
 
     .pw__cards {
@@ -347,10 +480,11 @@
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       scrollbar-width: none;
-      margin-inline: -24px;
-      padding-inline: 24px;
-      scroll-padding-inline: 24px;
-      padding-block-end: 8px;
+      -webkit-overflow-scrolling: touch;
+      margin-inline: -20px;
+      padding-inline: 20px;
+      scroll-padding-inline: 20px;
+      padding-block-end: 16px;
       gap: 16px;
     }
 
@@ -359,63 +493,88 @@
     }
 
     .pw-card {
-      flex: 0 0 310px;
-      max-width: 310px;
-      scroll-snap-align: start;
+      flex: 0 0 82%;
+      max-width: 320px;
+      min-width: 275px;
+      scroll-snap-align: center;
+      border-radius: 18px;
     }
 
     .pw-card__media {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 370 / 470;
+      height: 250px;
     }
 
-    .pw-card__image--placeholder {
-      object-fit: cover;
+    .pw-card__content {
+      padding: 20px 18px 22px;
+    }
+
+    .pw-card__label {
+      font-size: 1.15rem;
+      margin-bottom: 16px;
+    }
+
+    .pw-card__features {
+      gap: 11px;
+      margin-bottom: 20px;
+    }
+
+    .pw-card__feature-item {
+      font-size: 13px;
+      gap: 10px;
+    }
+
+    .pw-card__button {
+      height: 46px;
+      font-size: 13.5px;
+      border-radius: 10px;
     }
   }
 
   @media (max-width: 749px) {
+    .pw {
+      padding-inline: 18px;
+      padding-top: 18px;
+      padding-block-end: 40px;
+    }
+
     .pw__heading {
       font-size: 24px;
       font-weight: 800;
+      margin-bottom: 20px;
     }
 
     .pw-card {
-      flex: 0 0 85%;
-      max-width: 320px;
-      scroll-snap-align: center;
+      flex: 0 0 82%;
+      max-width: 310px;
+      min-width: 260px;
     }
 
-    .pw-card__chips {
-      left: 12px;
-      right: 12px;
-      bottom: 14px;
-      padding: 10px 12px;
-      gap: 8px 10px;
-      border-radius: 12px;
+    .pw-card__media {
+      height: 230px;
     }
 
-    .pw-card__chip {
-      font-size: 11px;
+    .pw-card__content {
+      padding: 18px 16px 20px;
     }
 
-    .pw-card__chip-icon {
-      width: 15px;
-      height: 15px;
-      min-width: 15px;
+    .pw-card__label {
+      font-size: 1.1rem;
+      margin-bottom: 14px;
     }
 
-    .pw-card__chip-icon svg {
-      width: 8px;
-      height: 8px;
+    .pw-card__features {
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .pw-card__feature-item {
+      font-size: 12.5px;
+      gap: 10px;
     }
 
     .pw-card__button {
-      margin-block-start: 16px;
       height: 44px;
-      max-width: 220px;
-      font-size: 12px;
+      font-size: 13px;
     }
   }
 {% endstylesheet %}

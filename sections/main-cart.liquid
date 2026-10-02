@@ -57,7 +57,10 @@
 
   .cart-page--empty .cart-page__title,
   .cart-page--empty .cart-page__more-blocks {
-    margin-top: var(--margin-6xl);
+    /* Was --margin-6xl (80px) — under the floating transparent header the
+       page already clears the header via the global first-section padding,
+       so this only needs gentle breathing room. */
+    margin-top: var(--margin-xl);
   }
 
   .cart-page__more-blocks {

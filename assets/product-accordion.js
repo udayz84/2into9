@@ -27,6 +27,7 @@ class ProductAccordion extends HTMLElement {
     const align = () => {
       if (window.innerWidth < 1024) {
         this.style.marginTop = '';
+        this.style.minHeight = '';
         return;
       }
 

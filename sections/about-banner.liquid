@@ -1,12 +1,25 @@
 <section id="AboutBanner-{{ section.id }}" class="about-banner section-no-padding">
-  {%- if section.settings.image != blank -%}
-    <div class="about-banner__media media{% if section.settings.image == blank %} placeholder{% endif %}">
-      {{ section.settings.image | image_url: width: 3840 | image_tag:
-        loading: 'eager',
-        widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840',
-        sizes: '100vw',
-        class: 'about-banner__image'
-      }}
+  {%- if section.settings.image != blank or section.settings.image_mobile != blank -%}
+    <div class="about-banner__media media">
+      <picture class="about-banner__picture">
+        {%- if section.settings.image_mobile != blank -%}
+          <source media="(max-width: 749px)" srcset="{{ section.settings.image_mobile | image_url: width: 1200 }}">
+        {%- endif -%}
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 3840 | image_tag:
+            loading: 'eager',
+            widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840',
+            sizes: '100vw',
+            class: 'about-banner__image'
+          }}
+        {%- else -%}
+          {{ section.settings.image_mobile | image_url: width: 1200 | image_tag:
+            loading: 'eager',
+            sizes: '100vw',
+            class: 'about-banner__image'
+          }}
+        {%- endif -%}
+      </picture>
     </div>
   {%- else -%}
     <div class="about-banner__media media placeholder">
@@ -30,6 +43,12 @@
     position: relative;
   }
 
+  .about-banner__picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
   .about-banner__image {
     width: 100%;
     height: 100%;
@@ -39,10 +58,10 @@
 
   @media screen and (max-width: 749px) {
     .about-banner__media {
-      height: auto;
+      height: {{ section.settings.mobile_height }}px;
     }
     .about-banner__image {
-      height: auto;
+      height: 100%;
       object-fit: cover;
     }
   }
@@ -57,7 +76,12 @@
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Banner Image"
+      "label": "Banner Image (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Banner Image (Mobile)"
     },
     {
       "type": "range",

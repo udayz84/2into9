@@ -36,7 +36,9 @@
   assign mobile_asset = section.settings.mobile_asset_image
   if mobile_img == blank and mobile_asset == blank
     if collection.handle contains 'men' or collection.title contains 'Men'
-      assign mobile_asset = 'banner-mobile.jpg'
+      assign mobile_asset = 'collection-mobile-303.jpg'
+    else
+      assign mobile_asset = 'collection-mobile-303.jpg'
     endif
   endif
 
@@ -269,12 +271,12 @@
    * below; this is only the pre-JS fallback.
    */
   body:has(.header[transparent]) #shopify-section-{{ section.id }} .collection-hero {
-    margin-block-start: 140px;
+    margin-block-start: var(--header-height, 120px);
   }
 
   @media screen and (max-width: 749px) {
     body:has(.header[transparent]) #shopify-section-{{ section.id }} .collection-hero {
-      margin-block-start: 120px;
+      margin-block-start: var(--header-height, 120px);
     }
   }
 
@@ -476,47 +478,60 @@
 
   @media screen and (max-width: 749px) {
     #shopify-section-{{ section.id }} .collection-hero {
-      height: auto;
       {% case section.settings.mobile_height_mode %}
         {% when 'adapt' %}
           {% if mobile_img != blank and mobile_img != desktop_img %}
             aspect-ratio: {{ mobile_img.aspect_ratio }};
             min-height: 220px;
-          {% elsif mobile_asset != blank %}
-            aspect-ratio: 4 / 5;
-            min-height: 320px;
+            height: auto;
           {% else %}
-            min-height: {{ section.settings.mobile_height | default: 380 }}px;
+            height: 303px;
+            min-height: 303px;
+            max-height: 303px;
+            aspect-ratio: auto;
           {% endif %}
         {% when 'square' %}
           aspect-ratio: 1 / 1;
           min-height: 300px;
+          height: auto;
         {% when 'portrait' %}
-          aspect-ratio: 4 / 5;
-          min-height: 340px;
+          height: 303px;
+          min-height: 303px;
+          max-height: 303px;
+          aspect-ratio: auto;
         {% when 'small' %}
           min-height: 260px;
+          height: 260px;
           aspect-ratio: auto;
         {% when 'medium' %}
-          min-height: 380px;
+          min-height: 303px;
+          height: 303px;
+          max-height: 303px;
           aspect-ratio: auto;
         {% when 'large' %}
           min-height: 500px;
+          height: 500px;
           aspect-ratio: auto;
         {% when 'auto' %}
           min-height: auto;
+          height: auto;
+          aspect-ratio: auto;
+        {% when 'custom' %}
+          {% if section.settings.mobile_height == 300 or section.settings.mobile_height == blank %}
+            height: 303px;
+            min-height: 303px;
+            max-height: 303px;
+          {% else %}
+            height: {{ section.settings.mobile_height }}px;
+            min-height: {{ section.settings.mobile_height }}px;
+            max-height: {{ section.settings.mobile_height }}px;
+          {% endif %}
           aspect-ratio: auto;
         {% else %}
-          {% if mobile_asset != blank %}
-            aspect-ratio: 4 / 5;
-            min-height: 360px;
-          {% elsif mobile_img != blank and mobile_img != desktop_img %}
-            aspect-ratio: 4 / 5;
-            min-height: 360px;
-          {% else %}
-            min-height: {{ section.settings.mobile_height | default: 380 }}px;
-            aspect-ratio: auto;
-          {% endif %}
+          height: 303px;
+          min-height: 303px;
+          max-height: 303px;
+          aspect-ratio: auto;
       {% endcase %}
     }
 
@@ -529,7 +544,9 @@
       align-items: {{ m_align }};
       justify-content: {{ m_justify }};
       padding-inline: 20px;
-      padding-block: 28px;
+      padding-block: 18px;
+      box-sizing: border-box;
+      height: 100%;
     }
 
     #shopify-section-{{ section.id }} .collection-hero__content {
@@ -630,8 +647,8 @@
       "type": "text",
       "id": "mobile_asset_image",
       "label": "Phone / Mobile fallback asset filename",
-      "default": "banner-mobile.jpg",
-      "info": "Optional filename in assets folder (e.g. banner-mobile.jpg). Used when no mobile image is uploaded above."
+      "default": "collection-mobile-303.jpg",
+      "info": "Optional filename in assets folder (e.g. collection-mobile-303.jpg). Used when no mobile image is uploaded above."
     },
     {
       "type": "select",
@@ -674,7 +691,7 @@
       "max": 700,
       "step": 10,
       "unit": "px",
-      "default": 380
+      "default": 300
     },
     {
       "type": "header",

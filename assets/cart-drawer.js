@@ -17,13 +17,21 @@ class CartDrawerComponent extends DialogComponent {
     super.connectedCallback();
     document.addEventListener(CartAddEvent.eventName, this.#handleCartAdd);
     this.addEventListener(DialogOpenEvent.eventName, this.#updateStickyState);
+    this.addEventListener('click', this.#handleDirectClose);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     document.removeEventListener(CartAddEvent.eventName, this.#handleCartAdd);
     this.removeEventListener(DialogOpenEvent.eventName, this.#updateStickyState);
+    this.removeEventListener('click', this.#handleDirectClose);
   }
+
+  #handleDirectClose = (event) => {
+    if (event.target.closest('.cart-drawer__close-button') || event.target.closest('[data-cart-drawer-close]')) {
+      this.closeDialog();
+    }
+  };
 
   #handleCartAdd = () => {
     if (this.hasAttribute('auto-open')) {

@@ -24,7 +24,7 @@
      top of the product page. Keep a clean ~28px gap below the header instead.
      Rendered inline (not compiled into styles.css) so it always applies. */
   body:has(.header[transparent]) #shopify-section-{{ section.id }} {
-    padding-block-start: calc(var(--header-height, 70px) + 28px) !important;
+    padding-block-start: calc(var(--header-height, 70px) + 20px) !important;
   }
 
   @media (max-width: 749px) {
@@ -45,9 +45,117 @@
   {%- endif -%}
 
   <div class="ph__grid">
+    {%- liquid
+      assign first_variant = product.selected_or_first_available_variant
+      assign low_as_paise = first_variant.price
+      for block in section.blocks
+        if block.type == 'bundle'
+          assign bundle_discount = block.settings.discount_percent | default: 0 | plus: 0
+          if bundle_discount > 0
+            assign bundle_price_paise = first_variant.price | times: 100 | minus: bundle_discount | divided_by: 100
+            if bundle_price_paise < low_as_paise
+              assign low_as_paise = bundle_price_paise
+            endif
+          endif
+        endif
+      endfor
+    -%}
+
+    {%- comment -%} Mobile Header: rendered first in DOM, visible ONLY on mobile (<=1023px) {%- endcomment -%}
+    <div class="ph-mobile-header">
+      <div class="ph-mobile-header__inner">
+        <div class="ph-mobile-header__meta">
+          <h1 class="ph-mobile-header__heading">{{ product.title }}</h1>
+          <div class="ph-mobile-header__badges">
+            <div class="ph-pill-badge ph-pill-badge--reviews">
+              <svg class="ph-pill-badge__icon" viewBox="0 0 24 24" width="12" height="12" fill="#0D8A58">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+              <span>{{ section.settings.reviews_badge_text | default: '65K+ 5 Star Reviews' }}</span>
+            </div>
+            <div class="ph-pill-badge ph-pill-badge--guarantee">
+              <span class="ph-pill-badge__emoji">💜</span>
+              <span>{{ section.settings.guarantee_badge_text | default: "Love them or they're free" }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ph-mobile-header__pricing">
+          <div class="ph-mobile-header__price-row">
+            <s
+              class="ph-mobile-header__compare"
+              data-compare-price
+              {% unless first_variant.compare_at_price > first_variant.price %}hidden{% endunless %}
+            >
+              {{ first_variant.compare_at_price | default: first_variant.price | money }}
+            </s>
+            <p class="ph-mobile-header__price" data-price>
+              {{ first_variant.price | money }}
+            </p>
+          </div>
+          {%- if low_as_paise < first_variant.price -%}
+            <p class="ph-mobile-header__lowas" data-low-as>Low as {{ low_as_paise | money }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
     <div class="ph__gallery-col">
      <div class="ph__gallery-pin">
-      <div class="ph-gallery" data-gallery>
+      <div class="ph-gallery-layout">
+        {%- if section.blocks.size > 0 -%}
+          <div class="ph-gallery__badges-col">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'feature' -%}
+                <div
+                  class="ph-gallery-badge{% if block.settings.highlight or forloop.first %} ph-gallery-badge--highlight{% endif %}"
+                  {{ block.shopify_attributes }}
+                >
+                  <span class="ph-gallery-badge__icon">
+                    {%- if block.settings.icon_image != blank -%}
+                      {{
+                        block.settings.icon_image
+                          | image_url: width: 60
+                          | image_tag:
+                          class: 'ph-gallery-badge__icon-img',
+                          alt: block.settings.label,
+                          loading: 'lazy'
+                      }}
+                    {%- else -%}
+                      {%- case block.settings.icon -%}
+                        {%- when 'ruler' -%}
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.6" y="8.6" width="18.8" height="6.8" rx="1.2" transform="rotate(-20 12 12)"/><path d="M7.2 12.4l.8-1.9M10.8 11.1l.8-1.9M14.4 9.8l.8-1.9" stroke-linecap="round"/></svg>
+                        {%- when 'shield' -%}
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 2.8v5.4c0 4.5-3 8.2-7 9.8-4-1.6-7-5.3-7-9.8V5.8L12 3z" stroke-linejoin="round"/><path d="M9 12l2.2 2.2L15.4 10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        {%- when 'leaf' -%}
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20c0-8 4-14 16-16 0 12-6 16-12 16" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 20C7 14 11 10.5 16 8.5" stroke-linecap="round"/></svg>
+                        {%- when 'sweat' -%}
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3.5s5.5 6.3 5.5 10a5.5 5.5 0 1 1-11 0c0-3.7 5.5-10 5.5-10z" stroke-linejoin="round"/><path d="M4 6.5h2M3 10h1.5M20 6.5h-2M21 10h-1.5" stroke-linecap="round"/></svg>
+                        {%- else -%}
+                          {%- if forloop.first -%}
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+                          {%- else -%}
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v4l3 2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                          {%- endif -%}
+                        {%- endcase -%}
+                      {%- endif -%}
+                    </span>
+                    {%- if block.settings.label != blank -%}
+                      <span class="ph-gallery-badge__label">
+                        {%- if forloop.first and block.settings.label == 'Shorter Leg' -%}
+                          BEST<br>SELLER
+                        {%- else -%}
+                          {{ block.settings.label | escape }}
+                        {%- endif -%}
+                      </span>
+                    {%- endif -%}
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        <div class="ph-gallery" data-gallery>
         {%- if section.settings.show_rating -%}
           <a
             class="ph-gallery__rating"
@@ -66,6 +174,12 @@
               </span>
             {%- endfor -%}
           </a>
+        {%- endif -%}
+
+        {%- if product.media.size > 1 -%}
+          <div class="ph-gallery__counter" data-slide-counter>
+            <span data-counter-current>1</span> / <span data-counter-total>{{ product.media.size }}</span>
+          </div>
         {%- endif -%}
 
         <div class="ph-gallery__stage">
@@ -183,6 +297,7 @@
             <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6.5 4l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         {%- endif -%}
+        </div>
       </div>
 
       {%- if product.media.size > 1 -%}
@@ -236,38 +351,23 @@
     </div>
 
     <div class="ph__buy-col">
-      {%- liquid
-        assign first_variant = product.selected_or_first_available_variant
-        assign low_as_paise = first_variant.price
-        for block in section.blocks
-          if block.type == 'bundle'
-            assign bundle_discount = block.settings.discount_percent | default: 0 | plus: 0
-            if bundle_discount > 0
-              assign bundle_price_paise = first_variant.price | times: 100 | minus: bundle_discount | divided_by: 100
-              if bundle_price_paise < low_as_paise
-                assign low_as_paise = bundle_price_paise
-              endif
-            endif
-          endif
-        endfor
-      -%}
-      <div class="ph-title">
-        <h1 class="ph-title__heading">{{ product.title }}</h1>
-        <div class="ph-title__pricing">
-          <div class="ph-title__price-row">
+      <div class="ph-desktop-title">
+        <h1 class="ph-desktop-title__heading">{{ product.title }}</h1>
+        <div class="ph-desktop-title__pricing">
+          <div class="ph-desktop-title__price-row">
             <s
-              class="ph-title__compare"
+              class="ph-desktop-title__compare"
               data-compare-price
               {% unless first_variant.compare_at_price > first_variant.price %}hidden{% endunless %}
             >
               {{ first_variant.compare_at_price | default: first_variant.price | money }}
             </s>
-            <p class="ph-title__price" data-price>
+            <p class="ph-desktop-title__price" data-price>
               {{ first_variant.price | money }}
             </p>
           </div>
           {%- if low_as_paise < first_variant.price -%}
-            <p class="ph-title__lowas" data-low-as>Low as {{ low_as_paise | money }}</p>
+            <p class="ph-desktop-title__lowas" data-low-as>Low as {{ low_as_paise | money }}</p>
           {%- endif -%}
         </div>
       </div>
@@ -306,7 +406,7 @@
                   {%- endif -%}
                 </span>
                 {%- if block.settings.label != blank -%}
-                  <span class="ph-tile__label">{{ block.settings.label }}</span>
+                  <span class="ph-tile__label">{{ block.settings.label | escape }}</span>
                 {%- endif -%}
               </div>
             {%- endif -%}
@@ -315,15 +415,15 @@
       {%- endif -%}
 
       {%- if size_option -%}
-        <div class="ph-step">
+        <div class="ph-step ph-step--fit">
           <div class="ph-step__header">
-            <span class="ph-step__label">Select your fit</span>
-            {%- if section.settings.find_fit_url != blank -%}
-              <a class="ph-step__aux-link" href="{{ section.settings.find_fit_url }}">
-                <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1"><rect x="1" y="3.4" width="8" height="3.2" rx="0.6" transform="rotate(-20 5 5)"/><path d="M3 5.4l.4-.9M5 4.7l.4-.9M7 4l.4-.9" stroke-linecap="round"/></svg>
-                {{ section.settings.find_fit_text }}
-              </a>
-            {%- endif -%}
+            <span class="ph-step__label">
+              <span class="ph-step__num">1.</span> SELECT YOUR {{ size_option.name | upcase }}
+            </span>
+            <a class="ph-step__aux-link" href="{{ section.settings.find_fit_url | default: '#size-guide' }}">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" class="ph-step__help-icon"><circle cx="8" cy="8" r="6.5"/><path d="M6.5 6.2a1.8 1.8 0 0 1 3.2 1c0 1-.8 1.4-1.2 1.8-.3.3-.5.6-.5 1M8 12.2h.01" stroke-linecap="round"/></svg>
+              {{ section.settings.find_fit_text | default: 'HELP ME PICK' | upcase }}
+            </a>
           </div>
           <div class="ph-sizes" role="radiogroup" aria-label="{{ size_option.name }}">
             {%- for value in size_option.values -%}
@@ -336,6 +436,22 @@
                     break
                   endif
                 endfor
+
+                assign val_lower = value | downcase
+                assign inseam = ''
+                if val_lower contains 'boxer'
+                  assign inseam = '6" INSEAM'
+                elsif val_lower contains 'trunk'
+                  assign inseam = '4" INSEAM'
+                elsif val_lower contains 'fly'
+                  assign inseam = '6" INSEAM'
+                elsif val_lower contains 'sport'
+                  assign inseam = '8" INSEAM'
+                elsif val_lower contains 'long'
+                  assign inseam = '9" INSEAM'
+                elsif val_lower contains 'brief'
+                  assign inseam = '2" INSEAM'
+                endif
               -%}
               <label
                 class="ph-size{% if matching_variant == product.selected_or_first_available_variant %} is-selected{% endif %}{% if matching_variant.available == false %} is-unavailable{% endif %}"
@@ -362,7 +478,10 @@
                   {% if matching_variant == product.selected_or_first_available_variant %}checked{% endif %}
                   {% if matching_variant.available == false %}disabled{% endif %}
                 >
-                <span>{{ display_value }}</span>
+                <span class="ph-size__name">{{ display_value }}</span>
+                {%- if inseam != blank -%}
+                  <span class="ph-size__sub">{{ inseam }}</span>
+                {%- endif -%}
               </label>
             {%- endfor -%}
           </div>
@@ -383,7 +502,11 @@
           data-product-id="{{ product.id }}"
           data-section-id="{{ section.id }}"
         >
-          <span class="ph-step__label">Select your quantity</span>
+          <div class="ph-step__header">
+            <span class="ph-step__label">
+              <span class="ph-step__num">2.</span> SELECT YOUR QUANTITY
+            </span>
+          </div>
 
           <div
             class="ph-bundles"
@@ -478,12 +601,12 @@
     },
     {
       "type": "header",
-      "content": "Rating"
+      "content": "Rating & Reviews"
     },
     {
       "type": "checkbox",
       "id": "show_rating",
-      "label": "Show star rating on gallery",
+      "label": "Show star rating on gallery (desktop)",
       "default": true
     },
     {
@@ -498,7 +621,19 @@
     {
       "type": "url",
       "id": "reviews_url",
-      "label": "Reviews link"
+      "label": "Reviews link URL"
+    },
+    {
+      "type": "text",
+      "id": "reviews_badge_text",
+      "label": "Reviews badge text (mobile)",
+      "default": "65K+ 5 Star Reviews"
+    },
+    {
+      "type": "text",
+      "id": "guarantee_badge_text",
+      "label": "Guarantee badge text (mobile)",
+      "default": "Love them or they're free"
     },
     {
       "type": "header",
@@ -508,7 +643,7 @@
       "type": "text",
       "id": "find_fit_text",
       "label": "Link text",
-      "default": "Find my Fit"
+      "default": "Help me pick"
     },
     {
       "type": "url",
@@ -579,6 +714,7 @@
           "id": "icon",
           "label": "Icon",
           "options": [
+            { "value": "bestseller", "label": "Flame / Best Seller" },
             { "value": "ruler", "label": "Ruler" },
             { "value": "shield", "label": "Shield" },
             { "value": "leaf", "label": "Leaf" },
@@ -683,7 +819,7 @@
     overflow-x: clip;
     overflow-y: visible;
     padding-inline: clamp(20px, 4vw, var(--ph-padding-inline, 60px));
-    padding-block-start: 16px;
+    padding-block-start: 0px;
     padding-block-end: 0px;
   }
 
@@ -710,8 +846,8 @@
   .ph__grid {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 40px;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    column-gap: 44px;
     justify-content: flex-start;
     align-items: start;
     max-width: 1240px;
@@ -736,19 +872,51 @@
     width: 100%;
     aspect-ratio: 1 / 1;
     background: var(--ph-card-bg);
-    border: 0.5px solid var(--ph-border);
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16), 0 6px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Rating on Gallery (Desktop) */
+  .ph-gallery__rating {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    display: flex;
+    gap: 5px;
+    z-index: 2;
+    text-decoration: none;
+  }
+
+  .ph-star {
+    position: relative;
+    width: 15px;
+    height: 15px;
+    color: #d9d9d9;
+    display: inline-flex;
+  }
+
+  .ph-star svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    fill: currentColor;
+  }
+
+  .ph-star__fill {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    color: #ffb800;
   }
 
   .ph-gallery__stage {
-    /* position: absolute; */
     position: relative;
     inset: 0;
     display: grid;
     place-items: center;
     padding: 0;
+    width: 100%;
+    height: 100%;
   }
 
   .ph-gallery__slide {
@@ -767,76 +935,127 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    mix-blend-mode: multiply;
   }
 
   .ph-gallery__video {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background: #000;
-}
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: #000;
+  }
 
-.ph-gallery__external-video {
-  width: 100%;
-  height: 100%;
-}
+  .ph-gallery__external-video {
+    width: 100%;
+    height: 100%;
+  }
 
-.ph-gallery__external-video iframe {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
+  .ph-gallery__external-video iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
 
-  .ph-gallery__rating {
-    position: absolute;
-    top: 30px;
-    left: 30px;
+  /* Gallery layout: badges rail LEFT of the main image (side-by-side, not overlaid) */
+  .ph-gallery-layout {
     display: flex;
-    gap: 5px;
-    z-index: 2;
-    text-decoration: none;
+    gap: 10px;
+    align-items: stretch;
   }
 
-  .ph-star {
+  .ph-gallery {
     position: relative;
-    width: 15px;
-    height: 15px;
-    color: #d9d9d9;
-    display: inline-flex;
-    flex: none;
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 0;
   }
 
-  .ph-star svg {
+  .ph-gallery__badges-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 8px;
+    flex: 0 0 auto;
+    width: 58px;
+    pointer-events: auto;
+  }
+
+  .ph-gallery-badge {
+    width: 58px;
+    height: 60px;
+    padding: 6px 3px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #111111;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .ph-gallery-badge--highlight {
+    background: #5925DC;
+    border-color: #5925DC;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(89, 37, 220, 0.35);
+  }
+
+  .ph-gallery-badge__icon {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .ph-gallery-badge__icon svg {
     width: 100%;
     height: 100%;
     display: block;
   }
 
-  .ph-star__fill {
-    position: absolute;
-    inset: 0;
+  .ph-gallery-badge__icon-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .ph-gallery-badge__label {
+    font-size: 8px;
+    font-weight: 800;
+    line-height: 1.1;
+    text-transform: uppercase;
+    margin-top: 3px;
+    letter-spacing: -0.2px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    display: block;
   }
 
-  .ph-star__fill svg {
-    width: 15px;
-    height: 15px;
-  }
-
-  .ph-gallery__shadow {
-    display: none;
+  /* Overlay: slide counter on top-right of main image */
+  .ph-gallery__counter {
     position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
-    height: 14px;
-    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.12) 45%, transparent 72%);
-    filter: blur(3px);
+    top: 14px;
+    right: 14px;
+    z-index: 5;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 11px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
     pointer-events: none;
   }
 
@@ -849,15 +1068,13 @@
     border-radius: 50%;
     display: grid;
     place-items: center;
-    background: rgba(255, 255, 255, 0.92);
+    background: #ffffff;
     border: 1px solid rgba(0, 0, 0, 0.08);
-    color: var(--ph-ink);
+    color: #111111;
     cursor: pointer;
-    z-index: 4;
+    z-index: 5;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   }
 
   .ph-gallery__arrow:hover {
@@ -865,7 +1082,7 @@
     color: #ffffff;
     border-color: #111111;
     transform: translateY(-50%) scale(1.08);
-    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.22);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
   }
 
   .ph-gallery__arrow:active {
@@ -878,20 +1095,20 @@
   }
 
   .ph-gallery__arrow--prev {
-    left: 20px;
+    left: 14px;
   }
 
   .ph-gallery__arrow--next {
-    right: 20px;
+    right: 14px;
   }
 
-  /* Thumbnail slider under the main image — one row, scrolls horizontally with sleek arrows */
+  /* Thumbnail slider under the main image */
   .ph-thumbs-wrap {
     position: relative;
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-block-start: 12px;
+    margin-block-start: 14px;
     width: 100%;
     z-index: 5;
     pointer-events: auto;
@@ -906,7 +1123,7 @@
     place-items: center;
     background: #ffffff;
     border: 1px solid rgba(0, 0, 0, 0.12);
-    color: var(--ph-ink, #111111);
+    color: #111111;
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -956,41 +1173,29 @@
 
   .ph-thumb {
     padding: 0;
-    border: 1px solid #e3e3e3;
-    border-radius: 8px;
-    overflow: clip;
+    border: 1.5px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
     cursor: pointer;
-    background: var(--ph-card-bg);
+    background: #f4f4f4;
     display: block;
     width: 100%;
     aspect-ratio: 1;
     position: relative;
     z-index: 5;
     pointer-events: auto;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.14);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
     flex: 0 0 calc((100% - 50px) / 6);
     scroll-snap-align: start;
-  }
-
-  /* Dim unselected thumbnails with a transparent black overlay */
-  .ph-thumb::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.42);
-    pointer-events: none;
-    z-index: 1;
-    transition: background 0.2s ease;
-  }
-
-  .ph-thumb.is-active::after {
-    background: transparent;
+    opacity: 0.85;
   }
 
   .ph-thumb.is-active {
-    border: 1.5px solid var(--ph-ink);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+    border: 2.5px solid #111111;
+    border-radius: 12px;
+    opacity: 1;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
   }
 
   .ph-thumb__image {
@@ -1000,90 +1205,80 @@
     object-fit: cover;
   }
 
-  /* Title + price */
-  .ph-title {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 6px 24px;
+  /* Buy Column */
+  .ph__buy-col {
+    max-width: 100%;
+    width: 100%;
   }
 
-  .ph-title__heading {
+  /* Desktop Title */
+  .ph-desktop-title {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 12px;
+    width: 100%;
+  }
+
+  .ph-desktop-title__heading {
     margin: 0;
     font-size: 26px;
     font-weight: 700;
-    line-height: 1.25;
+    line-height: 1.15;
     color: var(--ph-ink);
-    text-transform: none;
+    letter-spacing: -0.2px;
   }
 
-  .ph-title__pricing {
+  .ph-desktop-title__pricing {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     text-align: right;
     flex-shrink: 0;
-    margin-left: auto;
   }
 
-  .ph-title__price-row {
+  .ph-desktop-title__price-row {
     display: flex;
     align-items: baseline;
-    gap: 10px;
+    gap: 8px;
   }
 
-  .ph-title__compare {
+  .ph-desktop-title__compare {
     font-size: 16px;
-    font-weight: 600;
-    color: #9b9b9b;
+    font-weight: 500;
+    color: #767676;
     text-decoration: line-through;
   }
 
-  .ph-title__price {
+  .ph-desktop-title__price {
     margin: 0;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 700;
-    line-height: 1.2;
-    color: #e01e1e;
+    color: #d12c24;
+    letter-spacing: -0.2px;
   }
 
-  .ph-title__lowas {
+  .ph-desktop-title__lowas {
     margin: 2px 0 0;
-    font-size: 13.5px;
-    font-weight: 500;
-    line-height: 1.3;
-    color: var(--ph-ink);
+    font-size: 13px;
+    font-weight: 600;
+    color: #171717;
   }
 
-  /* Feature tiles */
+  /* Desktop Features Tiles (4 columns under title) */
   .ph-features {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    margin-block-start: 14px;
-    width: 100%;
-  }
-
-  @media (min-width: 500px) {
-    .ph-features {
-      gap: 8px;
-    }
-  }
-
-  @media (min-width: 768px) {
-    .ph-features {
-      gap: 10px;
-      margin-block-start: 16px;
-    }
+    gap: 10px;
+    margin-block-start: 16px;
   }
 
   .ph-tile {
     position: relative;
     width: 100%;
-    min-height: 60px;
-    padding: 8px 4px;
+    min-height: 64px;
+    padding: 8px 6px;
     border-radius: 8px;
     background: var(--ph-tile-bg);
     color: var(--ph-ink);
@@ -1091,16 +1286,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 5px;
-  }
-
-  @media (min-width: 768px) {
-    .ph-tile {
-      min-height: 64px;
-      padding: 8px 6px;
-      border-radius: 8px;
-      gap: 6px;
-    }
+    gap: 6px;
   }
 
   .ph-tile--highlight {
@@ -1109,18 +1295,11 @@
   }
 
   .ph-tile__icon {
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
     display: grid;
     place-items: center;
     flex-shrink: 0;
-  }
-
-  @media (min-width: 768px) {
-    .ph-tile__icon {
-      width: 26px;
-      height: 26px;
-    }
   }
 
   .ph-tile__icon svg,
@@ -1132,80 +1311,78 @@
 
   .ph-tile__label {
     text-align: center;
-    font-size: 11px;
+    font-size: 11.5px;
     font-weight: 600;
     line-height: 1.2;
   }
 
-  @media (min-width: 500px) {
-    .ph-tile__label {
-      font-size: 11.5px;
-    }
-  }
-
-  @media (min-width: 768px) {
-    .ph-tile__label {
-      font-size: 11.5px;
-    }
-  }
-
-  /* Steps */
+  /* Steps Common */
   .ph-step {
+    margin-block-start: 16px;
+  }
+
+  .ph-features + .ph-step {
     margin-block-start: 16px;
   }
 
   .ph-step__header {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
+    margin-bottom: 8px;
   }
 
   .ph-step__label {
-    display: block;
-    font-size: 14.5px;
-    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13.5px;
+    font-weight: 800;
     line-height: 1.3;
-    color: var(--ph-ink);
+    color: #111111;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
   }
 
-  .ph-step__label::before {
-    content: counter(ph-step) '. ';
-    counter-increment: ph-step;
-  }
-
-  .ph__buy-col {
-    counter-reset: ph-step;
+  .ph-step__num {
+    color: #111111;
+    font-weight: 800;
   }
 
   .ph-step__aux-link {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    font-size: 13px;
-    font-weight: 400;
-    color: #000;
-    text-decoration: none;
+    gap: 5px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #111111;
+    text-decoration: underline;
+    letter-spacing: 0.2px;
   }
 
   .ph-step__aux-link:hover {
-    text-decoration: underline;
+    color: #5925DC;
   }
 
-  .ph-step__aux-link svg {
-    width: 10px;
-    height: 10px;
+  .ph-step__help-icon {
+    width: 14px;
+    height: 14px;
   }
 
-  /* Sizes */
+  /* Desktop Sizes (default) */
   .ph-sizes {
     display: flex;
     gap: 8px;
     margin-block-start: 8px;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
   }
 
   .ph-size {
     width: 58px;
     height: 38px;
+    min-height: 38px;
     border: 1px solid var(--ph-border);
     border-radius: 6px;
     display: grid;
@@ -1218,6 +1395,9 @@
     color: var(--ph-ink);
     background: transparent;
     transition: background 0.15s ease, color 0.15s ease;
+    padding: 0;
+    box-shadow: none;
+    user-select: none;
   }
 
   .ph-size input {
@@ -1236,6 +1416,16 @@
     background: var(--ph-ink);
     border-color: var(--ph-ink);
     color: #fff;
+    box-shadow: none;
+  }
+
+  .ph-size__name {
+    font-size: 13.5px;
+    font-weight: 500;
+  }
+
+  .ph-size__sub {
+    display: none;
   }
 
   .ph-size.is-unavailable {
@@ -1610,19 +1800,28 @@
   /* ATC row */
   .pcb-atc {
     display: flex;
-    gap: 10px;
-    margin-block-start: 14px;
+    gap: 12px;
+    margin-block-start: 18px;
   }
 
   .pcb-quantity {
-    display: grid;
-    grid-template-columns: 36px 1fr 36px;
+    display: flex;
     align-items: center;
-    width: 120px;
-    height: 44px;
-    border: 1px solid var(--pcb-border);
-    border-radius: 10px;
+    justify-content: space-between;
+    width: 128px;
+    height: 52px;
+    padding-inline: 5px;
+    border: 1.5px solid var(--pcb-border);
+    border-radius: 999px;
     background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .pcb-quantity:hover,
+  .pcb-quantity:focus-within {
+    border-color: #171717;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   }
 
   .pcb-quantity__btn {
@@ -1633,44 +1832,165 @@
     font-weight: 600;
     color: var(--pcb-ink);
     cursor: pointer;
-    height: 100%;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
     line-height: 1;
+    transition: background 0.18s ease, color 0.18s ease, transform 0.12s ease;
   }
 
   .pcb-quantity__btn:hover {
+    background: #f2f2f2;
     color: #000;
+  }
+
+  .pcb-quantity__btn:active {
+    transform: scale(0.82);
+    background: #171717;
+    color: #fff;
   }
 
   .pcb-quantity__value {
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--pcb-ink);
+    min-width: 22px;
     text-align: center;
   }
 
+  .pcb-quantity__value.is-bump {
+    animation: pcb-count-bump 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes pcb-count-bump {
+    0% { transform: scale(1); }
+    45% { transform: scale(1.4); }
+    100% { transform: scale(1); }
+  }
+
   .pcb-atc__btn {
+    position: relative;
     flex: 1;
-    height: 44px;
+    height: 52px;
     border: 0;
-    border-radius: 10px;
-    background: var(--pcb-ink);
+    border-radius: 999px;
+    background: linear-gradient(180deg, #2e2e2e 0%, #111111 100%);
     color: #fff;
     font-family: var(--pcb-font);
-    font-size: 14px;
+    font-size: 14.5px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.05em;
     cursor: pointer;
-    transition: opacity 0.15s ease;
+    box-shadow: 0 6px 18px rgba(23, 23, 23, 0.22);
+    overflow: hidden;
+    transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, filter 0.2s ease;
+  }
+
+  /* Shine sweep on hover */
+  .pcb-atc__btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -80%;
+    width: 55%;
+    height: 100%;
+    background: linear-gradient(105deg, transparent 20%, rgba(255, 255, 255, 0.22) 50%, transparent 80%);
+    transform: skewX(-20deg);
+    transition: left 0.55s ease;
+    pointer-events: none;
   }
 
   .pcb-atc__btn:hover {
-    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgba(23, 23, 23, 0.32);
+    filter: brightness(1.1);
+  }
+
+  .pcb-atc__btn:hover::after {
+    left: 130%;
+  }
+
+  .pcb-atc__btn:active {
+    transform: translateY(0) scale(0.97);
+    box-shadow: 0 4px 12px rgba(23, 23, 23, 0.2);
+  }
+
+  .pcb-atc__btn:focus-visible {
+    outline: 2px solid #171717;
+    outline-offset: 3px;
+  }
+
+  .pcb-atc__btn-inner {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .pcb-atc__icon {
+    width: 19px;
+    height: 19px;
+    flex-shrink: 0;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .pcb-atc__btn:hover .pcb-atc__icon {
+    transform: translateY(-2px) scale(1.1);
+  }
+
+  .pcb-atc__spinner {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 22px;
+    height: 22px;
+    border: 2.5px solid rgba(255, 255, 255, 0.25);
+    border-top-color: #fff;
+    border-radius: 50%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease;
+    animation: pcb-spin 0.7s linear infinite;
+  }
+
+  @keyframes pcb-spin {
+    to { transform: rotate(360deg); }
   }
 
   .pcb-atc__btn.is-loading {
-    opacity: 0.6;
     pointer-events: none;
+    filter: saturate(0.85);
+  }
+
+  .pcb-atc__btn.is-loading .pcb-atc__btn-inner {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  .pcb-atc__btn.is-loading .pcb-atc__spinner {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Success state — green pop */
+  .pcb-atc__btn.is-success {
+    background: linear-gradient(180deg, #17a05a 0%, #0d8a48 100%);
+    box-shadow: 0 8px 22px rgba(13, 138, 72, 0.35);
+    animation: pcb-success-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .pcb-atc__btn.is-success .pcb-atc__icon {
+    transform: scale(1.18);
+  }
+
+  @keyframes pcb-success-pop {
+    0% { transform: scale(1); }
+    35% { transform: scale(1.04); }
+    100% { transform: scale(1); }
   }
 
   .pcb__divider {
@@ -1680,23 +2000,443 @@
     margin: 16px 0 0;
   }
 
-  /* ---- Mobile: structure ≤1023px, sizing ≤749px. Desktop untouched. ---- */
-  @media (max-width: 1023px) {
-    .ph {
-      padding-inline: 20px;
-      padding-block-start: 20px;
+  /* ==========================================================================
+     DESKTOP RULES (min-width: 1024px)
+     Explicitly enforce original 2into9 desktop styles
+     ========================================================================== */
+  @media (min-width: 1024px) {
+    .ph-mobile-header {
+      display: none !important;
     }
 
-    .ph__grid {
-      grid-template-columns: minmax(0, 1fr);
-      row-gap: 20px;
+    .ph-desktop-title {
+      display: flex !important;
+    }
+
+    .ph-features {
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr) !important;
+      gap: 10px !important;
+      margin-block-start: 16px !important;
+    }
+
+    .ph-gallery {
+      border-radius: 12px !important;
+      background: var(--ph-card-bg) !important;
+      border: 0 !important;
+      box-shadow: none !important;
+    }
+
+    .ph-gallery__rating {
+      display: flex !important;
+    }
+
+    .ph-gallery__badges-col {
+      display: none !important;
+    }
+
+    .ph-gallery__counter {
+      display: none !important;
+    }
+
+    .ph-sizes {
+      display: flex !important;
+      gap: 8px !important;
+      background: transparent !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+    }
+
+    .ph-size {
+      width: 58px !important;
+      height: 38px !important;
+      min-height: 38px !important;
+      border: 1px solid var(--ph-border) !important;
+      border-radius: 6px !important;
+      display: grid !important;
+      place-items: center !important;
+      background: transparent !important;
+      color: var(--ph-ink) !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+    }
+
+    .ph-size.is-selected {
+      background: var(--ph-ink) !important;
+      border-color: var(--ph-ink) !important;
+      color: #fff !important;
+      box-shadow: none !important;
+    }
+
+    .ph-size__name {
+      font-size: 13.5px !important;
+      font-weight: 500 !important;
+    }
+
+    .ph-size__sub {
+      display: none !important;
     }
 
     .ph-bundles {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
+      display: flex !important;
+      gap: 6px !important;
+    }
+
+    .ph-bundle {
+      flex: 1 !important;
+      height: 84px !important;
+    }
+  }
+
+  /* ==========================================================================
+     MOBILE ONLY STYLES (max-width: 1023px)
+     Matches Image 2 (Step One mobile reference)
+     ========================================================================== */
+  @media (max-width: 1023px) {
+    .ph {
+      padding-inline: 16px;
+      padding-block-start: 0px;
+    }
+
+    .ph__grid {
+      display: flex;
+      flex-direction: column;
+      row-gap: 14px;
+    }
+
+    /* 1. Mobile Header (Top of page) */
+    .ph-mobile-header {
+      display: block !important;
+      order: 1;
       width: 100%;
+    }
+
+    .ph-mobile-header__inner {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .ph-mobile-header__meta {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .ph-mobile-header__heading {
+      font-size: 24px;
+      font-weight: 800;
+      color: #111111;
+      line-height: 1.15;
+      margin: 0 0 6px 0;
+      letter-spacing: -0.3px;
+    }
+
+    /* Two pill badges stacked vertically under title */
+    .ph-mobile-header__badges {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+    }
+
+    .ph-pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.2;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .ph-pill-badge--reviews {
+      background: #E8F8F0;
+      color: #0D8A58;
+    }
+
+    .ph-pill-badge--reviews svg {
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .ph-pill-badge--guarantee {
+      background: #F3ECFC;
+      color: #5E28BE;
+    }
+
+    .ph-pill-badge__emoji {
+      font-size: 11px;
+      line-height: 1;
+    }
+
+    .ph-mobile-header__pricing {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .ph-mobile-header__price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .ph-mobile-header__compare {
+      font-size: 14px;
+      font-weight: 500;
+      color: #767676;
+      text-decoration: line-through;
+    }
+
+    .ph-mobile-header__price {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1.1;
+      color: #D12C24;
+      letter-spacing: -0.2px;
+    }
+
+    .ph-mobile-header__lowas {
+      margin: 2px 0 0;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #222222;
+      line-height: 1.2;
+    }
+
+    /* 2. Gallery Column (order: 2) */
+    .ph__gallery-col {
+      order: 2;
+      width: 100%;
+    }
+
+    .ph-gallery {
+      flex: 1 1 auto;
+      width: auto;
+      min-width: 0;
+      aspect-ratio: 1 / 1;
+      border-radius: 20px !important;
+      background: #f4f4f4 !important;
+      border: 1px solid rgba(0, 0, 0, 0.06) !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+    }
+
+    .ph-gallery__rating {
+      display: none !important;
+    }
+
+    /* Badges rail sits LEFT of the image (side-by-side, not overlaid) */
+    .ph-gallery-layout {
+      display: flex;
+      gap: 8px;
+      align-items: stretch;
+    }
+
+    .ph-gallery__badges-col {
+      display: flex !important;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 6px;
+      flex: 0 0 auto;
+      width: 52px;
+      position: static;
+      pointer-events: auto;
+    }
+
+    .ph-gallery-badge {
+      width: 52px;
+      height: 56px;
+      padding: 4px 2px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #111111;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    .ph-gallery-badge--highlight {
+      background: #5925DC !important;
+      border-color: #5925DC !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 12px rgba(89, 37, 220, 0.35) !important;
+    }
+
+    .ph-gallery-badge__icon {
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .ph-gallery-badge__icon svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .ph-gallery-badge__icon-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .ph-gallery-badge__label {
+      font-size: 7.5px;
+      font-weight: 800;
+      line-height: 1.1;
+      text-transform: uppercase;
+      margin-top: 2px;
+      letter-spacing: -0.2px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Slide counter on top-right of image */
+    .ph-gallery__counter {
+      display: block !important;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 5;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      pointer-events: none;
+    }
+
+    .ph-gallery__arrow {
+      width: 34px;
+      height: 34px;
+    }
+
+    .ph-gallery__arrow--prev {
+      left: 10px;
+    }
+
+    .ph-gallery__arrow--next {
+      right: 10px;
+    }
+
+    .ph-thumb {
+      flex: 0 0 calc((100% - 30px) / 4) !important;
+      border-radius: 10px;
+    }
+
+    /* 3. Buy Column (order: 3) */
+    .ph__buy-col {
+      order: 3;
+      width: 100%;
+    }
+
+    .ph-desktop-title {
+      display: none !important;
+    }
+
+    .ph-features {
+      display: none !important;
+    }
+
+    /* Segmented Fit / Size Selector (Mobile) */
+    .ph-sizes {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)) !important;
+      gap: 4px !important;
+      background: #EEF0F2 !important;
+      border-radius: 12px !important;
+      padding: 4px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      margin-block-start: 8px !important;
+    }
+
+    .ph-size {
+      width: auto !important;
+      min-height: 46px !important;
+      height: auto !important;
+      border-radius: 8px !important;
+      padding: 6px 4px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      cursor: pointer !important;
+      background: transparent !important;
+      border: 1.5px solid transparent !important;
+      color: #4B5563 !important;
+      box-shadow: none !important;
+      text-align: center;
+    }
+
+    .ph-size:hover {
+      color: #111111 !important;
+    }
+
+    .ph-size.is-selected {
+      background: #ffffff !important;
+      border-color: #000000 !important;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+      color: #000000 !important;
+    }
+
+    .ph-size__name {
+      font-size: 12px !important;
+      font-weight: 800 !important;
+      text-transform: uppercase !important;
+      line-height: 1.1 !important;
+    }
+
+    .ph-size__sub {
+      display: block !important;
+      font-size: 9px !important;
+      font-weight: 600 !important;
+      color: #6B7280 !important;
+      margin-top: 2px !important;
+      line-height: 1 !important;
+      text-transform: uppercase !important;
+    }
+
+    .ph-size.is-selected .ph-size__sub {
+      color: #111111 !important;
+    }
+
+    /* Bundles (Mobile) */
+    .ph-bundles {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 8px !important;
+      width: 100% !important;
+    }
+
+    .ph-bundle {
+      height: auto !important;
+      min-height: 78px !important;
+      padding-block-end: 12px !important;
     }
   }
 
@@ -1705,81 +2445,17 @@
       font-size: clamp(56px, 15.5vw, 320px);
     }
 
-    .ph-gallery {
-      min-height: 0;
-      aspect-ratio: 1 / 1;
-      height: 100%;
-    }
-
-    .ph-gallery__stage {
-      padding: 0;
-    }
-
-    .ph-gallery__arrow {
-      width: 32px;
-      height: 32px;
-    }
-
-    .ph-gallery__arrow--prev {
-      left: 8px;
-    }
-
-    .ph-gallery__arrow--next {
-      right: 8px;
-    }
-
-    .ph-thumb {
-      flex-basis: calc((100% - 30px) / 4);
-    }
-
-    .ph-title__heading {
-      font-size: 22px;
-    }
-
-    .ph-title__compare {
-      font-size: 14px;
-    }
-
-    .ph-title__price {
-      font-size: 17px;
-    }
-
-    .ph-title__lowas {
-      font-size: 12.5px;
-    }
-
-    .ph-features {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 6px;
-    }
-
     .ph-step {
       margin-block-start: 14px;
     }
 
-    .ph-features + .ph-step {
-      margin-block-start: 10px;
-    }
-
     .ph-step__label {
-      font-size: 13.5px;
-    }
-
-    .ph-sizes {
-      flex-wrap: wrap;
-      gap: 6px;
+      font-size: 13px;
     }
 
     .ph-size {
-      width: 52px;
-      height: 36px;
-      font-size: 12.5px;
-    }
-
-    .ph-bundle {
-      height: auto;
-      min-height: 78px;
-      padding-block-end: 12px;
+      min-height: 44px;
+      padding: 4px 2px;
     }
 
     .pcb-toggle {
@@ -1797,17 +2473,18 @@
     }
 
     .pcb-atc {
-      gap: 8px;
+      gap: 10px;
     }
 
     .pcb-quantity {
-      width: 110px;
-      height: 42px;
-      grid-template-columns: 32px 1fr 32px;
+      width: 118px;
+      height: 48px;
     }
 
     .pcb-quantity__btn {
-      font-size: 16px;
+      width: 36px;
+      height: 36px;
+      font-size: 17px;
     }
 
     .pcb-quantity__value {
@@ -1815,8 +2492,14 @@
     }
 
     .pcb-atc__btn {
-      height: 42px;
-      font-size: 13px;
+      height: 48px;
+      font-size: 13.5px;
+    }
+
+    .pcb-atc__icon {
+      width: 17px;
+      height: 17px;
     }
   }
 {% endstylesheet %}
+

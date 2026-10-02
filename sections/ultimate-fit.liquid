@@ -54,12 +54,25 @@
 
     <!-- Right: Model Image -->
     <div class="ultimate-fit__image-side">
-      {%- if section.settings.model_image != blank -%}
-        {{
-          section.settings.model_image
-          | image_url: width: 1600
-          | image_tag: class: 'ultimate-fit__model-image', alt: section.settings.model_image_alt, loading: 'lazy'
-        }}
+      {%- if section.settings.model_image != blank or section.settings.model_image_mobile != blank -%}
+        <picture class="ultimate-fit__picture">
+          {%- if section.settings.model_image_mobile != blank -%}
+            <source media="(max-width: 749px)" srcset="{{ section.settings.model_image_mobile | image_url: width: 1000 }}">
+          {%- endif -%}
+          {%- if section.settings.model_image != blank -%}
+            {{
+              section.settings.model_image
+              | image_url: width: 1600
+              | image_tag: class: 'ultimate-fit__model-image', alt: section.settings.model_image_alt, loading: 'lazy'
+            }}
+          {%- else -%}
+            {{
+              section.settings.model_image_mobile
+              | image_url: width: 1000
+              | image_tag: class: 'ultimate-fit__model-image', alt: section.settings.model_image_alt, loading: 'lazy'
+            }}
+          {%- endif -%}
+        </picture>
       {%- else -%}
         <div class="ultimate-fit__placeholder">{{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
       {%- endif -%}
@@ -198,6 +211,12 @@
     display: flex;
     z-index: 10;
     align-items: stretch;
+  }
+
+  .ultimate-fit__picture {
+    display: flex;
+    width: 100%;
+    height: 100%;
   }
 
   .ultimate-fit__model-image {
@@ -427,7 +446,12 @@
     {
       "type": "image_picker",
       "id": "model_image",
-      "label": "Model Image"
+      "label": "Model Image (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "model_image_mobile",
+      "label": "Model Image (Mobile)"
     },
     {
       "type": "text",

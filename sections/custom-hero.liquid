@@ -13,15 +13,48 @@
       {%- for block in section.blocks -%}
         {%- if block.type == 'slide' -%}
           <div class="hero2__slide{% if forloop.first %} is-active{% endif %}" data-slide {% if forloop.first %}data-hero2-root{% endif %}>
-            <img
-              class="hero2__image"
-              src="{% if block.settings.image %}{{ block.settings.image | image_url: width: 1920 }}{% else %}{{ section.settings.fallback_image | default: 'hero-home-1.jpg' | asset_url }}{% endif %}"
-              alt="{{ block.settings.image_alt | default: block.settings.heading | escape }}"
-              loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
-              {% if forloop.first %}fetchpriority="high"{% endif %}
-              width="1920"
-              height="1000"
-            >
+            {%- liquid
+              assign desktop_src = ''
+              if block.settings.image
+                assign desktop_src = block.settings.image | image_url: width: 1920
+              elsif section.settings.fallback_image_picker != blank
+                assign desktop_src = section.settings.fallback_image_picker | image_url: width: 1920
+              elsif section.settings.fallback_image != blank
+                assign desktop_src = section.settings.fallback_image | asset_url
+              else
+                assign desktop_src = 'hero-home-1.jpg' | asset_url
+              endif
+
+              assign mobile_src = ''
+              if block.settings.image_mobile
+                assign mobile_src = block.settings.image_mobile | image_url: width: 1080
+              elsif block.settings.mobile_image_asset != blank
+                assign mobile_src = block.settings.mobile_image_asset | asset_url
+              elsif section.settings.fallback_mobile_image_picker != blank
+                assign mobile_src = section.settings.fallback_mobile_image_picker | image_url: width: 1080
+              elsif section.settings.fallback_mobile_image != blank
+                assign mobile_src = section.settings.fallback_mobile_image | asset_url
+              elsif forloop.index == 2
+                assign mobile_src = 'hero-mobile-2.jpg' | asset_url
+              else
+                assign mobile_src = 'hero-mobile-1.jpg' | asset_url
+              endif
+            -%}
+            <picture class="hero2__picture">
+              {%- if mobile_src != blank -%}
+                <source media="(max-width: 749px)" srcset="{{ mobile_src }}">
+              {%- endif -%}
+              <source media="(min-width: 750px)" srcset="{{ desktop_src }}">
+              <img
+                class="hero2__image"
+                src="{{ desktop_src }}"
+                alt="{{ block.settings.image_alt | default: block.settings.heading | escape }}"
+                loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                {% if forloop.first %}fetchpriority="high"{% endif %}
+                width="1920"
+                height="1000"
+              >
+            </picture>
             <div class="hero2__content">
               {%- if block.settings.subheading != blank -%}
                 <p class="hero2__eyebrow">{{ block.settings.subheading }}</p>
@@ -44,15 +77,23 @@
     {%- else -%}
       {%- comment -%} Fallback single slide so the section renders before blocks are added {%- endcomment -%}
       <div class="hero2__slide is-active" data-slide>
-        <img
-          class="hero2__image"
-          src="{{ section.settings.fallback_image | default: 'hero-home-1.jpg' | asset_url }}"
-          alt="Model wearing 2into9 boxer briefs"
-          loading="eager"
-          fetchpriority="high"
-          width="1920"
-          height="1000"
-        >
+        {%- liquid
+          assign fallback_desktop = section.settings.fallback_image | default: 'hero-home-1.jpg' | asset_url
+          assign fallback_mobile = section.settings.fallback_mobile_image | default: 'hero-mobile-1.jpg' | asset_url
+        -%}
+        <picture class="hero2__picture">
+          <source media="(max-width: 749px)" srcset="{{ fallback_mobile }}">
+          <source media="(min-width: 750px)" srcset="{{ fallback_desktop }}">
+          <img
+            class="hero2__image"
+            src="{{ fallback_desktop }}"
+            alt="Model wearing 2into9 boxer briefs"
+            loading="eager"
+            fetchpriority="high"
+            width="1920"
+            height="1000"
+          >
+        </picture>
         <div class="hero2__content">
           <p class="hero2__eyebrow">{{ section.settings.subheading }}</p>
           <h2 class="hero2__heading">{{ section.settings.heading }}</h2>
@@ -220,6 +261,14 @@
     }
   }
 
+  .hero2__picture {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
   .hero2__image {
     position: absolute;
     inset: 0;
@@ -317,9 +366,11 @@
   }
 
   @media screen and (max-width: 749px) {
-    .hero2
-    {
-      min-height: calc(var(--hero2-min-h, 100svh) - 40svh);
+    .hero2,
+    .hero2__slides,
+    .hero2__slide {
+      min-height: var(--hero2-min-h, 100svh);
+      height: var(--hero2-min-h, 100svh);
     }
     .hero2__watermark {
       font-size: clamp(64px, 19vw, 120px);
@@ -423,8 +474,21 @@
   }
 
   @media screen and (max-width: 749px) {
+    .hero2__picture {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
     .hero2__image {
-      object-position: 45% 22%;
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
     }
 
     .hero2__eyebrow {
@@ -438,9 +502,10 @@
     .hero2__content {
       padding-inline: 1.25rem;
       justify-content: flex-end;
-      padding-block: 0 13vh;
-      transform: translateY(2vh);
-      min-height: calc(var(--hero2-min-h, 100svh) - 40svh);
+      padding-block: 0 clamp(96px, 15vh, 140px);
+      transform: none;
+      min-height: var(--hero2-min-h, 100svh);
+      height: 100%;
     }
 
     .hero2__button {
@@ -448,11 +513,11 @@
     }
 
     .hero2__dots {
-      bottom: 18px;
+      bottom: 12px;
     }
 
     .hero2__products-wrapper {
-      bottom: clamp(50px, 8vh, 70px);
+      bottom: clamp(38px, 6vh, 56px);
       justify-content: flex-start;
       padding: 0 16px;
     }
@@ -562,10 +627,27 @@
   "class": "section-custom-hero",
   "settings": [
     {
+      "type": "image_picker",
+      "id": "fallback_image_picker",
+      "label": "Desktop background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "fallback_mobile_image_picker",
+      "label": "Mobile background image (optional)"
+    },
+    {
       "type": "text",
       "id": "fallback_image",
       "label": "Theme image filename",
       "info": "Used when no slide image is picked. e.g. hero-home-1.jpg"
+    },
+    {
+      "type": "text",
+      "id": "fallback_mobile_image",
+      "label": "Theme mobile image filename",
+      "info": "Used on mobile when no slide mobile image is picked. e.g. hero-mobile-1.jpg",
+      "default": "hero-mobile-1.jpg"
     },
     {
       "type": "header",
@@ -638,6 +720,17 @@
           "type": "image_picker",
           "id": "image",
           "label": "Background image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Mobile background image (optional)"
+        },
+        {
+          "type": "text",
+          "id": "mobile_image_asset",
+          "label": "Mobile image asset filename (optional)",
+          "info": "e.g. hero-mobile-1.jpg from assets folder"
         },
         {
           "type": "text",

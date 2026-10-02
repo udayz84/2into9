@@ -43,6 +43,16 @@ svg {
   max-width: 100%;
 }
 
+/* Universal SVG stroke-width rule to ensure icons render properly on WebKit/Safari */
+svg [stroke]:not([stroke="none"]),
+svg path[stroke]:not([stroke="none"]),
+svg circle[stroke]:not([stroke="none"]),
+svg rect[stroke]:not([stroke="none"]),
+svg line[stroke]:not([stroke="none"]),
+svg polyline[stroke]:not([stroke="none"]) {
+  stroke-width: var(--icon-stroke-width, 1.5px);
+}
+
 img {
   width: 100%;
   height: auto;
@@ -1011,9 +1021,11 @@ summary::-webkit-details-marker {
   display: none;
 }
 
-/* When header is transparent, pull the first main content section up to sit under the floating header */
+/* When header is transparent, the first main content section starts flush at the
+   floating header's bottom edge — banners sit directly below the header, never
+   sliding behind/under it (user 2026-10-03: "banner header ke piche nhi jana chahiye"). */
 body:has(.header[transparent]) .content-for-layout > .shopify-section:first-child {
-  margin-top: calc(var(--header-group-height) * -1);
+  margin-top: var(--header-height, 0px);
 }
 
 body:has(.header[transparent]) #header-group > .header-section {

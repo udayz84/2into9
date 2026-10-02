@@ -18,21 +18,33 @@
   <div class="image-card-container">
     {%- for block in section.blocks -%}
       <div class="image-card" {{ block.shopify_attributes }}>
-        {%- if block.settings.image != blank -%}
+        {%- if block.settings.image != blank or block.settings.image_mobile != blank -%}
+          {%- capture card_image -%}
+            <picture class="image-card__picture">
+              {%- if block.settings.image_mobile != blank -%}
+                <source media="(max-width: 749px)" srcset="{{ block.settings.image_mobile | image_url: width: 900 }}">
+              {%- endif -%}
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 1400
+                  | image_tag: class: 'image-card__image', alt: block.settings.image_alt, loading: 'lazy'
+                }}
+              {%- else -%}
+                {{
+                  block.settings.image_mobile
+                  | image_url: width: 1400
+                  | image_tag: class: 'image-card__image', alt: block.settings.image_alt, loading: 'lazy'
+                }}
+              {%- endif -%}
+            </picture>
+          {%- endcapture -%}
           {%- if block.settings.link != blank -%}
             <a href="{{ block.settings.link }}" class="image-card__link" {% if block.settings.open_in_new_tab %}target="_blank" rel="noopener"{% endif %}>
-              {{
-                block.settings.image
-                | image_url: width: 1400
-                | image_tag: class: 'image-card__image', alt: block.settings.image_alt, loading: 'lazy'
-              }}
+              {{ card_image }}
             </a>
           {%- else -%}
-            {{
-              block.settings.image
-              | image_url: width: 1400
-              | image_tag: class: 'image-card__image', alt: block.settings.image_alt, loading: 'lazy'
-            }}
+            {{ card_image }}
           {%- endif -%}
         {%- else -%}
           <div class="image-card__placeholder">
@@ -83,6 +95,12 @@
   .image-card__link {
     display: block;
     text-decoration: none;
+  }
+
+  .image-card__picture {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 
   .image-card__image {
@@ -768,7 +786,13 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Image"
+          "label": "Desktop image"
+        },
+
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Mobile image (optional)"
         },
 
         {

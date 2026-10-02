@@ -792,8 +792,10 @@
 
   .menu-drawer__navigation {
     padding: 0;
+    padding-top: 56px;
 
     @media screen and (min-width: 750px) {
+      padding-top: 0;
       margin-top: var(--drawer-header-desktop-top);
     }
   }
@@ -1127,13 +1129,56 @@
     border-radius: var(--menu-image-border-radius);
   }
 
+  .menu-drawer > .menu-drawer__close-button {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 10;
+  }
+
   .menu-drawer__close-button {
-    position: relative;
-    right: auto;
-    top: auto;
-    width: fit-content;
-    height: fit-content;
-    padding: var(--padding-lg);
+    width: 38px;
+    height: 38px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    color: var(--color-foreground, #171717);
+    background-color: transparent;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .menu-drawer__close-button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .menu-drawer__close-button .header-drawer-icon--close,
+  .menu-drawer__close-button svg {
+    display: block !important;
+    width: 16px;
+    height: 16px;
+    color: var(--color-foreground, #171717);
+    stroke: currentColor;
+  }
+
+  .menu-drawer__menu-item .icon-caret {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    color: var(--color-foreground, #171717);
+    margin-inline-start: auto;
+    flex-shrink: 0;
+  }
+
+  .menu-drawer__menu-item .icon-caret svg {
+    width: 14px;
+    height: 14px;
+    display: block;
+    stroke: currentColor;
   }
 
   .menu-drawer__back-button {

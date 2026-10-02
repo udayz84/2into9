@@ -118,7 +118,8 @@
               <div class="cart-drawer__header">
                 <button
                   ref="closeButton"
-                  on:click="cart-drawer-component/close"
+                  on:click="/closeDialog"
+                  data-cart-drawer-close
                   class="button close-button cart-drawer__close-button button-unstyled"
                   aria-label="{{ 'actions.close_dialog' | t }}"
                 >
@@ -158,7 +159,8 @@
 
                 <button
                   ref="closeButton"
-                  on:click="cart-drawer-component/close"
+                  on:click="/closeDialog"
+                  data-cart-drawer-close
                   class="button close-button cart-drawer__close-button button-unstyled"
                   aria-label="{{ 'actions.close_dialog' | t }}"
                 >
@@ -284,8 +286,10 @@
     margin: 0;
     inset-block-end: 0;
     inset-block-start: auto;
-    border-radius: 0;
+    border-radius: 16px 16px 0 0 !important;
+    overflow: hidden;
     padding: 0;
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.12);
   }
 
   .dialog-drawer.account-drawer__dialog[open] {
@@ -303,19 +307,39 @@
   }
 
   .account-drawer__close-button {
-    z-index: 1;
-    inset-block-start: var(--padding-xs);
-    inset-inline-end: var(--padding-xs);
-    color: var(--color-foreground);
-    background-color: transparent;
-  }
-
-  .account-drawer__close-button .svg-wrapper {
-    display: flex;
-    width: var(--button-size);
-    height: var(--button-size);
+    position: absolute !important;
+    top: 18px !important;
+    right: 18px !important;
+    z-index: 10;
+    width: 32px !important;
+    height: 32px !important;
+    display: flex !important;
     align-items: center;
     justify-content: center;
+    color: #171717 !important;
+    background-color: transparent !important;
+    border: 1px solid rgba(0, 0, 0, 0.15) !important;
+    border-radius: 50% !important;
+    padding: 0 !important;
+    cursor: pointer;
+    outline: none !important;
+  }
+
+  .account-drawer__close-button:hover {
+    background-color: rgba(0, 0, 0, 0.05) !important;
+  }
+
+  .account-drawer__close-button::after {
+    display: none !important;
+  }
+
+  .account-drawer__close-button .svg-wrapper,
+  .account-drawer__close-button svg {
+    display: block !important;
+    width: 12px !important;
+    height: 12px !important;
+    color: #171717 !important;
+    stroke: #171717 !important;
   }
 
   @keyframes account-drawer-slide-in {
@@ -404,12 +428,45 @@
   }
 
   .cart-drawer__close-button {
-    margin-right: calc(var(--padding-sm) * -1);
-    top: var(--margin-sm);
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    margin: 0 !important;
+    width: 36px !important;
+    height: 36px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #171717 !important;
+    background-color: rgba(0, 0, 0, 0.06) !important;
+    border: 1px solid rgba(0, 0, 0, 0.12) !important;
+    border-radius: 50% !important;
+    padding: 0 !important;
+    cursor: pointer !important;
+    transition: background-color 0.2s ease, transform 0.15s ease !important;
+    z-index: 10 !important;
+  }
 
-    @media screen and (max-width: 749px) {
-      top: var(--margin-2xs);
-    }
+  .cart-drawer__close-button:hover {
+    background-color: rgba(0, 0, 0, 0.14) !important;
+    transform: scale(1.06) !important;
+  }
+
+  .cart-drawer__close-button .svg-wrapper,
+  .cart-drawer__close-button svg {
+    display: block !important;
+    width: 14px !important;
+    height: 14px !important;
+    color: #171717 !important;
+    stroke: #171717 !important;
+    fill: none !important;
+    pointer-events: none !important;
+  }
+
+  .cart-drawer__close-button svg path,
+  .cart-drawer__close-button svg line {
+    stroke: #171717 !important;
+    stroke-width: 1.8px !important;
   }
 
   .cart-drawer--empty .cart-drawer__content {

@@ -45,11 +45,11 @@
     color: #ffffff !important;
   }
 
-  /* Transparent header pages (home): let the hero show through behind the text */
+  /* Transparent header pages: hide announcement bar so header is flush at the top */
   body:has(.header[transparent]) .announcement-bar,
-  body:has(.header[transparent]) .section-background:has(+ .announcement-bar) {
-    background: transparent !important;
-    border-block-end-color: transparent;
+  body:has(.header[transparent]) .section-background:has(+ .announcement-bar),
+  body:has(.header[transparent]) [id*='header_announcements'] {
+    display: none !important;
   }
 
   .announcement-bar * {

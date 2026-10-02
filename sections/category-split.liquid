@@ -10,25 +10,32 @@
   {%- for i in (1..2) -%}
     {%- assign prefix = 'panel_' | append: i -%}
     {%- assign img_key = prefix | append: '_image' -%}
+    {%- assign mobile_img_key = prefix | append: '_mobile_image' -%}
     {%- assign heading_key = prefix | append: '_heading' -%}
     {%- assign shop_key = prefix | append: '_shop_label' -%}
     {%- assign link_key = prefix | append: '_link' -%}
     {%- assign align_key = prefix | append: '_align' -%}
     {%- assign img = section.settings[img_key] -%}
+    {%- assign mobile_img = section.settings[mobile_img_key] -%}
     {%- assign fallback = section.settings.panel_1_asset | default: 'panel-mens.jpg' -%}
     {%- if i == 2 -%}{%- assign fallback = section.settings.panel_2_asset | default: 'panel-dlock.jpg' -%}{%- endif -%}
     <a
       class="cat-split__panel cat-split__panel--{{ section.settings[align_key] }}"
       href="{{ section.settings[link_key] | default: '/collections/all' }}"
     >
-      <img
-        class="cat-split__image"
-        src="{% if img %}{{ img | image_url: width: 1400 }}{% else %}{{ fallback | asset_url }}{% endif %}"
-        alt="{{ section.settings[heading_key] | default: 'Shop' | escape }}"
-        loading="{% if i == 1 %}eager{% else %}lazy{% endif %}"
-        width="1400"
-        height="1400"
-      >
+      <picture class="cat-split__picture">
+        {%- if mobile_img != blank -%}
+          <source media="(max-width: 749px)" srcset="{{ mobile_img | image_url: width: 900 }}">
+        {%- endif -%}
+        <img
+          class="cat-split__image"
+          src="{% if img %}{{ img | image_url: width: 1400 }}{% else %}{{ fallback | asset_url }}{% endif %}"
+          alt="{{ section.settings[heading_key] | default: 'Shop' | escape }}"
+          loading="{% if i == 1 %}eager{% else %}lazy{% endif %}"
+          width="1400"
+          height="1400"
+        >
+      </picture>
       <span class="cat-split__content">
         <span class="cat-split__heading">{{ section.settings[heading_key] }}</span>
         <span class="cat-split__shop">{{ section.settings[shop_key] }}</span>
@@ -50,6 +57,14 @@
     aspect-ratio: 1 / 0.96;
     overflow: hidden;
     background: #101410;
+  }
+
+  .cat-split__picture {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
   }
 
   .cat-split__image {
@@ -145,7 +160,12 @@
     {
       "type": "image_picker",
       "id": "panel_1_image",
-      "label": "Image"
+      "label": "Desktop image"
+    },
+    {
+      "type": "image_picker",
+      "id": "panel_1_mobile_image",
+      "label": "Mobile image (optional)"
     },
     {
       "type": "text",
@@ -187,7 +207,12 @@
     {
       "type": "image_picker",
       "id": "panel_2_image",
-      "label": "Image"
+      "label": "Desktop image"
+    },
+    {
+      "type": "image_picker",
+      "id": "panel_2_mobile_image",
+      "label": "Mobile image (optional)"
     },
     {
       "type": "text",

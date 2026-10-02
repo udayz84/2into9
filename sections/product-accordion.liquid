@@ -2,7 +2,7 @@
   <div class="pa__grid">
     <div class="pa__spacer" aria-hidden="true"></div>
     <div>
-      <span class="pa__label">4. Product details</span>
+      <span class="pa__label">{{ section.settings.step_label | default: '4. Product details' }}</span>
       <div class="pa__list">
       {%- for block in section.blocks -%}
         <div
@@ -42,7 +42,10 @@
     function preAlign() {
       if (window.innerWidth < 1024) {
         var pa = document.querySelector('product-accordion');
-        if (pa) pa.style.marginTop = '';
+        if (pa) {
+          pa.style.marginTop = '';
+          pa.style.minHeight = '';
+        }
         return;
       }
       var pa = document.querySelector('product-accordion');
@@ -98,6 +101,12 @@
       "step": 2,
       "unit": "px",
       "default": 110
+    },
+    {
+      "type": "text",
+      "id": "step_label",
+      "label": "Step label",
+      "default": "4. Product details"
     },
     {
       "type": "checkbox",
@@ -286,7 +295,9 @@
     .pa {
       padding-inline: 20px;
       padding-block-start: 20px;
-      padding-block-end: 48px;
+      padding-block-end: 20px;
+      min-height: auto !important;
+      margin-top: 0 !important;
     }
 
     .pa__grid {

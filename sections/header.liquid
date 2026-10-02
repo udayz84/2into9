@@ -429,17 +429,17 @@
     --header-logo-display: none !important;
     --header-logo-inverse-display: block !important;
 
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
 
-    background: rgba(0, 0, 0, 0.5) !important;
-    background-color: rgba(0, 0, 0, 0.5) !important;
+    background: rgba(10, 10, 10, 0.55) !important;
+    background-color: rgba(10, 10, 10, 0.55) !important;
     backdrop-filter: blur(20px) saturate(180%) !important;
     -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14) !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18) !important;
     z-index: var(--layer-overlay);
 
     .header__row {
@@ -451,6 +451,16 @@
       transition: color var(--animation-values-slow), border-color var(--animation-values-slow),
         background-color var(--animation-values-slow);
     }
+  }
+
+  .header[transparent][data-sticky-state='active'] {
+    position: fixed !important;
+    background: rgba(10, 10, 10, 0.55) !important;
+    background-color: rgba(10, 10, 10, 0.55) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14) !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18) !important;
   }
 
   /* Ensure all child rows and columns are completely transparent
@@ -510,8 +520,60 @@
     filter: none !important;
   }
 
-  .header[transparent] svg path {
+  /* Only make header bar trigger icons white on the transparent header bar */
+  .header[transparent] :is(.header-actions__cart-icon, .search-action, .header__icon--menu, .account-action, .account-button, .dropdown-localization__button) svg :is(path, line, circle, rect) {
     stroke: #ffffff !important;
+  }
+
+  /* Reset and isolate all drawers, dialogs, and modals inside the header */
+  .header[transparent] :is(.dialog-modal, .menu-drawer, .account-drawer__dialog, .cart-drawer, .cart-drawer__dialog) {
+    --color-foreground: #171717 !important;
+    --color-foreground-rgb: 23, 23, 23 !important;
+    color: #171717 !important;
+  }
+
+  .header[transparent] :is(.dialog-modal, .menu-drawer, .account-drawer__dialog, .cart-drawer, .cart-drawer__dialog) svg :is(path, line, circle, rect) {
+    stroke: currentColor !important;
+  }
+
+  .header[transparent] :is(.dialog-modal, .menu-drawer, .account-drawer__dialog, .cart-drawer, .cart-drawer__dialog) .close-button,
+  .header[transparent] :is(.dialog-modal, .menu-drawer, .account-drawer__dialog, .cart-drawer, .cart-drawer__dialog) .close-button svg,
+  .header[transparent] :is(.dialog-modal, .menu-drawer, .account-drawer__dialog, .cart-drawer, .cart-drawer__dialog) .close-button svg :is(path, line) {
+    color: #171717 !important;
+    stroke: #171717 !important;
+  }
+
+  .header[transparent] .cart-drawer__close-button,
+  .header[transparent] .cart-drawer__close-button svg,
+  .header[transparent] .cart-drawer__close-button svg :is(path, line) {
+    color: #171717 !important;
+    stroke: #171717 !important;
+  }
+
+  .header[transparent] .account-drawer__close-button,
+  .header[transparent] .account-drawer__close-button svg,
+  .header[transparent] .account-drawer__close-button svg :is(path, line) {
+    color: #171717 !important;
+    stroke: #171717 !important;
+  }
+
+  .header[transparent] .menu-drawer__close-button,
+  .header[transparent] .menu-drawer__close-button svg,
+  .header[transparent] .menu-drawer__close-button svg :is(path, line) {
+    color: #171717 !important;
+    stroke: #171717 !important;
+  }
+
+  .header[transparent] .menu-drawer .icon-caret svg,
+  .header[transparent] .menu-drawer .icon-caret svg path {
+    color: #171717 !important;
+    stroke: #171717 !important;
+  }
+
+  .header[transparent] .account-actions__icon svg,
+  .header[transparent] .account-actions__icon svg path {
+    color: #171717 !important;
+    stroke: #171717 !important;
   }
 
   :is(.header[transparent]:not([data-sticky-state='active']), .header[transparent='always'][data-sticky-state='active'])
@@ -549,16 +611,19 @@
 
   #header-component[transparent] {
     pointer-events: auto !important;
-    position: absolute !important;
+    position: fixed !important;
     top: 0 !important;
     left: 0 !important;
     right: 0 !important;
-    background: rgba(0, 0, 0, 0.5) !important;
-    background-color: rgba(0, 0, 0, 0.5) !important;
+    width: 100% !important;
+    z-index: var(--layer-sticky, 500) !important;
+    background: rgba(10, 10, 10, 0.55) !important;
+    background-color: rgba(10, 10, 10, 0.55) !important;
     backdrop-filter: blur(20px) saturate(180%) !important;
     -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14) !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18) !important;
     overflow: visible !important;
   }
 
@@ -570,25 +635,33 @@
   }
 
   #header-component[transparent][data-sticky-state='active'] {
+    position: fixed !important;
     transform: translateY(0) !important;
     pointer-events: auto !important;
-    background: rgba(0, 0, 0, 0.75) !important;
-    background-color: rgba(0, 0, 0, 0.75) !important;
+    background: rgba(10, 10, 10, 0.55) !important;
+    background-color: rgba(10, 10, 10, 0.55) !important;
     backdrop-filter: blur(20px) saturate(180%) !important;
     -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14) !important;
   }
 
   #header-component[transparent][data-sticky-state='inactive'] {
+    position: fixed !important;
     transform: translateY(0) !important;
     pointer-events: auto !important;
-    background: rgba(0, 0, 0, 0.5) !important;
-    background-color: rgba(0, 0, 0, 0.5) !important;
+    background: rgba(10, 10, 10, 0.55) !important;
+    background-color: rgba(10, 10, 10, 0.55) !important;
     backdrop-filter: blur(20px) saturate(180%) !important;
     -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14) !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18) !important;
+  }
+
+  #shopify-section-header_announcements_9jGBFp,
+  .announcement-bar {
+    display: none !important;
   }
 
   .header[data-sticky-state='active'] {
@@ -837,10 +910,20 @@
     }
   }
 
-  /* For pages without a top hero banner, add top spacing so content starts cleanly below the transparent header */
-  body:has(.header[transparent]) .content-for-layout > .shopify-section:first-child:not(:has(.hero, .hero2, .custom-hero, .collection-hero, slideshow-component, .slideshow, .layered-slideshow)) {
+  /* For pages without a top hero banner: the section sits at its natural flow position
+     (below the announcement bar, margin forced to 0) and clears the floating header plus
+     a consistent 20px breathing gap. Banner pages (hero/custom-hero/collection-hero/
+     d-lock-hero/...) are excluded here — they start flush at the header's bottom edge
+     via the base.css margin rule instead. */
+  body:has(.header[transparent]) .content-for-layout > .shopify-section:first-child:not(:has(.hero, .hero2, .custom-hero, .collection-hero, .d-lock-hero, slideshow-component, .slideshow, .layered-slideshow)) {
     margin-top: 0 !important;
-    padding-top: calc(var(--header-group-height, 35px) + var(--header-height, 70px) + 24px) !important;
+    padding-top: calc(var(--header-height, 70px) + 20px) !important;
+  }
+
+  /* The padding above already clears the floating header, so the theme's .spacing-style
+     top-offset must not stack a second header-height on top of it (cart/blog/search pages). */
+  body:has(.header[transparent]) .content-for-layout > .shopify-section:first-child:not(:has(.hero, .hero2, .custom-hero, .collection-hero, slideshow-component, .slideshow, .layered-slideshow)) :is(.section.spacing-style, .section .spacing-style) {
+    --section-top-offset: 0px;
   }
 
   /* Optimize layout performance for hidden menus */

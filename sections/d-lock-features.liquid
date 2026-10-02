@@ -81,17 +81,33 @@
     </div>
 
     <div class="d-lock-features__panel">
-      {%- if section.settings.panel_graphic != blank -%}
-        {{
-          section.settings.panel_graphic
-          | image_url: width: 1000
-          | image_tag:
-            class: 'd-lock-features__panel-graphic',
-            widths: '424, 848, 1000',
-            sizes: '(min-width: 750px) 540px, 92vw',
-            loading: 'lazy',
-            alt: ''
-        }}
+      {%- if section.settings.panel_graphic != blank or section.settings.panel_graphic_mobile != blank -%}
+        <picture class="d-lock-features__picture">
+          {%- if section.settings.panel_graphic_mobile != blank -%}
+            <source media="(max-width: 749px)" srcset="{{ section.settings.panel_graphic_mobile | image_url: width: 800 }}">
+          {%- endif -%}
+          {%- if section.settings.panel_graphic != blank -%}
+            {{
+              section.settings.panel_graphic
+              | image_url: width: 1000
+              | image_tag:
+                class: 'd-lock-features__panel-graphic',
+                widths: '424, 848, 1000',
+                sizes: '(min-width: 750px) 540px, 92vw',
+                loading: 'lazy',
+                alt: ''
+            }}
+          {%- else -%}
+            {{
+              section.settings.panel_graphic_mobile
+              | image_url: width: 800
+              | image_tag:
+                class: 'd-lock-features__panel-graphic',
+                loading: 'lazy',
+                alt: ''
+            }}
+          {%- endif -%}
+        </picture>
       {%- else -%}
         <img
           class="d-lock-features__panel-graphic"
@@ -255,6 +271,10 @@
     border-radius: 0.5208cqw;
     overflow: hidden;
     flex-shrink: 0;
+  }
+
+  .d-lock-features__picture {
+    display: contents;
   }
 
   .d-lock-features__panel-graphic {
@@ -935,6 +955,16 @@
     {
       "type": "header",
       "content": "Product panel"
+    },
+    {
+      "type": "image_picker",
+      "id": "panel_graphic",
+      "label": "Panel graphic (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "panel_graphic_mobile",
+      "label": "Panel graphic (Mobile)"
     },
     {
       "type": "video",

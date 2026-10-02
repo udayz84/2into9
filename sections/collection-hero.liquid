@@ -32,7 +32,15 @@
   if mobile_img == blank and collection.metafields.custom.mobile_hero_banner != blank
     assign mobile_img = collection.metafields.custom.mobile_hero_banner
   endif
-  if mobile_img == blank
+
+  assign mobile_asset = section.settings.mobile_asset_image
+  if mobile_img == blank and mobile_asset == blank
+    if collection.handle contains 'men' or collection.title contains 'Men'
+      assign mobile_asset = 'banner-mobile.jpg'
+    endif
+  endif
+
+  if mobile_img == blank and mobile_asset == blank
     assign mobile_img = desktop_img
   endif
 
@@ -116,28 +124,52 @@
 
 <div class="collection-hero color-{{ section.settings.color_scheme }}" id="CollectionHero-{{ section.id }}">
   <div class="collection-hero__media" aria-hidden="true">
-    {%- if desktop_img != blank or mobile_img != blank -%}
-      {%- if desktop_img != blank and mobile_img != blank and desktop_img != mobile_img -%}
+    {%- liquid
+      assign has_custom_mobile = false
+      if mobile_asset != blank
+        assign has_custom_mobile = true
+      elsif mobile_img != blank and desktop_img != blank and mobile_img != desktop_img
+        assign has_custom_mobile = true
+      endif
+    -%}
+    {%- if mobile_asset != blank or desktop_img != blank or mobile_img != blank -%}
+      {%- if has_custom_mobile -%}
         <picture class="collection-hero__picture">
           <source
             media="(max-width: 749px)"
-            srcset="{{ mobile_img | image_url: width: 600 }} 600w, {{ mobile_img | image_url: width: 900 }} 900w, {{ mobile_img | image_url: width: 1400 }} 1400w"
+            {% if mobile_img != blank and mobile_img != desktop_img %}
+              srcset="{{ mobile_img | image_url: width: 600 }} 600w, {{ mobile_img | image_url: width: 900 }} 900w, {{ mobile_img | image_url: width: 1400 }} 1400w"
+            {% elsif mobile_asset != blank %}
+              srcset="{{ mobile_asset | asset_url }}"
+            {% endif %}
             sizes="100vw"
           >
-          <source
-            media="(min-width: 750px)"
-            srcset="{{ desktop_img | image_url: width: 1200 }} 1200w, {{ desktop_img | image_url: width: 1800 }} 1800w, {{ desktop_img | image_url: width: 2400 }} 2400w, {{ desktop_img | image_url: width: 3200 }} 3200w"
-            sizes="100vw"
-          >
-          {{
-            desktop_img
-            | image_url: width: 2400
-            | image_tag:
-              class: 'collection-hero__image',
-              alt: hero_title,
-              loading: 'eager',
-              fetchpriority: 'high'
-          }}
+          {%- if desktop_img != blank -%}
+            <source
+              media="(min-width: 750px)"
+              srcset="{{ desktop_img | image_url: width: 1200 }} 1200w, {{ desktop_img | image_url: width: 1800 }} 1800w, {{ desktop_img | image_url: width: 2400 }} 2400w, {{ desktop_img | image_url: width: 3200 }} 3200w"
+              sizes="100vw"
+            >
+            {{
+              desktop_img
+              | image_url: width: 2400
+              | image_tag:
+                class: 'collection-hero__image',
+                alt: hero_title,
+                loading: 'eager',
+                fetchpriority: 'high'
+            }}
+          {%- elsif mobile_asset != blank -%}
+            <img
+              src="{{ mobile_asset | asset_url }}"
+              class="collection-hero__image"
+              alt="{{ hero_title }}"
+              width="1000"
+              height="1000"
+              loading="eager"
+              fetchpriority="high"
+            >
+          {%- endif -%}
         </picture>
       {%- elsif mobile_img != blank and desktop_img == blank -%}
         {{
@@ -200,7 +232,52 @@
   </div>
 </div>
 
+<script>
+  (function () {
+    var heroId = 'CollectionHero-{{ section.id }}';
+
+    function setBannerOffset() {
+      var hero = document.getElementById(heroId);
+      var header = document.getElementById('header-component');
+      if (!hero || !header) return;
+
+      if (!header.hasAttribute('transparent')) {
+        hero.style.marginBlockStart = '';
+        return;
+      }
+
+      var currentMargin = parseFloat(getComputedStyle(hero).marginBlockStart) || 0;
+      var naturalTop = hero.getBoundingClientRect().top - currentMargin;
+      var headerBottom = header.getBoundingClientRect().bottom;
+      var offset = Math.max(0, Math.round(headerBottom - naturalTop));
+
+      hero.style.marginBlockStart = offset + 'px';
+    }
+
+    setBannerOffset();
+    window.addEventListener('load', setBannerOffset);
+    window.addEventListener('resize', setBannerOffset);
+  })();
+</script>
+
 {% style %}
+  /*
+   * Transparent header offset — the banner
+   * starts below the floating dark-glass header
+   * instead of sliding underneath it.
+   * The exact value is measured by the script
+   * below; this is only the pre-JS fallback.
+   */
+  body:has(.header[transparent]) #shopify-section-{{ section.id }} .collection-hero {
+    margin-block-start: 140px;
+  }
+
+  @media screen and (max-width: 749px) {
+    body:has(.header[transparent]) #shopify-section-{{ section.id }} .collection-hero {
+      margin-block-start: 120px;
+    }
+  }
+
   #shopify-section-{{ section.id }} .collection-hero {
     position: relative;
     display: flex;
@@ -214,18 +291,24 @@
           aspect-ratio: {{ desktop_img.aspect_ratio }};
           min-height: 320px;
         {% else %}
-          min-height: {{ section.settings.desktop_height | default: 600 }}px;
+          min-height: 617px;
+          height: 617px;
         {% endif %}
       {% when 'small' %}
         min-height: 420px;
+        height: 420px;
       {% when 'medium' %}
         min-height: 560px;
+        height: 560px;
       {% when 'large' %}
         min-height: 720px;
+        height: 720px;
       {% when 'full' %}
         min-height: 100svh;
+        height: 100svh;
       {% else %}
-        min-height: {{ section.settings.desktop_height | default: 600 }}px;
+        min-height: 617px;
+        height: 617px;
     {% endcase %}
   }
 
@@ -393,11 +476,15 @@
 
   @media screen and (max-width: 749px) {
     #shopify-section-{{ section.id }} .collection-hero {
+      height: auto;
       {% case section.settings.mobile_height_mode %}
         {% when 'adapt' %}
-          {% if mobile_img != blank %}
+          {% if mobile_img != blank and mobile_img != desktop_img %}
             aspect-ratio: {{ mobile_img.aspect_ratio }};
             min-height: 220px;
+          {% elsif mobile_asset != blank %}
+            aspect-ratio: 4 / 5;
+            min-height: 320px;
           {% else %}
             min-height: {{ section.settings.mobile_height | default: 380 }}px;
           {% endif %}
@@ -420,12 +507,21 @@
           min-height: auto;
           aspect-ratio: auto;
         {% else %}
-          min-height: {{ section.settings.mobile_height | default: 380 }}px;
-          aspect-ratio: auto;
+          {% if mobile_asset != blank %}
+            aspect-ratio: 4 / 5;
+            min-height: 360px;
+          {% elsif mobile_img != blank and mobile_img != desktop_img %}
+            aspect-ratio: 4 / 5;
+            min-height: 360px;
+          {% else %}
+            min-height: {{ section.settings.mobile_height | default: 380 }}px;
+            aspect-ratio: auto;
+          {% endif %}
       {% endcase %}
     }
 
     #shopify-section-{{ section.id }} .collection-hero__image {
+      object-fit: cover;
       object-position: {{ section.settings.mobile_image_position | default: 'center center' }};
     }
 
@@ -433,7 +529,7 @@
       align-items: {{ m_align }};
       justify-content: {{ m_justify }};
       padding-inline: 20px;
-      padding-block: 32px;
+      padding-block: 28px;
     }
 
     #shopify-section-{{ section.id }} .collection-hero__content {
@@ -444,16 +540,19 @@
     #shopify-section-{{ section.id }} .collection-hero__eyebrow {
       font-size: {{ section.settings.mobile_eyebrow_size | default: 16 }}px;
       margin-bottom: 6px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
     }
 
     #shopify-section-{{ section.id }} .collection-hero__title {
       font-size: {{ section.settings.mobile_heading_size | default: 32 }}px;
       margin-bottom: {% if section.settings.show_description or section.settings.show_button %}18px{% else %}0{% endif %};
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
     }
 
     #shopify-section-{{ section.id }} .collection-hero__button {
       min-height: 44px;
       padding: 10px 22px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
     }
   }
 {% endstyle %}
@@ -515,7 +614,7 @@
       "max": 900,
       "step": 10,
       "unit": "px",
-      "default": 600
+      "default": 620
     },
     {
       "type": "header",
@@ -526,6 +625,13 @@
       "id": "mobile_image",
       "label": "Phone / Mobile hero image",
       "info": "Replaces the desktop image on mobile phones. If empty, desktop image is used."
+    },
+    {
+      "type": "text",
+      "id": "mobile_asset_image",
+      "label": "Phone / Mobile fallback asset filename",
+      "default": "banner-mobile.jpg",
+      "info": "Optional filename in assets folder (e.g. banner-mobile.jpg). Used when no mobile image is uploaded above."
     },
     {
       "type": "select",

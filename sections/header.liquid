@@ -14,31 +14,15 @@
     assign search_style = 'modal'
   endif
 
-  if section.settings.enable_transparent_header_home and template.name == 'index'
-    assign transparent = 'always'
-    assign transparent_color_scheme = section.settings.home_color_scheme
-  elsif section.settings.enable_transparent_header_product and template.name == 'product'
-    assign transparent = 'always'
-    assign transparent_color_scheme = section.settings.product_color_scheme
-  elsif section.settings.enable_transparent_header_collection and template.name == 'collection'
-    assign transparent = 'always'
-    assign transparent_color_scheme = section.settings.collection_color_scheme
-  endif
+  # Transparent frosted header on every page — same look as the home page.
+  # Pages without a hero handle the offset themselves (product-hero has its
+  # own padding rule, Horizon .section pages use the offset boolean).
+  assign transparent = 'always'
+  assign transparent_color_scheme = section.settings.color_scheme_transparent | default: 'scheme-6'
+  assign transparent_color_scheme = 'color-' | append: transparent_color_scheme
 
   if section.settings.enable_sticky_header != 'never'
     assign sticky = 'scroll-up'
-  endif
-
-  if transparent and sticky
-    assign transparent = 'not-sticky'
-  endif
-
-  if transparent
-    if transparent_color_scheme == 'inverse'
-      assign transparent_color_scheme = 'color-' | append: section.settings.color_scheme_transparent
-    else
-      assign transparent_color_scheme = 'color-' | append: section.settings.color_scheme_top
-    endif
   endif
 
   capture logo
@@ -438,89 +422,108 @@
     --language-button-background-color: transparent;
     --language-button-border-color: transparent;
 
-    /* used to apply transparency to .header__row, will only ever be transparent or unset */
-    --header-bg-color: transparent;
+    /* used to apply transparency to .header__row, will only ever be transparent */
+    --header-bg-color: transparent !important;
 
     /* used to display the appropriate logo based on transparency state */
-    --header-logo-display: none;
-    --header-logo-inverse-display: block;
+    --header-logo-display: none !important;
+    --header-logo-inverse-display: block !important;
 
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
 
-    /* transparent color scheme on .header should never apply its background color */
-    background-color: transparent;
+    background: rgba(0, 0, 0, 0.5) !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
     z-index: var(--layer-overlay);
 
-    &[transparent='not-sticky'][data-sticky-state='active'],
-    /* Only show opaque background when hovering over menu items with children (mega menu)
-       Multiple selectors for performance: each simple :has() check is faster than one complex selector with multiple conditions */
-    &:has(.mega-menu__list:hover),
-    &:has(.menu-list__link[aria-haspopup]:is(:hover, [aria-expanded='true'], [data-animating])),
-    &:has(.menu-list__list-item[slot='overflow'] .menu-list__link:is(:hover, [aria-expanded='true'], [data-animating])) {
-      --header-logo-display: unset;
-      --header-logo-inverse-display: unset;
-      --header-bg-color: unset;
-      --color-foreground: inherit;
-      --color-foreground-rgb: inherit;
-      --color-background: inherit;
-      --color-background-rgb: inherit;
-      --color-border: inherit;
-      --color-border-rgb: inherit;
-
-      .header__row {
-        /* Faster transition for "in" animation */
-        transition: color var(--animation-values-fast), border-color var(--animation-values-fast),
-          background-color var(--animation-values-fast);
-      }
-    }
-
     .header__row {
+      background: transparent !important;
+      background-color: transparent !important;
+      border-bottom: none !important;
+      border-color: transparent !important;
       /* Slower transition for "out" animation */
       transition: color var(--animation-values-slow), border-color var(--animation-values-slow),
         background-color var(--animation-values-slow);
     }
   }
 
+  /* Ensure all child rows and columns are completely transparent
+     (only when the header itself is transparent — never on normal headers) */
+  .header[transparent] .header__row,
+  .header[transparent] .header__columns,
+  .header[transparent] .header__column {
+    background: transparent !important;
+    background-color: transparent !important;
+    border-bottom: none !important;
+    border: none !important;
+  }
+
+  .header[transparent] .header-logo__image-container--original {
+    display: none !important;
+  }
+
+  .header[transparent] .header-logo__image-container--inverse {
+    display: block !important;
+  }
+
+  .header[transparent] .header-logo,
+  .header[transparent] .header-logo a,
+  .header[transparent] .header-logo__text,
+  .header[transparent] .menu-list__link,
+  .header[transparent] .header-actions__action,
+  .header[transparent] .header__icon--menu,
+  .header[transparent] .dropdown-localization__button,
+  .header[transparent] .localization-selector {
+    color: #ffffff !important;
+    --color-foreground: #ffffff !important;
+    --color-foreground-rgb: 255, 255, 255 !important;
+    font-weight: 600 !important;
+    text-shadow: none !important;
+  }
+
+  .header[transparent] .menu-list__link {
+    font-weight: 600 !important;
+  }
+
+  .header[transparent] .menu-list__link:hover,
+  .header[transparent] .header-actions__action:hover,
+  .header[transparent] .header__icon--menu:hover {
+    opacity: 0.7;
+    color: #ffffff !important;
+  }
+
+  .header[transparent] .header-actions__cart-icon svg,
+  .header[transparent] .search-action svg,
+  .header[transparent] .header__icon--menu svg,
+  .header[transparent] .account-action svg,
+  .header[transparent] .account-button svg,
+  .header[transparent] .icon-caret svg,
+  .header[transparent] .dropdown-localization__button svg {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+    filter: none !important;
+  }
+
+  .header[transparent] svg path {
+    stroke: #ffffff !important;
+  }
+
   :is(.header[transparent]:not([data-sticky-state='active']), .header[transparent='always'][data-sticky-state='active'])
-    .header__row:not(
-      :has(
-          .mega-menu__list:hover,
-          .menu-list__link[aria-haspopup]:is(:hover, [aria-expanded='true'], [data-animating]),
-          .menu-list__list-item[slot='overflow'] .menu-list__link:is(:hover, [aria-expanded='true'], [data-animating])
-        )
-    ) {
-    /* while transparent, header-row ignores its color-scheme settings, pull from the header-component */
-    --color-foreground: inherit;
-    --color-foreground-rgb: inherit;
+    .header__row {
+    --color-foreground: #ffffff;
+    --color-foreground-rgb: 255, 255, 255;
     --color-border: inherit;
     --color-border-rgb: inherit;
     --color-primary-button-background: inherit;
     --color-primary-button-text: inherit;
-  }
-
-  .header--inherit-color-scheme-on-menu-open:has(.mega-menu__list:hover) .header__row,
-  .header--inherit-color-scheme-on-menu-open:has(
-      .menu-list__link[aria-haspopup]:is(:hover, [aria-expanded='true'], [data-animating])
-    )
-    .header__row,
-  .header--inherit-color-scheme-on-menu-open:has(
-      .menu-list__list-item[slot='overflow'] .menu-list__link:is(:hover, [aria-expanded='true'], [data-animating])
-    )
-    .header__row {
-    --color-foreground: inherit;
-    --color-foreground-rgb: inherit;
-    --color-background: inherit;
-    --color-background-rgb: inherit;
-    --color-border: inherit;
-    --color-border-rgb: inherit;
-  }
-
-  .header-section {
-    position: relative;
-    z-index: var(--layer-heightened);
+    background: transparent !important;
+    background-color: transparent !important;
   }
 
   #header-group {
@@ -531,14 +534,32 @@
     position: sticky;
     top: 0;
     z-index: var(--layer-sticky, 500);
+    background: transparent !important;
+    background-color: transparent !important;
   }
 
   /* StepOne Auto-hide & Reveal Header Styles */
   #header-component {
     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-                box-shadow 0.25s ease;
+                box-shadow 0.25s ease,
+                background-color 0.25s ease !important;
     will-change: transform;
     transform: translateY(0);
+  }
+
+  #header-component[transparent] {
+    pointer-events: auto !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
+    overflow: visible !important;
   }
 
   #header-component.header--hidden,
@@ -548,16 +569,26 @@
     pointer-events: none !important;
   }
 
-  #header-component[data-sticky-state='active'] {
+  #header-component[transparent][data-sticky-state='active'] {
     transform: translateY(0) !important;
-    pointer-events: auto;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    pointer-events: auto !important;
+    background: rgba(0, 0, 0, 0.75) !important;
+    background-color: rgba(0, 0, 0, 0.75) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
   }
 
-  #header-component[data-sticky-state='inactive'] {
+  #header-component[transparent][data-sticky-state='inactive'] {
     transform: translateY(0) !important;
-    pointer-events: auto;
-    box-shadow: none;
+    pointer-events: auto !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
   }
 
   .header[data-sticky-state='active'] {
@@ -566,15 +597,16 @@
 
   .header__row {
     position: relative;
-
-    /* will default to bg from its color scheme unless --header-bg-color is transparent */
     background-color: var(--header-bg-color, var(--color-background));
   }
 
-  .header__row--top:not(.divider--page-width),
-  .header__row--top.divider--page-width .header__columns,
-  .header__row--bottom {
-    border-bottom: var(--border-bottom-width) solid var(--color-border);
+  .header[transparent] .header__row--top,
+  .header[transparent] .header__row--bottom,
+  .header[transparent] .header__row--top:not(.divider--page-width),
+  .header[transparent] .header__row--top.divider--page-width .header__columns {
+    border-bottom: none !important;
+    --border-bottom-width: 0px !important;
+    --border-bottom-width-mobile: 0px !important;
   }
 
   @media screen and (max-width: 749px) {
@@ -749,11 +781,11 @@
   .header {
     --header-padding: var(--padding-sm);
     --font-paragraph--line-height: 1;
-    contain: layout style;
+    contain: none !important;
   }
 
   .header:has(#Details-menu-drawer-container[open]) {
-    contain: style;
+    contain: none !important;
   }
 
   .header.header--compact {
@@ -803,6 +835,12 @@
     .sticky-content {
       margin-top: calc(var(--header-height) * var(--transparent-header-offset-boolean) * -1);
     }
+  }
+
+  /* For pages without a top hero banner, add top spacing so content starts cleanly below the transparent header */
+  body:has(.header[transparent]) .content-for-layout > .shopify-section:first-child:not(:has(.hero, .hero2, .custom-hero, .collection-hero, slideshow-component, .slideshow, .layered-slideshow)) {
+    margin-top: 0 !important;
+    padding-top: calc(var(--header-group-height, 35px) + var(--header-height, 70px) + 24px) !important;
   }
 
   /* Optimize layout performance for hidden menus */

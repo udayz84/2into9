@@ -221,6 +221,170 @@ class ProductHero extends HTMLElement {
 
   /*
    * =========================================================
+   * PINNED GALLERY
+   *
+   * Keeps the product gallery beside the buy
+   * column AND the description (accordion)
+   * until the description finishes. No
+   * animations — pure position updates.
+   * =========================================================
+   */
+
+  initPinnedGallery() {
+
+    const col =
+      this.querySelector(
+        '.ph__gallery-col'
+      );
+
+    const gallery =
+      this.querySelector(
+        '.ph__gallery-pin'
+      );
+
+    if (!col || !gallery) {
+      return;
+    }
+
+    const headerOffset = () => {
+      const header =
+        document.getElementById(
+          'header-component'
+        );
+
+      if (
+        !header ||
+        header.dataset.stickyState !==
+          'active'
+      ) {
+        return 0;
+      }
+
+      return (
+        Math.round(
+          header.getBoundingClientRect()
+            .height
+        ) || 0
+      );
+    };
+
+    /*
+     * Bottom of the right-hand content
+     * rail (description accordion), in
+     * document coordinates.
+     */
+    const railEnd = () => {
+      const acc =
+        document.querySelector(
+          'product-accordion .pa__grid > div:last-child'
+        );
+
+      if (acc) {
+        return (
+          acc.getBoundingClientRect()
+            .bottom +
+          window.scrollY
+        );
+      }
+
+      const why =
+        document.querySelector(
+          '[id*="__why"]'
+        );
+
+      if (why) {
+        return (
+          why.getBoundingClientRect()
+            .top +
+          window.scrollY -
+          24
+        );
+      }
+
+      return (
+        this.getBoundingClientRect()
+          .bottom +
+        window.scrollY
+      );
+    };
+
+    const update = () => {
+      if (
+        !matchMedia(
+          '(min-width: 1024px)'
+        ).matches
+      ) {
+        gallery.style.cssText = '';
+
+        return;
+      }
+
+      const topOffset =
+        headerOffset() + 16;
+
+      const rect =
+        col.getBoundingClientRect();
+
+      /*
+       * Not scrolled past the column yet —
+       * natural position.
+       */
+      if (rect.top >= topOffset) {
+        gallery.style.cssText = '';
+
+        return;
+      }
+
+      /*
+       * Document-space top the gallery
+       * must have once the rail ends.
+       */
+      const releasedTop =
+        railEnd() -
+        gallery.offsetHeight;
+
+      const top =
+        Math.min(
+          topOffset,
+          releasedTop -
+            window.scrollY
+        );
+
+      gallery.style.cssText =
+        `position:fixed;` +
+        `top:${Math.round(top)}px;` +
+        `left:${rect.left}px;` +
+        `width:${rect.width}px;` +
+        `z-index:1;`;
+    };
+
+    /*
+     * Drive the pin position from a light
+     * interval loop so it stays correct
+     * regardless of how the page is
+     * scrolled (wheel, keyboard, anchor
+     * jumps, programmatic) and even when
+     * scroll events are throttled.
+     */
+    setInterval(update, 100);
+
+    window.addEventListener(
+      'scroll',
+      update,
+      {
+        passive: true
+      }
+    );
+
+    window.addEventListener(
+      'resize',
+      update
+    );
+  }
+
+
+  /*
+   * =========================================================
    * GALLERY
    * =========================================================
    */
@@ -242,6 +406,14 @@ class ProductHero extends HTMLElement {
 
 
   activateSlide(index) {
+    if (!this.gallery) {
+      this.gallery = this.querySelector('[data-gallery]');
+    }
+    if (!this.slides || !this.slides.length) {
+      this.slides = this.gallery
+        ? Array.from(this.gallery.querySelectorAll('[data-slide]'))
+        : [];
+    }
 
     if (!this.slides.length) return;
 
@@ -250,10 +422,8 @@ class ProductHero extends HTMLElement {
         this.slides.length) %
       this.slides.length;
 
-
     this.slides.forEach(
       (slide, i) => {
-
         slide.classList.toggle(
           'is-active',
           i === clamped
@@ -263,33 +433,47 @@ class ProductHero extends HTMLElement {
           slide,
           i !== clamped
         );
-
       }
     );
-
 
     this.querySelectorAll(
       '.ph-thumb'
     ).forEach(
       (thumb, i) => {
-
         thumb.classList.toggle(
           'is-active',
           i === clamped
         );
-
       }
     );
 
+    /*
+     * Keep the active thumbnail visible
+     * inside the single-row slider.
+     */
+    const activeThumb =
+      this.querySelector('.ph-thumb.is-active');
+
+    activeThumb?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'center'
+    });
 
     this.playVideoInSlide(
       this.slides[clamped]
     );
-
   }
 
-
   initGallery() {
+    if (!this.gallery) {
+      this.gallery = this.querySelector('[data-gallery]');
+    }
+    if (!this.slides || !this.slides.length) {
+      this.slides = this.gallery
+        ? Array.from(this.gallery.querySelectorAll('[data-slide]'))
+        : [];
+    }
 
     if (
       !this.gallery ||
@@ -297,7 +481,6 @@ class ProductHero extends HTMLElement {
     ) {
       return;
     }
-
 
     const prev =
       this.gallery.querySelector(
@@ -309,9 +492,7 @@ class ProductHero extends HTMLElement {
         '[data-gallery-next]'
       );
 
-
     const go = (direction) => {
-
       const currentIndex =
         this.slides.findIndex(
           slide =>
@@ -320,53 +501,91 @@ class ProductHero extends HTMLElement {
             )
         );
 
-
       this.activateSlide(
         currentIndex + direction
       );
-
     };
-
 
     prev?.addEventListener(
       'click',
       () => go(-1)
     );
 
-
     next?.addEventListener(
       'click',
       () => go(1)
     );
 
-
     /*
      * Initialise any video slides.
      */
     this.initVideos();
-
   }
 
-
   initThumbs() {
-
     this.querySelectorAll(
       '.ph-thumb'
     ).forEach(
       (thumb, index) => {
+        const idx =
+          thumb.dataset.thumbIndex != null
+            ? parseInt(thumb.dataset.thumbIndex, 10)
+            : index;
 
         thumb.addEventListener(
           'click',
-          () => {
-
-            this.activateSlide(index);
-
+          (event) => {
+            event.preventDefault();
+            this.activateSlide(idx);
           }
         );
-
       }
     );
 
+    const prevThumb = this.querySelector('[data-thumbs-prev]');
+    const nextThumb = this.querySelector('[data-thumbs-next]');
+
+    const goThumb = (direction) => {
+      if (!this.gallery) {
+        this.gallery = this.querySelector('[data-gallery]');
+      }
+      if (!this.slides || !this.slides.length) {
+        this.slides = this.gallery
+          ? Array.from(this.gallery.querySelectorAll('[data-slide]'))
+          : [];
+      }
+      if (!this.slides.length) return;
+
+      const currentIndex = this.slides.findIndex(slide =>
+        slide.classList.contains('is-active')
+      );
+      const activeIdx = currentIndex !== -1 ? currentIndex : 0;
+      const targetIndex =
+        ((activeIdx + direction) % this.slides.length + this.slides.length) %
+        this.slides.length;
+
+      this.activateSlide(targetIndex);
+
+      const thumbsContainer = this.querySelector('[data-thumbs]');
+      if (thumbsContainer) {
+        const activeThumb = thumbsContainer.querySelector('.ph-thumb.is-active');
+        activeThumb?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'center'
+        });
+      }
+    };
+
+    prevThumb?.addEventListener('click', (e) => {
+      e.preventDefault();
+      goThumb(-1);
+    });
+
+    nextThumb?.addEventListener('click', (e) => {
+      e.preventDefault();
+      goThumb(1);
+    });
   }
 
 
@@ -565,165 +784,6 @@ class ProductHero extends HTMLElement {
 
   /*
    * =========================================================
-   * PINNED GALLERY
-   * =========================================================
-   */
-
-  initPinnedGallery() {
-
-    const col =
-      this.querySelector(
-        '.ph__gallery-col'
-      );
-
-    const gallery =
-      this.querySelector(
-        '.ph__gallery-pin'
-      );
-
-
-    if (!col || !gallery) {
-      return;
-    }
-
-
-    const headerOffset = () => {
-
-      const header =
-        document.querySelector(
-          '#header-component, header-component'
-        );
-
-
-      return (
-        header &&
-        header.getAttribute(
-          'data-sticky-state'
-        ) === 'active'
-      )
-        ? parseFloat(
-            getComputedStyle(
-              document.documentElement
-            ).getPropertyValue(
-              '--header-height'
-            )
-          ) || 0
-        : 0;
-
-    };
-
-
-    const railEnd = () => {
-
-      const why =
-        document.querySelector(
-          '[id*="__why"]'
-        );
-
-
-      if (why) {
-
-        return why.offsetTop - 20;
-
-      }
-
-
-      const acc =
-        document.querySelector(
-          '[id*="__accordion"]'
-        );
-
-
-      return acc
-        ? acc.offsetTop +
-          acc.offsetHeight
-        : this.offsetTop +
-          this.offsetHeight;
-
-    };
-
-
-    const update = () => {
-
-      if (
-        !matchMedia(
-          '(min-width: 1024px)'
-        ).matches
-      ) {
-
-        gallery.style.cssText = '';
-
-        return;
-
-      }
-
-
-      const topOffset =
-        headerOffset() + 20;
-
-
-      const rect =
-        col.getBoundingClientRect();
-
-
-      const shouldPin =
-        rect.top < topOffset;
-
-
-      if (!shouldPin) {
-
-        gallery.style.cssText = '';
-
-        return;
-
-      }
-
-
-      const releasedTop =
-        railEnd() -
-        gallery.offsetHeight -
-        window.scrollY;
-
-
-      const top =
-        Math.min(
-          topOffset,
-          releasedTop
-        );
-
-
-      gallery.style.cssText =
-        `position:fixed;` +
-        `top:${top}px;` +
-        `left:${rect.left}px;` +
-        `width:${rect.width}px;` +
-        `z-index:2;`;
-
-    };
-
-
-    document.addEventListener(
-      'scroll',
-      update,
-      {
-        passive: true
-      }
-    );
-
-
-    window.addEventListener(
-      'resize',
-      update
-    );
-
-
-    update();
-
-  }
-
-
-  /*
-   * =========================================================
    * SIZE / VARIANT SELECTION
    * =========================================================
    */
@@ -813,6 +873,32 @@ class ProductHero extends HTMLElement {
 
               this.priceEl.textContent =
                 input.dataset.price;
+
+            }
+
+
+            /*
+             * Update strikethrough compare price.
+             */
+            const compareEl =
+              this.querySelector(
+                '[data-compare-price]'
+              );
+
+            if (compareEl) {
+
+              if (input.dataset.comparePrice) {
+
+                compareEl.textContent =
+                  input.dataset.comparePrice;
+
+                compareEl.hidden = false;
+
+              } else {
+
+                compareEl.hidden = true;
+
+              }
 
             }
 
@@ -961,6 +1047,14 @@ class ProductHero extends HTMLElement {
             this.state.quantity =
               quantity;
 
+            /*
+             * Mark this update as an explicit
+             * bundle selection so the colour
+             * builder shows the exact quantity
+             * (1 Pair = 1, 2 Pairs = 2 ...).
+             */
+            this.state.quantityFromBundle =
+              true;
 
             this.state.discount =
               discount;
@@ -986,12 +1080,60 @@ class ProductHero extends HTMLElement {
 
             this.emit();
 
+            delete this.state
+              .quantityFromBundle;
+
+
+            /*
+             * Guide the customer to the next
+             * step: smoothly scroll the colour
+             * chooser (and its Add to Cart)
+             * into view.
+             */
+            const colourSection =
+              this.querySelector(
+                'product-colour-builder'
+              ) ||
+              document.querySelector(
+                'product-colour-builder'
+              );
+
+            if (
+              colourSection &&
+              !this.isUserScrollingPast(
+                colourSection
+              )
+            ) {
+              colourSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+              });
+            }
+
           }
         );
 
       }
     );
 
+  }
+
+
+  /*
+   * True when the colour section is
+   * already in/above the viewport, so we
+   * avoid yanking the page while the user
+   * interacts with it.
+   */
+  isUserScrollingPast(el) {
+    const rect =
+      el.getBoundingClientRect();
+
+    return (
+      rect.top >= -40 &&
+      rect.top <
+        window.innerHeight * 0.75
+    );
   }
 
 
@@ -1002,199 +1144,69 @@ class ProductHero extends HTMLElement {
    */
 
   updateBundlePrices() {
-    /* Preserve dynamic Shopify blocks - do not override */
-    return;
 
-
-    /*
-     * Fallback to Liquid's initial
-     * variant price.
-     */
-    if (
-      !Number.isFinite(
-        basePrice
-      ) ||
-      basePrice <= 0
-    ) {
-
-      const container =
-        this.querySelector(
-          '[data-bundle-selector]'
-        );
-
-
-      basePrice =
-        parseInt(
-          container?.dataset
-            .baseVariantPrice ||
-          '0',
-          10
-        );
-
-    }
-
-
-    if (
-      !Number.isFinite(
-        basePrice
-      ) ||
-      basePrice <= 0
-    ) {
-
-      return;
-
-    }
-
-
-    this.querySelectorAll(
-      '.ph-bundle__input'
-    ).forEach(
-      input => {
-
-        const quantity =
-          parseInt(
-            input.dataset.qty,
-            10
-          ) || 1;
-
-
-        const discount =
-          this.getDiscountForQuantity(
-            quantity
-          );
-
-
-        /*
-         * Price per item after discount.
-         */
-        const discountedPrice =
-          Math.round(
-            basePrice *
-            (100 - discount) /
-            100
-          );
-
-
-        /*
-         * Total bundle price.
-         */
-        const totalPrice =
-          discountedPrice *
-          quantity;
-
-
-        /*
-         * Save values.
-         */
-        input.dataset.discount =
-          discount;
-
-        input.dataset.priceEach =
-          discountedPrice;
-
-        input.dataset.totalPrice =
-          totalPrice;
-
-        input.dataset.basePrice =
-          basePrice;
-
-
-        const label =
-          input.closest(
-            '.ph-bundle'
-          );
-
-
-        if (!label) {
-          return;
-        }
-
-
-        /*
-         * Update /each price.
-         */
-        const priceElement =
-          label.querySelector(
-            '[data-bundle-price]'
-          );
-
-
-        if (priceElement) {
-
-          priceElement.textContent =
-            this.formatMoney(
-              discountedPrice
-            ) +
-            '/each';
-
-        }
-
-
-        /*
-         * Update discount badge.
-         */
-        const discountElement =
-          label.querySelector(
-            '[data-bundle-discount]'
-          );
-
-
-        if (discountElement) {
-
-          if (discount > 0) {
-
-            discountElement.textContent =
-              `${discount}% OFF`;
-
-            discountElement.style.display =
-              '';
-
-          } else {
-
-            discountElement.style.display =
-              'none';
-
-          }
-
-        }
-
-      }
+    const variantPrice = parseInt(
+      this.currentVariantPrice,
+      10
     );
 
+    if (
+      !Number.isFinite(variantPrice) ||
+      variantPrice <= 0
+    ) {
+      return;
+    }
 
-    /*
-     * Update selected bundle state.
-     */
-    const selected =
-      this.querySelector(
-        '.ph-bundle__input:checked'
-      );
+    let minPaise = variantPrice;
 
+        this.querySelectorAll('.ph-bundle__input').forEach(input => {
 
-    if (selected) {
-
-      this.state.quantity =
+      const discount =
         parseInt(
-          selected.dataset.qty,
-          10
-        ) || 1;
-
-
-      this.state.discount =
-        parseInt(
-          selected.dataset.discount,
+          input.dataset.discountPercent,
           10
         ) || 0;
 
+      const eachPaise =
+        Math.round(
+          variantPrice * (100 - discount) / 100
+        );
 
-      this.state.priceEach =
-        selected.dataset.priceEach ||
-        '';
+      if (eachPaise < minPaise) {
+        minPaise = eachPaise;
+      }
 
+      const label =
+        input.closest('.ph-bundle');
 
-      this.state.totalPrice =
-        selected.dataset.totalPrice ||
-        '';
+      const priceEl =
+        label &&
+        label.querySelector('[data-bundle-price]');
+
+      if (priceEl) {
+        priceEl.textContent =
+          this.formatMoneyPaise(eachPaise);
+      }
+
+    });
+
+    const lowAsEl =
+      this.querySelector('[data-low-as]');
+
+    if (lowAsEl) {
+
+      if (minPaise < variantPrice) {
+
+        lowAsEl.textContent =
+          'Low as ' + this.formatMoneyPaise(minPaise);
+
+        lowAsEl.hidden = false;
+
+      } else {
+
+        lowAsEl.hidden = true;
+
+      }
 
     }
 
@@ -1203,30 +1215,16 @@ class ProductHero extends HTMLElement {
 
   /*
    * =========================================================
-   * DISCOUNT RULES
+   * MONEY FORMAT (paise -> Rs.)
    * =========================================================
    */
 
-  getDiscountForQuantity(
-    quantity
-  ) {
+  formatMoneyPaise(cents) {
 
-    switch (quantity) {
-
-      case 2:
-        return 5;
-
-      case 3:
-        return 10;
-
-      case 5:
-        return 12;
-
-      case 1:
-      default:
-        return 0;
-
-    }
+    return 'Rs. ' + (cents / 100).toLocaleString('en-IN', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
 
   }
 
@@ -1428,6 +1426,24 @@ class ProductHero extends HTMLElement {
             }
           }
 
+          const heroDetail = {
+            resource: data || {},
+            sourceId: String(form.querySelector('[name="id"]')?.value || ''),
+            data: {
+              source: 'product-form-component',
+              itemCount: Number(form.querySelector('[name="quantity"]')?.value) || 1,
+              productId: String(this.dataset.productId || ''),
+              sections: data?.sections || {}
+            }
+          };
+
+          document.dispatchEvent(
+            new CustomEvent('cart:update', {
+              bubbles: true,
+              detail: heroDetail
+            })
+          );
+
           /* Also notify themes/apps listening for cart changes. */
           document.dispatchEvent(
             new CustomEvent('cart:updated', {
@@ -1439,7 +1455,7 @@ class ProductHero extends HTMLElement {
           document.dispatchEvent(
             new CustomEvent('cart:refresh', {
               bubbles: true,
-              detail: { cart: data }
+              detail: heroDetail
             })
           );
 
@@ -1571,18 +1587,27 @@ class ProductHero extends HTMLElement {
     }
 
     const drawer =
+      document.querySelector('cart-drawer-component') ||
       document.querySelector('cart-drawer') ||
       document.querySelector('#CartDrawer') ||
       document.querySelector('.cart-drawer');
 
-    if (!drawer) {
-      /* The cart was still added successfully; use the cart page only
-       * when there is no visible drawer implementation at all. */
+    const trigger =
+      document.querySelector('[data-testid="cart-drawer-trigger"]');
+
+    if (drawer && typeof drawer.open === 'function') {
+      drawer.open();
       return;
     }
 
-    if (typeof drawer.open === 'function') {
-      drawer.open();
+    if (trigger) {
+      trigger.click();
+      return;
+    }
+
+    if (!drawer) {
+      /* The cart was still added successfully; use the cart page only
+       * when there is no visible drawer implementation at all. */
       return;
     }
 
@@ -1773,7 +1798,15 @@ class ProductHero extends HTMLElement {
     }
 
 
+    /*
+     * The initial quantity comes from the
+     * checked bundle — exact, no clamping.
+     */
+    this.state.quantityFromBundle = true;
+
     this.emit();
+
+    delete this.state.quantityFromBundle;
 
   }
 

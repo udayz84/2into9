@@ -10,6 +10,9 @@
   id="DLockMarquee-{{ section.id }}"
   style="--dlmq-band: {{ section.settings.band_color }};"
 >
+  {%- if section.settings.label != blank -%}
+    <div class="d-lock-marquee__label">{{ section.settings.label | escape }}</div>
+  {%- endif -%}
   <div class="d-lock-marquee__band">
     <div class="d-lock-marquee__track" style="--dlmq-duration: {{ section.settings.speed }}s;">
       {%- if section.blocks.size > 0 -%}
@@ -41,6 +44,19 @@
     overflow: hidden;
     margin: 0;
     padding: 0;
+  }
+
+  .d-lock-marquee__label {
+    background: #171717;
+    color: #ffffff;
+    text-align: center;
+    font-size: clamp(12px, 1vw, 14px);
+    font-weight: 600;
+    font-style: italic;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 13px 20px;
+    line-height: 1.3;
   }
 
   .d-lock-marquee__band {
@@ -155,7 +171,7 @@
       "type": "text",
       "id": "label",
       "label": "Label",
-      "default": "X-CUP IS BUILT FOR..."
+      "default": "D-LOCK IS BUILT FOR..."
     },
     {
       "type": "range",

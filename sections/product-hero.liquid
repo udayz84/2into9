@@ -17,6 +17,23 @@
 
 {{ 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap' | stylesheet_tag }}
 
+{% style %}
+  /* Normal spacing under the floating transparent header.
+     The theme's global rule adds header-group-height + header-height + 24px
+     (double-counting the announcement bar), leaving a large empty gap at the
+     top of the product page. Keep a clean ~28px gap below the header instead.
+     Rendered inline (not compiled into styles.css) so it always applies. */
+  body:has(.header[transparent]) #shopify-section-{{ section.id }} {
+    padding-block-start: calc(var(--header-height, 70px) + 28px) !important;
+  }
+
+  @media (max-width: 749px) {
+    body:has(.header[transparent]) #shopify-section-{{ section.id }} {
+      padding-block-start: calc(var(--header-height, 70px) + 20px) !important;
+    }
+  }
+{% endstyle %}
+
 <product-hero
   class="ph"
   style="--ph-padding-inline: {{ section.settings.page_padding }}px;"
@@ -169,37 +186,90 @@
       </div>
 
       {%- if product.media.size > 1 -%}
-        <div class="ph-thumbs" data-thumbs>
-          {%- for media in product.media -%}
-            <button
-              type="button"
-              class="ph-thumb{% if forloop.first %} is-active{% endif %}"
-              data-thumb-index="{{ forloop.index0 }}"
-              aria-label="Show image {{ forloop.index }}"
-            >
-              {{
-                media
-                | image_url: width: 200
-                | image_tag:
-                  class: 'ph-thumb__image',
-                  widths: '200, 164',
-                  sizes: '200px',
-                  loading: 'lazy',
-                  alt: media.alt | escape
-              }}
-            </button>
-          {%- endfor -%}
+        <div class="ph-thumbs-wrap">
+          <button
+            type="button"
+            class="ph-thumbs__arrow ph-thumbs__arrow--prev"
+            data-thumbs-prev
+            aria-label="Previous image"
+          >
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 3.5 5.5 8l4.5 4.5" />
+            </svg>
+          </button>
+
+          <div class="ph-thumbs" data-thumbs>
+            {%- for media in product.media -%}
+              <button
+                type="button"
+                class="ph-thumb{% if forloop.first %} is-active{% endif %}"
+                data-thumb-index="{{ forloop.index0 }}"
+                aria-label="Show image {{ forloop.index }}"
+              >
+                {{
+                  media
+                  | image_url: width: 200
+                  | image_tag:
+                    class: 'ph-thumb__image',
+                    widths: '200, 164',
+                    sizes: '200px',
+                    loading: 'lazy',
+                    alt: media.alt | escape
+                }}
+              </button>
+            {%- endfor -%}
+          </div>
+
+          <button
+            type="button"
+            class="ph-thumbs__arrow ph-thumbs__arrow--next"
+            data-thumbs-next
+            aria-label="Next image"
+          >
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 3.5 10.5 8 6 12.5" />
+            </svg>
+          </button>
         </div>
       {%- endif -%}
      </div>
     </div>
 
     <div class="ph__buy-col">
+      {%- liquid
+        assign first_variant = product.selected_or_first_available_variant
+        assign low_as_paise = first_variant.price
+        for block in section.blocks
+          if block.type == 'bundle'
+            assign bundle_discount = block.settings.discount_percent | default: 0 | plus: 0
+            if bundle_discount > 0
+              assign bundle_price_paise = first_variant.price | times: 100 | minus: bundle_discount | divided_by: 100
+              if bundle_price_paise < low_as_paise
+                assign low_as_paise = bundle_price_paise
+              endif
+            endif
+          endif
+        endfor
+      -%}
       <div class="ph-title">
         <h1 class="ph-title__heading">{{ product.title }}</h1>
-        <p class="ph-title__price" data-price>
-          {{ product.selected_or_first_available_variant.price | money }}
-        </p>
+        <div class="ph-title__pricing">
+          <div class="ph-title__price-row">
+            <s
+              class="ph-title__compare"
+              data-compare-price
+              {% unless first_variant.compare_at_price > first_variant.price %}hidden{% endunless %}
+            >
+              {{ first_variant.compare_at_price | default: first_variant.price | money }}
+            </s>
+            <p class="ph-title__price" data-price>
+              {{ first_variant.price | money }}
+            </p>
+          </div>
+          {%- if low_as_paise < first_variant.price -%}
+            <p class="ph-title__lowas" data-low-as>Low as {{ low_as_paise | money }}</p>
+          {%- endif -%}
+        </div>
       </div>
 
       {%- if section.blocks.size > 0 -%}
@@ -278,8 +348,13 @@
                   {% if matching_variant %}data-variant-id="{{ matching_variant.id }}"{% endif %}
                   {% if matching_variant %}
                     data-price="{{ matching_variant.price | money }}"
+                    data-price-cents="{{ matching_variant.price }}"
                   {% else %}
                     data-price="{{ product.selected_or_first_available_variant.price | money }}"
+                    data-price-cents="{{ product.selected_or_first_available_variant.price }}"
+                  {% endif %}
+                  {% if matching_variant.compare_at_price > matching_variant.price %}
+                    data-compare-price="{{ matching_variant.compare_at_price | money }}"
                   {% endif %}
                   {% if matching_variant and matching_variant.featured_image %}
                     data-variant-image-id="{{ matching_variant.featured_image.id }}"
@@ -323,6 +398,12 @@
                   if qty == 0
                     assign qty = 1
                   endif
+                  assign bundle_discount = block.settings.discount_percent | default: 0 | plus: 0
+                  if bundle_discount > 0
+                    assign bundle_price_paise = first_variant.price | times: 100 | minus: bundle_discount | divided_by: 100
+                  else
+                    assign bundle_price_paise = first_variant.price
+                  endif
                 -%}
                 <label
                   class="ph-bundle{% if block.settings.selected %} is-selected{% endif %}"
@@ -336,8 +417,7 @@
                     name="bundle-quantity-{{ section.id }}"
                     value="{{ qty }}"
                     data-qty="{{ qty }}"
-                    data-price-each="{{ block.settings.price_each | escape }}"
-                    data-discount="{{ block.settings.discount_badge | escape }}"
+                    data-discount-percent="{{ bundle_discount }}"
                     {% if block.settings.selected %}
                       checked
                     {% endif %}
@@ -351,15 +431,13 @@
                     {{ block.settings.pairs }}
                   </span>
 
-                  {%- if block.settings.price_each != blank -%}
-                    <span class="ph-bundle__price" data-bundle-price>
-                      {{ block.settings.price_each }}
-                    </span>
-                  {%- endif -%}
+                  <span class="ph-bundle__price" data-bundle-price>
+                    {{ bundle_price_paise | money }}
+                  </span>
 
-                  {%- if block.settings.discount_badge != blank -%}
+                  {%- if bundle_discount > 0 -%}
                     <span class="ph-bundle__badge ph-bundle__badge--discount" data-bundle-discount>
-                      {{ block.settings.discount_badge }}
+                      {{ bundle_discount }}% OFF
                     </span>
                   {%- endif -%}
                 </label>
@@ -534,21 +612,20 @@
           "default": "15 Pairs"
         },
         {
-          "type": "text",
-          "id": "price_each",
-          "label": "Price per pair",
-          "default": "Rs 800/each"
+          "type": "range",
+          "id": "discount_percent",
+          "label": "Discount per pair",
+          "info": "Per-pair price is calculated from the product price automatically",
+          "min": 0,
+          "max": 90,
+          "step": 1,
+          "unit": "%",
+          "default": 0
         },
         {
           "type": "text",
           "id": "top_badge",
           "label": "Top badge",
-          "info": "Leave empty for none"
-        },
-        {
-          "type": "text",
-          "id": "discount_badge",
-          "label": "Discount badge",
           "info": "Leave empty for none"
         },
         {
@@ -564,14 +641,14 @@
     {
       "name": "Product Hero",
       "blocks": [
-        { "type": "feature", "settings": { "label": "Shorter Leg", "icon": "ruler", "highlight": true } },
+        { "type": "feature", "settings": { "label": "Shorter Leg", "icon": "ruler" } },
         { "type": "feature", "settings": { "label": "Anti-Chafe", "icon": "shield" } },
         { "type": "feature", "settings": { "label": "Soft Bamboo Viscose", "icon": "leaf" } },
         { "type": "feature", "settings": { "label": "Anti-Sweat", "icon": "sweat" } },
-        { "type": "bundle", "settings": { "pairs": "15 Pairs", "price_each": "Rs 800/each", "top_badge": "Best Value", "discount_badge": "20% OFF" } },
-        { "type": "bundle", "settings": { "pairs": "15 Pairs", "price_each": "Rs 840/each", "top_badge": "Most Popular", "discount_badge": "15% OFF", "selected": true } },
-        { "type": "bundle", "settings": { "pairs": "4 Pairs", "price_each": "Rs 870/each", "discount_badge": "10% OFF" } },
-        { "type": "bundle", "settings": { "pairs": "1 Pair", "price_each": "Rs 929/each" } }
+        { "type": "bundle", "settings": { "pairs": "5 Pairs", "discount_percent": 20, "top_badge": "Best Value" } },
+        { "type": "bundle", "settings": { "pairs": "3 Pairs", "discount_percent": 10, "top_badge": "Most Popular" } },
+        { "type": "bundle", "settings": { "pairs": "2 Pairs", "discount_percent": 5 } },
+        { "type": "bundle", "settings": { "pairs": "1 Pair", "selected": true } }
       ]
     }
   ]
@@ -650,8 +727,6 @@
 
   @media (min-width: 1024px) {
     .ph__gallery-col {
-      position: sticky;
-      top: 16px;
       align-self: start;
     }
   }
@@ -664,6 +739,7 @@
     border: 0.5px solid var(--ph-border);
     border-radius: 12px;
     overflow: hidden;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16), 0 6px 16px rgba(0, 0, 0, 0.1);
   }
 
   .ph-gallery__stage {
@@ -768,48 +844,119 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 42px;
-    height: 42px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     display: grid;
     place-items: center;
-    background: rgba(255, 255, 255, 0.85);
-    border: 0.5px solid var(--ph-border);
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(0, 0, 0, 0.08);
     color: var(--ph-ink);
     cursor: pointer;
-    z-index: 2;
-    transition: background 0.2s ease;
+    z-index: 4;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
   .ph-gallery__arrow:hover {
-    background: #fff;
+    background: #111111;
+    color: #ffffff;
+    border-color: #111111;
+    transform: translateY(-50%) scale(1.08);
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.22);
+  }
+
+  .ph-gallery__arrow:active {
+    transform: translateY(-50%) scale(0.94);
   }
 
   .ph-gallery__arrow svg {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
   }
 
   .ph-gallery__arrow--prev {
-    left: 30px;
+    left: 20px;
   }
 
   .ph-gallery__arrow--next {
-    right: 30px;
+    right: 20px;
   }
 
-  /* Thumbnail grid under the main image */
-  .ph-thumbs {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 10px;
+  /* Thumbnail slider under the main image — one row, scrolls horizontally with sleek arrows */
+  .ph-thumbs-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     margin-block-start: 12px;
     width: 100%;
+    z-index: 5;
+    pointer-events: auto;
+  }
+
+  .ph-thumbs__arrow {
+    flex: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    color: var(--ph-ink, #111111);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 0;
+    pointer-events: auto;
+    z-index: 6;
+  }
+
+  .ph-thumbs__arrow:hover {
+    background: #111111;
+    color: #ffffff;
+    border-color: #111111;
+    transform: scale(1.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .ph-thumbs__arrow:active {
+    transform: scale(0.92);
+  }
+
+  .ph-thumbs__arrow svg {
+    width: 13px;
+    height: 13px;
+    display: block;
+    stroke: currentColor;
+  }
+
+  .ph-thumbs {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    gap: 10px;
+    margin-block-start: 0;
+    width: 100%;
+    position: relative;
+    z-index: 5;
+    pointer-events: auto;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+  }
+
+  .ph-thumbs::-webkit-scrollbar {
+    display: none;
   }
 
   .ph-thumb {
     padding: 0;
-    border: 1px solid var(--ph-border);
+    border: 1px solid #e3e3e3;
     border-radius: 8px;
     overflow: clip;
     cursor: pointer;
@@ -817,10 +964,33 @@
     display: block;
     width: 100%;
     aspect-ratio: 1;
+    position: relative;
+    z-index: 5;
+    pointer-events: auto;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.14);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    flex: 0 0 calc((100% - 50px) / 6);
+    scroll-snap-align: start;
+  }
+
+  /* Dim unselected thumbnails with a transparent black overlay */
+  .ph-thumb::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.42);
+    pointer-events: none;
+    z-index: 1;
+    transition: background 0.2s ease;
+  }
+
+  .ph-thumb.is-active::after {
+    background: transparent;
   }
 
   .ph-thumb.is-active {
-    border: 2px solid var(--ph-ink);
+    border: 1.5px solid var(--ph-ink);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
   }
 
   .ph-thumb__image {
@@ -833,9 +1003,11 @@
   /* Title + price */
   .ph-title {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-start;
-    gap: 4px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px 24px;
   }
 
   .ph-title__heading {
@@ -847,10 +1019,40 @@
     text-transform: none;
   }
 
+  .ph-title__pricing {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+
+  .ph-title__price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .ph-title__compare {
+    font-size: 16px;
+    font-weight: 600;
+    color: #9b9b9b;
+    text-decoration: line-through;
+  }
+
   .ph-title__price {
     margin: 0;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 700;
+    line-height: 1.2;
+    color: #e01e1e;
+  }
+
+  .ph-title__lowas {
+    margin: 2px 0 0;
+    font-size: 13.5px;
+    font-weight: 500;
     line-height: 1.3;
     color: var(--ph-ink);
   }
@@ -1042,7 +1244,7 @@
     text-decoration: line-through;
   }
 
-  /* Bundles */
+  /* Bundles — offer rows (radio + pack + pricing) */
   .ph-bundles {
     display: flex;
     gap: 6px;
@@ -1526,12 +1728,24 @@
       right: 8px;
     }
 
+    .ph-thumb {
+      flex-basis: calc((100% - 30px) / 4);
+    }
+
     .ph-title__heading {
       font-size: 22px;
     }
 
+    .ph-title__compare {
+      font-size: 14px;
+    }
+
     .ph-title__price {
-      font-size: 16px;
+      font-size: 17px;
+    }
+
+    .ph-title__lowas {
+      font-size: 12.5px;
     }
 
     .ph-features {

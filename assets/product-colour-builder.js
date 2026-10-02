@@ -322,6 +322,13 @@ class ProductColourBuilder extends HTMLElement {
      */
     this.isCombo = this.dataset.isCombo === 'true';
     this.comboMinimum = 5;
+
+    /*
+     * True while the quantity reflects an
+     * explicit bundle selection (bypasses
+     * the combo minimum).
+     */
+    this.bundleOverride = false;
   }
 
   connectedCallback() {
@@ -337,19 +344,33 @@ class ProductColourBuilder extends HTMLElement {
     this.initAtc();
 
     document.addEventListener('pdp:hero-update', (event) => {
-      this.state.quantity =
-        event.detail.quantity || this.state.quantity;
+      if (event.detail.quantityFromBundle) {
+        /*
+         * Explicit bundle selection: use the
+         * exact bundle quantity — 1 Pair = 1,
+         * 2 Pairs = 2. The combo minimum does
+         * not apply here.
+         */
+        this.bundleOverride = true;
+        this.state.quantity =
+          event.detail.quantity;
+      } else {
+        this.bundleOverride = false;
+
+        this.state.quantity =
+          event.detail.quantity || this.state.quantity;
+
+        /*
+         * COMBO:
+         * Keep minimum quantity at 5.
+         */
+        if (this.isCombo && this.state.quantity < this.comboMinimum) {
+          this.state.quantity = this.comboMinimum;
+        }
+      }
 
       this.state.variantId =
         event.detail.variantId || this.state.variantId;
-
-      /*
-       * COMBO:
-       * Keep minimum quantity at 5.
-       */
-      if (this.isCombo && this.state.quantity < this.comboMinimum) {
-        this.state.quantity = this.comboMinimum;
-      }
 
       if (this.mode === 'single') {
         const activeTile = this.tiles.find(
@@ -741,18 +762,7 @@ class ProductColourBuilder extends HTMLElement {
               10
             );
 
-          /*
-           * COMBO:
-           * Minimum target is 5.
-           */
-          if (this.isCombo) {
-            next = Math.max(
-              this.comboMinimum,
-              next
-            );
-          } else {
-            next = Math.max(1, next);
-          }
+          next = Math.max(1, next);
 
           this.state.quantity = next;
 
@@ -812,9 +822,11 @@ class ProductColourBuilder extends HTMLElement {
 
   target() {
     /*
-     * COMBO minimum = 5.
+     * COMBO minimum = 5 — but never when the
+     * quantity comes from an explicit bundle
+     * selection (1 Pair = 1, 2 Pairs = 2 ...).
      */
-    if (this.isCombo) {
+    if (this.isCombo && !this.bundleOverride) {
       return Math.max(
         this.state.quantity || this.comboMinimum,
         this.comboMinimum
@@ -997,6 +1009,19 @@ class ProductColourBuilder extends HTMLElement {
     }
 
     try {
+      const cartItemsComponents = document.querySelectorAll('cart-items-component');
+      const sectionIds = [];
+      cartItemsComponents.forEach((item) => {
+        if (item instanceof HTMLElement && item.dataset.sectionId) {
+          sectionIds.push(item.dataset.sectionId);
+        }
+      });
+
+      const payload = { items };
+      if (sectionIds.length) {
+        payload.sections = sectionIds.join(',');
+      }
+
       const response = await fetch(
         '/cart/add.js',
         {
@@ -1007,9 +1032,7 @@ class ProductColourBuilder extends HTMLElement {
             Accept:
               'application/json'
           },
-          body: JSON.stringify({
-            items
-          })
+          body: JSON.stringify(payload)
         }
       );
 
@@ -1019,12 +1042,19 @@ class ProductColourBuilder extends HTMLElement {
         );
       }
 
+      const addResult = await response.json().catch(() => null);
+
       if (this.atcText) {
         this.atcText.textContent =
           'Added ✓';
       }
 
-      this.openCart();
+      const addedQty = items.reduce(
+        (sum, it) => sum + (Number(it.quantity) || 1),
+        0
+      );
+
+      this.openCart(addResult, addedQty);
 
       setTimeout(() => {
         if (this.atcText) {
@@ -1106,47 +1136,87 @@ class ProductColourBuilder extends HTMLElement {
    * ---------------------------------------------------------
    */
 
-  openCart() {
-    const drawer =
-      document.querySelector(
-        'cart-drawer'
+  openCart(cartData = null, addedCount = 1) {
+    /*
+     * Open the theme's real cart drawer
+     * (cart-drawer-component, Horizon base
+     * theme) and let the whole theme know
+     * the cart changed so icons/bubbles
+     * refresh.
+     */
+    const detail = {
+      resource: cartData || {},
+      sourceId: String(this.state?.variantId || ''),
+      data: {
+        source: 'product-form-component',
+        itemCount: addedCount,
+        productId: String(this.dataset?.productId || ''),
+        sections: cartData?.sections || {}
+      }
+    };
+
+    document.dispatchEvent(
+      new CustomEvent('cart:update', {
+        bubbles: true,
+        detail
+      })
+    );
+
+    document.dispatchEvent(
+      new CustomEvent('cart:refresh', {
+        bubbles: true,
+        detail
+      })
+    );
+
+    const open = () => {
+      const drawer =
+        document.querySelector(
+          'cart-drawer-component'
+        );
+
+      const trigger =
+        document.querySelector(
+          '[data-testid="cart-drawer-trigger"]'
+        );
+
+      if (
+        drawer &&
+        typeof drawer.open === 'function'
+      ) {
+        drawer.open();
+      } else if (trigger) {
+        trigger.click();
+      }
+
+      const dialog = drawer?.querySelector(
+        'dialog'
       );
 
-    if (
-      drawer &&
-      typeof drawer.open === 'function'
-    ) {
-      fetch(
-        `${window.location.pathname}?sections=cart-drawer,cart-icon-bubble`
-      )
-        .then((res) => res.json())
-        .then((sections) => {
-          const html =
-            Object.values(sections)[0];
+      if (!dialog) return;
 
-          if (!html) return;
-
-          const doc =
-            new DOMParser()
-              .parseFromString(
-                html,
-                'text/html'
-              );
-
-          const source =
-            doc.querySelector(
-              'cart-drawer'
-            );
-
-          if (source) {
-            drawer.innerHTML =
-              source.innerHTML;
-
-            drawer.open();
+      /*
+       * The theme's showDialog() relies on
+       * requestAnimationFrame, which can be
+       * throttled in hidden tabs. Make sure
+       * the drawer really opened.
+       */
+      setTimeout(() => {
+        if (!dialog.open) {
+          try {
+            dialog.showModal();
+          } catch (e) {
+            /* already open or blocked */
           }
-        })
-        .catch(() => {});
-    }
+        }
+      }, 350);
+    };
+
+    /*
+     * Give the theme a moment to react to
+     * the cart events before opening.
+     */
+    setTimeout(open, 200);
   }
 
   /*

@@ -315,8 +315,8 @@
     height: 48px;
     padding-inline: 48px;
     border-radius: 50px;
-    background: var(--pw-ink);
-    color: #fff;
+    background: #ffffff;
+    color: var(--pw-ink);
     border: 1.5px solid var(--pw-ink);
     font-size: 13px;
     font-weight: 700;
@@ -325,8 +325,9 @@
     transition: all 0.25s ease;
   }
 
-  .pw-card__button:hover {
-    background: #333333;
+  .pw-card__button:hover,
+  .pw-card__button:active {
+    background: var(--pw-ink);
     color: #fff;
     transform: translateY(-2px);
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);

@@ -671,7 +671,7 @@
       "settings": {
         "background_color": "#171717",
         "band_color": "#c5ff00",
-        "label": "",
+        "label": "D-LOCK IS BUILT FOR...",
         "speed": 40
       }
     },
@@ -803,7 +803,6 @@
         "review_tnXdWa",
         "review_PtHPaV"
       ],
-      "disabled": true,
       "name": "D-Lock Reviews",
       "settings": {
         "padding_top": 20,
@@ -823,7 +822,7 @@
         "eyebrow_text": "The newest",
         "button_label": "SHOP NEW",
         "button_link": "",
-        "desktop_height": 600,
+        "desktop_height": 620,
         "color_scheme": "scheme-5",
         "toggle_overlay": true,
         "overlay_color": "#00000040",

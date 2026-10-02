@@ -17,7 +17,7 @@
           "settings": {
             "label": "Shorter Leg",
             "icon": "ruler",
-            "highlight": true
+            "highlight": false
           }
         },
         "feature_anti_chafe": {
@@ -48,9 +48,8 @@
           "type": "bundle",
           "settings": {
             "pairs": "1 Pair",
-            "price_each": "₹929/each",
+            "discount_percent": 0,
             "top_badge": "",
-            "discount_badge": "",
             "selected": true
           }
         },
@@ -58,9 +57,8 @@
           "type": "bundle",
           "settings": {
             "pairs": "2 Pairs",
-            "price_each": "₹880/each",
+            "discount_percent": 5,
             "top_badge": "",
-            "discount_badge": "5% OFF",
             "selected": false
           }
         },
@@ -68,9 +66,8 @@
           "type": "bundle",
           "settings": {
             "pairs": "3 Pairs",
-            "price_each": "₹830/each",
+            "discount_percent": 10,
             "top_badge": "Most Popular",
-            "discount_badge": "10% OFF",
             "selected": false
           }
         },
@@ -78,9 +75,8 @@
           "type": "bundle",
           "settings": {
             "pairs": "5 Pairs",
-            "price_each": "₹800/each",
+            "discount_percent": 20,
             "top_badge": "Best Value",
-            "discount_badge": "20% OFF",
             "selected": false
           }
         }

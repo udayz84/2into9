@@ -1,1 +1,15 @@
 .DS_Store
+Thumbs.db
+desktop.ini
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*sed*
+sed*
+scratch/
+shot*.png
+.shopifyignore
+.agents/
+temp/

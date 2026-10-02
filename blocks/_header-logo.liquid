@@ -2,27 +2,17 @@
 
 {% liquid
   assign block_settings = block.settings
-  assign use_inverse_logo = false
+  assign use_inverse_logo = true
 
   assign primary_logo = settings.logo
   if template.name == 'index' and settings.logo_homepage != blank
     assign primary_logo = settings.logo_homepage
   endif
 
-  if section.settings.enable_transparent_header_home and template.name == 'index' and section.settings.home_color_scheme == 'inverse'
-    assign use_inverse_logo = true
-  elsif section.settings.enable_transparent_header_product and template.name == 'product' and section.settings.product_color_scheme == 'inverse'
-    assign use_inverse_logo = true
-  elsif section.settings.enable_transparent_header_collection and template.name == 'collection' and section.settings.collection_color_scheme == 'inverse'
-    assign use_inverse_logo = true
-  endif
-
-  if use_inverse_logo
-    if settings.logo_inverse != blank
-      assign inverse_logo = settings.logo_inverse
-    else
-      assign inverse_logo = primary_logo
-    endif
+  if settings.logo_inverse != blank
+    assign inverse_logo = settings.logo_inverse
+  else
+    assign inverse_logo = primary_logo
   endif
 %}
 
@@ -73,6 +63,8 @@
         src="{{ 'Logo.png' | asset_url }}"
         alt="{{ shop.name }}"
         class="header-logo__image"
+        width="160"
+        height="{{ settings.logo_height | default: 50 }}"
         style="height: {{ settings.logo_height }}px; width: auto;"
       >
     {% endif %}
@@ -96,6 +88,8 @@
           src="{{ 'Logo.png' | asset_url }}"
           alt="{{ shop.name }}"
           class="header-logo__image"
+          width="160"
+          height="{{ settings.logo_height | default: 50 }}"
           style="height: {{ settings.logo_height }}px; width: auto;"
         >
       {% endif %}

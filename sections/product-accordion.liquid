@@ -171,6 +171,7 @@
     padding-inline: clamp(20px, 4vw, var(--pa-padding-inline, 60px));
     padding-block-start: 24px;
     padding-block-end: 64px;
+    pointer-events: none;
   }
 
   .pa__grid {
@@ -181,12 +182,17 @@
     align-items: start;
     max-width: 1240px;
     margin-inline: auto;
+    pointer-events: none;
   }
 
   .pa__spacer {
     display: block;
     width: 100%;
-    pointer-events: none;
+    pointer-events: none !important;
+  }
+
+  .pa__grid > div:last-child {
+    pointer-events: auto;
   }
 
   .pa__label {

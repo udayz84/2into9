@@ -54,8 +54,8 @@ class CartIcon extends Component {
    * @param {CartUpdateEvent} event - The cart update event.
    */
   onCartUpdate = async (event) => {
-    const itemCount = event.detail.data?.itemCount ?? 0;
-    const comingFromProductForm = event.detail.data?.source === 'product-form-component';
+    const itemCount = event.detail?.data?.itemCount ?? 0;
+    const comingFromProductForm = event.detail?.data?.source === 'product-form-component';
 
     this.renderCartBubble(itemCount, comingFromProductForm);
   };
@@ -68,12 +68,13 @@ class CartIcon extends Component {
   renderCartBubble = async (itemCount, comingFromProductForm, animate = true) => {
     // If the cart update is coming from the product form, we add to the current cart count, otherwise we set the new cart count
 
-    this.refs.cartBubbleCount.classList.toggle('hidden', itemCount === 0);
-    this.refs.cartBubble.classList.toggle('visually-hidden', itemCount === 0);
-
     this.currentCartCount = comingFromProductForm ? this.currentCartCount + itemCount : itemCount;
 
-    this.classList.toggle('header-actions__cart-icon--has-cart', itemCount > 0);
+    const hasItems = this.currentCartCount > 0;
+    this.refs.cartBubbleCount.classList.toggle('hidden', !hasItems);
+    this.refs.cartBubble.classList.toggle('visually-hidden', !hasItems);
+
+    this.classList.toggle('header-actions__cart-icon--has-cart', hasItems);
 
     sessionStorage.setItem(
       'cart-count',

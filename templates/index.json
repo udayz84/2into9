@@ -373,7 +373,7 @@
           "settings": {
             "image": "shopify://shop_images/Candid-13341.webp",
             "image_alt": "Image",
-            "link": "shopify://products/the-rebel-mens-trunk-black",
+            "link": "shopify://products/the-rebel-mens-trunk",
             "open_in_new_tab": false,
             "background_color": "#607049",
             "shape": "circle"
@@ -420,7 +420,7 @@
           "settings": {
             "image": "shopify://shop_images/Candid-13363.webp",
             "image_alt": "Image",
-            "link": "shopify://products/the-rebel-mens-trunk-black",
+            "link": "shopify://products/the-rebel-mens-trunk",
             "open_in_new_tab": false,
             "background_color": "#904117",
             "shape": "rectangle"
@@ -431,7 +431,7 @@
           "settings": {
             "image": "shopify://shop_images/Candid-13299.webp",
             "image_alt": "Image",
-            "link": "shopify://products/the-rebel-mens-trunk-black",
+            "link": "shopify://products/the-rebel-mens-trunk",
             "open_in_new_tab": false,
             "background_color": "#8b1114",
             "shape": "none"

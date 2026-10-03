@@ -113,6 +113,10 @@
     </main>
 {% if request.page_type == 'policy' %}
   <style>
+    .shopify-policy__container {
+      padding-top: calc(var(--header-height, 70px) + clamp(28px, 4vw, 44px)) !important;
+    }
+
     .shopify-policy-breadcrumb {
       margin-top: 12px;
       margin-bottom: 30px;

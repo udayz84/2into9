@@ -915,15 +915,23 @@
      a consistent 20px breathing gap. Banner pages (hero/custom-hero/collection-hero/
      d-lock-hero/...) are excluded here — they start flush at the header's bottom edge
      via the base.css margin rule instead. */
-  body:has(.header[transparent]) .content-for-layout > .shopify-section:first-child:not(:has(.hero, .hero2, .custom-hero, .collection-hero, .d-lock-hero, slideshow-component, .slideshow, .layered-slideshow)) {
+  body:has(.header[transparent]) .content-for-layout > :is(.shopify-policy__container, .shopify-section:first-child:not(:has(.hero, .hero2, .custom-hero, .collection-hero, .d-lock-hero, slideshow-component, .slideshow, .layered-slideshow))) {
     margin-top: 0 !important;
-    padding-top: calc(var(--header-height, 70px) + 20px) !important;
+    padding-top: calc(var(--header-height, 70px) + clamp(28px, 4vw, 44px)) !important;
   }
 
   /* The padding above already clears the floating header, so the theme's .spacing-style
      top-offset must not stack a second header-height on top of it (cart/blog/search pages). */
   body:has(.header[transparent]) .content-for-layout > .shopify-section:first-child:not(:has(.hero, .hero2, .custom-hero, .collection-hero, slideshow-component, .slideshow, .layered-slideshow)) :is(.section.spacing-style, .section .spacing-style) {
     --section-top-offset: 0px;
+  }
+
+  /* Homepage hero banner goes behind the floating transparent header on mobile and desktop */
+  body:has(.header[transparent]) .content-for-layout[data-template="index"] > .shopify-section:first-child,
+  body:has(.header[transparent]) .content-for-layout > .section-custom-hero:first-child,
+  body:has(.header[transparent]) .content-for-layout > .shopify-section:first-child:has(.hero2) {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
   }
 
   /* Optimize layout performance for hidden menus */

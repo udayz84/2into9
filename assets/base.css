@@ -1022,10 +1022,17 @@ summary::-webkit-details-marker {
 }
 
 /* When header is transparent, the first main content section starts flush at the
-   floating header's bottom edge — banners sit directly below the header, never
-   sliding behind/under it (user 2026-10-03: "banner header ke piche nhi jana chahiye"). */
+   floating header's bottom edge — banners sit directly below the header, except
+   the homepage hero banner which goes behind the header on both mobile & desktop. */
 body:has(.header[transparent]) .content-for-layout > .shopify-section:first-child {
   margin-top: var(--header-height, 0px);
+}
+
+body:has(.header[transparent]) .content-for-layout[data-template="index"] > .shopify-section:first-child,
+body:has(.header[transparent]) .content-for-layout > .section-custom-hero:first-child,
+body:has(.header[transparent]) .content-for-layout > .shopify-section:first-child:has(.hero2) {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 body:has(.header[transparent]) #header-group > .header-section {
@@ -2568,9 +2575,9 @@ product-price.text-block:is(.h1, .h2, .h3, .h4, .h5, .h6) > *:not(.tax-note) {
 }
 
 .shopify-policy__container {
-  padding-block: var(--padding-6xl);
+  padding-top: calc(var(--header-height, 70px) + clamp(28px, 4vw, 44px)) !important;
+  padding-bottom: var(--padding-6xl);
   max-width: var(--narrow-page-width)!important;
-
 }
 
 .checkbox {

@@ -3,10 +3,12 @@
   light editorial copy block and glass SHOP NOW button. Ref: Thanksweb hero.
 {%- endcomment -%}
 
+{%- assign product_blocks = section.blocks | where: 'type', 'product' -%}
+
 <section
   class="hero2"
   id="Hero2-{{ section.id }}"
-  style="--hero2-min-h: {% if section.settings.height == 'full' %}100svh{% else %}auto{% endif %}; --hero2-eyebrow-size: {{ section.settings.eyebrow_size }}px; --hero2-heading-size: {{ section.settings.heading_size }}px;"
+  style="--hero2-min-h: {% if section.settings.height == 'full' %}100svh{% else %}auto{% endif %}; --hero2-mobile-h: {{ section.settings.mobile_height | default: 80 }}svh; --hero2-eyebrow-size: {{ section.settings.eyebrow_size }}px; --hero2-heading-size: {{ section.settings.heading_size }}px; --hero2-products-bottom-pad: {% if product_blocks.size > 0 %}calc({{ product_blocks.size }} * 84px + 32px){% else %}clamp(75px, 12vh, 110px){% endif %};"
 >
   <div class="hero2__slides" data-hero2-slides>
     {%- if section.blocks.size > 0 -%}
@@ -127,7 +129,6 @@
     </svg>
   </button>
 
-  {%- assign product_blocks = section.blocks | where: 'type', 'product' -%}
   {%- if product_blocks.size > 0 -%}
     <div class="hero2__products-wrapper">
       <div class="hero2__products">
@@ -136,7 +137,14 @@
           {%- if prod != blank -%}
             <a href="{{ prod.url }}" class="hero2-product-card" {{ block.shopify_attributes }}>
               <div class="hero2-product-card__image-wrapper">
-                <img src="{{ prod.featured_image | image_url: width: 120 }}" alt="{{ prod.title | escape }}" class="hero2-product-card__image" width="60" height="75" loading="lazy">
+                <img
+                  src="{{ prod.featured_image | image_url: width: 180 }}"
+                  alt="{{ prod.title | escape }}"
+                  class="hero2-product-card__image"
+                  width="62"
+                  height="62"
+                  loading="lazy"
+                >
               </div>
               <div class="hero2-product-card__info">
                 {%- if block.settings.subtitle != blank -%}
@@ -144,22 +152,22 @@
                 {%- endif -%}
                 <span class="hero2-product-card__title">{{ block.settings.title | default: prod.title }}</span>
               </div>
-              <div class="hero2-product-card__arrow">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <div class="hero2-product-card__arrow" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </div>
             </a>
           {%- else -%}
             <a href="#" class="hero2-product-card" {{ block.shopify_attributes }}>
-              <div class="hero2-product-card__image-wrapper" style="background:#eee;"></div>
+              <div class="hero2-product-card__image-wrapper" style="background: rgba(255,255,255,0.08);"></div>
               <div class="hero2-product-card__info">
                 <span class="hero2-product-card__subtitle">{{ block.settings.subtitle | default: 'SUBTITLE' }}</span>
                 <span class="hero2-product-card__title">{{ block.settings.title | default: 'Example Product' }}</span>
               </div>
-              <div class="hero2-product-card__arrow">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <div class="hero2-product-card__arrow" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </div>
             </a>
@@ -369,8 +377,8 @@
     .hero2,
     .hero2__slides,
     .hero2__slide {
-      min-height: var(--hero2-min-h, 100svh);
-      height: var(--hero2-min-h, 100svh);
+      min-height: var(--hero2-mobile-h, 80svh);
+      height: var(--hero2-mobile-h, 80svh);
     }
     .hero2__watermark {
       font-size: clamp(64px, 19vw, 120px);
@@ -381,13 +389,14 @@
   /* Products */
   .hero2__products-wrapper {
     position: absolute;
-    bottom: clamp(60px, 10vh, 90px);
+    bottom: clamp(50px, 8vh, 80px);
     left: 0;
     width: 100%;
     z-index: 5;
     display: flex;
     justify-content: center;
     padding: 0 20px;
+    pointer-events: none;
   }
 
   .hero2__products {
@@ -396,6 +405,7 @@
     overflow-x: auto;
     max-width: 100%;
     scrollbar-width: none; /* Firefox */
+    pointer-events: auto;
   }
 
   .hero2__products::-webkit-scrollbar {
@@ -405,35 +415,40 @@
   .hero2-product-card {
     display: flex;
     align-items: center;
-    background: rgba(20, 20, 20, 0.4);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(18, 24, 20, 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 12px;
     padding: 6px 14px 6px 6px;
     text-decoration: none;
     color: white;
     gap: 12px;
     min-width: 240px;
-    transition: background 0.3s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
   }
 
   .hero2-product-card:hover {
-    background: rgba(40, 40, 40, 0.6);
+    background: rgba(35, 45, 38, 0.75);
+    border-color: rgba(255, 255, 255, 0.35);
+    transform: translateY(-2px);
   }
 
   .hero2-product-card__image-wrapper {
-    width: 48px;
-    height: 64px;
-    border-radius: 8px;
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
     overflow: hidden;
     flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.08);
   }
 
   .hero2-product-card__image {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
   }
 
   .hero2-product-card__info {
@@ -441,39 +456,59 @@
     flex-direction: column;
     justify-content: center;
     flex-grow: 1;
+    min-width: 0;
   }
 
   .hero2-product-card__subtitle {
-    font-size: 0.6rem;
+    font-size: 0.65rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: #e0e0e0;
-    margin-bottom: 3px;
-    font-weight: 600;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 2px;
+    font-weight: 700;
     font-family: var(--font-body--family);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .hero2-product-card__title {
     font-size: 0.95rem;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 1.2;
     color: white;
     font-family: var(--font-body--family);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .hero2-product-card__arrow {
-    width: 26px;
-    height: 26px;
-    background: white;
+    width: 36px;
+    height: 36px;
+    background: #ffffff;
+    color: #000000;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     margin-left: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+  }
+
+  .hero2-product-card__arrow svg {
+    width: 16px;
+    height: 16px;
   }
 
   @media screen and (max-width: 749px) {
+    .hero2__arrow {
+      top: 42%;
+      width: 36px;
+      height: 36px;
+    }
+
     .hero2__picture {
       position: absolute;
       inset: 0;
@@ -492,38 +527,149 @@
     }
 
     .hero2__eyebrow {
-      font-size: min(var(--hero2-eyebrow-size, 26px), 6.2vw);
+      font-size: min(var(--hero2-eyebrow-size, 26px), 4.8vw);
+      margin: 0 0 0.25rem;
     }
 
     .hero2__heading {
-      font-size: min(var(--hero2-heading-size, 54px), 10.5vw);
+      font-size: min(var(--hero2-heading-size, 54px), 8.2vw);
+      line-height: 1.1;
     }
 
     .hero2__content {
       padding-inline: 1.25rem;
       justify-content: flex-end;
-      padding-block: 0 clamp(96px, 15vh, 140px);
+      padding-block: 0 var(--hero2-products-bottom-pad, clamp(75px, 12vh, 110px));
       transform: none;
-      min-height: var(--hero2-min-h, 100svh);
+      min-height: var(--hero2-mobile-h, 80svh);
       height: 100%;
     }
 
     .hero2__button {
-      padding: 13px 38px;
+      padding: 9px 30px;
+      margin-top: 0.8rem;
+      font-size: 0.76rem;
     }
 
     .hero2__dots {
-      bottom: 12px;
+      bottom: 8px;
+      z-index: 6;
     }
 
+    /* Stacked 1-by-1 product cards on mobile (Ref: Step One) */
     .hero2__products-wrapper {
-      bottom: clamp(38px, 6vh, 56px);
-      justify-content: flex-start;
+      position: absolute;
+      bottom: 22px;
+      left: 0;
+      right: 0;
+      width: 100%;
       padding: 0 16px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      z-index: 5;
+      pointer-events: none;
     }
-    
+
+    .hero2__products {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 480px;
+      gap: 8px;
+      overflow-x: visible;
+      pointer-events: auto;
+    }
+
     .hero2-product-card {
-      min-width: 220px;
+      width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      background: rgba(12, 22, 16, 0.78);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 15px;
+      padding: 7px 14px 7px 7px;
+      gap: 13px;
+      text-decoration: none;
+      color: white;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+      transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+    }
+
+    .hero2-product-card:active {
+      transform: scale(0.985);
+      background: rgba(26, 38, 28, 0.92);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .hero2-product-card__image-wrapper {
+      width: 58px;
+      height: 58px;
+      border-radius: 11px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    }
+
+    .hero2-product-card__image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero2-product-card__info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .hero2-product-card__subtitle {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: rgba(255, 255, 255, 0.72);
+      margin-bottom: 2px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .hero2-product-card__title {
+      font-size: 0.93rem;
+      font-weight: 700;
+      line-height: 1.25;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .hero2-product-card__arrow {
+      width: 38px;
+      height: 38px;
+      background: #ffffff;
+      color: #000000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-left: auto;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero2-product-card__arrow svg {
+      width: 17px;
+      height: 17px;
     }
   }
 {% endstylesheet %}
@@ -682,6 +828,16 @@
         { "value": "natural", "label": "Image height" }
       ],
       "default": "full"
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "label": "Mobile slide height (% of screen)",
+      "min": 65,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 80
     },
     {
       "type": "header",

@@ -66,18 +66,6 @@
       <div class="ph-mobile-header__inner">
         <div class="ph-mobile-header__meta">
           <h1 class="ph-mobile-header__heading">{{ product.title }}</h1>
-          <div class="ph-mobile-header__badges">
-            <div class="ph-pill-badge ph-pill-badge--reviews">
-              <svg class="ph-pill-badge__icon" viewBox="0 0 24 24" width="12" height="12" fill="#0D8A58">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-              </svg>
-              <span>{{ section.settings.reviews_badge_text | default: '65K+ 5 Star Reviews' }}</span>
-            </div>
-            <div class="ph-pill-badge ph-pill-badge--guarantee">
-              <span class="ph-pill-badge__emoji">💜</span>
-              <span>{{ section.settings.guarantee_badge_text | default: "Love them or they're free" }}</span>
-            </div>
-          </div>
         </div>
 
         <div class="ph-mobile-header__pricing">
@@ -108,7 +96,7 @@
             {%- for block in section.blocks -%}
               {%- if block.type == 'feature' -%}
                 <div
-                  class="ph-gallery-badge{% if block.settings.highlight or forloop.first %} ph-gallery-badge--highlight{% endif %}"
+                  class="ph-gallery-badge{% if block.settings.highlight %} ph-gallery-badge--highlight{% endif %}"
                   {{ block.shopify_attributes }}
                 >
                   <span class="ph-gallery-badge__icon">
@@ -985,26 +973,24 @@
     width: 58px;
     height: 60px;
     padding: 6px 3px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    background: var(--ph-tile-bg, #efefef);
+    border: none;
+    box-shadow: none;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: #111111;
+    color: var(--ph-ink, #171717);
     text-align: center;
     box-sizing: border-box;
   }
 
   .ph-gallery-badge--highlight {
-    background: #5925DC;
-    border-color: #5925DC;
+    background: var(--ph-ink, #171717);
+    border-color: var(--ph-ink, #171717);
     color: #ffffff;
-    box-shadow: 0 4px 14px rgba(89, 37, 220, 0.35);
+    box-shadow: none;
   }
 
   .ph-gallery-badge__icon {
@@ -2136,10 +2122,7 @@
 
     /* Two pill badges stacked vertically under title */
     .ph-mobile-header__badges {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 5px;
+      display: none !important;
     }
 
     .ph-pill-badge {
@@ -2256,26 +2239,26 @@
       width: 52px;
       height: 56px;
       padding: 4px 2px;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      border-radius: 8px;
+      background: var(--ph-tile-bg, #efefef) !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      border: none !important;
+      box-shadow: none !important;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      color: #111111;
+      color: var(--ph-ink, #171717) !important;
       text-align: center;
       box-sizing: border-box;
     }
 
     .ph-gallery-badge--highlight {
-      background: #5925DC !important;
-      border-color: #5925DC !important;
+      background: var(--ph-ink, #171717) !important;
+      border-color: var(--ph-ink, #171717) !important;
       color: #ffffff !important;
-      box-shadow: 0 4px 12px rgba(89, 37, 220, 0.35) !important;
+      box-shadow: none !important;
     }
 
     .ph-gallery-badge__icon {

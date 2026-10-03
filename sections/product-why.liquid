@@ -432,8 +432,9 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    background: #000000;
-    color: #ffffff;
+    background: #ffffff;
+    color: #000000;
+    border: 1.5px solid #000000;
     border-radius: 12px;
     font-size: 14px;
     font-weight: 600;
@@ -441,11 +442,21 @@
     text-transform: none;
     box-sizing: border-box;
     margin-top: auto;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
   }
 
-  .pw-card:hover .pw-card__button {
-    background: #1f2937;
+  .pw-card:hover .pw-card__button,
+  .pw-card__button:hover {
+    background: #000000;
+    color: #ffffff;
+    border-color: #000000;
+  }
+
+  .pw-card:active .pw-card__button,
+  .pw-card__button:active {
+    background: #000000;
+    color: #ffffff;
+    border-color: #000000;
   }
 
   .pw-card__btn-arrow {

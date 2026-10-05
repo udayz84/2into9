@@ -147,7 +147,7 @@
           "type": "item",
           "settings": {
             "title": "Shipping",
-            "content": "<p>Complimentary shipping within India. No tariffs apply. Orders dispatch within 24–48 hours and arrive in 3–7 business days.</p>",
+            "content": "<ul><li>We generally process and dispatch orders within 1–2 business days.</li><li>Shipping normally takes 3-5 working days (excluding public holidays)&nbsp;</li><li>Free shipping, no minimum spend.</li><li>For complete delivery information, please refer to our Shipping Policy.</li></ul><p><strong>Orders received after 3rd November will be processed after the Diwali holidays (10th November).</strong></p>",
             "use_product_description": false
           }
         },

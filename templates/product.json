@@ -97,6 +97,8 @@
         "show_rating": false,
         "rating": 4.5,
         "reviews_url": "",
+        "reviews_badge_text": "65K+ 5 Star Reviews",
+        "guarantee_badge_text": "Love them or they're free",
         "find_fit_text": "Find my Fit",
         "find_fit_url": "/pages/sizing",
         "single_label": "Single Colour",
@@ -137,7 +139,7 @@
           "type": "item",
           "settings": {
             "title": "Fit & Fabric",
-            "content": "<p>Ultra-soft bamboo viscose with anti-chafe panels, a 3D comfort pouch and moisture-wicking finish for all-day freshness.</p>",
+            "content": "{{ product.metafields.custom.features_details | metafield_tag }}",
             "use_product_description": false
           }
         },
@@ -167,6 +169,7 @@
       ],
       "settings": {
         "page_padding": 60,
+        "step_label": "4. Product details",
         "open_first": true
       }
     },
@@ -179,7 +182,12 @@
             "label": "Mens",
             "image": "shopify://shop_images/ReptileGreenPrintedBoxerBrief02.webp",
             "link": "shopify://collections/men",
-            "button_label": "Shop Now"
+            "button_label": "Shop Now",
+            "feature_1": "",
+            "feature_2": "",
+            "feature_3": "",
+            "feature_4": "",
+            "feature_5": ""
           }
         },
         "kids": {
@@ -188,7 +196,12 @@
             "label": "Kids",
             "image": "shopify://shop_images/kids_solid_f5cb069d-ee51-466c-9538-08c038ce21d9.webp",
             "link": "shopify://collections/kids",
-            "button_label": "Shop Now"
+            "button_label": "Shop Now",
+            "feature_1": "",
+            "feature_2": "",
+            "feature_3": "",
+            "feature_4": "",
+            "feature_5": ""
           }
         },
         "dlock": {
@@ -197,7 +210,12 @@
             "label": "D-Lock",
             "image": "shopify://shop_images/D_Lock_Category_Img_1.webp",
             "link": "shopify://collections/d-lock",
-            "button_label": "Shop Now"
+            "button_label": "Shop Now",
+            "feature_1": "",
+            "feature_2": "",
+            "feature_3": "",
+            "feature_4": "",
+            "feature_5": ""
           }
         }
       },

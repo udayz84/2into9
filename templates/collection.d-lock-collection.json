@@ -632,7 +632,7 @@
         "item_HANEpL": {
           "type": "item",
           "settings": {
-            "text": "All-rounders"
+            "text": "Top-order batters"
           }
         },
         "item_ftw8FA": {
@@ -644,19 +644,25 @@
         "item_7khWLN": {
           "type": "item",
           "settings": {
-            "text": "Club & grade cricketers"
+            "text": "All-rounders"
           }
         },
         "item_rcWQcN": {
           "type": "item",
           "settings": {
-            "text": "Top-order batters"
+            "text": "Club & grade cricketers"
           }
         },
         "item_tc4eX3": {
           "type": "item",
           "settings": {
             "text": "Junior players"
+          }
+        },
+        "item_xrNiyi": {
+          "type": "item",
+          "settings": {
+            "text": "Cricketers who wear a protective box"
           }
         }
       },
@@ -665,13 +671,14 @@
         "item_ftw8FA",
         "item_7khWLN",
         "item_rcWQcN",
-        "item_tc4eX3"
+        "item_tc4eX3",
+        "item_xrNiyi"
       ],
       "name": "D-Lock Marquee",
       "settings": {
         "background_color": "#171717",
         "band_color": "#c5ff00",
-        "label": "D-LOCK IS BUILT FOR...",
+        "label": "Who Is D-LOCK Built For?",
         "speed": 40
       }
     },

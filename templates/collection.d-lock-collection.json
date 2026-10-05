@@ -688,50 +688,43 @@
         "question_aWkTAJ": {
           "type": "question",
           "settings": {
-            "question": "What makes D-Lock different from regular boxer briefs?",
-            "answer": "D-Lock is designed with an advanced X-Strap support system that helps provide better stability and protection during high-movement activities like cricket, training, and everyday wear."
+            "question": "Does D-LOCK replace my cricket box?",
+            "answer": "No, D-LOCK is not a replacement, it is designed to be worn with a standard cricket box."
           }
         },
         "question_HdyGeX": {
           "type": "question",
           "settings": {
-            "question": "Is D-Lock suitable for cricket and sports activities?",
-            "answer": "Yes. D-Lock is built for active players who need secure support, flexibility, and comfort during intense movements such as running, batting, bowling, and fielding."
+            "question": "How does D-LOCK help keep the box in place?",
+            "answer": "The pouch holds the cricket box in place, while the cross-lock straps provide extra support. This setup helps limit unwanted movement while you are playing."
           }
         },
         "question_fHerwh": {
           "type": "question",
           "settings": {
-            "question": "How does the X-Strap system provide support?",
-            "answer": "The X-Strap design helps keep everything securely positioned while reducing unnecessary movement, giving you confidence during sports and active routines."
+            "question": "Is D-LOCK protective equipment?",
+            "answer": "No. D-LOCK is designed to hold a compatible protective cricket box secured with adjustable straps. We do not make any performance or safety claims."
+          }
+        },
+        "question_mghFkN": {
+          "type": "question",
+          "settings": {
+            "question": "Can I wear D-LOCK for long matches and training sessions?",
+            "answer": "Yes. D-LOCK is made for long hours of cricket, regular movement, practice sessions, and matches, with a focus on comfort and support throughout the game."
           }
         },
         "question_4RqdEi": {
           "type": "question",
           "settings": {
-            "question": "What sizes are available in D-Lock Men's Premium Boxer Brief?",
-            "answer": "D-Lock Men's Premium Boxer Brief is available in: Small (S), Medium (M), Large (L)"
+            "question": "How do I wash D-LOCK?",
+            "answer": "Remove the box first. Machine wash on a gentle cycle in cold water. Avoid bleach and fabric softener. Tumble dry on low or hang dry for better care. Do not iron."
           }
         },
         "question_mrkzNV": {
           "type": "question",
           "settings": {
-            "question": "Is the fabric breathable for long hours of wear?",
-            "answer": "Yes. The lightweight stretch fabric is designed to provide airflow, comfort, and flexibility for extended wear during matches, workouts, or daily activities."
-          }
-        },
-        "question_EmB9Cw": {
-          "type": "question",
-          "settings": {
-            "question": "Can I wear D-Lock under cricket trousers?",
-            "answer": "Yes. The slim, supportive design fits comfortably under cricket trousers without adding bulk, making it suitable for match days and training sessions."
-          }
-        },
-        "question_ii8D7W": {
-          "type": "question",
-          "settings": {
-            "question": "What is the difference between D-Lock and normal boxer briefs?",
-            "answer": "Normal boxer briefs mainly focus on comfort, while D-Lock adds performance-focused support through its X-Strap system, making it better suited for active movement."
+            "question": "How do I choose my size?",
+            "answer": "Refer to the 2INTO9 size guide and select the size that best matches your measurements. If your measurements fall between two sizes, we recommend sizing up."
           }
         }
       },
@@ -739,10 +732,9 @@
         "question_aWkTAJ",
         "question_HdyGeX",
         "question_fHerwh",
+        "question_mghFkN",
         "question_4RqdEi",
-        "question_mrkzNV",
-        "question_EmB9Cw",
-        "question_ii8D7W"
+        "question_mrkzNV"
       ],
       "name": "D-Lock FAQs",
       "settings": {

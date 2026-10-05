@@ -119,7 +119,7 @@
         "product_subtitle": "Performance Series",
         "price": "Rs.929.00",
         "select_size_label": "Select Size",
-        "size_options": "S,M,L,XL,XXL",
+        "size_options": "S,M,L,XL",
         "default_size": "M",
         "default_quantity": 1,
         "atc_label": "Add to Cart",

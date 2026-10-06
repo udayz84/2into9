@@ -169,7 +169,7 @@
       ],
       "settings": {
         "page_padding": 60,
-        "step_label": "4. Product details",
+        "step_label": "Product details",
         "open_first": true
       }
     },

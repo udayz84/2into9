@@ -1,0 +1,765 @@
+{% comment %}
+  D-Lock Story / Problem-Solution section
+  Designed for collection handle: d-lock
+  Left: headline, problem rows, intro, benefit cards
+  Right: selectable image OR Shopify-hosted video
+{% endcomment %}
+
+{% if collection == blank or collection.handle == 'd-lock' %}
+<section
+  id="DLockStory-{{ section.id }}"
+  class="dlock-story"
+  style="
+    --dls-bg: {{ section.settings.background_color }};
+    --dls-text: {{ section.settings.text_color }};
+    --dls-muted: {{ section.settings.muted_color }};
+    --dls-accent: {{ section.settings.accent_color }};
+    --dls-card: {{ section.settings.card_color }};
+    --dls-border: {{ section.settings.border_color }};
+    --dls-pt: {{ section.settings.padding_top }}px;
+    --dls-pb: {{ section.settings.padding_bottom }}px;
+  "
+>
+  <div class="dlock-story__container">
+    <div class="dlock-story__content">
+
+      {% if section.settings.heading != blank %}
+        <h2 class="dlock-story__heading">
+          {{ section.settings.heading }}
+        </h2>
+      {% endif %}
+
+      {% if section.settings.subheading != blank %}
+        <div class="dlock-story__subheading rte">
+          {{ section.settings.subheading }}
+        </div>
+      {% endif %}
+
+      {% assign problem_blocks = section.blocks | where: 'type', 'problem' %}
+      {% if problem_blocks.size > 0 %}
+        <div class="dlock-story__problems">
+          {% for block in problem_blocks %}
+            <div class="dlock-story__problem" {{ block.shopify_attributes }}>
+              <span class="dlock-story__problem-icon" aria-hidden="true">×</span>
+              <div>
+                {% if block.settings.title != blank %}
+                  <h3>{{ block.settings.title }}</h3>
+                {% endif %}
+                {% if block.settings.text != blank %}
+                  <p>{{ block.settings.text }}</p>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.solution_text != blank %}
+        <div class="dlock-story__solution rte">
+          {{ section.settings.solution_text }}
+        </div>
+      {% endif %}
+
+      {% assign benefit_blocks = section.blocks | where: 'type', 'benefit' %}
+      {% if benefit_blocks.size > 0 %}
+        <div class="dlock-story__benefits">
+          {% for block in benefit_blocks %}
+            <div class="dlock-story__benefit" {{ block.shopify_attributes }}>
+              <div class="dlock-story__benefit-icon">
+                {% if block.settings.icon != blank %}
+                  {{
+                    block.settings.icon
+                    | image_url: width: 72
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '36, 54, 72',
+                      sizes: '32px',
+                      alt: ''
+                  }}
+                {% else %}
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 2 19 5v6c0 5-3.2 9.2-7 11-3.8-1.8-7-6-7-11V5l7-3Z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+                  </svg>
+                {% endif %}
+              </div>
+
+              {% if block.settings.title != blank %}
+                <h3>{{ block.settings.title }}</h3>
+              {% endif %}
+
+              {% if block.settings.text != blank %}
+                <p>{{ block.settings.text }}</p>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="dlock-story__media-wrap">
+      <div class="dlock-story__media">
+
+        {% if section.settings.media_type == 'video' and section.settings.video != blank %}
+          {{
+            section.settings.video
+            | video_tag:
+              class: 'dlock-story__video',
+              image_size: '900x',
+              autoplay: section.settings.autoplay_video,
+              loop: section.settings.loop_video,
+              muted: section.settings.muted_video,
+              controls: section.settings.show_video_controls,
+              playsinline: true,
+              preload: 'metadata'
+          }}
+        {% elsif section.settings.image != blank %}
+          {{
+            section.settings.image
+            | image_url: width: 1200
+            | image_tag:
+              class: 'dlock-story__image',
+              loading: 'lazy',
+              widths: '480, 720, 900, 1200',
+              sizes: '(max-width: 749px) calc(100vw - 32px), 42vw',
+              alt: section.settings.image.alt | escape
+          }}
+        {% else %}
+          {{ 'image' | placeholder_svg_tag: 'dlock-story__placeholder' }}
+        {% endif %}
+
+        {% if section.settings.media_type == 'video'
+          and section.settings.video != blank
+          and section.settings.autoplay_video == false
+          and section.settings.show_center_play
+        %}
+          <button
+            type="button"
+            class="dlock-story__play"
+            aria-label="Play video"
+            data-dlock-play
+          >
+            <span class="dlock-story__play-triangle"></span>
+          </button>
+        {% endif %}
+
+        {% if section.settings.media_label != blank %}
+          <div class="dlock-story__media-label">
+            {{ section.settings.media_label }}
+            {% if section.settings.show_verified_icon %}
+              <span class="dlock-story__verified" aria-hidden="true">✓</span>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #DLockStory-{{ section.id }} {
+    width: 100%;
+    background: var(--dls-bg, #08090b);
+    color: var(--dls-text, #fff);
+    font-family: inherit;
+  }
+
+  #DLockStory-{{ section.id }} * {
+    box-sizing: border-box;
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__container {
+    width: min(100% - 40px, 1320px);
+    margin: 0 auto;
+    padding: var(--dls-pt) 0 var(--dls-pb);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(380px, 0.95fr);
+    gap: clamp(44px, 6vw, 88px);
+    align-items: stretch;
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__content {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__heading {
+    margin: 0;
+    max-width: 700px;
+    color: var(--dls-text);
+    font-size: clamp(42px, 5.3vw, 78px);
+    line-height: 0.97;
+    letter-spacing: -0.045em;
+    font-weight: 800;
+    font-style: italic;
+    text-transform: uppercase;
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__heading em,
+  #DLockStory-{{ section.id }} .dlock-story__heading strong {
+    color: var(--dls-accent);
+    font-style: italic;
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__subheading {
+    margin-top: 28px;
+    max-width: 690px;
+    color: var(--dls-text);
+    font-size: 17px;
+    line-height: 1.65;
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__subheading p,
+  #DLockStory-{{ section.id }} .dlock-story__solution p {
+    margin: 0;
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__problems {
+    margin-top: 30px;
+    display: grid;
+    gap: 14px;
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__problem {
+    min-height: 88px;
+    padding: 17px 20px;
+    border: 1px solid var(--dls-border);
+    border-radius: 10px;
+    background: rgba(255,255,255,.018);
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: 14px;
+    align-items: start;
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__problem-icon {
+    width: 28px;
+    height: 28px;
+    margin-top: 1px;
+    border-radius: 50%;
+    background: rgba(255, 31, 31, .12);
+    color: #ff2929;
+    display: grid;
+    place-items: center;
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__problem h3,
+  #DLockStory-{{ section.id }} .dlock-story__benefit h3 {
+    margin: 0;
+    color: var(--dls-text);
+    font-size: 15px;
+    line-height: 1.35;
+    font-weight: 700;
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__problem p {
+    margin: 6px 0 0;
+    color: var(--dls-muted);
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__solution {
+    margin-top: 28px;
+    max-width: 700px;
+    color: var(--dls-text);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__solution a,
+  #DLockStory-{{ section.id }} .dlock-story__solution strong {
+    color: var(--dls-accent);
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__benefits {
+    margin-top: 28px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__benefit {
+    min-height: 150px;
+    padding: 22px 20px;
+    background: var(--dls-card);
+    border: 1px solid var(--dls-border);
+    border-radius: 12px;
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__benefit-icon {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 20px;
+    color: var(--dls-accent);
+    display: grid;
+    place-items: center;
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__benefit-icon img,
+  #DLockStory-{{ section.id }} .dlock-story__benefit-icon svg {
+    display: block;
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__benefit p {
+    margin: 8px 0 0;
+    color: var(--dls-muted);
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__media-wrap {
+    min-width: 0;
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__media {
+    position: sticky;
+    top: 24px;
+    width: 100%;
+    height: 100%;
+    min-height: 690px;
+    max-height: 860px;
+    overflow: hidden;
+    border: 1px solid var(--dls-border);
+    border-radius: 20px;
+    background: #151515;
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__video,
+  #DLockStory-{{ section.id }} .dlock-story__image,
+  #DLockStory-{{ section.id }} .dlock-story__placeholder {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 690px;
+    object-fit: cover;
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(to bottom, rgba(0,0,0,.10) 0%, rgba(0,0,0,0) 55%, rgba(0,0,0,.58) 100%);
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__play {
+    position: absolute;
+    z-index: 3;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 74px;
+    height: 74px;
+    border: 1px solid rgba(255,255,255,.52);
+    border-radius: 50%;
+    background: rgba(92,68,68,.52);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__play-triangle {
+    margin-left: 5px;
+    width: 0;
+    height: 0;
+    border-top: 11px solid transparent;
+    border-bottom: 11px solid transparent;
+    border-left: 17px solid #fff;
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__media-label {
+    position: absolute;
+    z-index: 3;
+    left: 50%;
+    bottom: 22px;
+    transform: translateX(-50%);
+    max-width: calc(100% - 36px);
+    padding: 8px 14px;
+    background: rgba(0,0,0,.68);
+    border: 1px solid rgba(255,255,255,.16);
+    border-radius: 999px;
+    color: #fff;
+    font-size: 12px;
+    line-height: 1.2;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  #DLockStory-{{ section.id }} .dlock-story__verified {
+    width: 15px;
+    height: 15px;
+    margin-left: 4px;
+    border-radius: 50%;
+    display: inline-grid;
+    place-items: center;
+    background: #1788ff;
+    color: #fff;
+    font-size: 9px;
+    vertical-align: 1px;
+  }
+
+  @media (max-width: 989px) {
+    #DLockStory-{{ section.id }} .dlock-story__container {
+      width: min(100% - 32px, 760px);
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+
+    #DLockStory-{{ section.id }} .dlock-story__media {
+      position: relative;
+      top: auto;
+      min-height: 600px;
+      max-height: none;
+      aspect-ratio: 4 / 5;
+    }
+
+    #DLockStory-{{ section.id }} .dlock-story__video,
+    #DLockStory-{{ section.id }} .dlock-story__image,
+    #DLockStory-{{ section.id }} .dlock-story__placeholder {
+      min-height: 100%;
+    }
+  }
+
+  @media (max-width: 749px) {
+    #DLockStory-{{ section.id }} .dlock-story__container {
+      width: calc(100% - 32px);
+    }
+
+    #DLockStory-{{ section.id }} .dlock-story__heading {
+      font-size: clamp(38px, 12vw, 58px);
+    }
+
+    #DLockStory-{{ section.id }} .dlock-story__subheading {
+      margin-top: 22px;
+      font-size: 15px;
+    }
+
+    #DLockStory-{{ section.id }} .dlock-story__problem {
+      min-height: auto;
+    }
+
+    #DLockStory-{{ section.id }} .dlock-story__benefits {
+      grid-template-columns: 1fr;
+    }
+
+    #DLockStory-{{ section.id }} .dlock-story__benefit {
+      min-height: 130px;
+    }
+
+    #DLockStory-{{ section.id }} .dlock-story__media {
+      min-height: 0;
+      aspect-ratio: 4 / 5;
+      border-radius: 14px;
+    }
+
+    #DLockStory-{{ section.id }} .dlock-story__play {
+      width: 64px;
+      height: 64px;
+    }
+
+    #DLockStory-{{ section.id }} .dlock-story__media-label {
+      bottom: 16px;
+      font-size: 11px;
+    }
+  }
+</style>
+
+<script>
+  (() => {
+    const section = document.getElementById('DLockStory-{{ section.id }}');
+    if (!section) return;
+
+    const button = section.querySelector('[data-dlock-play]');
+    const video = section.querySelector('video');
+
+    if (!button || !video) return;
+
+    button.addEventListener('click', async () => {
+      try {
+        if (video.paused) {
+          await video.play();
+          button.style.display = 'none';
+        } else {
+          video.pause();
+          button.style.display = 'grid';
+        }
+      } catch (e) {}
+    });
+
+    video.addEventListener('pause', () => {
+      button.style.display = 'grid';
+    });
+
+    video.addEventListener('play', () => {
+      button.style.display = 'none';
+    });
+  })();
+</script>
+
+{% endif %}
+
+{% schema %}
+{
+  "name": "D-Lock Story Media",
+  "tag": "section",
+  "class": "section-dlock-story",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>CRICKET HAS CHANGED. <em>YOUR BOX ROUTINE HASN'T.</em></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Intro text",
+      "default": "<p>If you've played any amount of cricket, you already know the drill.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "solution_text",
+      "label": "Solution text",
+      "default": "<p><strong>D-LOCK</strong> is built to keep your protective box secure through long innings, fast running and constant movement — without the old multi-layer routine.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Right media"
+    },
+    {
+      "type": "select",
+      "id": "media_type",
+      "label": "Media type",
+      "options": [
+        {
+          "value": "image",
+          "label": "Image"
+        },
+        {
+          "value": "video",
+          "label": "Video"
+        }
+      ],
+      "default": "video"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Shopify hosted video"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay_video",
+      "label": "Autoplay video",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "loop_video",
+      "label": "Loop video",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "muted_video",
+      "label": "Mute video",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_video_controls",
+      "label": "Show browser video controls",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_center_play",
+      "label": "Show centre play button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "media_label",
+      "label": "Bottom media label",
+      "default": "Chris Lynn – Australian Cricket Player"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_verified_icon",
+      "label": "Show verified icon",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#08090B"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted text",
+      "default": "#8D91A0"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#C7FF00"
+    },
+    {
+      "type": "color",
+      "id": "card_color",
+      "label": "Benefit card",
+      "default": "#17191D"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Borders",
+      "default": "#2C2F35"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 20,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 20,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "problem",
+      "name": "Problem row",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "The \"Old School\" Stack"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Jockstrap + undies + shorts. Three layers just to keep one piece of plastic in place."
+        }
+      ]
+    },
+    {
+      "type": "benefit",
+      "name": "Benefit card",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Secure Hold"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Keeps everything in place through movement, running and long sessions."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "D-Lock Story Media",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "problem",
+          "settings": {
+            "title": "The \"Old School\" Stack",
+            "text": "Jockstrap + undies + shorts. Three layers just to keep one piece of plastic in place."
+          }
+        },
+        {
+          "type": "problem",
+          "settings": {
+            "title": "The \"Constant Adjuster\"",
+            "text": "Fidgeting before every ball. \"Hang on mate, let me fix my box.\""
+          }
+        },
+        {
+          "type": "problem",
+          "settings": {
+            "title": "The \"Chafe City\"",
+            "text": "Sweaty, uncomfortable and restrictive movement when you need to stay agile."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Single Garment",
+            "text": "A streamlined setup built for long sessions and fewer distractions."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Secure Hold",
+            "text": "Keeps your protective box secure without constant readjustment."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

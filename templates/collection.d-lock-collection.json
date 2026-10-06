@@ -1355,10 +1355,80 @@
         "padding-block-end": 24,
         "gap_between_elements": 24
       }
+    },
+    "d_lock_story_media_mCb8Fx": {
+      "type": "d-lock-story-media",
+      "blocks": {
+        "problem_PqMz7G": {
+          "type": "problem",
+          "settings": {
+            "title": "The \"Old School\" Stack",
+            "text": "Jockstrap + undies + shorts. Three layers just to keep one piece of plastic in place."
+          }
+        },
+        "problem_Mf9LDH": {
+          "type": "problem",
+          "settings": {
+            "title": "The \"Constant Adjuster\"",
+            "text": "Fidgeting before every ball. \"Hang on mate, let me fix my box.\""
+          }
+        },
+        "problem_DVzzQh": {
+          "type": "problem",
+          "settings": {
+            "title": "The \"Chafe City\"",
+            "text": "Sweaty, uncomfortable and restrictive movement when you need to stay agile."
+          }
+        },
+        "benefit_iMNaXE": {
+          "type": "benefit",
+          "settings": {
+            "title": "Single Garment",
+            "text": "A streamlined setup built for long sessions and fewer distractions."
+          }
+        },
+        "benefit_VTbqAg": {
+          "type": "benefit",
+          "settings": {
+            "title": "Secure Hold",
+            "text": "Keeps your protective box secure without constant readjustment."
+          }
+        }
+      },
+      "block_order": [
+        "problem_PqMz7G",
+        "problem_Mf9LDH",
+        "problem_DVzzQh",
+        "benefit_iMNaXE",
+        "benefit_VTbqAg"
+      ],
+      "name": "D-Lock Story Media",
+      "settings": {
+        "heading": "<p>CRICKET HAS CHANGED. <em>YOUR BOX ROUTINE HASN'T.</em></p>",
+        "subheading": "<p>If you've played any amount of cricket, you already know the drill.</p>",
+        "solution_text": "<p><strong>D-LOCK</strong> is built to keep your protective box secure through long innings, fast running and constant movement — without the old multi-layer routine.</p>",
+        "media_type": "video",
+        "autoplay_video": false,
+        "loop_video": true,
+        "muted_video": true,
+        "show_video_controls": false,
+        "show_center_play": true,
+        "media_label": "Chris Lynn – Australian Cricket Player",
+        "show_verified_icon": true,
+        "background_color": "#08090B",
+        "text_color": "#FFFFFF",
+        "muted_color": "#8D91A0",
+        "accent_color": "#C7FF00",
+        "card_color": "#17191D",
+        "border_color": "#2C2F35",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
     "d_lock_template_8fdFGw",
+    "d_lock_story_media_mCb8Fx",
     "d_lock_features_aCBKMp",
     "d_lock_product_fXQrFM",
     "featured_product_information_XK3PnU",

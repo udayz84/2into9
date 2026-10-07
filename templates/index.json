@@ -29,7 +29,7 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/Banner_2_D_lock.webp",
-            "image_mobile": "shopify://shop_images/Banner_2_D_lock.webp",
+            "image_mobile": "shopify://shop_images/banner_2_mobile.webp",
             "mobile_image_asset": "hero-mobile-2.jpg",
             "image_alt": "",
             "subheading": "THE NEW D-LOCK",

@@ -1025,7 +1025,8 @@ summary::-webkit-details-marker {
    floating header's bottom edge — banners sit directly below the header, except
    the homepage hero banner which goes behind the header on both mobile & desktop. */
 body:has(.header[transparent]) .content-for-layout > .shopify-section:first-child {
-  margin-top: var(--header-height, 0px);
+  /* margin-top: var(--header-height, 0px); */
+   margin-top: 0px;
 }
 
 body:has(.header[transparent]) .content-for-layout[data-template="index"] > .shopify-section:first-child,

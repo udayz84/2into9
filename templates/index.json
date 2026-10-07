@@ -16,6 +16,7 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/Banner_1_1.webp",
+            "image_mobile": "shopify://shop_images/Banner_1_1.webp",
             "mobile_image_asset": "hero-mobile-1.jpg",
             "image_alt": "D-Lock",
             "subheading": "THE EVERYDAY ESSENTIAL",
@@ -28,6 +29,7 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/Banner_2_D_lock.webp",
+            "image_mobile": "shopify://shop_images/Banner_2_D_lock.webp",
             "mobile_image_asset": "hero-mobile-2.jpg",
             "image_alt": "",
             "subheading": "THE NEW D-LOCK",
@@ -75,6 +77,7 @@
         "eyebrow_size": 26,
         "heading_size": 54,
         "height": "full",
+        "mobile_height": 70,
         "subheading": "The newest",
         "heading": "Everyday wear",
         "button_label": "SHOP NOW",

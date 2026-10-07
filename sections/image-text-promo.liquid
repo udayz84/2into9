@@ -1,4123 +1,2047 @@
 {% comment %} {%- comment -%}
-
   Homepage — large image + small product image + text promo.
 
-
-
   Desktop:
-
   - One large image on one side
-
   - Smaller product image on the opposite side
-
   - Heading + shop link below the smaller image
-
   - Large image has its own separate link
-
   - Small image + text use the existing Link setting
 
-
-
   Text Side option is preserved.
-
 {%- endcomment -%}
 
-
-
 {%- assign text_side = section.settings.text_side | default: 'right' -%}
-
 {%- assign fallback_asset = section.settings.fallback_asset | default: 'promo-trunk.jpg' -%}
 
-
-
-\<section
-
+<section
   class="itp itp--text-{{ text_side }}"
-
   style="
-
     --itp-inset: {{ section.settings.inset_vw | default: 16 }};
-
     --itp-small-width: {{ section.settings.small_image_width | default: 58 }}%;
-
     margin-block: {{ section.settings.gap_top }}px {{ section.settings.gap_bottom }}px;
-
     --itp-heading-size: {{ section.settings.heading_size }}px;
-
   "
+>
 
-\>
-
-
-
-  \<!-- =========================================
-
+  <!-- =========================================
        LARGE IMAGE SIDE
-
   ========================================== -->
 
+  <div class="itp__media">
 
-
-  \<div class="itp__media">
-
-
-
-    \<a
-
+    <a
       href="{{ section.settings.image_link | default: '/collections/all' }}"
-
       class="itp__media-link"
-
       aria-label="{{ section.settings.image_link_label | default: section.settings.heading | escape }}"
-
     >
-
-      \<picture class="itp__picture">
-
+      <picture class="itp__picture">
         {%- if section.settings.image_mobile != blank -%}
-
-          \<source media="(max-width: 749px)" srcset="{{ section.settings.image_mobile | image_url: width: 900 }}">
-
+          <source media="(max-width: 749px)" srcset="{{ section.settings.image_mobile | image_url: width: 900 }}">
         {%- endif -%}
-
-        \<img
-
+        <img
           class="itp__image"
-
           src="{% if section.settings.image %}{{ section.settings.image | image_url: width: 1600 }}{% else %}{{ fallback_asset | asset_url }}{% endif %}"
-
           alt="{{ section.settings.image_alt | default: section.settings.heading | escape }}"
-
           loading="lazy"
-
           width="1000"
-
           height="1070"
-
         >
+      </picture>
+    </a>
 
-      \</picture>
-
-    \</a>
-
-
-
-  \</div>
+  </div>
 
 
-
-
-
-  \<!-- =========================================
-
+  <!-- =========================================
        SMALL IMAGE + TEXT SIDE
-
        Uses separate "Link" setting
-
   ========================================== -->
 
+  <div class="itp__content">
 
-
-  \<div class="itp__content">
-
-
-
-    \<a
-
+    <a
       href="{{ section.settings.link | default: '/collections/all' }}"
-
       class="itp__content-link"
-
       aria-label="{{ section.settings.heading | escape }}"
-
     >
 
-
-
-      \<!-- SMALL PRODUCT IMAGE -->
-
-
+      <!-- SMALL PRODUCT IMAGE -->
 
       {%- if section.settings.small_image != blank -%}
 
+        <div class="itp__small-image-wrap">
 
-
-        \<div class="itp__small-image-wrap">
-
-
-
-          \<img
-
+          <img
             class="itp__small-image"
-
             src="{{ section.settings.small_image | image_url: width: 1000 }}"
-
             alt="{{ section.settings.small_image_alt | default: section.settings.heading | escape }}"
-
             loading="lazy"
-
             width="1000"
-
             height="1000"
-
           >
 
-
-
-        \</div>
-
-
+        </div>
 
       {%- endif -%}
 
 
-
-
-
-      \<!-- HEADING -->
-
-
+      <!-- HEADING -->
 
       {%- if section.settings.heading != blank -%}
 
-
-
-        \<h2 class="itp__heading">
-
+        <h2 class="itp__heading">
           {{ section.settings.heading }}
-
-        \</h2>
-
-
+        </h2>
 
       {%- endif -%}
 
 
-
-
-
-      \<!-- SHOP -->
-
-
+      <!-- SHOP -->
 
       {%- if section.settings.shop_label != blank -%}
 
-
-
-        \<span class="itp__shop">
-
+        <span class="itp__shop">
           {{- section.settings.shop_label -}}
-
-        \</span>
-
-
+        </span>
 
       {%- endif -%}
 
+    </a>
 
+  </div>
 
-    \</a>
-
-
-
-  \</div>
-
-
-
-\</section>
-
-
-
+</section>
 
 
 {% stylesheet %}
 
-
-
-  /\* =========================================
-
+  /* =========================================
      MAIN SECTION
-
-  ========================================= \*/
-
-
+  ========================================= */
 
   .itp {
-
     display: grid;
-
-
 
     grid-template-columns: 1fr 1fr;
 
-
-
     width: 100%;
 
-
-
     background: #ffffff;
-
   }
 
 
-
-
-
-  /\* =========================================
-
+  /* =========================================
      LARGE IMAGE
-
-  ========================================= \*/
-
-
+  ========================================= */
 
   .itp__media {
-
     position: relative;
-
-
 
     overflow: hidden;
 
-
-
     aspect-ratio: 1 / 1.07;
-
   }
-
-
-
 
 
   .itp__media-link {
-
     display: block;
-
     position: relative;
-
     width: 100%;
-
     height: 100%;
-
   }
-
-
 
   .itp__picture {
-
     position: absolute;
-
     inset: 0;
-
     width: 100%;
-
     height: 100%;
-
     display: block;
-
   }
 
-
-
   .itp__image {
-
     position: absolute;
-
-
 
     inset: 0;
 
-
-
     width: 100%;
-
     height: 100%;
-
-
 
     object-fit: cover;
 
-
-
     object-position: 50% 20%;
-
-
 
     display: block;
 
-
-
     transition: transform 0.6s ease;
-
   }
-
-
-
 
 
   .itp__media:hover .itp__image {
-
     transform: scale(1.02);
-
   }
 
 
-
-
-
-  /\* =========================================
-
+  /* =========================================
      CONTENT SIDE
-
-  ========================================= \*/
-
-
+  ========================================= */
 
   .itp__content {
-
     min-width: 0;
-
-
 
     display: flex;
 
-
-
     align-items: center;
 
-
-
     justify-content: center;
-
-
 
     padding-top: 5rem;
 
-
-
     padding-bottom: 5rem;
 
-
-
     padding-inline-start: clamp(
-
       2rem,
-
-      calc(var(--itp-inset, 16) \* 1vw),
-
+      calc(var(--itp-inset, 16) * 1vw),
       20rem
-
     );
-
-
 
     padding-inline-end: clamp(
-
       2rem,
-
-      calc(var(--itp-inset, 16) \* 1vw),
-
+      calc(var(--itp-inset, 16) * 1vw),
       20rem
-
     );
-
   }
 
 
-
-
-
-  /\* =========================================
-
+  /* =========================================
      CONTENT LINK
-
      Small image + heading + shop
-
-     ========================================= \*/
-
-
+     ========================================= */
 
   .itp__content-link {
-
     display: flex;
-
-
 
     flex-direction: column;
 
-
-
     align-items: center;
-
-
 
     justify-content: center;
 
-
-
     width: 100%;
-
-
 
     height: 100%;
 
-
-
     color: inherit;
-
-
 
     text-decoration: none;
 
-
-
     cursor: pointer;
-
   }
 
 
-
-
-
-  /\* =========================================
-
+  /* =========================================
      SMALL PRODUCT IMAGE
-
-  ========================================= \*/
-
-
+  ========================================= */
 
   .itp__small-image-wrap {
-
     width: min(
-
       var(--itp-small-width, 58%),
-
       420px
-
     );
 
-
-
     margin: 0 auto;
-
   }
-
-
-
 
 
   .itp__small-image {
-
     display: block;
-
-
 
     width: 100%;
 
-
-
     height: auto;
-
-
 
     aspect-ratio: 1 / 1;
 
-
-
     object-fit: contain;
 
-
-
     transition: transform 0.5s ease;
-
   }
-
-
-
 
 
   .itp__content-link:hover .itp__small-image {
-
     transform: scale(1.03);
-
   }
 
 
-
-
-
-  /\* =========================================
-
+  /* =========================================
      HEADING
-
-  ========================================= \*/
-
-
+  ========================================= */
 
   .itp__heading {
-
     margin: 2.5rem 0 0;
 
-
-
     font-family: var(--font-heading--family);
-
-
 
     font-size: var(--itp-heading-size, 34px);
 
-
-
     font-weight: 300;
-
-
 
     letter-spacing: 0.02em;
 
-
-
     line-height: 1.1;
-
-
 
     text-transform: uppercase;
 
-
-
     color: #161616;
-
   }
 
 
-
-
-
-  /\* =========================================
-
+  /* =========================================
      SHOP
-
-  ========================================= \*/
-
-
+  ========================================= */
 
   .itp__shop {
-
     display: inline-block;
-
-
 
     margin-top: 14px;
 
-
-
     color: #1c1c1c;
-
-
 
     font-family: var(--font-heading--family);
 
-
-
     font-size: 0.7rem;
-
-
 
     font-weight: 400;
 
-
-
     letter-spacing: 0.18em;
-
-
 
     text-transform: uppercase;
 
-
-
     text-decoration: none;
-
   }
-
-
-
 
 
   .itp__content-link:hover .itp__shop {
-
     text-decoration: underline;
 
-
-
     text-underline-offset: 4px;
-
   }
 
 
-
-
-
-  /\* =========================================
-
+  /* =========================================
      TEXT LEFT
-
      Content LEFT / Large Image RIGHT
-
-  ========================================= \*/
-
-
+  ========================================= */
 
   .itp--text-left .itp__media {
-
     order: 2;
-
   }
-
-
-
 
 
   .itp--text-left .itp__content {
-
     order: 1;
-
   }
 
 
-
-
-
-  /\* =========================================
-
+  /* =========================================
      TEXT RIGHT
-
      Large Image LEFT / Content RIGHT
-
-  ========================================= \*/
-
-
+  ========================================= */
 
   .itp--text-right .itp__media {
-
     order: 1;
-
   }
-
-
-
 
 
   .itp--text-right .itp__content {
-
     order: 2;
-
   }
 
 
-
-
-
-  /\* =========================================
-
+  /* =========================================
      MOBILE
-
-  ========================================= \*/
-
-
+  ========================================= */
 
   @media screen and (max-width: 749px) {
 
-
-
     .itp {
-
       grid-template-columns: 1fr;
-
     }
 
 
-
-
-
-    /\* Large image first \*/
-
-
+    /* Large image first */
 
     .itp__media {
-
       order: 1 !important;
 
-
-
       aspect-ratio: 4 / 3;
-
     }
 
 
-
-
-
-    /\* Content second \*/
-
-
+    /* Content second */
 
     .itp__content {
-
       order: 2 !important;
-
-
 
       padding-top: 3rem;
 
-
-
       padding-bottom: 3rem;
 
-
-
       padding-inline-start: clamp(
-
         1.25rem,
-
         5vw,
-
         2rem
-
       );
-
-
 
       padding-inline-end: clamp(
-
         1.25rem,
-
         5vw,
-
         2rem
-
       );
-
     }
 
 
-
-
-
-    /\* Content clickable area \*/
-
-
+    /* Content clickable area */
 
     .itp__content-link {
-
       width: 100%;
-
     }
 
 
-
-
-
-    /\* Small image \*/
-
-
+    /* Small image */
 
     .itp__small-image-wrap {
-
       width: min(
-
         var(--itp-small-width, 58%),
-
         300px
-
       );
-
     }
 
 
-
-
-
-    /\* Heading \*/
-
-
+    /* Heading */
 
     .itp__heading {
-
       margin-top: 1.75rem;
 
-
-
       font-size: min(
-
         var(--itp-heading-size, 34px),
-
         9vw
-
       );
-
     }
 
 
-
-
-
-    /\* Shop \*/
-
-
+    /* Shop */
 
     .itp__shop {
-
       margin-top: 12px;
-
     }
 
-
-
   }
-
-
 
 {% endstylesheet %}
 
 
-
-
-
 {% schema %}
 
-
-
 {
-
   "name": "Image Text Promo",
-
   "tag": "section",
-
   "class": "section-image-text-promo",
-
-
 
   "settings": [
 
-
-
     {
-
       "type": "image_picker",
-
       "id": "image",
-
       "label": "Large image"
-
     },
 
-
-
     {
-
       "type": "text",
-
       "id": "image_alt",
-
       "label": "Large image alt text"
-
     },
 
-
-
     {
-
       "type": "url",
-
       "id": "image_link",
-
       "label": "Large Image Link"
-
     },
 
-
-
     {
-
       "type": "text",
-
       "id": "image_link_label",
-
       "label": "Large image link label"
-
     },
 
-
-
     {
-
       "type": "text",
-
       "id": "fallback_asset",
-
       "label": "Theme image filename",
-
       "info": "Used when no large image is picked. e.g. promo-trunk.jpg"
-
     },
 
-
-
     {
-
       "type": "image_picker",
-
       "id": "small_image",
-
       "label": "Small image"
-
     },
 
-
-
     {
-
       "type": "text",
-
       "id": "small_image_alt",
-
       "label": "Small image alt text"
-
     },
 
-
-
     {
-
       "type": "text",
-
       "id": "heading",
-
       "label": "Heading",
-
       "default": "MEN'S TRUNK"
-
     },
 
-
-
     {
-
       "type": "text",
-
       "id": "shop_label",
-
       "label": "Shop label",
-
       "default": "SHOP"
-
     },
 
-
-
     {
-
       "type": "url",
-
       "id": "link",
-
       "label": "Link"
-
     },
 
-
-
     {
-
       "type": "select",
-
       "id": "text_side",
-
       "label": "Text side",
-
       "options": [
-
         {
-
           "value": "right",
-
           "label": "Right"
-
         },
-
         {
-
           "value": "left",
-
           "label": "Left"
-
         }
-
       ],
-
       "default": "right"
-
     },
 
-
-
     {
-
       "type": "header",
-
       "content": "Layout"
-
     },
 
-
-
     {
-
       "type": "range",
-
       "id": "gap_top",
-
       "label": "Top spacing",
-
       "min": 0,
-
       "max": 100,
-
       "step": 1,
-
       "unit": "px",
-
       "default": 16
-
     },
 
-
-
     {
-
       "type": "range",
-
       "id": "gap_bottom",
-
       "label": "Bottom spacing",
-
       "min": 0,
-
       "max": 100,
-
       "step": 1,
-
       "unit": "px",
-
       "default": 16
-
     },
 
-
-
     {
-
       "type": "range",
-
       "id": "heading_size",
-
       "label": "Heading size",
-
       "min": 16,
-
       "max": 72,
-
       "step": 1,
-
       "unit": "px",
-
       "default": 34
-
     },
 
-
-
     {
-
       "type": "range",
-
       "id": "inset_vw",
-
       "label": "Text inset",
-
       "min": 4,
-
       "max": 40,
-
       "step": 1,
-
       "unit": "vw",
-
       "default": 16
-
     },
 
-
-
     {
-
       "type": "range",
-
       "id": "small_image_width",
-
       "label": "Small image width",
-
       "min": 30,
-
       "max": 85,
-
       "step": 1,
-
       "unit": "%",
-
       "default": 58
-
     }
-
-
 
   ],
 
-
-
   "presets": [
-
     {
-
       "name": "Image Text Promo"
-
     }
-
   ]
-
 }
-
-
 
 {% endschema %} {% endcomment %}
 
-
-
 {%- comment -%}
-
   Image Text Promo
 
-
-
   Desktop:
-
   - Reduced-width centered section
-
   - Large image with decorative image/color block behind it
-
   - Small image + heading + shop link on opposite side
-
   - Large image has its own separate link
-
   - Small image + text use the existing Link setting
 
-
-
   Decorative media:
-
   - Can use IMAGE or COLOR
-
   - Position can be changed from Theme Editor
-
 {%- endcomment -%}
 
 
-
-
-
 {% comment %} 28th Sept 2026 {% endcomment %}
-
 {% comment %}  
-
 {%- assign text_side = section.settings.text_side | default: 'right' -%}
-
 {%- assign fallback_asset = section.settings.fallback_asset | default: 'promo-trunk.jpg' -%}
 
-
-
-\<section
-
+<section
   class="itp itp--text-{{ text_side }}"
-
   style="
-
     --itp-max-width: {{ section.settings.section_width }}px;
-
     --itp-inset: {{ section.settings.inset_vw | default: 8 }};
-
     --itp-small-width: {{ section.settings.small_image_width | default: 58 }}%;
-
     --itp-heading-size: {{ section.settings.heading_size }}px;
-
-
 
     --itp-backdrop-color: {{ section.settings.backdrop_color }};
 
-
-
     --itp-backdrop-width: {{ section.settings.backdrop_width }}%;
-
     --itp-backdrop-height: {{ section.settings.backdrop_height }}%;
 
-
-
     --itp-backdrop-offset-x: {{ section.settings.backdrop_offset_x }}px;
-
     --itp-backdrop-offset-y: {{ section.settings.backdrop_offset_y }}px;
 
-
-
     margin-block: {{ section.settings.gap_top }}px {{ section.settings.gap_bottom }}px;
-
   "
+>
 
-\>
-
-
-
-  \<!-- =========================================
-
+  <!-- =========================================
        LARGE IMAGE SIDE
-
   ========================================== -->
 
+  <div class="itp__media">
 
-
-  \<div class="itp__media">
-
-
-
-    \<!-- Decorative background -->
-
-    \<div
-
+    <!-- Decorative background -->
+    <div
       class="
-
         itp__backdrop
-
         itp__backdrop--{{ section.settings.backdrop_position }}
-
         {% if section.settings.backdrop_image != blank %}
-
           itp__backdrop--has-image
-
         {% endif %}
-
       "
-
     >
-
-
 
       {% if section.settings.backdrop_image != blank %}
-
-        \<img
-
+        <img
           class="itp__backdrop-image"
-
           src="{{ section.settings.backdrop_image | image_url: width: 1200 }}"
-
           alt=""
-
           loading="lazy"
-
           width="1200"
-
           height="1200"
-
         >
-
       {% endif %}
 
+    </div>
 
 
-    \</div>
-
-
-
-
-
-    \<!-- Main image -->
-
-    \<a
-
+    <!-- Main image -->
+    <a
       href="{{ section.settings.image_link | default: '/collections/all' }}"
-
       class="itp__media-link"
-
       aria-label="{{ section.settings.image_link_label | default: section.settings.heading | escape }}"
-
     >
 
-
-
-      \<img
-
+      <img
         class="itp__image"
-
         src="{% if section.settings.image %}{{ section.settings.image | image_url: width: 1800 }}{% else %}{{ fallback_asset | asset_url }}{% endif %}"
-
         alt="{{ section.settings.image_alt | default: section.settings.heading | escape }}"
-
         loading="lazy"
-
         width="1400"
-
         height="1500"
-
       >
 
+    </a>
+
+  </div>
 
 
-    \</a>
-
-
-
-  \</div>
-
-
-
-
-
-  \<!-- =========================================
-
+  <!-- =========================================
        SMALL IMAGE + TEXT SIDE
-
   ========================================== -->
 
+  <div class="itp__content">
 
-
-  \<div class="itp__content">
-
-
-
-    \<a
-
+    <a
       href="{{ section.settings.link | default: '/collections/all' }}"
-
       class="itp__content-link"
-
       aria-label="{{ section.settings.heading | escape }}"
-
     >
 
-
-
-      \<!-- SMALL PRODUCT IMAGE -->
-
-
+      <!-- SMALL PRODUCT IMAGE -->
 
       {%- if section.settings.small_image != blank -%}
 
+        <div class="itp__small-image-wrap">
 
-
-        \<div class="itp__small-image-wrap">
-
-
-
-          \<img
-
+          <img
             class="itp__small-image"
-
             src="{{ section.settings.small_image | image_url: width: 1000 }}"
-
             alt="{{ section.settings.small_image_alt | default: section.settings.heading | escape }}"
-
             loading="lazy"
-
             width="1000"
-
             height="1000"
-
           >
 
-
-
-        \</div>
-
-
+        </div>
 
       {%- endif -%}
 
 
-
-
-
-      \<!-- HEADING -->
-
-
+      <!-- HEADING -->
 
       {%- if section.settings.heading != blank -%}
 
-
-
-        \<h2 class="itp__heading">
-
+        <h2 class="itp__heading">
           {{ section.settings.heading }}
-
-        \</h2>
-
-
+        </h2>
 
       {%- endif -%}
 
 
-
-
-
-      \<!-- SHOP -->
-
-
+      <!-- SHOP -->
 
       {%- if section.settings.shop_label != blank -%}
 
-
-
-        \<span class="itp__shop">
-
+        <span class="itp__shop">
           {{- section.settings.shop_label -}}
-
-        \</span>
-
-
+        </span>
 
       {%- endif -%}
 
+    </a>
 
+  </div>
 
-    \</a>
-
-
-
-  \</div>
-
-
-
-\</section>
-
-
-
+</section>
 
 
 {% stylesheet %}
 
-
-
-/\* =========================================
-
+/* =========================================
    MAIN SECTION
-
-\========================================= \*/
-
-
+========================================= */
 
 .itp {
-
   position: relative;
-
-
 
   display: grid;
 
-
-
   grid-template-columns: 1fr 1fr;
 
-
-
   width: min(
-
     calc(100% - 40px),
-
     var(--itp-max-width, 1200px)
-
   );
-
-
 
   margin-inline: auto;
 
-
-
   background: #ffffff;
-
 }
 
 
-
-
-
-/\* =========================================
-
+/* =========================================
    LARGE IMAGE AREA
-
-\========================================= \*/
-
-
+========================================= */
 
 .itp__media {
-
   position: relative;
 
-
-
   min-width: 0;
-
-
 
   overflow: visible;
 
-
-
   aspect-ratio: 1 / 1.07;
 
-
-
   z-index: 1;
-
 }
 
 
-
-
-
-/\* =========================================
-
+/* =========================================
    DECORATIVE BACKDROP
-
-\========================================= \*/
-
-
+========================================= */
 
 .itp__backdrop {
-
   position: absolute;
-
-
 
   z-index: 0;
 
-
-
   width: var(--itp-backdrop-width, 38%);
-
   height: var(--itp-backdrop-height, 55%);
-
-
 
   background: var(--itp-backdrop-color, #6d513d);
 
-
-
   overflow: hidden;
 
-
-
   pointer-events: none;
-
 }
 
 
-
-
-
-/\* =========================================
-
+/* =========================================
    BACKDROP IMAGE
-
-\========================================= \*/
-
-
+========================================= */
 
 .itp__backdrop--has-image {
-
   background: transparent;
-
 }
-
-
-
 
 
 .itp__backdrop-image {
-
   display: block;
 
-
-
   width: 100%;
-
   height: 100%;
 
-
-
   object-fit: cover;
-
 }
 
 
-
-
-
-/\* =========================================
-
+/* =========================================
    BACKDROP POSITIONS
+========================================= */
 
-\========================================= \*/
-
-
-
-/\* Top Left \*/
-
-
+/* Top Left */
 
 .itp__backdrop--top-left {
-
   top: var(--itp-backdrop-offset-y, 0px);
-
   left: var(--itp-backdrop-offset-x, 0px);
-
 }
 
 
-
-
-
-/\* Top Right \*/
-
-
+/* Top Right */
 
 .itp__backdrop--top-right {
-
   top: var(--itp-backdrop-offset-y, 0px);
-
   right: var(--itp-backdrop-offset-x, 0px);
-
 }
 
 
-
-
-
-/\* Bottom Left \*/
-
-
+/* Bottom Left */
 
 .itp__backdrop--bottom-left {
-
   bottom: var(--itp-backdrop-offset-y, 0px);
-
   left: var(--itp-backdrop-offset-x, 0px);
-
 }
 
 
-
-
-
-/\* Bottom Right \*/
-
-
+/* Bottom Right */
 
 .itp__backdrop--bottom-right {
-
   bottom: var(--itp-backdrop-offset-y, 0px);
-
   right: var(--itp-backdrop-offset-x, 0px);
-
 }
 
 
-
-
-
-/\* =========================================
-
+/* =========================================
    MAIN IMAGE LINK
-
-\========================================= \*/
-
-
+========================================= */
 
 .itp__media-link {
-
   position: absolute;
-
-
 
   z-index: 2;
 
-
-
   display: block;
 
-
-
   width: calc(100% - 32px);
-
   height: calc(100% - 32px);
 
-
-
   top: 32px;
-
   left: 32px;
-
 }
 
 
-
-
-
-/\* =========================================
-
+/* =========================================
    MAIN IMAGE
-
-\========================================= \*/
-
-
+========================================= */
 
 .itp__image {
-
   position: absolute;
-
-
 
   inset: 0;
 
-
-
   width: 100%;
-
   height: 100%;
-
-
 
   object-fit: cover;
 
-
-
   object-position: 50% 20%;
-
-
 
   display: block;
 
-
-
   transition:
-
     transform 0.6s ease;
-
 }
-
-
-
 
 
 .itp__media-link:hover .itp__image {
-
   transform: scale(1.02);
-
 }
 
 
-
-
-
-/\* =========================================
-
+/* =========================================
    CONTENT SIDE
-
-\========================================= \*/
-
-
+========================================= */
 
 .itp__content {
-
   min-width: 0;
 
-
-
   display: flex;
-
-
 
   align-items: center;
 
-
-
   justify-content: center;
 
-
-
   padding-top: 4rem;
-
   padding-bottom: 4rem;
 
-
-
   padding-inline-start: clamp(
-
     1.5rem,
-
-    calc(var(--itp-inset, 8) \* 1vw),
-
+    calc(var(--itp-inset, 8) * 1vw),
     8rem
-
   );
-
-
 
   padding-inline-end: clamp(
-
     1.5rem,
-
-    calc(var(--itp-inset, 8) \* 1vw),
-
+    calc(var(--itp-inset, 8) * 1vw),
     8rem
-
   );
-
 }
 
 
-
-
-
-/\* =========================================
-
+/* =========================================
    CONTENT LINK
-
-\========================================= \*/
-
-
+========================================= */
 
 .itp__content-link {
-
   display: flex;
-
-
 
   flex-direction: column;
 
-
-
   align-items: center;
-
-
 
   justify-content: center;
 
-
-
   width: 100%;
-
   height: 100%;
-
-
 
   color: inherit;
 
-
-
   text-decoration: none;
 
-
-
   cursor: pointer;
-
 }
 
 
-
-
-
-/\* =========================================
-
+/* =========================================
    SMALL PRODUCT IMAGE
-
-\========================================= \*/
-
-
+========================================= */
 
 .itp__small-image-wrap {
-
   width: min(
-
     var(--itp-small-width, 58%),
-
     360px
-
   );
 
-
-
   margin: 0 auto;
-
 }
-
-
-
 
 
 .itp__small-image {
-
   display: block;
 
-
-
   width: 100%;
-
   height: auto;
-
-
 
   aspect-ratio: 1 / 1;
 
-
-
   object-fit: contain;
 
-
-
   transition:
-
     transform 0.5s ease;
-
 }
-
-
-
 
 
 .itp__content-link:hover .itp__small-image {
-
   transform: scale(1.03);
-
 }
 
 
-
-
-
-/\* =========================================
-
+/* =========================================
    HEADING
-
-\========================================= \*/
-
-
+========================================= */
 
 .itp__heading {
-
   margin: 2.25rem 0 0;
 
-
-
   font-family: var(--font-heading--family);
-
-
 
   font-size: var(--itp-heading-size, 34px);
 
-
-
   font-weight: 300;
-
-
 
   letter-spacing: 0.02em;
 
-
-
   line-height: 1.1;
 
-
-
   text-transform: uppercase;
-
-
 
   text-align: center;
 
-
-
   color: #161616;
-
 }
 
 
-
-
-
-/\* =========================================
-
+/* =========================================
    SHOP
-
-\========================================= \*/
-
-
+========================================= */
 
 .itp__shop {
-
   display: inline-block;
-
-
 
   margin-top: 14px;
 
-
-
   color: #1c1c1c;
-
-
 
   font-family: var(--font-heading--family);
 
-
-
   font-size: 0.7rem;
-
-
 
   font-weight: 400;
 
-
-
   letter-spacing: 0.18em;
-
-
 
   text-transform: uppercase;
 
-
-
   text-decoration: none;
-
 }
-
-
-
 
 
 .itp__content-link:hover .itp__shop {
-
   text-decoration: underline;
 
-
-
   text-underline-offset: 4px;
-
 }
 
 
-
-
-
-/\* =========================================
-
+/* =========================================
    TEXT LEFT
-
-\========================================= \*/
-
-
+========================================= */
 
 .itp--text-left .itp__media {
-
   order: 2;
-
 }
-
-
-
 
 
 .itp--text-left .itp__content {
-
   order: 1;
-
 }
 
 
-
-
-
-/\* =========================================
-
+/* =========================================
    TEXT RIGHT
-
-\========================================= \*/
-
-
+========================================= */
 
 .itp--text-right .itp__media {
-
   order: 1;
-
 }
-
-
-
 
 
 .itp--text-right .itp__content {
-
   order: 2;
-
 }
 
 
-
-
-
-/\* =========================================
-
+/* =========================================
    MOBILE
-
-\========================================= \*/
-
-
+========================================= */
 
 @media screen and (max-width: 749px) {
 
-
-
   .itp {
-
-
 
     width: calc(100% - 30px);
 
-
-
     grid-template-columns: 1fr;
-
-
 
   }
 
 
-
-
-
-  /\* Large image \*/
-
-
+  /* Large image */
 
   .itp__media {
 
-
-
     order: 1 !important;
-
-
 
     aspect-ratio: 4 / 3;
 
-
-
   }
 
 
-
-
-
-  /\* Backdrop \*/
-
-
+  /* Backdrop */
 
   .itp__backdrop {
 
-
-
     width: 38%;
-
     height: 55%;
-
-
 
   }
 
 
-
-
-
-  /\* Main image \*/
-
-
+  /* Main image */
 
   .itp__media-link {
 
-
-
     width: calc(100% - 20px);
-
     height: calc(100% - 20px);
 
-
-
     top: 20px;
-
     left: 20px;
-
-
 
   }
 
 
-
-
-
-  /\* Content \*/
-
-
+  /* Content */
 
   .itp__content {
 
-
-
     order: 2 !important;
 
-
-
     padding-top: 3rem;
-
     padding-bottom: 3rem;
 
-
-
     padding-inline-start: 1.25rem;
-
     padding-inline-end: 1.25rem;
-
-
 
   }
 
 
-
-
-
-  /\* Small image \*/
-
-
+  /* Small image */
 
   .itp__small-image-wrap {
 
-
-
     width: min(
-
       var(--itp-small-width, 58%),
-
       300px
-
     );
-
-
 
   }
 
 
-
-
-
-  /\* Heading \*/
-
-
+  /* Heading */
 
   .itp__heading {
 
-
-
     margin-top: 1.75rem;
 
-
-
     font-size: min(
-
       var(--itp-heading-size, 34px),
-
       9vw
-
     );
 
-
-
   }
-
-
-
 
 
   .itp__shop {
 
-
-
     margin-top: 12px;
-
-
 
   }
 
-
-
 }
-
-
 
 {% endstylesheet %}
 
 
-
-
-
 {% schema %}
 
-
-
 {
-
   "name": "Image Text Promo",
-
   "tag": "section",
-
   "class": "section-image-text-promo",
-
-
 
   "settings": [
 
-
-
     {
-
       "type": "image_picker",
-
       "id": "image",
-
       "label": "Large image"
-
     },
 
-
-
     {
-
       "type": "text",
-
       "id": "image_alt",
-
       "label": "Large image alt text"
-
     },
 
-
-
     {
-
       "type": "url",
-
       "id": "image_link",
-
       "label": "Large Image Link"
-
     },
 
-
-
     {
-
       "type": "text",
-
       "id": "image_link_label",
-
       "label": "Large image link label"
-
     },
 
-
-
     {
-
       "type": "text",
-
       "id": "fallback_asset",
-
       "label": "Theme image filename",
-
       "info": "Used when no large image is picked. e.g. promo-trunk.jpg"
-
     },
 
 
-
-
-
     {
-
       "type": "header",
-
       "content": "Image Background"
-
     },
 
-
-
     {
-
       "type": "image_picker",
-
       "id": "backdrop_image",
-
       "label": "Background image"
-
     },
 
-
-
     {
-
       "type": "color",
-
       "id": "backdrop_color",
-
       "label": "Background colour",
-
       "default": "#6d513d"
-
     },
 
-
-
     {
-
       "type": "select",
-
       "id": "backdrop_position",
-
       "label": "Background position",
-
       "options": [
-
         {
-
           "value": "top-left",
-
           "label": "Top left"
-
         },
-
         {
-
           "value": "top-right",
-
           "label": "Top right"
-
         },
-
         {
-
           "value": "bottom-left",
-
           "label": "Bottom left"
-
         },
-
         {
-
           "value": "bottom-right",
-
           "label": "Bottom right"
-
         }
-
       ],
-
       "default": "top-left"
-
     },
 
-
-
     {
-
       "type": "range",
-
       "id": "backdrop_width",
-
       "label": "Background width",
-
       "min": 20,
-
       "max": 70,
-
       "step": 1,
-
       "unit": "%",
-
       "default": 38
-
     },
 
-
-
     {
-
       "type": "range",
-
       "id": "backdrop_height",
-
       "label": "Background height",
-
       "min": 20,
-
       "max": 80,
-
       "step": 1,
-
       "unit": "%",
-
       "default": 55
-
     },
 
-
-
     {
-
       "type": "range",
-
       "id": "backdrop_offset_x",
-
       "label": "Background horizontal offset",
-
       "min": 0,
-
       "max": 100,
-
       "step": 1,
-
       "unit": "px",
-
       "default": 0
-
     },
 
-
-
     {
-
       "type": "range",
-
       "id": "backdrop_offset_y",
-
       "label": "Background vertical offset",
-
       "min": 0,
-
       "max": 100,
-
       "step": 1,
-
       "unit": "px",
-
       "default": 0
-
     },
 
 
-
-
-
     {
-
       "type": "image_picker",
-
       "id": "small_image",
-
       "label": "Small image"
-
     },
 
-
-
     {
-
       "type": "text",
-
       "id": "small_image_alt",
-
       "label": "Small image alt text"
-
     },
 
-
-
     {
-
       "type": "text",
-
       "id": "heading",
-
       "label": "Heading",
-
       "default": "MEN'S TRUNK"
-
     },
 
-
-
     {
-
       "type": "text",
-
       "id": "shop_label",
-
       "label": "Shop label",
-
       "default": "SHOP"
-
     },
 
-
-
     {
-
       "type": "url",
-
       "id": "link",
-
       "label": "Link"
-
     },
 
 
-
-
-
     {
-
       "type": "select",
-
       "id": "text_side",
-
       "label": "Text side",
-
       "options": [
-
         {
-
           "value": "right",
-
           "label": "Right"
-
         },
-
         {
-
           "value": "left",
-
           "label": "Left"
-
         }
-
       ],
-
       "default": "right"
-
     },
 
 
-
-
-
     {
-
       "type": "header",
-
       "content": "Layout"
-
     },
 
-
-
     {
-
       "type": "range",
-
       "id": "section_width",
-
       "label": "Section width",
-
       "min": 800,
-
       "max": 1600,
-
       "step": 20,
-
       "unit": "px",
-
       "default": 1200
-
     },
 
-
-
     {
-
       "type": "range",
-
       "id": "gap_top",
-
       "label": "Top spacing",
-
       "min": 0,
-
       "max": 100,
-
       "step": 1,
-
       "unit": "px",
-
       "default": 16
-
     },
 
-
-
     {
-
       "type": "range",
-
       "id": "gap_bottom",
-
       "label": "Bottom spacing",
-
       "min": 0,
-
       "max": 100,
-
       "step": 1,
-
       "unit": "px",
-
       "default": 16
-
     },
 
-
-
     {
-
       "type": "range",
-
       "id": "heading_size",
-
       "label": "Heading size",
-
       "min": 16,
-
       "max": 72,
-
       "step": 1,
-
       "unit": "px",
-
       "default": 34
-
     },
 
-
-
     {
-
       "type": "range",
-
       "id": "inset_vw",
-
       "label": "Text inset",
-
       "min": 4,
-
       "max": 20,
-
       "step": 1,
-
       "unit": "px",
-
       "default": 8
-
     },
 
-
-
     {
-
       "type": "range",
-
       "id": "small_image_width",
-
       "label": "Small image width",
-
       "min": 30,
-
       "max": 85,
-
       "step": 1,
-
       "unit": "%",
-
       "default": 58
-
     }
-
-
 
   ],
 
-
-
   "presets": [
-
     {
-
       "name": "Image Text Promo"
-
     }
-
   ]
-
 }
-
-
 
 {% endschema %} {% endcomment %}
 
 
-
-
-
 {%- comment -%}
-
 Homepage — large image + small product image + text promo.
-
-
 
 Desktop:
 
-
-
 One large image on one side
-
-
 
 Smaller product image on the opposite side
 
-
-
 Heading + shop link below the smaller image
-
-
 
 Large image has its own separate link
 
-
-
 Small image + text use the existing Link setting
 
-
-
 Text Side option is preserved.
-
 {%- endcomment -%}
 
-
-
 {%- assign text_side = section.settings.text_side | default: 'right' -%}
-
 {%- assign fallback_asset = section.settings.fallback_asset | default: 'promo-trunk.jpg' -%}
 
-
-
-\<section
-
+<section
   class="itp itp--text-{{ text_side }}"
-
   style="
-
     --itp-inset: {{ section.settings.inset_vw | default: 16 }};
-
     --itp-small-width: {{ section.settings.small_image_width | default: 58 }}%;
-    --itp-small-border-color: {{ section.settings.small_image_border_color | default: '#000000' }};
-    --itp-small-border-width: {{ section.settings.small_image_border_width | default: 1 }}px;
-
     margin-block: {{ section.settings.gap_top }}px {{ section.settings.gap_bottom }}px;
-
     --itp-heading-size: {{ section.settings.heading_size }}px;
-
   "
+>
 
-\>
-
-
-
-  \<!-- =========================================
-
+  <!-- =========================================
        LARGE IMAGE SIDE
-
   ========================================== -->
 
+  <div class="itp__media">
 
-
-  \<div class="itp__media">
-
-
-
-\<a
-
+<a
   href="{{ section.settings.image_link | default: '/collections/all' }}"
-
   class="itp__media-link"
-
   aria-label="{{ section.settings.image_link_label | default: section.settings.heading | escape }}"
-
-\>
-
-  \<img
-
+>
+  <img
     class="itp__image"
-
     src="{% if section.settings.image %}{{ section.settings.image | image_url: width: 1600 }}{% else %}{{ fallback_asset | asset_url }}{% endif %}"
-
     alt="{{ section.settings.image_alt | default: section.settings.heading | escape }}"
-
     loading="lazy"
-
     width="1000"
-
     height="1070"
-
   >
+</a>
 
-\</a>
+  </div>
 
-
-
-  \</div>
-
-
-
-  \<!-- =========================================
-
+  <!-- =========================================
        SMALL IMAGE + TEXT SIDE
-
        Uses separate "Link" setting
-
   ========================================== -->
 
+  <div class="itp__content">
 
-
-  \<div class="itp__content">
-
-
-
-\<a
-
+<a
   href="{{ section.settings.link | default: '/collections/all' }}"
-
   class="itp__content-link"
-
   aria-label="{{ section.settings.heading | escape }}"
+>
 
-\>
-
-
-
-  \<!-- SMALL PRODUCT IMAGE -->
-
-
+  <!-- SMALL PRODUCT IMAGE -->
 
   {%- if section.settings.small_image != blank -%}
 
+    <div class="itp__small-image-wrap">
 
-
-    \<div class="itp__small-image-wrap">
-
-
-
-      \<img
-
+      <img
         class="itp__small-image"
-
         src="{{ section.settings.small_image | image_url: width: 1000 }}"
-
         alt="{{ section.settings.small_image_alt | default: section.settings.heading | escape }}"
-
         loading="lazy"
-
         width="1000"
-
         height="1000"
-
       >
 
-
-
-    \</div>
-
-
+    </div>
 
   {%- endif -%}
 
 
-
-
-
-  \<!-- HEADING -->
-
-
+  <!-- HEADING -->
 
   {%- if section.settings.heading != blank -%}
 
-
-
-    \<h2 class="itp__heading">
-
+    <h2 class="itp__heading">
       {{ section.settings.heading }}
-
-    \</h2>
-
-
+    </h2>
 
   {%- endif -%}
 
 
-
-
-
-  \<!-- SHOP -->
-
-
+  <!-- SHOP -->
 
   {%- if section.settings.shop_label != blank -%}
 
-
-
-    \<span class="itp__shop">
-
+    <span class="itp__shop">
       {{- section.settings.shop_label -}}
-
-    \</span>
-
-
+    </span>
 
   {%- endif -%}
 
+</a>
 
+  </div>
 
-\</a>
-
-
-
-  \</div>
-
-
-
-\</section>
-
-
+</section>
 
 {% stylesheet %}
 
-
-
-/\* =========================================
-
+/* =========================================
 MAIN SECTION
-
-\========================================= \*/
-
-
+========================================= */
 
 .itp {
-
 display: grid;
-
-
 
 grid-template-columns: 1fr 1fr;
 
-
-
 width: 100%;
-
-
 
 background: #ffffff;
 
-
-
 }
 
-
-
-/\* =========================================
-
+/* =========================================
 LARGE IMAGE
-
-\========================================= \*/
-
-
+========================================= */
 
 .itp__media {
-
 position: relative;
 
-
-
 overflow: hidden;
-
-
 
 aspect-ratio: 1 / 1.07;
 
-
-
 }
-
-
 
 .itp__media-link {
-
 display: block;
 
-
-
 width: 100%;
-
 height: 100%;
-
-
 
 }
 
-
-
 .itp__image {
-
 position: absolute;
-
-
 
 inset: 0;
 
-
-
 width: 100%;
-
 height: 100%;
-
-
 
 object-fit: cover;
 
-
-
 object-position: 50% 20%;
 
-
-
 display: block;
-
-
 
 transition: transform 0.6s ease;
 
-
-
 }
-
-
 
 .itp__media .itp__image {
-
 transform: scale(1.02);
-
 }
 
-
-
-/\* =========================================
-
+/* =========================================
 CONTENT SIDE
-
-\========================================= \*/
-
-
+========================================= */
 
 .itp__content {
-
 min-width: 0;
-
-
 
 display: flex;
 
-
-
 align-items: center;
 
-
-
 justify-content: center;
-
-
 
 padding-top: 5rem;
 
-
-
 padding-bottom: 5rem;
 
-
-
 padding-inline-start: clamp(
-
   2rem,
-
-  calc(var(--itp-inset, 16) \* 1vw),
-
+  calc(var(--itp-inset, 16) * 1vw),
   20rem
-
 );
-
-
 
 padding-inline-end: clamp(
-
   2rem,
-
-  calc(var(--itp-inset, 16) \* 1vw),
-
+  calc(var(--itp-inset, 16) * 1vw),
   20rem
-
 );
-
-
 
 }
 
-
-
-/\* =========================================
-
+/* =========================================
 CONTENT LINK
-
 Small image + heading + shop
-
-\========================================= \*/
-
-
+========================================= */
 
 .itp__content-link {
-
 display: flex;
-
-
 
 flex-direction: column;
 
-
-
 align-items: center;
-
-
 
 justify-content: center;
 
-
-
 width: 100%;
-
-
 
 height: 100%;
 
-
-
 color: inherit;
 
-
-
 text-decoration: none;
-
-
 
 cursor: pointer;
 
-
-
 }
 
-
-
-/\* =========================================
-
+/* =========================================
 SMALL PRODUCT IMAGE
-
-\========================================= \*/
-
-
+========================================= */
 
 .itp__small-image-wrap {
-
 width: min(
-
 var(--itp-small-width, 58%),
-
 420px
-
 );
-
-
 
 margin: 0 auto;
 
-border: var(--itp-small-border-width, 1px) solid var(--itp-small-border-color, #000000);
-box-sizing: border-box;
-overflow: hidden;
-
-
-
 }
 
-
-
 .itp__small-image {
-
 display: block;
-
-
 
 width: 100%;
 
-
-
 height: auto;
-
-
 
 aspect-ratio: 1 / 1;
 
-
-
 object-fit: contain;
-
-
 
 transition: transform 0.5s ease;
 
-
-
 }
-
-
 
 .itp__content-link .itp__small-image {
-
 transform: scale(1.03);
-
 }
 
-
-
-/\* =========================================
-
+/* =========================================
 HEADING
-
-\========================================= \*/
-
-
+========================================= */
 
 .itp__heading {
-
 margin: 2.5rem 0 0;
 
-
-
 font-family: var(--font-heading--family);
-
-
 
 font-size: var(--itp-heading-size, 34px);
 
-
-
 font-weight: 300;
-
-
 
 letter-spacing: 0.02em;
 
-
-
 line-height: 1.1;
-
-
 
 text-transform: uppercase;
 
-
-
 color: #161616;
-
 text-align: center;
-
 }
 
-
-
-/\* =========================================
-
+/* =========================================
 SHOP
-
-\========================================= \*/
-
-
+========================================= */
 
 .itp__shop {
-
 display: inline-block;
-
-
 
 margin-top: 14px;
 
-
-
 color: #1c1c1c;
-
-
 
 font-family: var(--font-heading--family);
 
-
-
 font-size: 0.7rem;
-
-
 
 font-weight: 400;
 
-
-
 letter-spacing: 0.18em;
-
-
 
 text-transform: uppercase;
 
-
-
 text-decoration: none;
-
-
 
 }
 
-
-
 .itp__content-link .itp__shop {
-
 text-decoration: underline;
-
-
 
 text-underline-offset: 4px;
 
-
-
 }
 
-
-
-/\* =========================================
-
+/* =========================================
 TEXT LEFT
-
 Content LEFT / Large Image RIGHT
-
-\========================================= \*/
-
-
+========================================= */
 
 .itp--text-left .itp__media {
-
 order: 2;
-
 }
-
-
 
 .itp--text-left .itp__content {
-
 order: 1;
-
 }
 
-
-
-/\* =========================================
-
+/* =========================================
 TEXT RIGHT
-
 Large Image LEFT / Content RIGHT
-
-\========================================= \*/
-
-
+========================================= */
 
 .itp--text-right .itp__media {
-
 order: 1;
-
 }
-
-
 
 .itp--text-right .itp__content {
-
 order: 2;
-
 }
 
-
-
-/\* =========================================
-
+/* =========================================
 MOBILE
-
-\========================================= \*/
-
-
+========================================= */
 
 @media screen and (max-width: 749px) {
 
-
-
 .itp {
-
   grid-template-columns: 1fr;
-
 }
 
 
-
-
-
-/\* Large image first \*/
-
-
+/* Large image first */
 
 .itp__media {
-
   order: 1 !important;
 
-
-
   aspect-ratio: 4 / 3;
-
 }
 
 
-
-
-
-/\* Content second \*/
-
-
+/* Content second */
 
 .itp__content {
-
   order: 2 !important;
-
-
 
   padding-top: 3rem;
 
-
-
   padding-bottom: 3rem;
 
-
-
   padding-inline-start: clamp(
-
     1.25rem,
-
     5vw,
-
     2rem
-
   );
-
-
 
   padding-inline-end: clamp(
-
     1.25rem,
-
     5vw,
-
     2rem
-
   );
-
 }
 
 
-
-
-
-/\* Content clickable area \*/
-
-
+/* Content clickable area */
 
 .itp__content-link {
-
   width: 100%;
-
 }
 
 
-
-
-
-/\* Small image \*/
-
-
+/* Small image */
 
 .itp__small-image-wrap {
-
   width: min(
-
     var(--itp-small-width, 58%),
-
     300px
-
   );
-
 }
 
 
-
-
-
-/\* Heading \*/
-
-
+/* Heading */
 
 .itp__heading {
-
   margin-top: 1.75rem;
 
-
-
   font-size: min(
-
     var(--itp-heading-size, 34px),
-
     9vw
-
   );
-
 }
 
 
-
-
-
-/\* Shop \*/
-
-
+/* Shop */
 
 .itp__shop {
-
   margin-top: 12px;
-
 }
 
-
-
 }
-
-
 
 {% endstylesheet %}
 
-
-
 {% schema %}
 
-
-
 {
-
 "name": "Image Text Promo",
-
 "tag": "section",
-
 "class": "section-image-text-promo",
-
-
 
 "settings": [
 
-
-
 {
-
   "type": "image_picker",
-
   "id": "image",
-
   "label": "Large image (desktop)"
-
 },
-
 {
-
   "type": "image_picker",
-
   "id": "image_mobile",
-
   "label": "Large image (mobile / phone)"
-
 },
 
-
-
 {
-
   "type": "text",
-
   "id": "image_alt",
-
   "label": "Large image alt text"
-
 },
 
-
-
 {
-
   "type": "url",
-
   "id": "image_link",
-
   "label": "Large Image Link"
-
 },
 
-
-
 {
-
   "type": "text",
-
   "id": "image_link_label",
-
   "label": "Large image link label"
-
 },
 
-
-
 {
-
   "type": "text",
-
   "id": "fallback_asset",
-
   "label": "Theme image filename",
-
   "info": "Used when no large image is picked. e.g. promo-trunk.jpg"
-
 },
 
-
-
 {
-
   "type": "image_picker",
-
   "id": "small_image",
-
   "label": "Small image"
-
 },
 
-
-
 {
-
   "type": "text",
-
   "id": "small_image_alt",
-
   "label": "Small image alt text"
-
 },
 
 {
-  "type": "header",
-  "content": "Small Image Border"
-},
-
-{
-  "type": "color",
-  "id": "small_image_border_color",
-  "label": "Border colour",
-  "default": "#000000"
-},
-
-{
-  "type": "range",
-  "id": "small_image_border_width",
-  "label": "Border width",
-  "min": 0,
-  "max": 10,
-  "step": 1,
-  "unit": "px",
-  "default": 1
-},
-
-
-
-
-{
-
   "type": "text",
-
   "id": "heading",
-
   "label": "Heading",
-
   "default": "MEN'S TRUNK"
-
 },
 
-
-
 {
-
   "type": "text",
-
   "id": "shop_label",
-
   "label": "Shop label",
-
   "default": "SHOP"
-
 },
 
-
-
 {
-
   "type": "url",
-
   "id": "link",
-
   "label": "Link"
-
 },
 
-
-
 {
-
   "type": "select",
-
   "id": "text_side",
-
   "label": "Text side",
-
   "options": [
-
     {
-
       "value": "right",
-
       "label": "Right"
-
     },
-
     {
-
       "value": "left",
-
       "label": "Left"
-
     }
-
   ],
-
   "default": "right"
-
 },
 
-
-
 {
-
   "type": "header",
-
   "content": "Layout"
-
 },
 
-
-
 {
-
   "type": "range",
-
   "id": "gap_top",
-
   "label": "Top spacing",
-
   "min": 0,
-
   "max": 100,
-
   "step": 1,
-
   "unit": "px",
-
   "default": 16
-
 },
 
-
-
 {
-
   "type": "range",
-
   "id": "gap_bottom",
-
   "label": "Bottom spacing",
-
   "min": 0,
-
   "max": 100,
-
   "step": 1,
-
   "unit": "px",
-
   "default": 16
-
 },
 
-
-
 {
-
   "type": "range",
-
   "id": "heading_size",
-
   "label": "Heading size",
-
   "min": 16,
-
   "max": 72,
-
   "step": 1,
-
   "unit": "px",
-
   "default": 34
-
 },
 
-
-
 {
-
   "type": "range",
-
   "id": "inset_vw",
-
   "label": "Text inset",
-
   "min": 4,
-
   "max": 40,
-
   "step": 1,
-
   "unit": "vw",
-
   "default": 16
-
 },
 
-
-
 {
-
   "type": "range",
-
   "id": "small_image_width",
-
   "label": "Small image width",
-
   "min": 30,
-
   "max": 85,
-
   "step": 1,
-
   "unit": "%",
-
   "default": 58
-
 }
-
-
 
 ],
 
-
-
 "presets": [
-
 {
-
 "name": "Image Text Promo"
-
 }
-
 ]
-
 }
-
-
 
 {% endschema %}

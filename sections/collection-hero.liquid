@@ -1,1986 +1,990 @@
 {%- comment -%}
-
   Collection page hero section with advanced Desktop & Mobile banner customization.
-
   Applies to all collection pages.
 
-
-
   Dynamic Content & Image Hierarchy:
-
   - Desktop Image:
-
-      1. collection.metafields.custom.hero_banner (Per-collection Metafield)
-
-      2. section.settings.desktop_image (Theme Customizer)
-
+      1. section.settings.desktop_image (Theme Customizer)
+      2. collection.metafields.custom.hero_banner (Per-collection Metafield)
       3. collection.image (Collection Featured Image)
-
       4. Sleek ambient dark background fallback
-
   - Phone / Mobile Image:
-
       1. section.settings.mobile_image (Theme Customizer)
-
       2. collection.metafields.custom.mobile_hero_banner (Per-collection Metafield)
-
       3. Desktop image fallback
-
   - Eyebrow: collection.metafields.custom.hero_eyebrow -> section.settings.eyebrow_text
-
   - Title: section.settings.custom_title -> collection.title
-
   - Description: section.settings.custom_description -> collection.description
-
 {%- endcomment -%}
 
-
-
 {%- liquid
-
   # 1. Desktop image cascade
-  # Priority:
-  # 1) collection metafields custom.hero_banner
-  # 2) Theme Customizer desktop image
-  # 3) Collection featured image
-
-  assign desktop_img = collection.metafields.custom.hero_banner.value
-
-  if desktop_img == blank
-    assign desktop_img = section.settings.desktop_image
+  assign desktop_img = section.settings.desktop_image
+  if desktop_img == blank and collection.metafields.custom.hero_banner != blank
+    assign desktop_img = collection.metafields.custom.hero_banner
   endif
-
   if desktop_img == blank
     assign desktop_img = collection.image
   endif
 
-
-
   # 2. Phone / Mobile image cascade
-  # Priority:
-  # 1) custom.mobile_hero_banner
-  # 2) Theme Customizer mobile image
-  # 3) custom.hero_banner
-  # 4) Existing mobile asset / desktop fallback
-
-  assign mobile_img = collection.metafields.custom.mobile_hero_banner.value
-
-  if mobile_img == blank
-    assign mobile_img = section.settings.mobile_image
+  assign mobile_img = section.settings.mobile_image
+  if mobile_img == blank and collection.metafields.custom.mobile_hero_banner != blank
+    assign mobile_img = collection.metafields.custom.mobile_hero_banner
   endif
-
-  if mobile_img == blank and collection.metafields.custom.hero_banner != blank
-    assign mobile_img = collection.metafields.custom.hero_banner.value
-  endif
-
-
 
   assign mobile_asset = section.settings.mobile_asset_image
-
   if mobile_img == blank and mobile_asset == blank
-
     if collection.handle contains 'men' or collection.title contains 'Men'
-
       assign mobile_asset = 'collection-mobile-303.jpg'
-
     else
-
       assign mobile_asset = 'collection-mobile-303.jpg'
-
     endif
-
   endif
-
-
 
   if mobile_img == blank and mobile_asset == blank
-
     assign mobile_img = desktop_img
-
   endif
-
-
 
   # Eyebrow text
-
   assign eyebrow = collection.metafields.custom.hero_eyebrow | default: section.settings.eyebrow_text
 
-
-
   # Title override
-
   assign hero_title = section.settings.custom_title
-
   if hero_title == blank
-
     assign hero_title = collection.title
-
   endif
-
-
 
   # Button link
-
   assign button_link = section.settings.button_link
-
   if button_link == blank
-
     assign button_link = '#ResultsList'
-
   endif
 
-
-
   # Desktop flex position mapping
-
   case section.settings.desktop_content_position
-
     when 'top-left'
-
       assign d_align = 'flex-start'
-
       assign d_justify = 'flex-start'
-
     when 'top-center'
-
       assign d_align = 'flex-start'
-
       assign d_justify = 'center'
-
     when 'top-right'
-
       assign d_align = 'flex-start'
-
       assign d_justify = 'flex-end'
-
     when 'middle-left'
-
       assign d_align = 'center'
-
       assign d_justify = 'flex-start'
-
     when 'middle-center'
-
       assign d_align = 'center'
-
       assign d_justify = 'center'
-
     when 'middle-right'
-
       assign d_align = 'center'
-
       assign d_justify = 'flex-end'
-
     when 'bottom-left'
-
       assign d_align = 'flex-end'
-
       assign d_justify = 'flex-start'
-
     when 'bottom-center'
-
       assign d_align = 'flex-end'
-
       assign d_justify = 'center'
-
     when 'bottom-right'
-
       assign d_align = 'flex-end'
-
       assign d_justify = 'flex-end'
-
     else
-
       assign d_align = 'center'
-
       assign d_justify = 'flex-start'
-
   endcase
-
-
 
   # Mobile flex position mapping
-
   case section.settings.mobile_content_position
-
     when 'top-left'
-
       assign m_align = 'flex-start'
-
       assign m_justify = 'flex-start'
-
     when 'top-center'
-
       assign m_align = 'flex-start'
-
       assign m_justify = 'center'
-
     when 'middle-left'
-
       assign m_align = 'center'
-
       assign m_justify = 'flex-start'
-
     when 'middle-center'
-
       assign m_align = 'center'
-
       assign m_justify = 'center'
-
     when 'middle-right'
-
       assign m_align = 'center'
-
       assign m_justify = 'flex-end'
-
     when 'bottom-left'
-
       assign m_align = 'flex-end'
-
       assign m_justify = 'flex-start'
-
     when 'bottom-center'
-
       assign m_align = 'flex-end'
-
       assign m_justify = 'center'
-
     else
-
       assign m_align = 'center'
-
       assign m_justify = 'flex-start'
-
   endcase
-
 -%}
 
-
-
-\<div class="collection-hero color-{{ section.settings.color_scheme }}" id="CollectionHero-{{ section.id }}">
-
-  \<div class="collection-hero__media" aria-hidden="true">
-
+<div class="collection-hero color-{{ section.settings.color_scheme }}" id="CollectionHero-{{ section.id }}">
+  <div class="collection-hero__media" aria-hidden="true">
     {%- liquid
-
       assign has_custom_mobile = false
-
       if mobile_asset != blank
-
         assign has_custom_mobile = true
-
       elsif mobile_img != blank and desktop_img != blank and mobile_img != desktop_img
-
         assign has_custom_mobile = true
-
       endif
-
     -%}
-
     {%- if mobile_asset != blank or desktop_img != blank or mobile_img != blank -%}
-
       {%- if has_custom_mobile -%}
-
-        \<picture class="collection-hero__picture">
-
-          \<source
-
+        <picture class="collection-hero__picture">
+          <source
             media="(max-width: 749px)"
-
             {% if mobile_img != blank and mobile_img != desktop_img %}
-
               srcset="{{ mobile_img | image_url: width: 600 }} 600w, {{ mobile_img | image_url: width: 900 }} 900w, {{ mobile_img | image_url: width: 1400 }} 1400w"
-
             {% elsif mobile_asset != blank %}
-
               srcset="{{ mobile_asset | asset_url }}"
-
             {% endif %}
-
             sizes="100vw"
-
           >
-
           {%- if desktop_img != blank -%}
-
-            \<source
-
+            <source
               media="(min-width: 750px)"
-
               srcset="{{ desktop_img | image_url: width: 1200 }} 1200w, {{ desktop_img | image_url: width: 1800 }} 1800w, {{ desktop_img | image_url: width: 2400 }} 2400w, {{ desktop_img | image_url: width: 3200 }} 3200w"
-
               sizes="100vw"
-
             >
-
             {{
-
               desktop_img
-
               | image_url: width: 2400
-
               | image_tag:
-
                 class: 'collection-hero__image',
-
                 alt: hero_title,
-
                 loading: 'eager',
-
                 fetchpriority: 'high'
-
             }}
-
           {%- elsif mobile_asset != blank -%}
-
-            \<img
-
+            <img
               src="{{ mobile_asset | asset_url }}"
-
               class="collection-hero__image"
-
               alt="{{ hero_title }}"
-
               width="1000"
-
               height="1000"
-
               loading="eager"
-
               fetchpriority="high"
-
             >
-
           {%- endif -%}
-
-        \</picture>
-
+        </picture>
       {%- elsif mobile_img != blank and desktop_img == blank -%}
-
         {{
-
           mobile_img
-
           | image_url: width: 1400
-
           | image_tag:
-
             class: 'collection-hero__image',
-
             alt: hero_title,
-
             loading: 'eager',
-
             fetchpriority: 'high',
-
             sizes: '100vw'
-
         }}
-
       {%- elsif desktop_img != blank -%}
-
         {{
-
           desktop_img
-
           | image_url: width: 2400
-
           | image_tag:
-
             class: 'collection-hero__image',
-
             alt: hero_title,
-
             loading: 'eager',
-
             fetchpriority: 'high',
-
             sizes: '100vw'
-
         }}
-
       {%- endif -%}
-
     {%- endif -%}
-
-  \</div>
-
-
+  </div>
 
   {%- if section.settings.toggle_overlay -%}
-
-    \<div
-
+    <div
       class="collection-hero__overlay collection-hero__overlay--{{ section.settings.overlay_style | default: 'solid' }}"
-
       aria-hidden="true"
-
-    >\</div>
-
+    ></div>
   {%- endif -%}
 
-
-
-  \<div class="collection-hero__inner{% if section.settings.full_width %} collection-hero__inner--full{% endif %}">
-
-    \<div class="collection-hero__content">
-
+  <div class="collection-hero__inner{% if section.settings.full_width %} collection-hero__inner--full{% endif %}">
+    <div class="collection-hero__content">
       {%- if section.settings.show_eyebrow and eyebrow != blank -%}
-
-        \<p class="collection-hero__eyebrow">{{ eyebrow }}\</p>
-
+        <p class="collection-hero__eyebrow">{{ eyebrow }}</p>
       {%- endif -%}
 
-
-
-      \<h1 class="collection-hero__title">{{ hero_title }}\</h1>
-
-
+      <h1 class="collection-hero__title">{{ hero_title }}</h1>
 
       {%- if section.settings.show_description -%}
-
         {%- if section.settings.custom_description != blank -%}
-
-          \<div class="collection-hero__description rte">{{ section.settings.custom_description }}\</div>
-
+          <div class="collection-hero__description rte">{{ section.settings.custom_description }}</div>
         {%- elsif collection.description != blank -%}
-
-          \<div class="collection-hero__description rte">{{ collection.description }}\</div>
-
+          <div class="collection-hero__description rte">{{ collection.description }}</div>
         {%- endif -%}
-
       {%- endif -%}
-
-
 
       {%- if section.settings.show_button and section.settings.button_label != blank -%}
-
-        \<a
-
+        <a
           class="collection-hero__button collection-hero__button--{{ section.settings.button_style | default: 'glass' }}"
-
           href="{{ button_link }}"
-
         >
-
           {{- section.settings.button_label -}}
-
-        \</a>
-
+        </a>
       {%- endif -%}
+    </div>
+  </div>
+</div>
 
-    \</div>
-
-  \</div>
-
-\</div>
-
-
-
-\<script>
-
+<script>
   (function () {
-
     var heroId = 'CollectionHero-{{ section.id }}';
 
-
-
     function setBannerOffset() {
-
       var hero = document.getElementById(heroId);
-
       var header = document.getElementById('header-component');
-
       if (!hero || !header) return;
 
-
-
       if (!header.hasAttribute('transparent')) {
-
         hero.style.marginBlockStart = '';
-
         return;
-
       }
 
-
-
       var currentMargin = parseFloat(getComputedStyle(hero).marginBlockStart) || 0;
-
       var naturalTop = hero.getBoundingClientRect().top - currentMargin;
-
       var headerBottom = header.getBoundingClientRect().bottom;
-
       var offset = Math.max(0, Math.round(headerBottom - naturalTop));
 
-
-
       hero.style.marginBlockStart = offset + 'px';
-
     }
-
-
 
     setBannerOffset();
-
-    window\.addEventListener('load', setBannerOffset);
-
-    window\.addEventListener('resize', setBannerOffset);
-
+    window.addEventListener('load', setBannerOffset);
+    window.addEventListener('resize', setBannerOffset);
   })();
-
-\</script>
-
-
+</script>
 
 {% style %}
-
-  /\*
-
-   \* Transparent header offset — the banner
-
-   \* starts below the floating dark-glass header
-
-   \* instead of sliding underneath it.
-
-   \* The exact value is measured by the script
-
-   \* below; this is only the pre-JS fallback.
-
-   \*/
-
+  /*
+   * Transparent header offset — the banner
+   * starts below the floating dark-glass header
+   * instead of sliding underneath it.
+   * The exact value is measured by the script
+   * below; this is only the pre-JS fallback.
+   */
   body:has(.header[transparent]) #shopify-section-{{ section.id }} .collection-hero {
-
     margin-block-start: var(--header-height, 120px);
-
   }
-
-
 
   @media screen and (max-width: 749px) {
-
     body:has(.header[transparent]) #shopify-section-{{ section.id }} .collection-hero {
-
       margin-block-start: var(--header-height, 120px);
-
     }
-
   }
-
-
 
   #shopify-section-{{ section.id }} .collection-hero {
-
     position: relative;
-
     display: flex;
-
     overflow: hidden;
-
     isolation: isolate;
-
     background-color: #0d0d0f;
-
     background-image: radial-gradient(circle at 30% 50%, rgba(38, 38, 48, 0.4) 0%, rgba(10, 10, 12, 0.95) 100%);
-
     {% case section.settings.desktop_height_mode %}
-
       {% when 'adapt' %}
-
         {% if desktop_img != blank %}
-
           aspect-ratio: {{ desktop_img.aspect_ratio }};
-
           min-height: 320px;
-
         {% else %}
-
           min-height: 617px;
-
           height: 617px;
-
         {% endif %}
-
       {% when 'small' %}
-
         min-height: 420px;
-
         height: 420px;
-
       {% when 'medium' %}
-
         min-height: 560px;
-
         height: 560px;
-
       {% when 'large' %}
-
         min-height: 720px;
-
         height: 720px;
-
       {% when 'full' %}
-
         min-height: 100svh;
-
         height: 100svh;
-
       {% else %}
-
         min-height: 617px;
-
         height: 617px;
-
     {% endcase %}
-
   }
-
-
 
   #shopify-section-{{ section.id }} .collection-hero__media {
-
     position: absolute;
-
     inset: 0;
-
     z-index: 0;
-
     width: 100%;
-
     height: 100%;
-
   }
-
-
 
   #shopify-section-{{ section.id }} .collection-hero__picture {
-
     display: block;
-
     width: 100%;
-
     height: 100%;
-
   }
-
-
 
   #shopify-section-{{ section.id }} .collection-hero__image {
-
     display: block;
-
     width: 100%;
-
     height: 100%;
-
     object-fit: cover;
-
     object-position: {{ section.settings.desktop_image_position | default: 'center center' }};
-
   }
-
-
 
   #shopify-section-{{ section.id }} .collection-hero__overlay {
-
     position: absolute;
-
     inset: 0;
-
     z-index: 1;
-
     pointer-events: none;
-
     opacity: {{ section.settings.overlay_opacity | default: 40 | divided_by: 100.0 }};
-
   }
-
-
 
   #shopify-section-{{ section.id }} .collection-hero__overlay--solid {
-
     background-color: {{ section.settings.overlay_color | default: '#000000' }};
-
   }
-
-
 
   #shopify-section-{{ section.id }} .collection-hero__overlay--gradient {
-
     background: linear-gradient(
-
       {{ section.settings.gradient_direction | default: 'to top' }},
-
       {{ section.settings.overlay_color | default: '#000000' }},
-
       transparent
-
     );
-
   }
-
-
 
   #shopify-section-{{ section.id }} .collection-hero__inner {
-
     position: relative;
-
     z-index: 2;
-
     display: flex;
-
     width: 100%;
-
     align-items: {{ d_align }};
-
     justify-content: {{ d_justify }};
-
     padding-inline: clamp(20px, 5.57vw, 107px);
-
     padding-block: 40px;
-
     box-sizing: border-box;
-
   }
-
-
 
   #shopify-section-{{ section.id }} .collection-hero__content {
-
     display: flex;
-
     flex-direction: column;
-
     max-width: {{ section.settings.content_max_width | default: 750 }}px;
-
     width: 100%;
-
     text-align: {{ section.settings.desktop_text_alignment | default: 'left' }};
-
     align-items: {% if section.settings.desktop_text_alignment == 'center' %}center{% elsif section.settings.desktop_text_alignment == 'right' %}flex-end{% else %}flex-start{% endif %};
-
     color: {{ section.settings.text_color | default: '#ffffff' }};
-
     font-family: var(--font-primary--family);
-
     font-weight: 300;
-
   }
-
-
 
   #shopify-section-{{ section.id }} .collection-hero__eyebrow {
-
     margin: 0 0 8px;
-
     font-size: {{ section.settings.eyebrow_size | default: 22 }}px;
-
     line-height: 1.4;
-
     font-weight: 300;
-
     letter-spacing: 0.05em;
-
     color: inherit;
-
     opacity: 0.92;
-
   }
-
-
 
   #shopify-section-{{ section.id }} .collection-hero__title {
-
     margin: 0 0 {% if section.settings.show_description or section.settings.show_button %}24px{% else %}0{% endif %};
-
     font-size: {{ section.settings.heading_size | default: 50 }}px;
-
     line-height: 1.15;
-
     font-weight: 300;
-
     letter-spacing: -0.01em;
-
     color: inherit;
-
     text-wrap: balance;
-
   }
-
-
 
   #shopify-section-{{ section.id }} .collection-hero__description {
-
     margin: 0 0 24px;
-
     font-size: {{ section.settings.description_size | default: 16 }}px;
-
     line-height: 1.6;
-
     font-weight: 300;
-
     max-width: 65ch;
-
     color: inherit;
-
     opacity: 0.88;
-
   }
-
-
 
   #shopify-section-{{ section.id }} .collection-hero__button {
-
     display: inline-flex;
-
     align-items: center;
-
     justify-content: center;
-
     padding: 12px 28px;
-
     font-family: var(--font-primary--family);
-
     font-size: 15px;
-
     font-weight: 400;
-
     letter-spacing: 0.08em;
-
     text-decoration: none;
-
     border-radius: {{ section.settings.button_border_radius | default: 0 }}px;
-
     transition: all 200ms ease;
-
     cursor: pointer;
-
   }
-
-
 
   #shopify-section-{{ section.id }} .collection-hero__button--glass {
-
     background: {{ section.settings.button_bg_color | default: '#ffffff' | color_modify: 'alpha', 0.7 }};
-
     backdrop-filter: blur(10px);
-
     -webkit-backdrop-filter: blur(10px);
-
     color: {{ section.settings.button_text_color | default: '#423f3f' }};
-
     border: 1px solid rgba(255, 255, 255, 0.25);
-
   }
-
-
 
   #shopify-section-{{ section.id }} .collection-hero__button--glass:hover {
-
     background: {{ section.settings.button_hover_bg_color | default: '#ffffff' | color_modify: 'alpha', 0.9 }};
-
     color: {{ section.settings.button_hover_text_color | default: '#111111' }};
-
     transform: translateY(-1px);
-
   }
-
-
 
   #shopify-section-{{ section.id }} .collection-hero__button--solid {
-
     background: {{ section.settings.button_bg_color | default: '#ffffff' }};
-
     color: {{ section.settings.button_text_color | default: '#111111' }};
-
     border: 1px solid transparent;
-
   }
-
-
 
   #shopify-section-{{ section.id }} .collection-hero__button--solid:hover {
-
     background: {{ section.settings.button_hover_bg_color | default: '#e8e8e8' }};
-
     color: {{ section.settings.button_hover_text_color | default: '#000000' }};
-
     transform: translateY(-1px);
-
   }
-
-
 
   #shopify-section-{{ section.id }} .collection-hero__button--outline {
-
     background: transparent;
-
     color: {{ section.settings.button_text_color | default: '#ffffff' }};
-
     border: 1.5px solid {{ section.settings.button_text_color | default: '#ffffff' }};
-
   }
-
-
 
   #shopify-section-{{ section.id }} .collection-hero__button--outline:hover {
-
     background: {{ section.settings.button_hover_bg_color | default: '#ffffff' }};
-
     color: {{ section.settings.button_hover_text_color | default: '#000000' }};
-
     border-color: {{ section.settings.button_hover_bg_color | default: '#ffffff' }};
-
   }
-
-
 
   #shopify-section-{{ section.id }} .collection-hero__button--link {
-
     background: transparent;
-
     border: none;
-
     padding: 0;
-
     color: {{ section.settings.button_text_color | default: '#ffffff' }};
-
     text-decoration: underline;
-
     text-underline-offset: 6px;
-
   }
-
-
 
   #shopify-section-{{ section.id }} .collection-hero__button--link:hover {
-
     color: {{ section.settings.button_hover_text_color | default: '#cccccc' }};
-
   }
-
-
 
   @media screen and (max-width: 749px) {
-
     #shopify-section-{{ section.id }} .collection-hero {
-
       {% case section.settings.mobile_height_mode %}
-
         {% when 'adapt' %}
-
           {% if mobile_img != blank and mobile_img != desktop_img %}
-
             aspect-ratio: {{ mobile_img.aspect_ratio }};
-
             min-height: 220px;
-
             height: auto;
-
           {% else %}
-
             height: 303px;
-
             min-height: 303px;
-
             max-height: 303px;
-
             aspect-ratio: auto;
-
           {% endif %}
-
         {% when 'square' %}
-
           aspect-ratio: 1 / 1;
-
           min-height: 300px;
-
           height: auto;
-
         {% when 'portrait' %}
-
           height: 303px;
-
           min-height: 303px;
-
           max-height: 303px;
-
           aspect-ratio: auto;
-
         {% when 'small' %}
-
           min-height: 260px;
-
           height: 260px;
-
           aspect-ratio: auto;
-
         {% when 'medium' %}
-
           min-height: 303px;
-
           height: 303px;
-
           max-height: 303px;
-
           aspect-ratio: auto;
-
         {% when 'large' %}
-
           min-height: 500px;
-
           height: 500px;
-
           aspect-ratio: auto;
-
         {% when 'auto' %}
-
           min-height: auto;
-
           height: auto;
-
           aspect-ratio: auto;
-
         {% when 'custom' %}
-
           {% if section.settings.mobile_height == 300 or section.settings.mobile_height == blank %}
-
             height: 303px;
-
             min-height: 303px;
-
             max-height: 303px;
-
           {% else %}
-
             height: {{ section.settings.mobile_height }}px;
-
             min-height: {{ section.settings.mobile_height }}px;
-
             max-height: {{ section.settings.mobile_height }}px;
-
           {% endif %}
-
           aspect-ratio: auto;
-
         {% else %}
-
           height: 303px;
-
           min-height: 303px;
-
           max-height: 303px;
-
           aspect-ratio: auto;
-
       {% endcase %}
-
     }
-
-
 
     #shopify-section-{{ section.id }} .collection-hero__image {
-
       object-fit: cover;
-
       object-position: {{ section.settings.mobile_image_position | default: 'center center' }};
-
     }
-
-
 
     #shopify-section-{{ section.id }} .collection-hero__inner {
-
       align-items: {{ m_align }};
-
       justify-content: {{ m_justify }};
-
       padding-inline: 20px;
-
       padding-block: 18px;
-
       box-sizing: border-box;
-
       height: 100%;
-
     }
-
-
 
     #shopify-section-{{ section.id }} .collection-hero__content {
-
       text-align: {{ section.settings.mobile_text_alignment | default: 'left' }};
-
       align-items: {% if section.settings.mobile_text_alignment == 'center' %}center{% elsif section.settings.mobile_text_alignment == 'right' %}flex-end{% else %}flex-start{% endif %};
-
     }
-
-
 
     #shopify-section-{{ section.id }} .collection-hero__eyebrow {
-
       font-size: {{ section.settings.mobile_eyebrow_size | default: 16 }}px;
-
       margin-bottom: 6px;
-
       text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-
     }
-
-
 
     #shopify-section-{{ section.id }} .collection-hero__title {
-
       font-size: {{ section.settings.mobile_heading_size | default: 32 }}px;
-
       margin-bottom: {% if section.settings.show_description or section.settings.show_button %}18px{% else %}0{% endif %};
-
       text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
-
     }
-
-
 
     #shopify-section-{{ section.id }} .collection-hero__button {
-
       min-height: 44px;
-
       padding: 10px 22px;
-
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
-
     }
-
   }
-
 {% endstyle %}
 
-
-
 {% schema %}
-
 {
-
   "name": "Collection Hero",
-
   "class": "section-wrapper",
-
   "enabled_on": {
-
     "templates": ["collection"]
-
   },
-
   "settings": [
-
     {
-
       "type": "header",
-
       "content": "🖥️ Desktop Banner Media"
-
     },
-
     {
-
       "type": "image_picker",
-
       "id": "desktop_image",
-
       "label": "Desktop hero image",
-
       "info": "Overrides the default collection featured image for desktop screens."
-
     },
-
     {
-
       "type": "select",
-
       "id": "desktop_image_position",
-
       "label": "Desktop image focal point",
-
       "default": "center center",
-
       "options": [
-
         { "value": "top left", "label": "Top left" },
-
         { "value": "top center", "label": "Top center" },
-
         { "value": "top right", "label": "Top right" },
-
         { "value": "center left", "label": "Center left" },
-
         { "value": "center center", "label": "Center" },
-
         { "value": "center right", "label": "Center right" },
-
         { "value": "bottom left", "label": "Bottom left" },
-
         { "value": "bottom center", "label": "Bottom center" },
-
         { "value": "bottom right", "label": "Bottom right" }
-
       ]
-
     },
-
     {
-
       "type": "select",
-
       "id": "desktop_height_mode",
-
       "label": "Desktop height mode",
-
       "default": "custom",
-
       "options": [
-
         { "value": "custom", "label": "Custom height (slider)" },
-
         { "value": "adapt", "label": "Adapt to desktop image ratio" },
-
         { "value": "small", "label": "Small (420px)" },
-
         { "value": "medium", "label": "Medium (560px)" },
-
         { "value": "large", "label": "Large (720px)" },
-
         { "value": "full", "label": "Full screen (100vh)" }
-
       ]
-
     },
-
     {
-
       "type": "range",
-
       "id": "desktop_height",
-
       "label": "Desktop custom height",
-
       "min": 300,
-
       "max": 900,
-
       "step": 10,
-
       "unit": "px",
-
       "default": 620
-
     },
-
     {
-
       "type": "header",
-
       "content": "📱 Phone / Mobile Banner Media"
-
     },
-
     {
-
       "type": "image_picker",
-
       "id": "mobile_image",
-
       "label": "Phone / Mobile hero image",
-
       "info": "Replaces the desktop image on mobile phones. If empty, desktop image is used."
-
     },
-
     {
-
       "type": "text",
-
       "id": "mobile_asset_image",
-
       "label": "Phone / Mobile fallback asset filename",
-
       "default": "collection-mobile-303.jpg",
-
       "info": "Optional filename in assets folder (e.g. collection-mobile-303.jpg). Used when no mobile image is uploaded above."
-
     },
-
     {
-
       "type": "select",
-
       "id": "mobile_image_position",
-
       "label": "Mobile image focal point",
-
       "default": "center center",
-
       "options": [
-
         { "value": "top left", "label": "Top left" },
-
         { "value": "top center", "label": "Top center" },
-
         { "value": "top right", "label": "Top right" },
-
         { "value": "center left", "label": "Center left" },
-
         { "value": "center center", "label": "Center" },
-
         { "value": "center right", "label": "Center right" },
-
         { "value": "bottom left", "label": "Bottom left" },
-
         { "value": "bottom center", "label": "Bottom center" },
-
         { "value": "bottom right", "label": "Bottom right" }
-
       ]
-
     },
-
     {
-
       "type": "select",
-
       "id": "mobile_height_mode",
-
       "label": "Mobile height mode",
-
       "default": "custom",
-
       "options": [
-
         { "value": "custom", "label": "Custom height (slider)" },
-
         { "value": "adapt", "label": "Adapt to mobile image ratio" },
-
         { "value": "square", "label": "Square (1:1)" },
-
         { "value": "portrait", "label": "Portrait (4:5)" },
-
         { "value": "small", "label": "Small (260px)" },
-
         { "value": "medium", "label": "Medium (380px)" },
-
         { "value": "large", "label": "Large (500px)" },
-
         { "value": "auto", "label": "Fit content padding" }
-
       ]
-
     },
-
     {
-
       "type": "range",
-
       "id": "mobile_height",
-
       "label": "Mobile custom height",
-
       "min": 200,
-
       "max": 700,
-
       "step": 10,
-
       "unit": "px",
-
       "default": 300
-
     },
-
     {
-
       "type": "header",
-
       "content": "🎨 Overlay & Atmosphere"
-
     },
-
     {
-
       "type": "checkbox",
-
       "id": "toggle_overlay",
-
       "label": "Enable overlay",
-
       "default": true
-
     },
-
     {
-
       "type": "color",
-
       "id": "overlay_color",
-
       "label": "Overlay color",
-
       "default": "#000000"
-
     },
-
     {
-
       "type": "range",
-
       "id": "overlay_opacity",
-
       "label": "Overlay opacity",
-
       "min": 0,
-
       "max": 100,
-
       "step": 5,
-
       "unit": "%",
-
       "default": 40
-
     },
-
     {
-
       "type": "select",
-
       "id": "overlay_style",
-
       "label": "Overlay style",
-
       "default": "solid",
-
       "options": [
-
         { "value": "solid", "label": "Solid tint" },
-
         { "value": "gradient", "label": "Smooth gradient" }
-
       ]
-
     },
-
     {
-
       "type": "select",
-
       "id": "gradient_direction",
-
       "label": "Gradient direction",
-
       "default": "to top",
-
       "options": [
-
         { "value": "to top", "label": "Dark from bottom" },
-
         { "value": "to bottom", "label": "Dark from top" },
-
         { "value": "to right", "label": "Dark from left" },
-
         { "value": "to left", "label": "Dark from right" }
-
       ]
-
     },
-
     {
-
       "type": "header",
-
       "content": "📐 Layout & Alignment"
-
     },
-
     {
-
       "type": "checkbox",
-
       "id": "full_width",
-
       "label": "Full bleed banner width",
-
       "default": true
-
     },
-
     {
-
       "type": "range",
-
       "id": "content_max_width",
-
       "label": "Content max width",
-
       "min": 400,
-
       "max": 1200,
-
       "step": 50,
-
       "unit": "px",
-
       "default": 750
-
     },
-
     {
-
       "type": "select",
-
       "id": "desktop_content_position",
-
       "label": "Desktop content position",
-
       "default": "middle-left",
-
       "options": [
-
         { "value": "top-left", "label": "Top left" },
-
         { "value": "top-center", "label": "Top center" },
-
         { "value": "top-right", "label": "Top right" },
-
         { "value": "middle-left", "label": "Middle left (Default)" },
-
         { "value": "middle-center", "label": "Middle center" },
-
         { "value": "middle-right", "label": "Middle right" },
-
         { "value": "bottom-left", "label": "Bottom left" },
-
         { "value": "bottom-center", "label": "Bottom center" },
-
         { "value": "bottom-right", "label": "Bottom right" }
-
       ]
-
     },
-
     {
-
       "type": "select",
-
       "id": "desktop_text_alignment",
-
       "label": "Desktop text alignment",
-
       "default": "left",
-
       "options": [
-
         { "value": "left", "label": "Left" },
-
         { "value": "center", "label": "Center" },
-
         { "value": "right", "label": "Right" }
-
       ]
-
     },
-
     {
-
       "type": "select",
-
       "id": "mobile_content_position",
-
       "label": "Mobile content position",
-
       "default": "middle-left",
-
       "options": [
-
         { "value": "top-left", "label": "Top left" },
-
         { "value": "top-center", "label": "Top center" },
-
         { "value": "middle-left", "label": "Middle left" },
-
         { "value": "middle-center", "label": "Middle center" },
-
         { "value": "middle-right", "label": "Middle right" },
-
         { "value": "bottom-left", "label": "Bottom left" },
-
         { "value": "bottom-center", "label": "Bottom center" }
-
       ]
-
     },
-
     {
-
       "type": "select",
-
       "id": "mobile_text_alignment",
-
       "label": "Mobile text alignment",
-
       "default": "left",
-
       "options": [
-
         { "value": "left", "label": "Left" },
-
         { "value": "center", "label": "Center" },
-
         { "value": "right", "label": "Right" }
-
       ]
-
     },
-
     {
-
       "type": "header",
-
       "content": "✍️ Typography & Content"
-
     },
-
     {
-
       "type": "checkbox",
-
       "id": "show_eyebrow",
-
       "label": "Show eyebrow text",
-
       "default": true
-
     },
-
     {
-
       "type": "text",
-
       "id": "eyebrow_text",
-
       "label": "Eyebrow text",
-
       "default": "The newest",
-
       "info": "Fallback text. Can also be set per collection via metafield custom.hero_eyebrow."
-
     },
-
     {
-
       "type": "range",
-
       "id": "eyebrow_size",
-
       "label": "Desktop eyebrow size",
-
       "min": 12,
-
       "max": 36,
-
       "step": 1,
-
       "unit": "px",
-
       "default": 22
-
     },
-
     {
-
       "type": "range",
-
       "id": "mobile_eyebrow_size",
-
       "label": "Mobile eyebrow size",
-
       "min": 11,
-
       "max": 24,
-
       "step": 1,
-
       "unit": "px",
-
       "default": 16
-
     },
-
     {
-
       "type": "text",
-
       "id": "custom_title",
-
       "label": "Custom heading / title",
-
       "info": "Leave blank to display the collection name."
-
     },
-
     {
-
       "type": "range",
-
       "id": "heading_size",
-
       "label": "Desktop heading size",
-
       "min": 24,
-
       "max": 80,
-
       "step": 2,
-
       "unit": "px",
-
       "default": 50
-
     },
-
     {
-
       "type": "range",
-
       "id": "mobile_heading_size",
-
       "label": "Mobile heading size",
-
       "min": 18,
-
       "max": 50,
-
       "step": 2,
-
       "unit": "px",
-
       "default": 32
-
     },
-
     {
-
       "type": "checkbox",
-
       "id": "show_description",
-
       "label": "Show collection description",
-
       "default": false
-
     },
-
     {
-
       "type": "richtext",
-
       "id": "custom_description",
-
       "label": "Custom description",
-
       "info": "Leave blank to use the collection description."
-
     },
-
     {
-
       "type": "range",
-
       "id": "description_size",
-
       "label": "Description font size",
-
       "min": 13,
-
       "max": 24,
-
       "step": 1,
-
       "unit": "px",
-
       "default": 16
-
     },
-
     {
-
       "type": "color",
-
       "id": "text_color",
-
       "label": "Text color",
-
       "default": "#ffffff"
-
     },
-
     {
-
       "type": "color_scheme",
-
       "id": "color_scheme",
-
       "label": "Color scheme",
-
       "default": "scheme-5"
-
     },
-
     {
-
       "type": "header",
-
       "content": "🔘 Button (CTA)"
-
     },
-
     {
-
       "type": "checkbox",
-
       "id": "show_button",
-
       "label": "Show button",
-
       "default": true
-
     },
-
     {
-
       "type": "text",
-
       "id": "button_label",
-
       "label": "Button label",
-
       "default": "SHOP NEW"
-
     },
-
     {
-
       "type": "url",
-
       "id": "button_link",
-
       "label": "Button link",
-
       "info": "Defaults to scrolling down to products (#ResultsList)."
-
     },
-
     {
-
       "type": "select",
-
       "id": "button_style",
-
       "label": "Button style",
-
       "default": "glass",
-
       "options": [
-
         { "value": "glass", "label": "Frosted glass (Theme original)" },
-
         { "value": "solid", "label": "Solid fill" },
-
         { "value": "outline", "label": "Outline / Border" },
-
         { "value": "link", "label": "Underlined link" }
-
       ]
-
     },
-
     {
-
       "type": "color",
-
       "id": "button_bg_color",
-
       "label": "Button background color",
-
       "default": "#ffffff"
-
     },
-
     {
-
       "type": "color",
-
       "id": "button_text_color",
-
       "label": "Button text color",
-
       "default": "#423f3f"
-
     },
-
     {
-
       "type": "color",
-
       "id": "button_hover_bg_color",
-
       "label": "Button hover background",
-
       "default": "#ffffff"
-
     },
-
     {
-
       "type": "color",
-
       "id": "button_hover_text_color",
-
       "label": "Button hover text color",
-
       "default": "#111111"
-
     },
-
     {
-
       "type": "range",
-
       "id": "button_border_radius",
-
       "label": "Button border radius",
-
       "min": 0,
-
       "max": 30,
-
       "step": 1,
-
       "unit": "px",
-
       "default": 0
-
     }
-
   ],
-
   "presets": [
-
     {
-
       "name": "Collection Hero"
-
     }
-
   ]
-
 }
-
 {% endschema %}

@@ -188,6 +188,10 @@
         "fallback_asset": "",
         "small_image": "shopify://shop_images/blue_2into9.webp",
         "small_image_alt": "",
+        "small_image_width": 85,
+        "promo_border_color": "#253257",
+        "promo_border_width": 2,
+        "promo_box_width": 78,
         "heading": "Men's Trunk",
         "shop_label": "SHOP NOW",
         "link": "shopify://products/the-captain-mens-trunk",
@@ -195,8 +199,7 @@
         "gap_top": 16,
         "gap_bottom": 16,
         "heading_size": 34,
-        "inset_vw": 16,
-        "small_image_width": 85
+        "inset_vw": 16
       }
     },
     "image_text_promo_Addbdw": {
@@ -210,6 +213,10 @@
         "fallback_asset": "",
         "small_image": "shopify://shop_images/D-Lock_product.webp",
         "small_image_alt": "",
+        "small_image_width": 85,
+        "promo_border_color": "#000000",
+        "promo_border_width": 1,
+        "promo_box_width": 78,
         "heading": "D-LOCK",
         "shop_label": "SHOP",
         "link": "shopify://products/d-lock-trunk-for-men",
@@ -217,8 +224,7 @@
         "gap_top": 16,
         "gap_bottom": 16,
         "heading_size": 34,
-        "inset_vw": 16,
-        "small_image_width": 85
+        "inset_vw": 16
       }
     },
     "image_text_promo_MxkLJL": {
@@ -232,6 +238,10 @@
         "fallback_asset": "",
         "small_image": "shopify://shop_images/Kids_img.webp",
         "small_image_alt": "",
+        "small_image_width": 85,
+        "promo_border_color": "#000000",
+        "promo_border_width": 1,
+        "promo_box_width": 78,
         "heading": "Kid's Trunk",
         "shop_label": "SHOP NOW",
         "link": "shopify://products/little-explorer-kids-trunk",
@@ -239,8 +249,7 @@
         "gap_top": 16,
         "gap_bottom": 16,
         "heading_size": 34,
-        "inset_vw": 16,
-        "small_image_width": 85
+        "inset_vw": 16
       }
     },
     "video_element_pzijy6": {
@@ -283,6 +292,10 @@
         "image_link_label": "",
         "fallback_asset": "promo-dlock.jpg",
         "small_image_alt": "",
+        "small_image_width": 58,
+        "promo_border_color": "#000000",
+        "promo_border_width": 1,
+        "promo_box_width": 78,
         "heading": "D-Lock",
         "shop_label": "SHOP",
         "link": "shopify://collections/d-lock",
@@ -290,8 +303,7 @@
         "gap_top": 16,
         "gap_bottom": 16,
         "heading_size": 34,
-        "inset_vw": 16,
-        "small_image_width": 58
+        "inset_vw": 16
       }
     },
     "category_split_NGGdRd": {
@@ -326,6 +338,10 @@
         "image_link_label": "",
         "fallback_asset": "promo-kids.jpg",
         "small_image_alt": "",
+        "small_image_width": 58,
+        "promo_border_color": "#000000",
+        "promo_border_width": 1,
+        "promo_box_width": 78,
         "heading": "Kid's",
         "shop_label": "SHOP",
         "link": "shopify://collections/kids",
@@ -333,8 +349,7 @@
         "gap_top": 16,
         "gap_bottom": 16,
         "heading_size": 34,
-        "inset_vw": 27,
-        "small_image_width": 58
+        "inset_vw": 27
       }
     },
     "media_lookbook_Qw7eJt": {

@@ -15,8 +15,9 @@
     --itp-inset: {{ section.settings.inset_vw | default: 16 }};
     --itp-small-width: {{ section.settings.small_image_width | default: 58 }}%;
     --itp-heading-size: {{ section.settings.heading_size | default: 34 }}px;
-    --itp-small-border-color: {{ section.settings.small_image_border_color | default: '#000000' }};
-    --itp-small-border-width: {{ section.settings.small_image_border_width | default: 1 }}px;
+    --itp-box-border-color: {{ section.settings.promo_border_color | default: '#000000' }};
+    --itp-box-border-width: {{ section.settings.promo_border_width | default: 1 }}px;
+    --itp-box-width: {{ section.settings.promo_box_width | default: 78 }}%;
     margin-block: {{ section.settings.gap_top | default: 16 }}px {{ section.settings.gap_bottom | default: 16 }}px;
   "
 >
@@ -146,8 +147,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
+
+  width: min(var(--itp-box-width, 78%), 680px);
+  min-height: 78%;
+  margin: 0 auto;
+  padding: clamp(42px, 5vw, 88px) clamp(28px, 4vw, 64px);
+
+  border: var(--itp-box-border-width, 1px) solid var(--itp-box-border-color, #000000);
+  box-sizing: border-box;
+
   color: inherit;
   text-decoration: none;
   cursor: pointer;
@@ -159,13 +167,6 @@
     420px
   );
   margin: 0 auto;
-
-  border: var(--itp-small-border-width, 1px)
-    solid
-    var(--itp-small-border-color, #000000);
-
-  box-sizing: border-box;
-  overflow: hidden;
   background: #ffffff;
 }
 
@@ -247,6 +248,8 @@
 
   .itp__content-link {
     width: 100%;
+    min-height: auto;
+    padding: 38px 22px;
   }
 
   .itp__small-image-wrap {
@@ -322,22 +325,6 @@
       "label": "Small image alt text"
     },
     {
-      "type": "color",
-      "id": "small_image_border_color",
-      "label": "Small image border colour",
-      "default": "#000000"
-    },
-    {
-      "type": "range",
-      "id": "small_image_border_width",
-      "label": "Small image border width",
-      "min": 0,
-      "max": 10,
-      "step": 1,
-      "unit": "px",
-      "default": 1
-    },
-    {
       "type": "range",
       "id": "small_image_width",
       "label": "Small image width",
@@ -346,6 +333,36 @@
       "step": 1,
       "unit": "%",
       "default": 58
+    },
+    {
+      "type": "header",
+      "content": "Promo box border"
+    },
+    {
+      "type": "color",
+      "id": "promo_border_color",
+      "label": "Border colour",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "promo_border_width",
+      "label": "Border width",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "promo_box_width",
+      "label": "Promo box width",
+      "min": 50,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 78
     },
     {
       "type": "header",

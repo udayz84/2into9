@@ -1,4 +1,4 @@
-{% comment %} {%- comment -%}
+{% comment %} {% comment %} {%- comment -%}
   Homepage — large image + small product image + text promo.
 
   Desktop:
@@ -2044,4 +2044,460 @@ MOBILE
 ]
 }
 
+{% endschema %} {% endcomment %}
+
+{%- comment -%}
+  Image Text Promo
+  - Large image on one side
+  - Small product image + heading + shop link on the other side
+  - Small image border colour and width editable from Theme Editor
+  - Mobile image supported
+{%- endcomment -%}
+
+{%- assign text_side = section.settings.text_side | default: 'right' -%}
+{%- assign fallback_asset = section.settings.fallback_asset | default: 'promo-trunk.jpg' -%}
+
+<section
+  class="itp itp--text-{{ text_side }}"
+  style="
+    --itp-inset: {{ section.settings.inset_vw | default: 16 }};
+    --itp-small-width: {{ section.settings.small_image_width | default: 58 }}%;
+    --itp-heading-size: {{ section.settings.heading_size | default: 34 }}px;
+    --itp-box-border-color: {{ section.settings.promo_border_color | default: '#000000' }};
+    --itp-box-border-width: {{ section.settings.promo_border_width | default: 1 }}px;
+    --itp-box-width: {{ section.settings.promo_box_width | default: 78 }}%;
+    margin-block: {{ section.settings.gap_top | default: 16 }}px {{ section.settings.gap_bottom | default: 16 }}px;
+  "
+>
+  <div class="itp__media">
+    <a
+      href="{{ section.settings.image_link | default: '/collections/all' }}"
+      class="itp__media-link"
+      aria-label="{{ section.settings.image_link_label | default: section.settings.heading | escape }}"
+    >
+      <picture class="itp__picture">
+        {%- if section.settings.image_mobile != blank -%}
+          <source
+            media="(max-width: 749px)"
+            srcset="{{ section.settings.image_mobile | image_url: width: 900 }}"
+          >
+        {%- endif -%}
+
+        <img
+          class="itp__image"
+          src="{% if section.settings.image != blank %}{{ section.settings.image | image_url: width: 1600 }}{% else %}{{ fallback_asset | asset_url }}{% endif %}"
+          alt="{{ section.settings.image_alt | default: section.settings.heading | escape }}"
+          loading="lazy"
+          width="1000"
+          height="1070"
+        >
+      </picture>
+    </a>
+  </div>
+
+  <div class="itp__content">
+    <a
+      href="{{ section.settings.link | default: '/collections/all' }}"
+      class="itp__content-link"
+      aria-label="{{ section.settings.heading | escape }}"
+    >
+      {%- if section.settings.small_image != blank -%}
+        <div class="itp__small-image-wrap">
+          <img
+            class="itp__small-image"
+            src="{{ section.settings.small_image | image_url: width: 1000 }}"
+            alt="{{ section.settings.small_image_alt | default: section.settings.heading | escape }}"
+            loading="lazy"
+            width="1000"
+            height="1000"
+          >
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h2 class="itp__heading">
+          {{ section.settings.heading }}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.shop_label != blank -%}
+        <span class="itp__shop">
+          {{ section.settings.shop_label }}
+        </span>
+      {%- endif -%}
+    </a>
+  </div>
+</section>
+
+{% stylesheet %}
+.itp {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  background: #ffffff;
+}
+
+.itp__media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1 / 1.07;
+}
+
+.itp__media-link,
+.itp__picture {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.itp__picture {
+  position: absolute;
+  inset: 0;
+}
+
+.itp__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 20%;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.itp__media:hover .itp__image {
+  transform: scale(1.02);
+}
+
+.itp__content {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  padding-inline-start: clamp(
+    2rem,
+    calc(var(--itp-inset, 16) * 1vw),
+    20rem
+  );
+  padding-inline-end: clamp(
+    2rem,
+    calc(var(--itp-inset, 16) * 1vw),
+    20rem
+  );
+}
+
+.itp__content-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: min(var(--itp-box-width, 78%), 680px);
+  min-height: 78%;
+  margin: 0 auto;
+  padding: clamp(42px, 5vw, 88px) clamp(28px, 4vw, 64px);
+
+  border: var(--itp-box-border-width, 1px) solid var(--itp-box-border-color, #000000);
+  box-sizing: border-box;
+
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.itp__small-image-wrap {
+  width: min(
+    var(--itp-small-width, 58%),
+    420px
+  );
+  margin: 0 auto;
+  background: #ffffff;
+}
+
+.itp__small-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  transition: transform 0.5s ease;
+}
+
+.itp__content-link:hover .itp__small-image {
+  transform: scale(1.03);
+}
+
+.itp__heading {
+  margin: 2.5rem 0 0;
+  font-family: var(--font-heading--family);
+  font-size: var(--itp-heading-size, 34px);
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  text-align: center;
+  color: #161616;
+}
+
+.itp__shop {
+  display: inline-block;
+  margin-top: 14px;
+  color: #1c1c1c;
+  font-family: var(--font-heading--family);
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.itp__content-link:hover .itp__shop {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.itp--text-left .itp__media {
+  order: 2;
+}
+
+.itp--text-left .itp__content {
+  order: 1;
+}
+
+.itp--text-right .itp__media {
+  order: 1;
+}
+
+.itp--text-right .itp__content {
+  order: 2;
+}
+
+@media screen and (max-width: 749px) {
+  .itp {
+    grid-template-columns: 1fr;
+  }
+
+  .itp__media {
+    order: 1 !important;
+    aspect-ratio: 4 / 3;
+  }
+
+  .itp__content {
+    order: 2 !important;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    padding-inline-start: clamp(1.25rem, 5vw, 2rem);
+    padding-inline-end: clamp(1.25rem, 5vw, 2rem);
+  }
+
+  .itp__content-link {
+    width: 100%;
+    min-height: auto;
+    padding: 38px 22px;
+  }
+
+  .itp__small-image-wrap {
+    width: min(
+      var(--itp-small-width, 58%),
+      300px
+    );
+  }
+
+  .itp__heading {
+    margin-top: 1.75rem;
+    font-size: min(
+      var(--itp-heading-size, 34px),
+      9vw
+    );
+  }
+
+  .itp__shop {
+    margin-top: 12px;
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Image Text Promo",
+  "tag": "section",
+  "class": "section-image-text-promo",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Large image (desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Large image (mobile)"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Large image alt text"
+    },
+    {
+      "type": "url",
+      "id": "image_link",
+      "label": "Large image link"
+    },
+    {
+      "type": "text",
+      "id": "image_link_label",
+      "label": "Large image link label"
+    },
+    {
+      "type": "text",
+      "id": "fallback_asset",
+      "label": "Theme image filename",
+      "info": "Used when no large image is selected, e.g. promo-trunk.jpg"
+    },
+    {
+      "type": "header",
+      "content": "Small product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "small_image",
+      "label": "Small image"
+    },
+    {
+      "type": "text",
+      "id": "small_image_alt",
+      "label": "Small image alt text"
+    },
+    {
+      "type": "range",
+      "id": "small_image_width",
+      "label": "Small image width",
+      "min": 30,
+      "max": 85,
+      "step": 1,
+      "unit": "%",
+      "default": 58
+    },
+    {
+      "type": "header",
+      "content": "Promo box border"
+    },
+    {
+      "type": "color",
+      "id": "promo_border_color",
+      "label": "Border colour",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "promo_border_width",
+      "label": "Border width",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "promo_box_width",
+      "label": "Promo box width",
+      "min": 50,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 78
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "MEN'S TRUNK"
+    },
+    {
+      "type": "text",
+      "id": "shop_label",
+      "label": "Shop label",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Small image and text link"
+    },
+    {
+      "type": "select",
+      "id": "text_side",
+      "label": "Text side",
+      "options": [
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "gap_top",
+      "label": "Top spacing",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "gap_bottom",
+      "label": "Bottom spacing",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 16,
+      "max": 72,
+      "step": 1,
+      "unit": "px",
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "inset_vw",
+      "label": "Text inset",
+      "min": 4,
+      "max": 40,
+      "step": 1,
+      "unit": "vw",
+      "default": 16
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image Text Promo"
+    }
+  ]
+}
 {% endschema %}

@@ -75,7 +75,7 @@
           "type": "bundle",
           "settings": {
             "pairs": "5 Pairs",
-            "discount_percent": 12,
+            "discount_percent": 15,
             "top_badge": "Best Value",
             "selected": false
           }

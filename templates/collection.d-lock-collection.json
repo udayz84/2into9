@@ -31,35 +31,42 @@
           "type": "problem",
           "settings": {
             "title": "The \"Old School\" Stack",
-            "text": "Jockstrap + undies + shorts. Three layers just to keep one piece of plastic in place."
+            "text": "Jockstrap + underwear + shorts. Three separate layers just to secure one protective box."
           }
         },
         "problem_Mf9LDH": {
           "type": "problem",
           "settings": {
-            "title": "The \"Constant Adjuster\"",
-            "text": "Fidgeting before every ball. \"Hang on mate, let me fix my box.\""
+            "title": "The \"Mid-Game Fix\"",
+            "text": "Adjusting between deliveries. “One second, mate, my box has shifted again."
           }
         },
         "problem_DVzzQh": {
           "type": "problem",
           "settings": {
-            "title": "The \"Chafe City\"",
-            "text": "Sweaty, uncomfortable and restrictive movement when you need to stay agile."
+            "title": "The \"Chafe Chaos\"",
+            "text": "Hot, rubbing, and uncomfortable when you need to move freely and react fast."
           }
         },
         "benefit_iMNaXE": {
           "type": "benefit",
           "settings": {
-            "title": "Single Garment",
-            "text": "A streamlined setup built for long sessions and fewer distractions."
+            "title": "Integrated Box Pouch",
+            "text": "The built-in pouch holds a compatible cricket box securely inside the underwear, making it easier to move around the field. Insert the box via a concealed internal opening."
           }
         },
         "benefit_VTbqAg": {
           "type": "benefit",
           "settings": {
-            "title": "Secure Hold",
-            "text": "Keeps your protective box secure without constant readjustment."
+            "title": "Cross-Lock Support System",
+            "text": "The front straps cross over the pouch to add support and limit unwanted movement when you run, bend, stretch, or play."
+          }
+        },
+        "benefit_pBht6y": {
+          "type": "benefit",
+          "settings": {
+            "title": "Better Airflow",
+            "text": "The breathable fabric allows better airflow and helps reduce the heat and discomfort that can come with long hours of play and multiple layers."
           }
         }
       },
@@ -68,28 +75,29 @@
         "problem_Mf9LDH",
         "problem_DVzzQh",
         "benefit_iMNaXE",
-        "benefit_VTbqAg"
+        "benefit_VTbqAg",
+        "benefit_pBht6y"
       ],
       "name": "D-Lock Story Media",
       "settings": {
-        "heading": "<p>CRICKET HAS CHANGED. <em>YOUR BOX ROUTINE HASN'T.</em></p>",
-        "subheading": "<p>If you've played any amount of cricket, you already know the drill.</p>",
-        "solution_text": "<p><strong>D-LOCK</strong> is built to keep your protective box secure through long innings, fast running and constant movement — without the old multi-layer routine.</p>",
+        "heading": "<p><strong>How D-LOCK Keeps You Game-Ready</strong></p>",
+        "subheading": "<p><strong>Built for Long Sessions</strong></p>",
+        "solution_text": "<p><strong>D-LOCK</strong> combines a built-in box pouch with a unique cross-lock support system to keep everything in place without restricting movement during practice or matches.</p>",
         "media_type": "image",
         "image": "shopify://shop_images/D-LockMen_sPremiumBoxerBrief-Black01.webp",
-        "autoplay_video": false,
+        "autoplay_video": true,
         "loop_video": true,
         "muted_video": true,
         "show_video_controls": false,
         "show_center_play": true,
         "media_label": "",
         "show_verified_icon": false,
-        "background_color": "#08090B",
-        "text_color": "#FFFFFF",
-        "muted_color": "#8D91A0",
-        "accent_color": "#C7FF00",
-        "card_color": "#17191D",
-        "border_color": "#2C2F35",
+        "background_color": "#08090b",
+        "text_color": "#ffffff",
+        "muted_color": "#8d91a0",
+        "accent_color": "#c7ff00",
+        "card_color": "#17191d",
+        "border_color": "#2c2f35",
         "padding_top": 64,
         "padding_bottom": 64
       }

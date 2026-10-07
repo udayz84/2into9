@@ -204,6 +204,57 @@
         "atc_link": ""
       }
     },
+    "d_lock_product_KqrYGy": {
+      "type": "d-lock-product",
+      "blocks": {
+        "icon_tile_CW7jmj": {
+          "type": "icon_tile",
+          "settings": {
+            "label": "Feature"
+          }
+        },
+        "icon_tile_jXQmxz": {
+          "type": "icon_tile",
+          "settings": {
+            "label": "Feature"
+          }
+        },
+        "icon_tile_AwNmMq": {
+          "type": "icon_tile",
+          "settings": {
+            "label": "Feature"
+          }
+        },
+        "icon_tile_pTDRK3": {
+          "type": "icon_tile",
+          "settings": {
+            "label": "Feature"
+          }
+        }
+      },
+      "block_order": [
+        "icon_tile_CW7jmj",
+        "icon_tile_jXQmxz",
+        "icon_tile_AwNmMq",
+        "icon_tile_pTDRK3"
+      ],
+      "name": "D-Lock Product",
+      "settings": {
+        "padding_top": 32,
+        "padding_bottom": 32,
+        "background_color": "#171717",
+        "product": "d-lock-trunk-for-kid",
+        "product_title": "D-LOCK",
+        "product_subtitle": "Performance Series",
+        "price": "Rs.929.00",
+        "select_size_label": "Select Size",
+        "size_options": "12-14 Years",
+        "default_size": "12-14 Years",
+        "default_quantity": 1,
+        "atc_label": "Add to Cart",
+        "atc_link": ""
+      }
+    },
     "featured_product_information_XK3PnU": {
       "type": "featured-product-information",
       "blocks": {
@@ -1440,6 +1491,7 @@
     "d_lock_story_media_mCb8Fx",
     "d_lock_features_aCBKMp",
     "d_lock_product_fXQrFM",
+    "d_lock_product_KqrYGy",
     "featured_product_information_XK3PnU",
     "featured_product_information_kYm9Ec",
     "d_lock_marquee_Kg4ytp",

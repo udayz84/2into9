@@ -275,7 +275,7 @@
         "content_alignment": "center",
         "vertical_alignment": "center",
         "gap_top": 20,
-        "gap_bottom": 46,
+        "gap_bottom": 48,
         "image_position": "top",
         "mirror": false,
         "fallback_asset": ""

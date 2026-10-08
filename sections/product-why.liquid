@@ -14,7 +14,7 @@
     <h2 class="pw__heading">{{ section.settings.heading }}</h2>
   {%- endif -%}
 
-  <div class="pw__cards">
+  <div class="pw__cards" data-pw-cards>
     {%- for block in section.blocks -%}
       <a
         class="pw-card"
@@ -150,7 +150,76 @@
       </a>
     {%- endfor -%}
   </div>
+  <div class="pw__dots" data-pw-dots></div>
 </div>
+
+<script>
+  document.querySelectorAll('.pw').forEach(function(root) {
+    var cardsWrap = root.querySelector('[data-pw-cards]');
+    var cards = Array.prototype.slice.call(cardsWrap.querySelectorAll('.pw-card'));
+    var dotsWrap = root.querySelector('[data-pw-dots]');
+
+    if (!cardsWrap || cards.length < 2) {
+      if (dotsWrap) dotsWrap.style.display = 'none';
+      return;
+    }
+
+    var current = 0;
+
+    function isMobile() {
+      return window.innerWidth <= 1023;
+    }
+
+    function initDots() {
+      if (!isMobile()) {
+        dotsWrap.style.display = 'none';
+        return;
+      }
+      dotsWrap.style.display = 'flex';
+      dotsWrap.innerHTML = '';
+      cards.forEach(function(_, i) {
+        var dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'pw__dot' + (i === 0 ? ' is-active' : '');
+        dot.setAttribute('aria-label', 'Go to card ' + (i + 1));
+        dot.addEventListener('click', function() {
+          var scrollPos = cards[i].offsetLeft - cardsWrap.offsetLeft;
+          cardsWrap.scrollTo({
+            left: scrollPos,
+            behavior: 'smooth'
+          });
+        });
+        dotsWrap.appendChild(dot);
+      });
+    }
+
+    initDots();
+    window.addEventListener('resize', initDots);
+
+    function updateActiveState(index) {
+      current = index;
+      var dots = Array.prototype.slice.call(dotsWrap.children);
+      dots.forEach(function(d, i) {
+        d.classList.toggle('is-active', i === current);
+      });
+    }
+
+    var scrollTimer = null;
+    cardsWrap.addEventListener('scroll', function() {
+      if (!isMobile() || dotsWrap.children.length === 0) return;
+      if (scrollTimer) clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(function() {
+        var scrollLeft = cardsWrap.scrollLeft;
+        var cardWidth = cards[0].offsetWidth;
+        var gap = 16;
+        var newIndex = Math.round(scrollLeft / (cardWidth + gap));
+        if (newIndex >= 0 && newIndex < cards.length && newIndex !== current) {
+          updateActiveState(newIndex);
+        }
+      }, 50);
+    }, { passive: true });
+  });
+</script>
 
 {% schema %}
 {
@@ -546,9 +615,9 @@
       scroll-snap-type: x mandatory;
       scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
-      margin-inline: -20px;
-      padding-inline: 20px;
-      scroll-padding-inline: 20px;
+      margin-inline: 0;
+      padding-inline: 0;
+      scroll-padding-inline: 0;
       padding-block-end: 16px;
       gap: 16px;
     }
@@ -558,11 +627,33 @@
     }
 
     .pw-card {
-      flex: 0 0 82%;
-      max-width: 320px;
-      min-width: 275px;
+      flex: 0 0 100%;
+      max-width: 100%;
+      min-width: 0;
       scroll-snap-align: center;
       border-radius: 18px;
+    }
+
+    .pw__dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    
+    .pw__dot {
+      width: 9px;
+      height: 9px;
+      padding: 0;
+      border: none;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.2);
+      transition: background 0.25s ease;
+      cursor: pointer;
+    }
+    
+    .pw__dot.is-active {
+      background: #171717;
     }
 
     .pw-card__media {
@@ -609,9 +700,9 @@
     }
 
     .pw-card {
-      flex: 0 0 82%;
-      max-width: 310px;
-      min-width: 260px;
+      flex: 0 0 100%;
+      max-width: 100%;
+      min-width: 0;
     }
 
     .pw-card__media {

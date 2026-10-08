@@ -513,7 +513,7 @@
       position: absolute;
       inset: 0;
       width: 100%;
-      height: 100%;
+      height: 65%;
       display: block;
     }
 
@@ -522,27 +522,21 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
       object-position: center top;
     }
 
     .hero2__picture::after {
-    content: "";
-    position: absolute;
-
-    z-index: 2;
-
-    left: 0;
-    right: 0;
-
-    top: 55vw;
-    bottom: 0;
-
-    pointer-events: none;
-
-    background:
-      linear-gradient(to bottom, #00000000, #00000000 12%, #0000004a 28%, #000000, #000000 68%, #000000 82% 100%);
-  }
+      content: "";
+      position: absolute;
+      z-index: 2;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: -1px;
+      pointer-events: none;
+      background: linear-gradient(to bottom, transparent 30%, rgba(12, 15, 12, 0.4) 65%, #0c0f0c 100%);
+    }
 
     .hero2__eyebrow {
       font-size: min(var(--hero2-eyebrow-size, 26px), 4.8vw);
@@ -557,7 +551,7 @@
     .hero2__content {
       padding-inline: 1.25rem;
       justify-content: flex-end;
-      padding-block: 0 var(--hero2-products-bottom-pad, clamp(75px, 12vh, 110px));
+      padding-block: 0 calc(var(--hero2-products-bottom-pad, clamp(75px, 12vh, 110px)) + 40px);
       transform: none;
       min-height: var(--hero2-mobile-h, 80svh);
       height: 100%;
@@ -570,14 +564,14 @@
     }
 
     .hero2__dots {
-      bottom: 8px;
+      bottom: 24px;
       z-index: 6;
     }
 
     /* Stacked 1-by-1 product cards on mobile (Ref: Step One) */
     .hero2__products-wrapper {
       position: absolute;
-      bottom: 22px;
+      bottom: 48px;
       left: 0;
       right: 0;
       width: 100%;

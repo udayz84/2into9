@@ -111,6 +111,34 @@
     >
       {{ content_for_layout }}
     </main>
+
+    {%- if template.name == 'index' -%}
+      <style>
+        /*
+         * Homepage desktop rhythm: neutralize each section's own
+         * vertical spacing, then apply one uniform 48px gap between
+         * every adjacent section. Mobile/tablet keep original values.
+         */
+        @media (min-width: 1024px) {
+          main[data-template='index'] .scrolling-banner,
+          main[data-template='index'] .cat-split,
+          main[data-template='index'] .itp,
+          main[data-template='index'] .vm {
+            padding-block: 0 !important;
+            margin-block: 0 !important;
+          }
+
+          /* Last section keeps its bottom padding before the footer */
+          main[data-template='index'] .faq {
+            padding-block-start: 0 !important;
+          }
+
+          main[data-template='index'] .shopify-section + .shopify-section {
+            margin-top: 48px;
+          }
+        }
+      </style>
+    {%- endif -%}
 {% if request.page_type == 'policy' %}
   <style>
     .shopify-policy__container {

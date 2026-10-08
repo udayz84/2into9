@@ -50,6 +50,7 @@
         },
         "benefit_iMNaXE": {
           "type": "benefit",
+          "disabled": true,
           "settings": {
             "title": "Integrated Box Pouch",
             "text": "The built-in pouch holds a compatible cricket box securely inside the underwear, making it easier to move around the field. Insert the box via a concealed internal opening."
@@ -58,6 +59,7 @@
         "benefit_VTbqAg": {
           "type": "benefit",
           "settings": {
+            "icon": "shopify://shop_images/access-control.png",
             "title": "Cross-Lock Support System",
             "text": "The front straps cross over the pouch to add support and limit unwanted movement when you run, bend, stretch, or play."
           }
@@ -65,6 +67,7 @@
         "benefit_pBht6y": {
           "type": "benefit",
           "settings": {
+            "icon": "shopify://shop_images/wind.png",
             "title": "Better Airflow",
             "text": "The breathable fabric allows better airflow and helps reduce the heat and discomfort that can come with long hours of play and multiple layers."
           }

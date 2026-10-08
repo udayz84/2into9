@@ -170,7 +170,7 @@
               "type": "text",
               "name": "t:names.description",
               "settings": {
-                "text": "<p>To motivate and inspire through style, comfort and confidence.</p>",
+                "text": "<p>To keep questioning familiar design, improving the details people usually overlook and building everyday products around how they are actually used.</p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "center",
@@ -255,7 +255,7 @@
               "type": "text",
               "name": "t:names.heading",
               "settings": {
-                "text": "<h2>Our Promise</h2>",
+                "text": "<h2>Our Vision</h2>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "center",
@@ -281,7 +281,7 @@
               "type": "text",
               "name": "t:names.description",
               "settings": {
-                "text": "<p>Unrivaled quality. World-class service. The opportunity to not only look your best, but feel your best.</p>",
+                "text": "<p>To redefine the way people think about everyday essentials by creating products that solve real problems and perform better in daily life.</p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "center",

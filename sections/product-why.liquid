@@ -350,8 +350,9 @@
     --pw-font: 'Poppins', ui-sans-serif, system-ui, sans-serif;
     font-family: var(--pw-font);
     color: var(--pw-ink);
-    padding-inline: var(--pw-padding-inline, 110px);
-    padding-block: var(--pw-padding-top, 60px) var(--pw-padding-bottom, 100px);
+    padding-inline: var(--pw-padding-inline, 110px) !important;
+    padding-top: var(--pw-padding-top, 60px) !important;
+    padding-bottom: var(--pw-padding-bottom, 100px) !important;
     overflow: hidden;
   }
 
@@ -529,7 +530,7 @@
     .pw {
       padding-inline: 20px;
       padding-top: var(--pw-padding-top, 60px);
-      padding-block-end: var(--pw-padding-bottom, 100px);
+      padding-bottom: var(--pw-padding-bottom, 100px);
     }
 
     .pw__heading {
@@ -598,7 +599,7 @@
     .pw {
       padding-inline: 18px;
       padding-top: var(--pw-padding-top-mobile, 18px);
-      padding-block-end: var(--pw-padding-bottom-mobile, 40px);
+      padding-bottom: var(--pw-padding-bottom-mobile, 40px);
     }
 
     .pw__heading {

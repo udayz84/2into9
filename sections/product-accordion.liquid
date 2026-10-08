@@ -61,17 +61,18 @@
       var paContentDocTop = (paContent.getBoundingClientRect().top + window.scrollY) - currentMargin;
       var naturalGap = paContentDocTop - buyBottom;
       var pullUp = naturalGap - 36;
-      if (pullUp > 0) {
-        pa.style.marginTop = '-' + Math.round(pullUp) + 'px';
-      }
+      /*
+       * Always assign (not only when pulling up): the DOMContentLoaded
+       * measurement runs before images/fonts settle and can pull up too
+       * far — later runs must be able to reset the stale margin.
+       */
+      pa.style.marginTop = pullUp > 0 ? '-' + Math.round(pullUp) + 'px' : '';
       var galleryCol = hero.querySelector('.ph__gallery-col');
       if (galleryCol) {
         var galleryBottom = galleryCol.getBoundingClientRect().bottom + window.scrollY;
         var paCurrentTop = pa.getBoundingClientRect().top + window.scrollY;
         var minH = galleryBottom - paCurrentTop;
-        if (minH > 0) {
-          pa.style.minHeight = Math.round(minH) + 'px';
-        }
+        pa.style.minHeight = minH > 0 ? Math.round(minH) + 'px' : '';
       }
     }
     if (document.readyState === 'loading') {
@@ -81,6 +82,9 @@
     }
     window.addEventListener('load', preAlign, { passive: true });
     window.addEventListener('resize', preAlign, { passive: true });
+    /* Re-measure once lazy images/webfonts have shifted the layout. */
+    setTimeout(preAlign, 800);
+    setTimeout(preAlign, 2000);
   })();
 </script>
 

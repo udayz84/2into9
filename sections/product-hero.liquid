@@ -47,10 +47,17 @@
   <div class="ph__grid">
     {%- liquid
       assign first_variant = product.selected_or_first_available_variant
+      assign hide_bundle_discount = false
+      if product.handle == 'd-lock-trunk-for-kid'
+        assign hide_bundle_discount = true
+      endif
       assign low_as_paise = first_variant.price
       for block in section.blocks
         if block.type == 'bundle'
           assign bundle_discount = block.settings.discount_percent | default: 0 | plus: 0
+          if hide_bundle_discount
+            assign bundle_discount = 0
+          endif
           if bundle_discount > 0
             assign bundle_price_paise = first_variant.price | times: 100 | minus: bundle_discount | divided_by: 100
             if bundle_price_paise < low_as_paise
@@ -510,6 +517,9 @@
                     assign qty = 1
                   endif
                   assign bundle_discount = block.settings.discount_percent | default: 0 | plus: 0
+                  if hide_bundle_discount
+                    assign bundle_discount = 0
+                  endif
                   if bundle_discount > 0
                     assign bundle_price_paise = first_variant.price | times: 100 | minus: bundle_discount | divided_by: 100
                   else
@@ -1159,11 +1169,11 @@
 
   .ph-thumb {
     padding: 0;
-    border: 1.5px solid rgba(0, 0, 0, 0.08);
+    border: 1.5px solid transparent;
     border-radius: 12px;
     overflow: hidden;
     cursor: pointer;
-    background: #000000;
+    background: transparent;
     display: block;
     width: 100%;
     aspect-ratio: 1;
@@ -1176,12 +1186,12 @@
     scroll-snap-align: start;
   }
 
-  /* Transparent black dull overlay for unselected thumbnails with smooth transition */
+  /* Transparent white dull overlay for unselected thumbnails with smooth transition */
   .ph-thumb::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.42);
+    background: rgba(255, 255, 255, 0.55);
     border-radius: inherit;
     transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     pointer-events: none;

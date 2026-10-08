@@ -238,6 +238,17 @@
         <input type="hidden" name="id" value="{{ current_variant.id }}" data-dlp-form-variant>
         <input type="hidden" name="quantity" value="{{ section.settings.default_quantity | default: 1 }}" data-dlp-form-qty>
       </form>
+
+      {%- if selected_product != blank and selected_product.description != blank -%}
+        {%- if section.settings.description_heading != blank -%}
+          <h3 class="d-lock-product__description-heading">
+            {{ section.settings.description_heading | escape }}
+          </h3>
+        {%- endif -%}
+        <div class="d-lock-product__description rte">
+          {{ selected_product.description }}
+        </div>
+      {%- endif -%}
     </div>
   </div>
 
@@ -589,6 +600,61 @@
     align-items: center;
     gap: 12px;
     margin-top: 6px;
+  }
+
+  .d-lock-product__description-heading {
+    margin: 28px 0 0;
+    padding-top: 20px;
+    border-top: 1px solid #2e2e2e;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .d-lock-product__description-heading + .d-lock-product__description {
+    margin-top: 14px;
+    padding-top: 0;
+    border-top: none;
+  }
+
+  .d-lock-product__description {
+    margin: 28px 0 0;
+    padding-top: 20px;
+    border-top: 1px solid #2e2e2e;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .d-lock-product__description p {
+    margin: 0 0 12px;
+  }
+
+  .d-lock-product__description p:last-child {
+    margin-bottom: 0;
+  }
+
+  .d-lock-product__description h2,
+  .d-lock-product__description h3 {
+    margin: 16px 0 8px;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .d-lock-product__description ul,
+  .d-lock-product__description ol {
+    margin: 0 0 12px;
+    padding-left: 20px;
+  }
+
+  .d-lock-product__description img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
   }
 
   .d-lock-product__qty {
@@ -1153,6 +1219,12 @@
       "type": "url",
       "id": "atc_link",
       "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "description_heading",
+      "label": "Description heading",
+      "default": "Product Description"
     }
   ],
   "blocks": [

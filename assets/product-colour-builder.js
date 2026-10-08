@@ -389,6 +389,11 @@ class ProductColourBuilder extends HTMLElement {
       this.render();
     });
 
+    /*
+     * COMBO: default to mixed colours mode.
+     */
+    if (this.isCombo) this.setMode('mixed');
+
     this.dataset.mode = this.mode;
 
     this.render();

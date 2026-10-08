@@ -22,6 +22,11 @@
   if section.settings.show_divider == false
     assign show_divider = false
   endif
+
+  assign is_combo = false
+  if product.tags contains 'combo'
+    assign is_combo = true
+  endif
 -%}
 
 <product-colour-builder
@@ -38,23 +43,27 @@
         </span>
       </div>
 
-      <div class="pcb-toggle" role="tablist">
+      <div
+        class="pcb-toggle"
+        role="tablist"
+        {% if is_combo %}data-active="mixed"{% endif %}
+      >
         <button
           type="button"
-          class="pcb-toggle__option is-active"
+          class="pcb-toggle__option{% unless is_combo %} is-active{% endunless %}"
           data-mode="single"
           role="tab"
-          aria-selected="true"
+          aria-selected="{% if is_combo %}false{% else %}true{% endif %}"
         >
           {{ single_label }}
         </button>
 
         <button
           type="button"
-          class="pcb-toggle__option"
+          class="pcb-toggle__option{% if is_combo %} is-active{% endif %}"
           data-mode="mixed"
           role="tab"
-          aria-selected="false"
+          aria-selected="{% if is_combo %}true{% else %}false{% endif %}"
         >
           {{ mixed_label }}
         </button>

@@ -196,8 +196,8 @@
         "shop_label": "SHOP NOW",
         "link": "shopify://products/the-captain-mens-trunk",
         "text_side": "right",
-        "gap_top": 16,
-        "gap_bottom": 16,
+        "gap_top": 0,
+        "gap_bottom": 0,
         "heading_size": 34,
         "inset_vw": 16
       }
@@ -221,7 +221,7 @@
         "shop_label": "SHOP",
         "link": "shopify://products/d-lock-trunk-for-men",
         "text_side": "left",
-        "gap_top": 16,
+        "gap_top": 0,
         "gap_bottom": 16,
         "heading_size": 34,
         "inset_vw": 16
@@ -246,8 +246,8 @@
         "shop_label": "SHOP NOW",
         "link": "shopify://products/little-explorer-kids-trunk",
         "text_side": "right",
-        "gap_top": 16,
-        "gap_bottom": 16,
+        "gap_top": 0,
+        "gap_bottom": 0,
         "heading_size": 34,
         "inset_vw": 16
       }

@@ -376,6 +376,9 @@
         "group_UwyfHk",
         "group_WU3Ba9"
       ],
+      "custom_css": [
+        ".section-content-wrapper.section-content-wrapper {padding-block: 60px !important;}"
+      ],
       "name": "t:names.multicolumn",
       "settings": {
         "content_direction": "row",

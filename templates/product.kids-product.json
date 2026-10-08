@@ -1,0 +1,353 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "product-hero",
+      "blocks": {
+        "feature_shorter_leg": {
+          "type": "feature",
+          "settings": {
+            "label": "Shorter Leg",
+            "icon": "ruler",
+            "highlight": false
+          }
+        },
+        "feature_anti_chafe": {
+          "type": "feature",
+          "settings": {
+            "label": "Anti-Chafe",
+            "icon": "shield",
+            "highlight": false
+          }
+        },
+        "feature_bamboo": {
+          "type": "feature",
+          "settings": {
+            "label": "Soft Bamboo Viscose",
+            "icon": "leaf",
+            "highlight": false
+          }
+        },
+        "feature_anti_sweat": {
+          "type": "feature",
+          "settings": {
+            "label": "Anti-Sweat",
+            "icon": "sweat",
+            "highlight": false
+          }
+        },
+        "bundle_1_pair": {
+          "type": "bundle",
+          "settings": {
+            "pairs": "1 Pair",
+            "discount_percent": 0,
+            "top_badge": "",
+            "selected": true
+          }
+        },
+        "bundle_4_pairs": {
+          "type": "bundle",
+          "settings": {
+            "pairs": "2 Pairs",
+            "discount_percent": 5,
+            "top_badge": "",
+            "selected": false
+          }
+        },
+        "bundle_most_popular": {
+          "type": "bundle",
+          "settings": {
+            "pairs": "3 Pairs",
+            "discount_percent": 10,
+            "top_badge": "Most Popular",
+            "selected": false
+          }
+        },
+        "bundle_best_value": {
+          "type": "bundle",
+          "settings": {
+            "pairs": "5 Pairs",
+            "discount_percent": 15,
+            "top_badge": "Best Value",
+            "selected": false
+          }
+        }
+      },
+      "block_order": [
+        "feature_shorter_leg",
+        "feature_anti_chafe",
+        "feature_bamboo",
+        "feature_anti_sweat",
+        "bundle_1_pair",
+        "bundle_4_pairs",
+        "bundle_most_popular",
+        "bundle_best_value"
+      ],
+      "settings": {
+        "bg_text": "",
+        "page_padding": 60,
+        "show_rating": false,
+        "rating": 4.5,
+        "reviews_url": "",
+        "reviews_badge_text": "65K+ 5 Star Reviews",
+        "guarantee_badge_text": "Love them or they're free",
+        "find_fit_text": "Find my Fit",
+        "find_fit_url": "/pages/sizing",
+        "single_label": "Single Colour",
+        "mixed_label": "Mixed Colours",
+        "selected_label": "Selected",
+        "grid_view_label": "Grid View",
+        "progress_label": "Select your items",
+        "atc_label": "Add to Cart",
+        "show_divider": true
+      }
+    },
+    "colour-builder": {
+      "type": "product-colour-builder",
+      "disabled": true,
+      "settings": {
+        "page_padding": 60,
+        "single_label": "Single Colour",
+        "mixed_label": "Mixed Colours",
+        "selected_label": "Selected",
+        "grid_view_label": "Grid View",
+        "progress_label": "Select your items",
+        "atc_label": "Add to Cart",
+        "show_divider": true
+      }
+    },
+    "accordion": {
+      "type": "product-accordion",
+      "blocks": {
+        "description": {
+          "type": "item",
+          "settings": {
+            "title": "Product Description",
+            "content": "",
+            "use_product_description": true
+          }
+        },
+        "fit_fabric": {
+          "type": "item",
+          "settings": {
+            "title": "Fit & Fabric",
+            "content": "{{ product.metafields.custom.features_details | metafield_tag }}",
+            "use_product_description": false
+          }
+        },
+        "shipping": {
+          "type": "item",
+          "settings": {
+            "title": "Shipping",
+            "content": "<ul><li>We generally process and dispatch orders within 1–2 business days.</li><li>Shipping normally takes 3-5 working days (excluding public holidays)&nbsp;</li><li>Free shipping, no minimum spend.</li><li>For complete delivery information, please refer to our Shipping Policy.</li></ul>",
+            "use_product_description": false
+          }
+        },
+        "guarantee": {
+          "type": "item",
+          "disabled": true,
+          "settings": {
+            "title": "30 Day First Pair Guarantee",
+            "content": "<p>Don't love your first pair? Wear it, wash it — if you're not satisfied within 30 days, we'll refund you. No questions asked.</p>",
+            "use_product_description": false
+          }
+        }
+      },
+      "block_order": [
+        "description",
+        "fit_fabric",
+        "shipping",
+        "guarantee"
+      ],
+      "settings": {
+        "page_padding": 60,
+        "step_label": "Product details",
+        "open_first": true
+      }
+    },
+    "why": {
+      "type": "product-why",
+      "blocks": {
+        "mens": {
+          "type": "card",
+          "settings": {
+            "label": "Mens",
+            "image": "shopify://shop_images/ReptileGreenPrintedBoxerBrief02.webp",
+            "link": "shopify://collections/men",
+            "button_label": "Shop Now",
+            "feature_1": "",
+            "feature_2": "",
+            "feature_3": "",
+            "feature_4": "",
+            "feature_5": ""
+          }
+        },
+        "kids": {
+          "type": "card",
+          "settings": {
+            "label": "Kids",
+            "image": "shopify://shop_images/kids_solid_f5cb069d-ee51-466c-9538-08c038ce21d9.webp",
+            "link": "shopify://collections/kids",
+            "button_label": "Shop Now",
+            "feature_1": "",
+            "feature_2": "",
+            "feature_3": "",
+            "feature_4": "",
+            "feature_5": ""
+          }
+        },
+        "dlock": {
+          "type": "card",
+          "settings": {
+            "label": "D-Lock",
+            "image": "shopify://shop_images/D_Lock_Category_Img_1.webp",
+            "link": "shopify://collections/d-lock",
+            "button_label": "Shop Now",
+            "feature_1": "",
+            "feature_2": "",
+            "feature_3": "",
+            "feature_4": "",
+            "feature_5": ""
+          }
+        }
+      },
+      "block_order": [
+        "mens",
+        "kids",
+        "dlock"
+      ],
+      "custom_css": [],
+      "settings": {
+        "heading": "Why 2into9 Underwear?",
+        "page_padding": 40,
+        "padding_top": 30,
+        "padding_bottom": 20,
+        "padding_top_mobile": 18,
+        "padding_bottom_mobile": 40,
+        "chip_1": "Moisture-wicking",
+        "chip_2": "Organic + Sustainable",
+        "chip_3": "Anti-chafe Panels",
+        "chip_4": "3D Pouch Comfort",
+        "chip_5": "Soft Bamboo Viscose"
+      }
+    },
+    "faq": {
+      "type": "product-faq",
+      "blocks": {
+        "q1": {
+          "type": "question",
+          "settings": {
+            "question": "How does the “Zero Rub Panels” panel work?",
+            "answer": "<p>The Zero Rub Panels are friction-resistant panels along the inner thighs that help minimise rubbing, chafing, and ride-up. They give your legs a smoother surface to move against throughout the day.</p>"
+          }
+        },
+        "q2": {
+          "type": "question",
+          "settings": {
+            "question": "What is the Comfort Pouch (Core Nest)?",
+            "answer": "<p>The Comfort Pouch (Core Nest) is anatomically designed to give support and separation. Its hidden elastic construction helps reduce skin-on-skin contact, friction, and sweating without making the fit feel tight.</p>"
+          }
+        },
+        "q3": {
+          "type": "question",
+          "settings": {
+            "question": "How should I wash them?",
+            "answer": "<p>Wash in cold water using the washing machine and like colours. Tumble dry low or dry in the shade. Do not bleach, iron, or dry clean to help keep the bamboo fabric soft and in good shape.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "settings": {
+        "heading": "FAQ's",
+        "page_padding": 110,
+        "open_first": false
+      }
+    },
+    "reviews": {
+      "type": "product-reviews",
+      "blocks": {
+        "r1": {
+          "type": "review",
+          "settings": {
+            "name": "Arjun Mehta",
+            "role": "Professional Football Player",
+            "text": "The most comfortable underwear I've owned. The anti-chafe panels are a game changer during training.",
+            "rating": 5
+          }
+        },
+        "r2": {
+          "type": "review",
+          "settings": {
+            "name": "Rohan Verma",
+            "role": "Marathon Runner",
+            "text": "Zero chafing even on 30km runs. The bamboo fabric breathes better than anything else I've tried.",
+            "rating": 5
+          }
+        },
+        "r3": {
+          "type": "review",
+          "settings": {
+            "name": "Kabir Singh",
+            "role": "Gym Trainer",
+            "text": "Perfect fit and the 3D pouch actually makes a difference. Ordered 15 pairs — worth every rupee.",
+            "rating": 5
+          }
+        },
+        "r4": {
+          "type": "review",
+          "settings": {
+            "name": "Aditya Rao",
+            "role": "Cricketer",
+            "text": "Moisture-wicking works even in peak summer. These trunks keep up with every training session.",
+            "rating": 5
+          }
+        },
+        "r5": {
+          "type": "review",
+          "settings": {
+            "name": "Vikram Nair",
+            "role": "Fitness Coach",
+            "text": "Sustainable, soft and supportive. My clients ask what I recommend — 2into9 is now the default answer.",
+            "rating": 5
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3",
+        "r4",
+        "r5"
+      ],
+      "disabled": true,
+      "settings": {
+        "heading": "Customer Reviews",
+        "show_rating_summary": true,
+        "rating_value": "5",
+        "reviews_count": "1000",
+        "reviews_label": "reviews",
+        "page_padding": 110
+      }
+    }
+  },
+  "order": [
+    "main",
+    "colour-builder",
+    "accordion",
+    "why",
+    "faq",
+    "reviews"
+  ]
+}

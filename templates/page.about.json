@@ -140,7 +140,7 @@
         "text_color": "#171717",
         "benefits_bg": "#f3f1ef",
         "image_ratio": "1 / 1",
-        "max_width": 1200,
+        "max_width": 1360,
         "vertical_padding": 64,
         "mobile_padding": 40,
         "row_spacing": 64

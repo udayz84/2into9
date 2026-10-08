@@ -85,6 +85,66 @@
         "padding_bottom": 60
       }
     },
+    "2into9_about_story_sections_jy7biA": {
+      "type": "2into9-about-story-sections",
+      "blocks": {
+        "benefit_PEQwkc": {
+          "type": "benefit",
+          "settings": {
+            "icon": "leaf",
+            "text": "Comfort that holds up through the day"
+          }
+        },
+        "benefit_yxzjPU": {
+          "type": "benefit",
+          "settings": {
+            "icon": "shield",
+            "text": "Support without unnecessary restriction"
+          }
+        },
+        "benefit_7kyaF6": {
+          "type": "benefit",
+          "settings": {
+            "icon": "waves",
+            "text": "Better management of heat and moisture"
+          }
+        },
+        "benefit_4wFHxC": {
+          "type": "benefit",
+          "settings": {
+            "icon": "layers",
+            "text": "Fit and structure that stay consistent over time"
+          }
+        }
+      },
+      "block_order": [
+        "benefit_PEQwkc",
+        "benefit_yxzjPU",
+        "benefit_7kyaF6",
+        "benefit_4wFHxC"
+      ],
+      "name": "2INTO9 Story & Comfort",
+      "settings": {
+        "first_eyebrow": "Our Process",
+        "first_heading": "Where Better Begins",
+        "first_content": "<p>We believe good design starts with asking what isn't working.</p><p>Where does the product shift? Where does it restrict movement? Where do people adjust, compensate, or simply put up with discomfort?</p><p>From there, every detail gets a job. Considered construction, anatomical support, and carefully selected fabrics all come from solving a real use case, not adding features for show.</p><p>The goal is simple: less managing what you wear, more getting on with your day.</p>",
+        "first_image": "shopify://shop_images/Where_Better_Begins.webp",
+        "second_eyebrow": "Everyday Performance",
+        "second_heading": "Built for the Day,\nNot the Display",
+        "second_content": "<p>Daily wear has to perform beyond the first few hours of the day.</p><p>That means thinking about long hours, movement, changing conditions, and repeated use.</p>",
+        "show_benefits": true,
+        "benefits_title": "RELAX, IT'S HANDLED:",
+        "second_closing": "<p><strong>Take away the logo, branding and shelf appeal, and the product still has to prove itself.</strong> What really matters is the experience it adds to your everyday life.</p>",
+        "background_color": "#FFFFFF",
+        "text_color": "#171717",
+        "benefits_bg": "#F3F1EF",
+        "image_ratio": "4 / 3",
+        "max_width": 1200,
+        "vertical_padding": 64,
+        "mobile_padding": 40,
+        "row_spacing": 64
+      }
+    },
     "section_D9wgKi": {
       "type": "section",
       "blocks": {
@@ -449,65 +509,6 @@
         "show_divider": true,
         "padding_top": 60,
         "padding_bottom": 80
-      }
-    },
-    "2into9_about_story_sections_jy7biA": {
-      "type": "2into9-about-story-sections",
-      "blocks": {
-        "benefit_PEQwkc": {
-          "type": "benefit",
-          "settings": {
-            "icon": "leaf",
-            "text": "Comfort that holds up through the day"
-          }
-        },
-        "benefit_yxzjPU": {
-          "type": "benefit",
-          "settings": {
-            "icon": "shield",
-            "text": "Support without unnecessary restriction"
-          }
-        },
-        "benefit_7kyaF6": {
-          "type": "benefit",
-          "settings": {
-            "icon": "waves",
-            "text": "Better management of heat and moisture"
-          }
-        },
-        "benefit_4wFHxC": {
-          "type": "benefit",
-          "settings": {
-            "icon": "layers",
-            "text": "Fit and structure that stay consistent over time"
-          }
-        }
-      },
-      "block_order": [
-        "benefit_PEQwkc",
-        "benefit_yxzjPU",
-        "benefit_7kyaF6",
-        "benefit_4wFHxC"
-      ],
-      "name": "2INTO9 Story & Comfort",
-      "settings": {
-        "first_eyebrow": "Our Process",
-        "first_heading": "Where Better Begins",
-        "first_content": "<p>We believe good design starts with asking what isn't working.</p><p>Where does the product shift? Where does it restrict movement? Where do people adjust, compensate, or simply put up with discomfort?</p><p>From there, every detail gets a job. Considered construction, anatomical support, and carefully selected fabrics all come from solving a real use case, not adding features for show.</p><p>The goal is simple: less managing what you wear, more getting on with your day.</p>",
-        "second_eyebrow": "Everyday Performance",
-        "second_heading": "Built for the Day,\nNot the Display",
-        "second_content": "<p>Daily wear has to perform beyond the first few hours of the day.</p><p>That means thinking about long hours, movement, changing conditions, and repeated use.</p>",
-        "show_benefits": true,
-        "benefits_title": "RELAX, IT'S HANDLED:",
-        "second_closing": "<p><strong>Take away the logo, branding and shelf appeal, and the product still has to prove itself.</strong> What really matters is the experience it adds to your everyday life.</p>",
-        "background_color": "#FFFFFF",
-        "text_color": "#171717",
-        "benefits_bg": "#F3F1EF",
-        "image_ratio": "4 / 3",
-        "max_width": 1200,
-        "vertical_padding": 64,
-        "mobile_padding": 40,
-        "row_spacing": 64
       }
     }
   },

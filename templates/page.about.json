@@ -77,9 +77,9 @@
     "about_story": {
       "type": "about-story",
       "settings": {
-        "title": "Our Story",
+        "title": "Story Behind 2INTO9",
         "image": "shopify://shop_images/Our_Story_img.webp",
-        "text": "<p>After learning about alternative resources and sustainability at university, we decided to launch 2INTO9 with the aim of producing the best quality, longest lasting most sustainable accessories possible.</p><p>We are well on our way to achieving that goal with over 7,000 five star reviews and 1,000 stockists raving about the quality, comfort and sustainability on our range of products.</p><p>Moving into our ninth year, we are so excited to share with you our biggest range of sustainable accessories yet including our biggest range of bamboo socks, belts made from recycled plastics and clothing.</p><p>We hope you find what you're looking for.</p>",
+        "text": "<p>2INTO9 started with a simple question: why are we still putting up with problems that should have been solved years ago?</p><p>Traditional daily wear made that question impossible to ignore. Ride-up, bunching, sweat, chafing, and the constant need to adjust had somehow become part of the routine. Familiar construction and old design thinking remained largely unchanged, even as the way people move, work, and live evolved.</p><p>So we decided not to make another version of the same thing. We started with daily wear and worked backwards from the problem, understanding how the body moves, where discomfort begins, and what the product needs to do differently.</p><p><em>What began with one clear idea has grown into a team working to rethink daily wear.</em></p><p>That thinking became 2INTO9, built around one belief: <strong>Luxury Re-Engineered Responsibly.</strong> Better design shouldn't mean more for the sake of more; it should mean smarter choices that genuinely improve everyday wear.</p>",
         "background_color": "#ffffff",
         "padding_top": 60,
         "padding_bottom": 60

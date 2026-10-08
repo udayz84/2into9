@@ -108,29 +108,29 @@
         "feature_WxGC4M": {
           "type": "feature",
           "settings": {
-            "title": "The \"Old School\" Stack",
-            "text": "Jockstrap + underwear + shorts. Three separate layers just to secure one protective box."
+            "title": "Purpose-Built Box Pouch",
+            "text": "A dedicated pouch keeps your cricket box positioned close to the body while allowing it to be inserted and removed when needed."
           }
         },
         "feature_tgHnHF": {
           "type": "feature",
           "settings": {
-            "title": "The \"Mid-Game Fix\"",
-            "text": "Adjusting between deliveries. “One second, mate, my box has shifted again."
+            "title": "Breathable Construction",
+            "text": "Designed to improve airflow around high-heat areas and provide a lighter, more comfortable feel during long sessions."
           }
         },
         "feature_LrUhJh": {
           "type": "feature",
           "settings": {
-            "title": "The \"Chafe Chaos\"",
-            "text": "Hot, rubbing, and uncomfortable when you need to move freely and react fast."
+            "title": "Secure Lock-In Support",
+            "text": "Strategically positioned support straps help minimise shifting during running, batting, fielding and other high-movement situations."
           }
         },
         "feature_z9PxRD": {
           "type": "feature",
           "settings": {
-            "title": "Anti-Bacterial & Anti-Odour",
-            "text": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
+            "title": "Freshness Support",
+            "text": "Anti-bacterial and anti-odour fabric treatment helps manage odour build-up caused by sweat and repeated wear."
           }
         }
       },
@@ -145,11 +145,11 @@
         "padding_top": 120,
         "padding_bottom": 120,
         "background_color": "#1e1e1e",
-        "eyebrow": "Built for Long Sessions",
-        "heading_prefix": "HOW",
+        "eyebrow": "ENGINEERED FOR CRICKET",
+        "heading_prefix": "WHY",
         "heading_accent": "D-LOCK",
-        "heading_suffix": "Keeps You Game-Ready",
-        "description": "D-LOCK combines a built-in box pouch with a unique cross-lock support system to keep everything in place without restricting movement during practice or matches.",
+        "heading_suffix": "CHANGES THE WAY YOU WEAR A CRICKET BOX",
+        "description": "Traditional cricket protection often means a jockstrap, underwear and playing shorts layered together just to keep one box in place. D-LOCK simplifies that setup by integrating secure box support directly into the garment.",
         "panel_video": "shopify://files/videos/REEL 11_6c5506dc-5d33-4478-a858-a3e95eb24a60.mp4"
       }
     },

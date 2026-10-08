@@ -87,7 +87,7 @@
         "subheading": "<p><strong>Built for Long Sessions</strong></p>",
         "solution_text": "<p><strong>D-LOCK</strong> combines a built-in box pouch with a unique cross-lock support system to keep everything in place without restricting movement during practice or matches.</p>",
         "media_type": "image",
-        "image": "shopify://shop_images/D-LockMen_sPremiumBoxerBrief-Black01.webp",
+        "image": "shopify://shop_images/DLOCK_X-Strap_Athletic_Shorts_Ad.webp",
         "autoplay_video": true,
         "loop_video": true,
         "muted_video": true,
@@ -204,7 +204,8 @@
         "default_size": "M",
         "default_quantity": 1,
         "atc_label": "Add to Cart",
-        "atc_link": ""
+        "atc_link": "",
+        "description_heading": "Product Description"
       }
     },
     "d_lock_product_KqrYGy": {
@@ -255,7 +256,8 @@
         "default_size": "12-14 Years",
         "default_quantity": 1,
         "atc_label": "Add to Cart",
-        "atc_link": ""
+        "atc_link": "",
+        "description_heading": "Product Description"
       }
     },
     "featured_product_information_XK3PnU": {

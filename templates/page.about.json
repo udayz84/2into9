@@ -406,6 +406,14 @@
     "about_features": {
       "type": "about-features",
       "blocks": {
+        "feature_JYngdh": {
+          "type": "feature",
+          "disabled": true,
+          "settings": {
+            "title": "Where Better Begins",
+            "text": "<p>We believe good design starts with asking what isn't working. Where does the product shift? Where does it restrict movement? Where do people adjust, compensate, or simply put up with discomfort?</p><p>From there, every detail gets a job. Considered construction, anatomical support, and carefully selected fabrics all come from solving a real use case, not adding features for show.&nbsp;</p><p>The goal is simple: less managing what you wear, more getting on with your day.</p>"
+          }
+        },
         "feature_1": {
           "type": "feature",
           "settings": {
@@ -432,6 +440,7 @@
         }
       },
       "block_order": [
+        "feature_JYngdh",
         "feature_1",
         "feature_2",
         "feature_3"

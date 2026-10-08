@@ -344,6 +344,36 @@
         "padding-block-end": 48
       }
     },
+    "about_mission_RUNf8Q": {
+      "type": "about-mission",
+      "blocks": {
+        "text_block_wR9T6Q": {
+          "type": "text_block",
+          "settings": {
+            "title": "OUR MISSION",
+            "text": "To motivate and inspire through style, comfort and confidence."
+          }
+        },
+        "text_block_g3KXiY": {
+          "type": "text_block",
+          "settings": {
+            "title": "OUR PROMISE",
+            "text": "To motivate and inspire through style, comfort and confidence."
+          }
+        }
+      },
+      "block_order": [
+        "text_block_wR9T6Q",
+        "text_block_g3KXiY"
+      ],
+      "disabled": true,
+      "name": "About Mission & Promise",
+      "settings": {
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "background_color": "#FFFFFF"
+      }
+    },
     "about_mission": {
       "type": "about-mission",
       "blocks": {
@@ -418,6 +448,7 @@
     "about_banner",
     "about_story",
     "section_D9wgKi",
+    "about_mission_RUNf8Q",
     "about_mission",
     "about_features"
   ]

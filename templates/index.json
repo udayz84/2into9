@@ -173,7 +173,7 @@
         "panel_2_link": "shopify://products/the-dreamer-mens-trunk",
         "panel_2_align": "right",
         "padding_top": 0,
-        "padding_bottom": 28,
+        "padding_bottom": 0,
         "panel_1_asset": "panel-mens.jpg",
         "panel_2_asset": "panel-dlock.jpg"
       }

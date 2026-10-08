@@ -112,10 +112,10 @@
       {{ content_for_layout }}
     </main>
 
-    {%- if template.name == 'index' -%}
+    {%- if template.name == 'index' or template.name == 'product' or template == 'page.about' -%}
       <style>
         /*
-         * Homepage desktop rhythm: neutralize each section's own
+         * Desktop section rhythm: neutralize each section's own
          * vertical spacing, then apply one uniform 48px gap between
          * every adjacent section. Mobile/tablet keep original values.
          */
@@ -134,6 +134,47 @@
           }
 
           main[data-template='index'] .shopify-section + .shopify-section {
+            margin-top: 48px;
+          }
+
+          /*
+           * Product page: hero→accordion junction is left to the
+           * pinned-gallery alignment script; normalize the rest.
+           */
+          main[data-template='product'] .pa {
+            padding-block-end: 0 !important;
+          }
+
+          main[data-template='product'] .pw,
+          main[data-template='product'] .pf {
+            padding-block: 0 !important;
+          }
+
+          main[data-template='product'] .pf {
+            padding-block-end: 100px !important;
+          }
+
+          main[data-template='product'] .shopify-section + .shopify-section {
+            margin-top: 48px;
+          }
+
+          /*
+           * About page: all sections use additive paddings — zero
+           * them and use the same uniform gap.
+           */
+          main[data-template='page.about'] .spacing-style,
+          main[data-template='page.about'] .inherit-spacing,
+          main[data-template='page.about'] .about-story,
+          main[data-template='page.about'] .into9-story-section {
+            padding-block: 0 !important;
+          }
+
+          /* Last section keeps its bottom padding before the footer */
+          main[data-template='page.about'] .about-features {
+            padding-block-start: 0 !important;
+          }
+
+          main[data-template='page.about'] .shopify-section + .shopify-section {
             margin-top: 48px;
           }
         }

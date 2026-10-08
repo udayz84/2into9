@@ -1257,6 +1257,10 @@ class ProductColourBuilder extends HTMLElement {
 
       if (count) {
         count.textContent = qty;
+        count.classList.toggle(
+          'is-zero',
+          qty === 0
+        );
       }
 
       tile.classList.toggle(

@@ -162,25 +162,25 @@
         "icon_tile_3cBwwF": {
           "type": "icon_tile",
           "settings": {
-            "label": "Feature"
+            "label": "Integrated Box Pouch"
           }
         },
         "icon_tile_ekwgij": {
           "type": "icon_tile",
           "settings": {
-            "label": "Feature"
+            "label": "Cross-Lock Support"
           }
         },
         "icon_tile_dfQB6F": {
           "type": "icon_tile",
           "settings": {
-            "label": "Feature"
+            "label": "Breathable Fabric"
           }
         },
         "icon_tile_tfM3F8": {
           "type": "icon_tile",
           "settings": {
-            "label": "Feature"
+            "label": "Anti-Odour Finish"
           }
         }
       },

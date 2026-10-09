@@ -31,6 +31,7 @@
       "block_order": [
         "announcement_BxgCk9"
       ],
+      "disabled": true,
       "custom_css": [
         ".announcement-bar {border-block-end: none; background-color: #000 !important; color: #fff !important;}"
       ],

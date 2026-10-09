@@ -429,7 +429,7 @@
     --header-logo-display: none !important;
     --header-logo-inverse-display: block !important;
 
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
@@ -595,8 +595,7 @@
   }
 
   .header-section {
-    position: sticky;
-    top: 0;
+    position: relative;
     z-index: var(--layer-sticky, 500);
     background: transparent !important;
     background-color: transparent !important;
@@ -613,7 +612,7 @@
 
   #header-component[transparent] {
     pointer-events: auto !important;
-    position: fixed !important;
+    position: absolute !important;
     top: 0 !important;
     left: 0 !important;
     right: 0 !important;
@@ -638,6 +637,9 @@
 
   #header-component[transparent][data-sticky-state='active'] {
     position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
     transform: translateY(0) !important;
     pointer-events: auto !important;
     background: rgba(10, 10, 10, 0.55) !important;
@@ -649,7 +651,10 @@
   }
 
   #header-component[transparent][data-sticky-state='inactive'] {
-    position: fixed !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
     transform: translateY(0) !important;
     pointer-events: auto !important;
     background: rgba(10, 10, 10, 0.55) !important;
@@ -659,11 +664,6 @@
     border: none !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.14) !important;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18) !important;
-  }
-
-  #shopify-section-header_announcements_9jGBFp,
-  .announcement-bar {
-    display: none !important;
   }
 
   .header[data-sticky-state='active'] {

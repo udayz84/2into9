@@ -244,6 +244,11 @@ onDocumentLoaded(() => {
       if (header.hasAttribute('transparent') && header.parentElement?.nextElementSibling) {
         headerGroupHeight += header.offsetHeight;
       }
+      const announcementBar = headerGroup.querySelector('.announcement-bar');
+      const announcementBarHeight = (announcementBar && announcementBar.offsetHeight > 0) ? announcementBar.offsetHeight : 0;
+      document.documentElement.style.setProperty('--announcement-bar-height', `${announcementBarHeight}px`);
+      document.body.style.setProperty('--announcement-bar-height', `${announcementBarHeight}px`);
+
       document.body.style.setProperty('--header-group-height', `${Math.round(headerGroupHeight)}px`);
     });
 

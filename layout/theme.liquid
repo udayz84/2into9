@@ -84,6 +84,11 @@
         document.body.style.setProperty('--header-height', `${headerHeight}px`);
         document.body.style.setProperty('--header-group-height', `${headerGroupHeight}px`);
 
+        const announcementBar = headerGroup.querySelector('.announcement-bar');
+        const announcementBarHeight = (announcementBar && announcementBar.offsetHeight > 0) ? announcementBar.offsetHeight : 0;
+        document.documentElement.style.setProperty('--announcement-bar-height', `${announcementBarHeight}px`);
+        document.body.style.setProperty('--announcement-bar-height', `${announcementBarHeight}px`);
+
         /**
          * Updates CSS custom properties for transparent header offset calculation
          * Mimic updateTransparentHeaderOffset() in utilities.js

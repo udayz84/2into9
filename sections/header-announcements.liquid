@@ -40,16 +40,11 @@
 
 {% stylesheet %}
   .announcement-bar {
+    position: relative;
+    z-index: var(--layer-sticky, 500);
     border-block-end: var(--border-bottom-width) solid var(--color-border);
     background-color: #000000 !important;
     color: #ffffff !important;
-  }
-
-  /* Transparent header pages: hide announcement bar so header is flush at the top */
-  body:has(.header[transparent]) .announcement-bar,
-  body:has(.header[transparent]) .section-background:has(+ .announcement-bar),
-  body:has(.header[transparent]) [id*='header_announcements'] {
-    display: none !important;
   }
 
   .announcement-bar * {

@@ -408,36 +408,6 @@
         "padding-block-end": 50
       }
     },
-    "about_mission_RUNf8Q": {
-      "type": "about-mission",
-      "blocks": {
-        "text_block_wR9T6Q": {
-          "type": "text_block",
-          "settings": {
-            "title": "OUR MISSION",
-            "text": "To motivate and inspire through style, comfort and confidence."
-          }
-        },
-        "text_block_g3KXiY": {
-          "type": "text_block",
-          "settings": {
-            "title": "OUR PROMISE",
-            "text": "To motivate and inspire through style, comfort and confidence."
-          }
-        }
-      },
-      "block_order": [
-        "text_block_wR9T6Q",
-        "text_block_g3KXiY"
-      ],
-      "disabled": true,
-      "name": "About Mission & Promise",
-      "settings": {
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "background_color": "#ffffff"
-      }
-    },
     "about_mission": {
       "type": "about-mission",
       "blocks": {
@@ -481,24 +451,24 @@
         "feature_1": {
           "type": "feature",
           "settings": {
-            "title": "QUALITY MATERIALS & CRAFTSMANSHIP",
-            "text": "<p>We have searched the globe, leaving no stone unturned in order to find the most exquisite blends of quality fabrics to use in our products. Our catalog features a wide variety of fabric blends, all of which have been strenuously tested to ensure long-lasting comfort and moisture prevention in even the most extreme circumstances.</p>",
+            "title": "Purpose in Every Thread",
+            "text": "<p>Material matters, but only when it earns its place.</p><p>We choose performance fabrics for their softness, breathability, and comfort through extended wear. Where needed, we combine them with carefully selected fibres to improve stretch, structure, and durability.</p><p>But fabric alone is never the hero.</p><p>The balance of fabric, fit, and construction makes daily wear work better.</p>",
             "image": "shopify://shop_images/CRAFTSMANSHIP.webp"
           }
         },
         "feature_2": {
           "type": "feature",
           "settings": {
-            "title": "LUXURY LIKE NO OTHER",
-            "text": "<p>Scientifically-engineered and carefully crafted, our isolation pouch technology provides a level of comfort never before conceived. Available in both Single Pouch and Dual Pouch iterations, our designs excel in maintaining a cool, dry and chafe-free environment.</p>",
+            "title": "Who We Design For",
+            "text": "<p>For people who notice when something works properly.</p><p>People who care about quality without needing to be convinced. They appreciate thoughtful details, clean design and products that fit naturally into their routine.</p><p>Different schedules. Different lifestyles. Same expectation: the things you wear every day should make life easier, not become another thing to manage.</p>",
             "image": "shopify://shop_images/Luxury.webp"
           }
         },
         "feature_3": {
           "type": "feature",
           "settings": {
-            "title": "REVOLUTIONARY BY DESIGN",
-            "text": "<p>We can go on about our superior craftsmanship, calculative design and stylish appearance, but nothing will convince you quite like slipping into a pair of 2INTO9 Underwear for yourself. It feels as if the jewels are being treated like royalty, given their own private sanctum which keeps them secure and you in a state of bliss.</p>",
+            "title": "Premium with Purpose",
+            "text": "<p>Premium should have a reason.</p><p>At 2INTO9, it means making deliberate choices where they matter: thoughtful design, purposeful materials, better construction, and fewer unnecessary extras.</p><p>Every detail should improve how daily wear feels, moves, or lasts.</p><p>That is what <strong>Luxury, Re-Engineered Responsibly</strong> means to us: not more for the sake of more, but better where it counts.</p>",
             "image": "shopify://shop_images/modern_design.webp"
           }
         }
@@ -522,7 +492,6 @@
     "about_story",
     "2into9_about_story_sections_jy7biA",
     "section_D9wgKi",
-    "about_mission_RUNf8Q",
     "about_mission",
     "about_features"
   ]

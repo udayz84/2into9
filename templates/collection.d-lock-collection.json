@@ -60,16 +60,16 @@
           "type": "benefit",
           "settings": {
             "icon": "shopify://shop_images/access-control.png",
-            "title": "Cross-Lock Support System",
-            "text": "The front straps cross over the pouch to add support and limit unwanted movement when you run, bend, stretch, or play."
+            "title": "Single Garment",
+            "text": "All the support you need, built into one cricket-ready trunk."
           }
         },
         "benefit_pBht6y": {
           "type": "benefit",
           "settings": {
             "icon": "shopify://shop_images/wind.png",
-            "title": "Better Airflow",
-            "text": "The breathable fabric allows better airflow and helps reduce the heat and discomfort that can come with long hours of play and multiple layers."
+            "title": "Secure Hold",
+            "text": "Helps keep the box steady through sprints, stretches, and quick movement."
           }
         }
       },

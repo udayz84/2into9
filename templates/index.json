@@ -16,7 +16,7 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/Banner_1_1.webp",
-            "image_mobile": "shopify://shop_images/banner_1_mobile.webp",
+            "image_mobile": "shopify://shop_images/home_banner_1_mobile.webp",
             "mobile_image_asset": "hero-mobile-1.jpg",
             "image_alt": "D-Lock",
             "subheading": "THE EVERYDAY ESSENTIAL",
@@ -29,7 +29,7 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/Banner_2_D_lock.webp",
-            "image_mobile": "shopify://shop_images/banner_2_mobile.webp",
+            "image_mobile": "shopify://shop_images/home_banner_2_mobile.webp",
             "mobile_image_asset": "hero-mobile-2.jpg",
             "image_alt": "",
             "subheading": "THE NEW D-LOCK",

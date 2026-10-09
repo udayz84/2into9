@@ -17,7 +17,7 @@
         "announcement_BxgCk9": {
           "type": "_announcement",
           "settings": {
-            "text": "Complimentary shipping within India. No tariffs apply.",
+            "text": "Stay Tuned! We’re Launching Worldwide Soon.",
             "link": "",
             "font": "var(--font-subheading--family)",
             "font_size": "0.7rem",
@@ -31,7 +31,6 @@
       "block_order": [
         "announcement_BxgCk9"
       ],
-      "disabled": true,
       "custom_css": [
         ".announcement-bar {border-block-end: none; background-color: #000 !important; color: #fff !important;}"
       ],

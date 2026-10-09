@@ -31,6 +31,7 @@
       "block_order": [
         "announcement_BxgCk9"
       ],
+      "disabled": true,
       "custom_css": [
         ".announcement-bar {border-block-end: none; background-color: #000 !important; color: #fff !important;}"
       ],
@@ -111,7 +112,7 @@
         "color_scheme_bottom": "",
         "color_scheme_transparent": "scheme-6",
         "enable_transparent_header_home": true,
-        "home_color_scheme": "inverse",
+        "home_color_scheme": "default",
         "enable_transparent_header_product": true,
         "product_color_scheme": "inverse",
         "enable_transparent_header_collection": true,

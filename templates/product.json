@@ -195,7 +195,7 @@
           "type": "card",
           "settings": {
             "label": "Kids",
-            "image": "shopify://shop_images/why_section_kid.webp",
+            "image": "shopify://shop_images/why-choose-kid.webp",
             "link": "shopify://collections/kids",
             "button_label": "Shop Now",
             "feature_1": "",

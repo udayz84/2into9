@@ -99,6 +99,7 @@
         "reviews_url": "",
         "reviews_badge_text": "65K+ 5 Star Reviews",
         "guarantee_badge_text": "Love them or they're free",
+        "size_selector_heading": "SELECT YOUR SIZE",
         "find_fit_text": "Find my Fit",
         "find_fit_url": "/pages/sizing",
         "single_label": "Single Colour",
@@ -194,7 +195,7 @@
           "type": "card",
           "settings": {
             "label": "Kids",
-            "image": "shopify://shop_images/kids_solid_f5cb069d-ee51-466c-9538-08c038ce21d9.webp",
+            "image": "shopify://shop_images/why_section_kid.webp",
             "link": "shopify://collections/kids",
             "button_label": "Shop Now",
             "feature_1": "",

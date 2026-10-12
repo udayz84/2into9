@@ -59,7 +59,6 @@
         "benefit_VTbqAg": {
           "type": "benefit",
           "settings": {
-            "icon": "shopify://shop_images/access-control.png",
             "title": "Single Garment",
             "text": "All the support you need, built into one cricket-ready trunk."
           }
@@ -67,7 +66,6 @@
         "benefit_pBht6y": {
           "type": "benefit",
           "settings": {
-            "icon": "shopify://shop_images/wind.png",
             "title": "Secure Hold",
             "text": "Helps keep the box steady through sprints, stretches, and quick movement."
           }

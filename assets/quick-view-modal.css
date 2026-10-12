@@ -472,10 +472,10 @@ dialog.qv-modal.is-closing .qv-modal__panel {
   border-style: dashed;
 }
 
-/* Stock & Quantity Row */
+/* Quantity Row */
 .qv-inventory-qty-row {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
   gap: 12px;

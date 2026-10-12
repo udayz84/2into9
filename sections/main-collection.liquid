@@ -330,11 +330,16 @@
     background-color: transparent;
   }
 
-  /* One CTA per card on mobile: hide the floating quick-add over the image */
-  @media screen and (max-width: 1023px) {
-    .main-collection-grid .card-gallery quick-add-component {
-      display: none;
-    }
+  /* Hide floating quick-add icon over product images for all screen sizes */
+  .main-collection-grid .card-gallery quick-add-component,
+  .main-collection-grid .card-gallery .quick-add,
+  .main-collection-grid .card-gallery .quick-add__button,
+  .main-collection-grid .product-card quick-add-component,
+  .main-collection-grid .product-card .quick-add {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    opacity: 0 !important;
   }
 
   .main-collection-grid .card-gallery .product-media-container :is(img, svg) {

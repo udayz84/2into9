@@ -178,8 +178,16 @@
     display: none;
   }
 
-  /* Hide "Choose" button when "Add" button is shown */
-  [data-quick-add-button='add'] .quick-add__button--choose {
-    display: none;
+  /* Hide floating quick-add icon button on product images */
+  .product-card quick-add-component,
+  .product-card .quick-add,
+  .product-card .quick-add__button,
+  .card-gallery quick-add-component,
+  .card-gallery .quick-add,
+  .card-gallery .quick-add__button {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    opacity: 0 !important;
   }
 {% endstylesheet %}

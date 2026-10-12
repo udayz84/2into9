@@ -59,17 +59,15 @@
         "benefit_VTbqAg": {
           "type": "benefit",
           "settings": {
-            "icon": "shopify://shop_images/access-control.png",
-            "title": "Cross-Lock Support System",
-            "text": "The front straps cross over the pouch to add support and limit unwanted movement when you run, bend, stretch, or play."
+            "title": "Single Garment",
+            "text": "All the support you need, built into one cricket-ready trunk."
           }
         },
         "benefit_pBht6y": {
           "type": "benefit",
           "settings": {
-            "icon": "shopify://shop_images/wind.png",
-            "title": "Better Airflow",
-            "text": "The breathable fabric allows better airflow and helps reduce the heat and discomfort that can come with long hours of play and multiple layers."
+            "title": "Secure Hold",
+            "text": "Helps keep the box steady through sprints, stretches, and quick movement."
           }
         }
       },
@@ -111,29 +109,29 @@
         "feature_WxGC4M": {
           "type": "feature",
           "settings": {
-            "title": "Purpose-Built Box Pouch",
-            "text": "A dedicated pouch keeps your cricket box positioned close to the body while allowing it to be inserted and removed when needed."
+            "title": "Integrated Box Pouch",
+            "text": "The built-in pouch holds a compatible cricket box securely inside the underwear, making it easier to move around the field. Insert the box via a concealed internal opening."
           }
         },
         "feature_tgHnHF": {
           "type": "feature",
           "settings": {
-            "title": "Breathable Construction",
-            "text": "Designed to improve airflow around high-heat areas and provide a lighter, more comfortable feel during long sessions."
+            "title": "Better Airflow",
+            "text": "The breathable fabric improves airflow and helps reduce heat and discomfort during long hours of play and multiple layers."
           }
         },
         "feature_LrUhJh": {
           "type": "feature",
           "settings": {
-            "title": "Secure Lock-In Support",
-            "text": "Strategically positioned support straps help minimise shifting during running, batting, fielding and other high-movement situations."
+            "title": "Cross-Lock Support System",
+            "text": "The front straps cross over the pouch to add support and limit unwanted movement when you run, bend, stretch, or play."
           }
         },
         "feature_z9PxRD": {
           "type": "feature",
           "settings": {
-            "title": "Freshness Support",
-            "text": "Anti-bacterial and anti-odour fabric treatment helps manage odour build-up caused by sweat and repeated wear."
+            "title": "Odour Control",
+            "text": "Bamboo fabric helps reduce odor-causing bacteria, keeping the underwear fresher, cleaner, and more comfortable through long hours of wear."
           }
         }
       },

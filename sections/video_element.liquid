@@ -47,7 +47,7 @@
         playsinline: true,
         autoplay: true,
         loop: true,
-        muted: true,
+        muted: false,
         controls: false,
         preload: 'auto'
     }}
@@ -678,112 +678,269 @@
 
 
 <script>
-  document
-    .querySelectorAll('[data-vm-root]')
-    .forEach(function (root) {
+document.addEventListener('DOMContentLoaded', function () {
 
-      var video =
-        root.querySelector('video');
+  document.querySelectorAll('[data-vm-root]').forEach(function (root) {
 
-      var soundBtn =
-        root.querySelector(
-          '[data-vm-sound]'
-        );
+    const video = root.querySelector('video');
+    const soundBtn = root.querySelector('[data-vm-sound]');
 
+    if (!video) return;
 
-      if (!video) return;
+    video.autoplay = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.volume = 1;
 
+    /*
+     * ----------------------------------------
+     * TRY AUTOPLAY WITH SOUND FIRST
+     * ----------------------------------------
+     */
+    function tryPlayWithSound() {
 
-      /*
-       * Autoplay setup
-       */
+      video.muted = false;
+      video.volume = 1;
 
-      video.muted = true;
+      const playPromise = video.play();
 
-      video.autoplay = true;
+      if (playPromise !== undefined) {
 
-      video.loop = true;
+        playPromise
+          .then(function () {
 
-      video.playsInline = true;
+            /* Browser allowed autoplay with sound */
+            root.classList.add('sound-on');
 
-
-      video
-        .play()
-        .catch(function () {
-          /*
-           * Some browsers may
-           * prevent autoplay.
-           */
-        });
-
-
-      /*
-       * Sound control
-       */
-
-      if (soundBtn) {
-
-        soundBtn.addEventListener(
-          'click',
-          function () {
-
-            if (video.muted) {
-
-              video.muted = false;
-
-              root.classList.add(
-                'sound-on'
-              );
-
+            if (soundBtn) {
               soundBtn.setAttribute(
                 'aria-label',
                 'Turn sound off'
               );
+            }
 
+          })
+          .catch(function () {
 
-              video
-                .play()
-                .catch(function () {});
+            /*
+             * Browser blocked autoplay with sound.
+             * Fall back to muted autoplay.
+             */
 
-            } else {
+            video.muted = true;
 
-              video.muted = true;
+            root.classList.remove('sound-on');
 
-              root.classList.remove(
-                'sound-on'
-              );
-
+            if (soundBtn) {
               soundBtn.setAttribute(
                 'aria-label',
                 'Turn sound on'
               );
-
             }
 
-          }
-        );
+            video.play().catch(function () {});
+
+          });
 
       }
 
+    }
 
-      /*
-       * Ensure loop
-       */
 
-      video.addEventListener(
-        'ended',
-        function () {
+    /*
+     * Run immediately
+     */
+    tryPlayWithSound();
 
-          video.currentTime = 0;
 
-          video
-            .play()
-            .catch(function () {});
+
+    /*
+     * ----------------------------------------
+     * ENABLE SOUND AFTER FIRST USER INTERACTION
+     *
+     * Required for Safari / Chrome / iOS /
+     * Android when unmuted autoplay is blocked.
+     * ----------------------------------------
+     */
+
+    function enableSoundAfterInteraction() {
+
+      if (video.muted) {
+
+        video.muted = false;
+        video.volume = 1;
+
+        video.play().catch(function () {});
+
+        root.classList.add('sound-on');
+
+        if (soundBtn) {
+
+          soundBtn.setAttribute(
+            'aria-label',
+            'Turn sound off'
+          );
+
+        }
+
+      }
+
+      removeInteractionListeners();
+
+    }
+
+
+    function removeInteractionListeners() {
+
+      document.removeEventListener(
+        'click',
+        enableSoundAfterInteraction
+      );
+
+      document.removeEventListener(
+        'touchstart',
+        enableSoundAfterInteraction
+      );
+
+      document.removeEventListener(
+        'pointerdown',
+        enableSoundAfterInteraction
+      );
+
+      document.removeEventListener(
+        'keydown',
+        enableSoundAfterInteraction
+      );
+
+    }
+
+
+    document.addEventListener(
+      'click',
+      enableSoundAfterInteraction,
+      { once: true }
+    );
+
+    document.addEventListener(
+      'touchstart',
+      enableSoundAfterInteraction,
+      {
+        once: true,
+        passive: true
+      }
+    );
+
+    document.addEventListener(
+      'pointerdown',
+      enableSoundAfterInteraction,
+      {
+        once: true,
+        passive: true
+      }
+    );
+
+    document.addEventListener(
+      'keydown',
+      enableSoundAfterInteraction,
+      { once: true }
+    );
+
+
+
+    /*
+     * ----------------------------------------
+     * SOUND BUTTON
+     * ----------------------------------------
+     */
+
+    if (soundBtn) {
+
+      soundBtn.addEventListener(
+        'click',
+        function (event) {
+
+          event.preventDefault();
+          event.stopPropagation();
+
+          if (video.muted) {
+
+            video.muted = false;
+            video.volume = 1;
+
+            root.classList.add('sound-on');
+
+            soundBtn.setAttribute(
+              'aria-label',
+              'Turn sound off'
+            );
+
+            video.play().catch(function () {});
+
+          } else {
+
+            video.muted = true;
+
+            root.classList.remove('sound-on');
+
+            soundBtn.setAttribute(
+              'aria-label',
+              'Turn sound on'
+            );
+
+          }
 
         }
       );
 
-    });
+    }
+
+
+
+    /*
+     * ----------------------------------------
+     * KEEP VIDEO LOOPING
+     * ----------------------------------------
+     */
+
+    video.addEventListener(
+      'ended',
+      function () {
+
+        video.currentTime = 0;
+
+        video.play().catch(function () {});
+
+      }
+    );
+
+
+
+    /*
+     * ----------------------------------------
+     * TAB VISIBILITY
+     * Resume playback if user comes back
+     * ----------------------------------------
+     */
+
+    document.addEventListener(
+      'visibilitychange',
+      function () {
+
+        if (
+          document.visibilityState === 'visible' &&
+          video.paused
+        ) {
+
+          video.play().catch(function () {});
+
+        }
+
+      }
+    );
+
+  });
+
+});
 </script>
 
 

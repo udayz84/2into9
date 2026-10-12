@@ -247,12 +247,11 @@
 
           {%- if block_settings.show_quick_add_button and template.name != 'product' -%}
             <button
-              type="submit"
-              name="add"
+              type="button"
               class="product-card__quick-add"
-              {% unless can_add_to_cart %}
-                disabled
-              {% endunless %}
+              data-quick-view-open="quick-view-modal-{{ product.id }}-{{ block.id }}"
+              aria-haspopup="dialog"
+              aria-expanded="false"
             >
               {{ block_settings.quick_add_label | default: 'Quick Add +' }}
             </button>
@@ -274,6 +273,10 @@
         </div>
       {%- endform -%}
     </product-form-component>
+
+    {%- if block_settings.show_quick_add_button and template.name != 'product' and product != blank -%}
+      {% render 'quick-view-modal', product: product, block_id: block.id %}
+    {%- endif -%}
   {%- else -%}
     <div class="product-form-buttons">
       <button

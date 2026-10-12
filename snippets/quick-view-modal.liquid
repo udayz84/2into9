@@ -1,0 +1,313 @@
+{%- doc -%}
+  Renders a quick-view / quick-add popup modal for a product card.
+  @param {object} product - The product object
+  @param {string} block_id - The block id for uniqueness
+{%- enddoc -%}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign modal_id = 'quick-view-modal-' | append: product.id | append: '-' | append: block_id
+
+  assign on_sale = false
+  if current_variant.compare_at_price > current_variant.price
+    assign on_sale = true
+    assign discount_percent = current_variant.compare_at_price | minus: current_variant.price | times: 100.0 | divided_by: current_variant.compare_at_price | round
+  endif
+
+  # Card / product badge
+  assign badge_text = product.metafields.custom.badge_label
+  if badge_text == blank
+    if product.tags contains 'limited edition' or product.tags contains 'limited'
+      assign badge_text = 'Limited Edition'
+    elsif on_sale
+      assign badge_text = 'Sale'
+    endif
+  endif
+
+  # Brief description
+  assign brief_desc = product.description | strip_html | truncatewords: 28
+-%}
+
+<dialog
+  id="{{ modal_id }}"
+  class="qv-modal"
+  aria-modal="true"
+  aria-labelledby="{{ modal_id }}-title"
+  data-product-id="{{ product.id }}"
+  data-product-handle="{{ product.handle }}"
+>
+  <div class="qv-modal__overlay" data-qv-close></div>
+
+  <div class="qv-modal__panel" role="document">
+    <button type="button" class="qv-modal__close-btn" data-qv-close aria-label="Close dialog">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <div class="qv-modal__layout">
+      <!-- LEFT COLUMN: MEDIA GALLERY -->
+      <div class="qv-modal__media-col">
+        <div class="qv-media-stage">
+          {%- if badge_text != blank -%}
+            <span class="qv-media-badge">{{ badge_text }}</span>
+          {%- endif -%}
+
+          <div class="qv-media-image-wrap">
+            {%- assign main_img = current_variant.featured_image | default: product.featured_image -%}
+            {%- if main_img != blank -%}
+              <img
+                src="{{ main_img | image_url: width: 800 }}"
+                alt="{{ product.title | escape }}"
+                class="qv-media-main-img"
+                width="800"
+                height="800"
+                loading="eager"
+              >
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'qv-media-placeholder' }}
+            {%- endif -%}
+          </div>
+        </div>
+
+        {%- if product.images.size > 1 -%}
+          <div class="qv-media-thumbs" role="tablist" aria-label="Product thumbnails">
+            {%- for image in product.images limit: 5 -%}
+              <button
+                type="button"
+                class="qv-thumb-btn{% if forloop.first %} is-active{% endif %}"
+                data-img-src="{{ image | image_url: width: 800 }}"
+                aria-label="Image {{ forloop.index }} of {{ product.images.size }}"
+              >
+                <img
+                  src="{{ image | image_url: width: 120 }}"
+                  alt="{{ product.title | escape }}"
+                  width="60"
+                  height="60"
+                  loading="lazy"
+                >
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <!-- RIGHT COLUMN: PRODUCT INFO & ACTIONS -->
+      <div class="qv-modal__info-col">
+        <div class="qv-info-header">
+          <div class="qv-info-brand">2INTO9 {% if product.type != blank %}• {{ product.type | upcase }}{% endif %}</div>
+          <h2 id="{{ modal_id }}-title" class="qv-info-title">
+            <a href="{{ product.url }}" class="qv-title-link">{{ product.title }}</a>
+          </h2>
+
+          <div class="qv-rating-bar">
+            <span class="qv-stars">★★★★★</span>
+            <span class="qv-rating-score">4.9</span>
+            <span class="qv-rating-count">(Over 10,000+ Men Wearing)</span>
+          </div>
+
+          <div class="qv-price-box">
+            <span class="qv-price-current">{{ current_variant.price | money }}</span>
+            <span class="qv-price-compare{% unless on_sale %} hidden{% endunless %}">
+              {{ current_variant.compare_at_price | money }}
+            </span>
+            <span class="qv-price-discount{% unless on_sale %} hidden{% endunless %}">
+              SAVE {{ discount_percent }}%
+            </span>
+          </div>
+          <div class="qv-tax-note">Inclusive of all taxes • Free shipping eligible</div>
+        </div>
+
+        <div class="qv-divider"></div>
+
+        <!-- BRIEF DETAIL & FEATURES -->
+        <div class="qv-details-section">
+          <div class="qv-section-label">PRODUCT OVERVIEW</div>
+          {%- if brief_desc != blank -%}
+            <p class="qv-description-text">{{ brief_desc }}</p>
+          {%- else -%}
+            <p class="qv-description-text">Experience next-level comfort with ultra-soft breathable fabric, anti-chafing ergonomic fit, and our stay-put waistband engineered for all-day support.</p>
+          {%- endif -%}
+
+          <div class="qv-feature-chips">
+            <div class="qv-chip">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Bamboo MicroModal Softness</span>
+            </div>
+            <div class="qv-chip">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Anti-Chafe 3D Contour Pouch</span>
+            </div>
+            <div class="qv-chip">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Anti-Roll Microfiber Band</span>
+            </div>
+            <div class="qv-chip">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Moisture-Wicking & Breathable</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="qv-divider"></div>
+
+        <!-- VARIANT / SIZE SELECTOR -->
+        {%- unless product.has_only_default_variant -%}
+          <div class="qv-variants-section">
+            {%- for option in product.options_with_values -%}
+              <div class="qv-option-group" data-option-index="{{ forloop.index0 }}">
+                <div class="qv-option-header">
+                  <span class="qv-option-name">{{ option.name }}:</span>
+                  <span class="qv-option-selected-val">{{ current_variant.options[forloop.index0] }}</span>
+                </div>
+                <div class="qv-option-values">
+                  {%- for value in option.values -%}
+                    {%- assign option_index = forloop.parentloop.index0 -%}
+                    {%- assign is_selected = false -%}
+                    {%- if current_variant.options[option_index] == value -%}
+                      {%- assign is_selected = true -%}
+                    {%- endif -%}
+                    <button
+                      type="button"
+                      class="qv-val-pill{% if is_selected %} is-selected{% endif %}"
+                      data-option-index="{{ option_index }}"
+                      data-option-value="{{ value | escape }}"
+                    >
+                      {{ value }}
+                    </button>
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endunless -%}
+
+        <!-- STOCK & QUANTITY ROW -->
+        <div class="qv-inventory-qty-row">
+          <div class="qv-stock-badge{% unless current_variant.available %} is-sold-out{% endunless %}">
+            <span class="qv-stock-dot"></span>
+            <span class="qv-stock-label">
+              {%- if current_variant.available -%}
+                In Stock — Ready to Ship
+              {%- else -%}
+                Sold Out
+              {%- endif -%}
+            </span>
+          </div>
+
+          <div class="qv-qty-picker">
+            <span class="qv-qty-title">Qty:</span>
+            <div class="qv-qty-controls">
+              <button type="button" class="qv-qty-btn qv-qty-minus" aria-label="Decrease quantity">−</button>
+              <input type="number" class="qv-qty-input" value="1" min="1" max="10" aria-label="Quantity">
+              <button type="button" class="qv-qty-btn qv-qty-plus" aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="qv-actions">
+          <!-- BUY IT NOW BUTTON -->
+          <button
+            type="button"
+            class="qv-btn qv-btn--buy-now"
+            data-qv-buy-now
+            {% unless current_variant.available %}disabled{% endunless %}
+          >
+            <span class="qv-btn-text">
+              {%- if current_variant.available -%}
+                BUY IT NOW
+              {%- else -%}
+                SOLD OUT
+              {%- endif -%}
+            </span>
+            <svg class="qv-btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+          </button>
+
+          <!-- ADD TO CART BUTTON -->
+          <button
+            type="button"
+            class="qv-btn qv-btn--add-to-cart"
+            data-qv-add-cart
+            {% unless current_variant.available %}disabled{% endunless %}
+          >
+            <span class="qv-btn-text">
+              {%- if current_variant.available -%}
+                ADD TO CART
+              {%- else -%}
+                OUT OF STOCK
+              {%- endif -%}
+            </span>
+          </button>
+
+          <!-- VIEW FULL PRODUCT DETAILS LINK -->
+          <a
+            href="{{ current_variant.url | default: product.url }}"
+            class="qv-view-product-btn"
+            data-qv-view-product
+          >
+            <span>VIEW FULL PRODUCT DETAILS</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+
+        <!-- TRUST PERKS -->
+        <div class="qv-trust-perks">
+          <div class="qv-perk-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="1" y="3" width="15" height="13"></rect>
+              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+              <circle cx="5.5" cy="18.5" r="2.5"></circle>
+              <circle cx="18.5" cy="18.5" r="2.5"></circle>
+            </svg>
+            <span>Free Shipping Across India</span>
+          </div>
+          <div class="qv-perk-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="23 4 23 10 17 10"></polyline>
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+            </svg>
+            <span>7-Day Easy Exchange</span>
+          </div>
+          <div class="qv-perk-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <span>100% Secure Checkout</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EMBEDDED JSON FOR INSTANT VARIANT SWITCHING -->
+  <script type="application/json" class="qv-variants-json">
+    [
+      {%- for variant in product.variants -%}
+        {
+          "id": {{ variant.id }},
+          "title": {{ variant.title | json }},
+          "options": {{ variant.options | json }},
+          "available": {{ variant.available | json }},
+          "price": {{ variant.price }},
+          "price_formatted": {{ variant.price | money | json }},
+          "compare_at_price": {{ variant.compare_at_price | default: 0 }},
+          "compare_at_price_formatted": {{ variant.compare_at_price | money | json }},
+          {%- if variant.featured_image -%}
+            "image_src": {{ variant.featured_image | image_url: width: 800 | json }},
+          {%- else -%}
+            "image_src": null,
+          {%- endif -%}
+          "url": {{ variant.url | json }}
+        }{%- unless forloop.last -%},{%- endunless -%}
+      {%- endfor -%}
+    ]
+  </script>
+</dialog>

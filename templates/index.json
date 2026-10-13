@@ -84,7 +84,9 @@
         "product_2",
         "product_3"
       ],
-      "custom_css": [],
+      "custom_css": [
+        ".hero2__slide:nth-child(3) .hero2__eyebrow,.hero2__slide:nth-child(3) .hero2__heading {color: black;}"
+      ],
       "name": "Homepage Hero",
       "settings": {
         "fallback_image": "",

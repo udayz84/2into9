@@ -188,6 +188,9 @@ class ProductHero extends HTMLElement {
       this.state.variantId ||
       this.dataset.variantId;
 
+    this.state.quantity =
+      this.state.quantity || 1;
+
     this.currentVariantPrice = 0;
 
     this.currentVariantId =
@@ -1744,9 +1747,8 @@ class ProductHero extends HTMLElement {
         this.state.priceEach =
           firstBundle.dataset.priceEach || '';
       } else {
-        this.state.quantity =
-          this.state.quantity ||
-          1;
+        this.state.quantity = 1;
+        this.state.priceEach = '';
       }
 
     }
@@ -1791,7 +1793,9 @@ class ProductHero extends HTMLElement {
      * The initial quantity comes from the
      * checked bundle — exact, no clamping.
      */
-    this.state.quantityFromBundle = true;
+    if (checkedBundle || this.querySelector('.ph-bundle__input')) {
+      this.state.quantityFromBundle = true;
+    }
 
     this.emit();
 

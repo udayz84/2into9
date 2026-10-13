@@ -37,9 +37,29 @@
 >
   <div class="pcb__buy-col">
     {%- if colour_option -%}
+      {%- liquid
+        assign step_num = 1
+        assign size_option = null
+        for option in product.options_with_values
+          assign opt_name = option.name | downcase
+          if opt_name contains 'size'
+            assign size_option = option
+            break
+          endif
+        endfor
+        if size_option
+          assign step_num = step_num | plus: 1
+        endif
+        for block in section.blocks
+          if block.type == 'bundle'
+            assign step_num = step_num | plus: 1
+            break
+          endif
+        endfor
+      -%}
       <div class="ph-step__header" style="margin-top: 14px; margin-bottom: 8px;">
         <span class="ph-step__label">
-          <span class="ph-step__num">3.</span> SELECT YOUR COLOUR
+          <span class="ph-step__num">{{ step_num }}.</span> SELECT YOUR COLOUR
         </span>
       </div>
 
@@ -220,14 +240,14 @@
           <span class="pcb-progress__counter">
             <span data-selected-count>1</span>
             /
-            <span data-total-count>15</span>
+            <span data-total-count>1</span>
           </span>
         </div>
         <div
           class="pcb-progress__track"
           role="progressbar"
           aria-valuemin="0"
-          aria-valuemax="15"
+          aria-valuemax="1"
         >
           <div
             class="pcb-progress__fill"
@@ -252,7 +272,7 @@
           class="pcb-quantity__value"
           data-main-count
         >
-          15
+          1
         </span>
         <button
           type="button"

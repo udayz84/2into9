@@ -39,6 +39,7 @@
   style="--ph-padding-inline: {{ section.settings.page_padding }}px;"
   data-section-id="{{ section.id }}"
   data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+  data-base-variant-price="{{ product.selected_or_first_available_variant.price }}"
 >
   {%- if section.settings.bg_text != blank -%}
     <span class="ph__bg-text" aria-hidden="true">{{ section.settings.bg_text }}</span>

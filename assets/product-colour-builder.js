@@ -6,7 +6,7 @@
 //     this.tiles = Array.from(this.querySelectorAll('[data-tile]'));
 //     this.thumbs = Array.from(this.querySelectorAll('[data-colour-thumb]'));
 //     this.state = window.__2into9PDP || (window.__2into9PDP = {});
-//     this.state.quantity = this.state.quantity || 15;
+//     this.state.quantity = this.state.quantity || 1;
 //     this.mode = 'single';
 //     this.filter = 'grid';
 //     this.variants = [];
@@ -187,7 +187,7 @@
 //   }
 
 //   target() {
-//     return this.state.quantity || 15;
+//     return this.state.quantity || 1;
 //   }
 
 //   selectedSum() {
@@ -305,12 +305,6 @@ class ProductColourBuilder extends HTMLElement {
 
     this.state = window.__2into9PDP || (window.__2into9PDP = {});
 
-    this.state.quantity = this.state.quantity || 15;
-
-    this.mode = 'single';
-    this.filter = 'grid';
-    this.variants = [];
-
     /*
      * COMBO SETTINGS
      *
@@ -322,6 +316,14 @@ class ProductColourBuilder extends HTMLElement {
      */
     this.isCombo = this.dataset.isCombo === 'true';
     this.comboMinimum = 5;
+
+    this.state.quantity =
+      this.state.quantity ||
+      (this.isCombo ? this.comboMinimum : 1);
+
+    this.mode = 'single';
+    this.filter = 'grid';
+    this.variants = [];
 
     /*
      * True while the quantity reflects an
@@ -358,7 +360,7 @@ class ProductColourBuilder extends HTMLElement {
         this.bundleOverride = false;
 
         this.state.quantity =
-          event.detail.quantity || this.state.quantity;
+          event.detail.quantity || this.state.quantity || (this.isCombo ? this.comboMinimum : 1);
 
         /*
          * COMBO:
@@ -838,7 +840,7 @@ class ProductColourBuilder extends HTMLElement {
       );
     }
 
-    return this.state.quantity || 15;
+    return this.state.quantity || 1;
   }
 
   /*

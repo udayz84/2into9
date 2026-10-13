@@ -178,30 +178,6 @@
         "panel_2_asset": "panel-dlock.jpg"
       }
     },
-    "image_text_promo_Vb5cWq": {
-      "type": "image-text-promo",
-      "name": "Men's Trunk Promo",
-      "settings": {
-        "image_alt": "",
-        "image_link": "shopify://collections/men",
-        "image_link_label": "",
-        "fallback_asset": "",
-        "small_image": "shopify://shop_images/blue_2into9.webp",
-        "small_image_alt": "",
-        "small_image_width": 85,
-        "promo_border_color": "#253257",
-        "promo_border_width": 0,
-        "promo_box_width": 78,
-        "heading": "Men's Trunk",
-        "shop_label": "SHOP NOW",
-        "link": "shopify://products/the-captain-mens-trunk",
-        "text_side": "right",
-        "gap_top": 0,
-        "gap_bottom": 0,
-        "heading_size": 34,
-        "inset_vw": 16
-      }
-    },
     "image_text_promo_Addbdw": {
       "type": "image-text-promo",
       "name": "Men's Trunk Promo",
@@ -223,6 +199,30 @@
         "text_side": "left",
         "gap_top": 0,
         "gap_bottom": 16,
+        "heading_size": 34,
+        "inset_vw": 16
+      }
+    },
+    "image_text_promo_Vb5cWq": {
+      "type": "image-text-promo",
+      "name": "Men's Trunk Promo",
+      "settings": {
+        "image_alt": "",
+        "image_link": "shopify://collections/men",
+        "image_link_label": "",
+        "fallback_asset": "",
+        "small_image": "shopify://shop_images/blue_2into9.webp",
+        "small_image_alt": "",
+        "small_image_width": 85,
+        "promo_border_color": "#253257",
+        "promo_border_width": 0,
+        "promo_box_width": 78,
+        "heading": "Men's Trunk",
+        "shop_label": "SHOP NOW",
+        "link": "shopify://products/the-captain-mens-trunk",
+        "text_side": "right",
+        "gap_top": 0,
+        "gap_bottom": 0,
         "heading_size": 34,
         "inset_vw": 16
       }
@@ -548,10 +548,10 @@
     "custom_hero_QUJzBj",
     "scrolling_banner_Kd9wLm",
     "category_split_Bn3RtY",
-    "image_text_promo_Vb5cWq",
     "image_text_promo_Addbdw",
     "image_text_promo_MxkLJL",
     "video_element_pzijy6",
+    "image_text_promo_Vb5cWq",
     "image_text_promo_Lm9xZv",
     "category_split_NGGdRd",
     "image_text_promo_Kd4mNp",

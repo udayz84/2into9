@@ -1984,6 +1984,24 @@
     outline-offset: 3px;
   }
 
+  /* Mixed colours: locked until the colour selection
+     exactly matches the chosen quantity */
+  .pcb-atc__btn:disabled,
+  .pcb-atc__btn.is-disabled {
+    background: linear-gradient(180deg, #d8d8d8 0%, #bfbfbf 100%);
+    color: rgba(255, 255, 255, 0.9);
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
+    filter: none;
+    pointer-events: none;
+  }
+
+  .pcb-atc__btn:disabled::after,
+  .pcb-atc__btn.is-disabled::after {
+    display: none;
+  }
+
   .pcb-atc__btn-inner {
     display: inline-flex;
     align-items: center;

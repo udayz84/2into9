@@ -46,6 +46,17 @@
     assign mobile_img = desktop_img
   endif
 
+  # Height modes — when true, section height follows the natural ratio of the rendered image
+  assign desktop_adapt = false
+  if section.settings.desktop_height_mode == 'adapt'
+    assign desktop_adapt = true
+  endif
+
+  assign mobile_adapt = false
+  if section.settings.mobile_height_mode == 'adapt'
+    assign mobile_adapt = true
+  endif
+
   # Eyebrow text
   assign eyebrow = collection.metafields.custom.hero_eyebrow | default: section.settings.eyebrow_text
 
@@ -124,7 +135,10 @@
   endcase
 -%}
 
-<div class="collection-hero color-{{ section.settings.color_scheme }}" id="CollectionHero-{{ section.id }}">
+<div
+  class="collection-hero color-{{ section.settings.color_scheme }}{% if desktop_adapt %} collection-hero--adapt-desktop{% endif %}{% if mobile_adapt %} collection-hero--adapt-mobile{% endif %}"
+  id="CollectionHero-{{ section.id }}"
+>
   <div class="collection-hero__media" aria-hidden="true">
     {%- liquid
       assign has_custom_mobile = false
@@ -166,8 +180,6 @@
               src="{{ mobile_asset | asset_url }}"
               class="collection-hero__image"
               alt="{{ hero_title }}"
-              width="1000"
-              height="1000"
               loading="eager"
               fetchpriority="high"
             >
@@ -289,13 +301,12 @@
     background-image: radial-gradient(circle at 30% 50%, rgba(38, 38, 48, 0.4) 0%, rgba(10, 10, 12, 0.95) 100%);
     {% case section.settings.desktop_height_mode %}
       {% when 'adapt' %}
-        {% if desktop_img != blank %}
-          aspect-ratio: {{ desktop_img.aspect_ratio }};
-          min-height: 320px;
-        {% else %}
-          min-height: 617px;
-          height: 617px;
-        {% endif %}
+        min-height: 320px;
+        height: auto;
+      {% when 'custom' %}
+        {% assign desktop_height_value = section.settings.desktop_height | default: 620 %}
+        min-height: {{ desktop_height_value }}px;
+        height: {{ desktop_height_value }}px;
       {% when 'small' %}
         min-height: 420px;
         height: 420px;
@@ -480,16 +491,9 @@
     #shopify-section-{{ section.id }} .collection-hero {
       {% case section.settings.mobile_height_mode %}
         {% when 'adapt' %}
-          {% if mobile_img != blank and mobile_img != desktop_img %}
-            aspect-ratio: {{ mobile_img.aspect_ratio }};
-            min-height: 220px;
-            height: auto;
-          {% else %}
-            height: 303px;
-            min-height: 303px;
-            max-height: 303px;
-            aspect-ratio: auto;
-          {% endif %}
+          min-height: 220px;
+          height: auto;
+          max-height: none;
         {% when 'square' %}
           aspect-ratio: 1 / 1;
           min-height: 300px;
@@ -572,6 +576,70 @@
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
     }
   }
+
+  {% if desktop_adapt %}
+    @media screen and (min-width: 750px) {
+      #shopify-section-{{ section.id }} .collection-hero.collection-hero--adapt-desktop {
+        display: block;
+        height: auto;
+      }
+
+      #shopify-section-{{ section.id }} .collection-hero--adapt-desktop .collection-hero__media {
+        position: static;
+        height: auto;
+      }
+
+      #shopify-section-{{ section.id }} .collection-hero--adapt-desktop .collection-hero__picture {
+        height: auto;
+      }
+
+      #shopify-section-{{ section.id }} .collection-hero--adapt-desktop .collection-hero__image {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+      }
+
+      #shopify-section-{{ section.id }} .collection-hero--adapt-desktop .collection-hero__inner {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: auto;
+        min-height: 320px;
+      }
+    }
+  {% endif %}
+
+  {% if mobile_adapt %}
+    @media screen and (max-width: 749px) {
+      #shopify-section-{{ section.id }} .collection-hero.collection-hero--adapt-mobile {
+        display: block;
+        height: auto;
+      }
+
+      #shopify-section-{{ section.id }} .collection-hero--adapt-mobile .collection-hero__media {
+        position: static;
+        height: auto;
+      }
+
+      #shopify-section-{{ section.id }} .collection-hero--adapt-mobile .collection-hero__picture {
+        height: auto;
+      }
+
+      #shopify-section-{{ section.id }} .collection-hero--adapt-mobile .collection-hero__image {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+      }
+
+      #shopify-section-{{ section.id }} .collection-hero--adapt-mobile .collection-hero__inner {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: auto;
+        min-height: 220px;
+      }
+    }
+  {% endif %}
 {% endstyle %}
 
 {% schema %}
@@ -613,10 +681,10 @@
       "type": "select",
       "id": "desktop_height_mode",
       "label": "Desktop height mode",
-      "default": "custom",
+      "default": "adapt",
       "options": [
+        { "value": "adapt", "label": "Adapt to image ratio" },
         { "value": "custom", "label": "Custom height (slider)" },
-        { "value": "adapt", "label": "Adapt to desktop image ratio" },
         { "value": "small", "label": "Small (420px)" },
         { "value": "medium", "label": "Medium (560px)" },
         { "value": "large", "label": "Large (720px)" },
@@ -671,10 +739,10 @@
       "type": "select",
       "id": "mobile_height_mode",
       "label": "Mobile height mode",
-      "default": "custom",
+      "default": "adapt",
       "options": [
+        { "value": "adapt", "label": "Adapt to image ratio" },
         { "value": "custom", "label": "Custom height (slider)" },
-        { "value": "adapt", "label": "Adapt to mobile image ratio" },
         { "value": "square", "label": "Square (1:1)" },
         { "value": "portrait", "label": "Portrait (4:5)" },
         { "value": "small", "label": "Small (260px)" },

@@ -912,13 +912,49 @@ class ProductColourBuilder extends HTMLElement {
 
     /*
      * -----------------------------------------------------
+     * MIXED MODE VALIDATION
+     * -----------------------------------------------------
+     *
+     * The mixed colour selection must total
+     * exactly the chosen quantity before
+     * anything is submitted to the cart.
+     */
+    if (
+      this.mode === 'mixed' &&
+      selectedTotal !== this.target()
+    ) {
+      this.updateAtcState();
+
+      if (this.atcText) {
+        const previousText =
+          this.atcText.textContent;
+
+        this.atcText.textContent =
+          `Select ${this.target() - selectedTotal} more`;
+
+        setTimeout(() => {
+          if (this.atcText) {
+            this.atcText.textContent =
+              previousText;
+          }
+        }, 2000);
+      }
+
+      return;
+    }
+
+    /*
+     * -----------------------------------------------------
      * COMBO VALIDATION
      * -----------------------------------------------------
      *
-     * Combo products require minimum 5 total quantity.
+     * Combo products require minimum 5 total
+     * quantity — unless an explicit bundle
+     * quantity was selected (1, 2, 3 Pairs).
      */
     if (
       this.isCombo &&
+      !this.bundleOverride &&
       selectedTotal < this.comboMinimum
     ) {
       this.updateAtcState();
@@ -969,10 +1005,12 @@ class ProductColourBuilder extends HTMLElement {
      */
     if (!items.length) {
       /*
-       * Extra combo protection.
+       * Extra combo protection — skipped for
+       * explicit bundle selections (1, 2, 3 Pairs).
        */
       if (
         this.isCombo &&
+        !this.bundleOverride &&
         this.target() < this.comboMinimum
       ) {
         this.updateAtcState();
@@ -989,9 +1027,13 @@ class ProductColourBuilder extends HTMLElement {
      * Safety check:
      *
      * The actual cart payload must also contain
-     * at least 5 total units for combo.
+     * at least 5 total units for combo — again,
+     * only when no explicit bundle was selected.
      */
-    if (this.isCombo) {
+    if (
+      this.isCombo &&
+      !this.bundleOverride
+    ) {
       const cartTotal = items.reduce(
         (total, item) =>
           total + Number(item.quantity || 0),
@@ -1116,39 +1158,50 @@ class ProductColourBuilder extends HTMLElement {
     const total =
       this.selectedSum();
 
+    const target =
+      this.target();
+
+    let disabled = false;
+
     /*
-     * Combo:
-     * disabled below 5.
+     * Combo: disabled below 5 — but ONLY
+     * when no explicit bundle quantity was
+     * picked. A bundle selection is exact:
+     * 1 Pair = 1, 2 Pairs = 2, 3 Pairs = 3.
      */
     if (
       this.isCombo &&
+      !this.bundleOverride &&
       total < this.comboMinimum
     ) {
-      this.atcBtn.disabled = true;
-      this.atcBtn.setAttribute(
-        'aria-disabled',
-        'true'
-      );
-
-      this.atcBtn.classList.add(
-        'is-disabled'
-      );
-
-      return;
+      disabled = true;
     }
 
     /*
-     * Normal state.
+     * MIXED MODE:
+     *
+     * The colours picked must add up to
+     * EXACTLY the quantity selected in
+     * step 2 (e.g. 10) before the customer
+     * can add to cart.
      */
-    this.atcBtn.disabled = false;
+    if (
+      this.mode === 'mixed' &&
+      total !== target
+    ) {
+      disabled = true;
+    }
+
+    this.atcBtn.disabled = disabled;
 
     this.atcBtn.setAttribute(
       'aria-disabled',
-      'false'
+      String(disabled)
     );
 
-    this.atcBtn.classList.remove(
-      'is-disabled'
+    this.atcBtn.classList.toggle(
+      'is-disabled',
+      disabled
     );
   }
 

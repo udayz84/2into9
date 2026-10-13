@@ -14,11 +14,11 @@
       "name": "Collection heading",
       "settings": {
         "desktop_image_position": "center center",
-        "desktop_height_mode": "custom",
+        "desktop_height_mode": "adapt",
         "desktop_height": 620,
         "mobile_asset_image": "collection-mobile-303.jpg",
         "mobile_image_position": "center center",
-        "mobile_height_mode": "custom",
+        "mobile_height_mode": "adapt",
         "mobile_height": 250,
         "toggle_overlay": true,
         "overlay_color": "#00000040",

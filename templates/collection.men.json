@@ -17,13 +17,14 @@
         "button_label": "SHOP NEW",
         "button_link": "",
         "desktop_height": 620,
+        "desktop_height_mode": "adapt",
         "color_scheme": "scheme-5",
         "toggle_overlay": true,
         "overlay_color": "#00000040",
         "overlay_style": "solid",
         "gradient_direction": "to top",
         "mobile_asset_image": "collection-mobile-303.jpg",
-        "mobile_height_mode": "custom",
+        "mobile_height_mode": "adapt",
         "mobile_height": 300,
         "mobile_content_position": "top-left"
       }

@@ -330,7 +330,10 @@ class ProductColourBuilder extends HTMLElement {
      * explicit bundle selection (bypasses
      * the combo minimum).
      */
-    this.bundleOverride = false;
+    this.bundleOverride = Boolean(
+      this.state.quantityFromBundle ||
+      this.state.bundleQuantity
+    );
   }
 
   connectedCallback() {
@@ -356,9 +359,9 @@ class ProductColourBuilder extends HTMLElement {
         this.bundleOverride = true;
         this.state.quantity =
           event.detail.quantity;
+        this.state.bundleQuantity =
+          event.detail.quantity;
       } else {
-        this.bundleOverride = false;
-
         this.state.quantity =
           event.detail.quantity || this.state.quantity || (this.isCombo ? this.comboMinimum : 1);
 
@@ -452,14 +455,17 @@ class ProductColourBuilder extends HTMLElement {
      * Total = 5
      */
     if (this.isCombo) {
-      this.tiles.slice(0, this.comboMinimum).forEach((tile) => {
+      const initialQuantity = this.target();
+
+      this.tiles.slice(0, initialQuantity).forEach((tile) => {
         this.quantities.set(tile, 1);
       });
 
       /*
-       * Combo target starts at 5.
+       * Keep the active bundle quantity when the
+       * builder is initialized again.
        */
-      this.state.quantity = this.comboMinimum;
+      this.state.quantity = initialQuantity;
 
       return;
     }
@@ -471,7 +477,12 @@ class ProductColourBuilder extends HTMLElement {
     const first = this.tiles[0];
 
     if (first) {
-      this.quantities.set(first, 1);
+      /*
+       * A bundle may have been selected before this component
+       * finished initializing. Keep that quantity on the active
+       * colour instead of restoring the one-pair default.
+       */
+      this.quantities.set(first, this.target());
     }
   }
 
@@ -689,13 +700,6 @@ class ProductColourBuilder extends HTMLElement {
       tile,
       nextValue
     );
-
-    /*
-     * Keep state quantity synchronized
-     * with the actual selected quantity.
-     */
-    this.state.quantity =
-      this.selectedSum();
 
     this.render();
   }

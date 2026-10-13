@@ -1058,6 +1058,14 @@ class ProductHero extends HTMLElement {
             this.state.quantityFromBundle =
               true;
 
+            /*
+             * Keep the bundle target available after this event.
+             * The colour builder can then retain it while customers
+             * switch between single and mixed colours.
+             */
+            this.state.bundleQuantity =
+              quantity;
+
             this.state.discount =
               discount;
 
@@ -1795,6 +1803,7 @@ class ProductHero extends HTMLElement {
      */
     if (checkedBundle || this.querySelector('.ph-bundle__input')) {
       this.state.quantityFromBundle = true;
+      this.state.bundleQuantity = this.state.quantity;
     }
 
     this.emit();

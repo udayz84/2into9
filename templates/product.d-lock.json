@@ -46,6 +46,7 @@
         },
         "bundle_1_pair": {
           "type": "bundle",
+          "disabled": true,
           "settings": {
             "pairs": "1 Pair",
             "discount_percent": 0,
@@ -55,6 +56,7 @@
         },
         "bundle_4_pairs": {
           "type": "bundle",
+          "disabled": true,
           "settings": {
             "pairs": "2 Pairs",
             "discount_percent": 5,
@@ -64,6 +66,7 @@
         },
         "bundle_most_popular": {
           "type": "bundle",
+          "disabled": true,
           "settings": {
             "pairs": "3 Pairs",
             "discount_percent": 10,
@@ -73,6 +76,7 @@
         },
         "bundle_best_value": {
           "type": "bundle",
+          "disabled": true,
           "settings": {
             "pairs": "5 Pairs",
             "discount_percent": 15,

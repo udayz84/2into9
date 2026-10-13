@@ -165,7 +165,7 @@
         "panel_1_image": "shopify://shop_images/mens_printed_Color_1.webp",
         "panel_1_heading": "Men's Printed Trunk",
         "panel_1_shop_label": "SHOP",
-        "panel_1_link": "shopify://products/venom-red-printed-trunk",
+        "panel_1_link": "#",
         "panel_1_align": "left",
         "panel_2_image": "shopify://shop_images/Mens_Solid_Color.webp",
         "panel_2_heading": "Men Solid Trunk",
@@ -203,37 +203,13 @@
         "inset_vw": 16
       }
     },
-    "image_text_promo_Vb5cWq": {
-      "type": "image-text-promo",
-      "name": "Men's Trunk Promo",
-      "settings": {
-        "image_alt": "",
-        "image_link": "shopify://collections/men",
-        "image_link_label": "",
-        "fallback_asset": "",
-        "small_image": "shopify://shop_images/blue_2into9.webp",
-        "small_image_alt": "",
-        "small_image_width": 85,
-        "promo_border_color": "#253257",
-        "promo_border_width": 0,
-        "promo_box_width": 78,
-        "heading": "Men's Trunk",
-        "shop_label": "SHOP NOW",
-        "link": "shopify://products/the-captain-mens-trunk",
-        "text_side": "right",
-        "gap_top": 0,
-        "gap_bottom": 0,
-        "heading_size": 34,
-        "inset_vw": 16
-      }
-    },
     "image_text_promo_MxkLJL": {
       "type": "image-text-promo",
       "name": "Men's Trunk Promo",
       "settings": {
         "image": "shopify://shop_images/LittleExplorerKidsBoxerBrief-OliveGreen02.webp",
         "image_alt": "",
-        "image_link": "shopify://collections/kids",
+        "image_link": "#",
         "image_link_label": "",
         "fallback_asset": "",
         "small_image": "shopify://shop_images/Kids_img.webp",
@@ -279,6 +255,30 @@
         "image_position": "top",
         "mirror": false,
         "fallback_asset": ""
+      }
+    },
+    "image_text_promo_Vb5cWq": {
+      "type": "image-text-promo",
+      "name": "Men's Trunk Promo",
+      "settings": {
+        "image_alt": "",
+        "image_link": "#",
+        "image_link_label": "",
+        "fallback_asset": "",
+        "small_image": "shopify://shop_images/blue_2into9.webp",
+        "small_image_alt": "",
+        "small_image_width": 85,
+        "promo_border_color": "#253257",
+        "promo_border_width": 0,
+        "promo_box_width": 78,
+        "heading": "Men's Trunk",
+        "shop_label": "SHOP NOW",
+        "link": "shopify://products/the-captain-mens-trunk",
+        "text_side": "right",
+        "gap_top": 0,
+        "gap_bottom": 0,
+        "heading_size": 34,
+        "inset_vw": 16
       }
     },
     "image_text_promo_Lm9xZv": {

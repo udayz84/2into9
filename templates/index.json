@@ -38,6 +38,19 @@
             "button_link": ""
           }
         },
+        "slide_LHHk7t": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/slider_3.webp",
+            "image_mobile": "shopify://shop_images/slider_3_mobile.webp",
+            "mobile_image_asset": "",
+            "image_alt": "",
+            "subheading": "The newest",
+            "heading": "Everyday wear",
+            "button_label": "SHOP NOW",
+            "button_link": ""
+          }
+        },
         "product_1": {
           "type": "product",
           "settings": {
@@ -66,6 +79,7 @@
       "block_order": [
         "slide_hL4Rkh",
         "slide_6QYP34",
+        "slide_LHHk7t",
         "product_1",
         "product_2",
         "product_3"
@@ -81,7 +95,7 @@
         "subheading": "The newest",
         "heading": "Everyday wear",
         "button_label": "SHOP NOW",
-        "button_link": "shopify://collections/all"
+        "button_link": "shopify://collections"
       }
     },
     "scrolling_banner_Kd9wLm": {

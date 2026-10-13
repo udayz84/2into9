@@ -45,8 +45,8 @@
             "image_mobile": "shopify://shop_images/slider_3_mobile.webp",
             "mobile_image_asset": "",
             "image_alt": "",
-            "subheading": "The newest",
-            "heading": "Everyday wear",
+            "subheading": "COMFORT MEETS STYLE",
+            "heading": "Feel Good. Look Better.",
             "button_label": "SHOP NOW",
             "button_link": ""
           }
@@ -84,6 +84,7 @@
         "product_2",
         "product_3"
       ],
+      "custom_css": [],
       "name": "Homepage Hero",
       "settings": {
         "fallback_image": "",

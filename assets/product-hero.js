@@ -1195,7 +1195,8 @@ class ProductHero extends HTMLElement {
 
       if (priceEl) {
         priceEl.textContent =
-          this.formatMoneyPaise(eachPaise);
+          this.formatMoneyPaise(eachPaise) +
+          ' / each';
       }
 
     });

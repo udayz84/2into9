@@ -51,6 +51,18 @@
             "button_link": ""
           }
         },
+        "slide_kJTyDU": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/kids_banner_3.webp",
+            "mobile_image_asset": "",
+            "image_alt": "",
+            "subheading": "The newest",
+            "heading": "Everyday wear",
+            "button_label": "SHOP NOW",
+            "button_link": ""
+          }
+        },
         "product_1": {
           "type": "product",
           "settings": {
@@ -80,6 +92,7 @@
         "slide_hL4Rkh",
         "slide_6QYP34",
         "slide_LHHk7t",
+        "slide_kJTyDU",
         "product_1",
         "product_2",
         "product_3"
@@ -226,7 +239,7 @@
       "settings": {
         "image": "shopify://shop_images/LittleExplorerKidsBoxerBrief-OliveGreen02.webp",
         "image_alt": "",
-        "image_link": "#",
+        "image_link": "shopify://collections/kids",
         "image_link_label": "",
         "fallback_asset": "",
         "small_image": "shopify://shop_images/Kids_img.webp",

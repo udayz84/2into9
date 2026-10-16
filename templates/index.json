@@ -292,7 +292,7 @@
       "name": "Men's Trunk Promo",
       "settings": {
         "image_alt": "",
-        "image_link": "#",
+        "image_link": "shopify://collections/men",
         "image_link_label": "",
         "fallback_asset": "",
         "small_image": "shopify://shop_images/blue_2into9.webp",

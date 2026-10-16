@@ -61,7 +61,7 @@
             "subheading": "The newest",
             "heading": "Everyday wear",
             "button_label": "SHOP NOW",
-            "button_link": ""
+            "button_link": "shopify://collections/kids"
           }
         },
         "product_1": {
@@ -99,7 +99,7 @@
         "product_3"
       ],
       "custom_css": [
-        ".hero2__slide:nth-child(3) .hero2__eyebrow,.hero2__slide:nth-child(3) .hero2__heading {color: black;}"
+        ".hero2__slide:nth-child(3) .hero2__eyebrow,.hero2__slide:nth-child(3) .hero2__heading,.hero2__slide:nth-child(4) .hero2__eyebrow,.hero2__slide:nth-child(4) .hero2__heading {color: black;}"
       ],
       "name": "Homepage Hero",
       "settings": {

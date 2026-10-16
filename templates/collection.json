@@ -17,7 +17,7 @@
         "desktop_image_position": "center center",
         "desktop_height_mode": "adapt",
         "desktop_height": 620,
-        "mobile_image": "{{ collection.metafields.custom.hero_banner.value }}",
+        "mobile_image": "{{ collection.image }}",
         "mobile_asset_image": "collection-mobile-303.jpg",
         "mobile_image_position": "center center",
         "mobile_height_mode": "custom",

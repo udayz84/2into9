@@ -55,6 +55,7 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/kids_banner_3.webp",
+            "image_mobile": "shopify://shop_images/kids_banner_mobile.webp",
             "mobile_image_asset": "",
             "image_alt": "",
             "subheading": "The newest",

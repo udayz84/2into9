@@ -1,5 +1,5 @@
 {{ 'bamboo-page.css' | asset_url | stylesheet_tag }}
-<section class="bb bb-split" style="--bb-bg:{{ section.settings.bg }};--bb-ink:{{ section.settings.ink }};--bb-max:{{ section.settings.width }}px;--bb-pt:{{ section.settings.padding_top }}px;--bb-pb:{{ section.settings.padding_bottom }}px"><div class="bb-wrap bb-split-grid {% if section.settings.reverse %}bb-reverse{% endif %}">
+<section class="bb bb-hover-{{ section.settings.hover_style }} bb bb-split" style="--bb-bg:{{ section.settings.bg }};--bb-ink:{{ section.settings.ink }};--bb-max:{{ section.settings.width }}px;--bb-pt:{{ section.settings.padding_top }}px;--bb-pb:{{ section.settings.padding_bottom }}px"><div class="bb-wrap bb-split-grid {% if section.settings.reverse %}bb-reverse{% endif %}">
 <div class="bb-image bb-split-image">{% if section.settings.image != blank %}{{ section.settings.image | image_url: width: 1300 | image_tag: loading: 'lazy', widths: '400,650,900,1300', sizes: '(min-width: 750px) 45vw, 100vw', alt: section.settings.image.alt }}{% else %}{{ 'product-1' | placeholder_svg_tag }}{% endif %}</div>
 <div class="bb-split-copy"><div class="bb-eyebrow">{{ section.settings.eyebrow | escape }}</div><h2>{{ section.settings.heading | escape }}</h2><div class="bb-rich">{{ section.settings.content }}</div>
 {% if section.settings.button_label != blank and section.settings.button_link != blank %}<a class="bb-textlink" href="{{ section.settings.button_link }}">{{ section.settings.button_label | escape }} →</a>{% endif %}</div>
@@ -88,6 +88,26 @@
       "type": "url",
       "id": "button_link",
       "label": "Link destination"
+    },
+    {
+      "type": "select",
+      "id": "hover_style",
+      "label": "Hover animation",
+      "default": "subtle",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "subtle",
+          "label": "Subtle"
+        },
+        {
+          "value": "expressive",
+          "label": "Expressive"
+        }
+      ]
     }
   ],
   "presets": [

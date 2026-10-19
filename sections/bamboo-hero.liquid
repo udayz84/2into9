@@ -1,5 +1,5 @@
 {{ 'bamboo-page.css' | asset_url | stylesheet_tag }}
-<section class="bb bb-hero" style="--bb-bg:{{ section.settings.bg }};--bb-ink:{{ section.settings.ink }};--bb-max:{{ section.settings.width }}px;--bb-pt:{{ section.settings.padding_top }}px;--bb-pb:{{ section.settings.padding_bottom }}px">
+<section class="bb bb-hover-{{ section.settings.hover_style }} bb bb-hero" style="--bb-bg:{{ section.settings.bg }};--bb-ink:{{ section.settings.ink }};--bb-max:{{ section.settings.width }}px;--bb-pt:{{ section.settings.padding_top }}px;--bb-pb:{{ section.settings.padding_bottom }}px">
   <div class="bb-wrap bb-hero-grid">
     <div class="bb-hero-copy"><div class="bb-eyebrow">{{ section.settings.eyebrow | escape }}</div><h1>{{ section.settings.heading | escape }}</h1><div class="bb-rich">{{ section.settings.description }}</div>
     {% if section.settings.button_text != blank and section.settings.button_link != blank %}<a class="bb-button" href="{{ section.settings.button_link }}">{{ section.settings.button_text | escape }} <span aria-hidden="true">↗</span></a>{% endif %}</div>
@@ -92,6 +92,26 @@
       "type": "url",
       "id": "button_link",
       "label": "Button link"
+    },
+    {
+      "type": "select",
+      "id": "hover_style",
+      "label": "Hover animation",
+      "default": "subtle",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "subtle",
+          "label": "Subtle"
+        },
+        {
+          "value": "expressive",
+          "label": "Expressive"
+        }
+      ]
     }
   ],
   "presets": [

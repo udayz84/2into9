@@ -1,5 +1,5 @@
 {{ 'bamboo-page.css' | asset_url | stylesheet_tag }}
-<section class="bb bb-process" style="--bb-bg:{{ section.settings.bg }};--bb-ink:{{ section.settings.ink }};--bb-max:{{ section.settings.width }}px;--bb-pt:{{ section.settings.padding_top }}px;--bb-pb:{{ section.settings.padding_bottom }}px"><div class="bb-wrap"><div class="bb-intro"><div class="bb-eyebrow">{{ section.settings.eyebrow | escape }}</div><h2>{{ section.settings.heading | escape }}</h2><div class="bb-rich">{{ section.settings.intro }}</div></div><div class="bb-process-grid">
+<section class="bb bb-hover-{{ section.settings.hover_style }} bb bb-process" style="--bb-bg:{{ section.settings.bg }};--bb-ink:{{ section.settings.ink }};--bb-max:{{ section.settings.width }}px;--bb-pt:{{ section.settings.padding_top }}px;--bb-pb:{{ section.settings.padding_bottom }}px"><div class="bb-wrap"><div class="bb-intro"><div class="bb-eyebrow">{{ section.settings.eyebrow | escape }}</div><h2>{{ section.settings.heading | escape }}</h2><div class="bb-rich">{{ section.settings.intro }}</div></div><div class="bb-process-grid">
 {% for block in section.blocks %}<article class="bb-process-step" {{ block.shopify_attributes }}><div class="bb-process-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</div><h3>{{ block.settings.heading | escape }}</h3><div class="bb-rich">{{ block.settings.text }}</div></article>{% endfor %}</div>
 {% if section.settings.note != blank %}<div class="bb-note">{{ section.settings.note }}</div>{% endif %}</div></section>
 {% schema %}
@@ -71,6 +71,26 @@
       "id": "note",
       "label": "Supporting note",
       "default": "<p>Production practices vary by supplier and process. Ask for verified material and manufacturing details before making environmental claims.</p>"
+    },
+    {
+      "type": "select",
+      "id": "hover_style",
+      "label": "Hover animation",
+      "default": "subtle",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "subtle",
+          "label": "Subtle"
+        },
+        {
+          "value": "expressive",
+          "label": "Expressive"
+        }
+      ]
     }
   ],
   "presets": [

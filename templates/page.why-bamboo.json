@@ -69,7 +69,7 @@
     "main_hero": {
       "type": "bamboo-hero",
       "settings": {
-        "bg": "#ffffff",
+        "bg": "#EDEDED",
         "ink": "#171717",
         "width": 1200,
         "padding_top": 75,
@@ -156,7 +156,7 @@
     "main_soft": {
       "type": "bamboo-image-text",
       "settings": {
-        "bg": "#ffffff",
+        "bg": "#EDEDED",
         "ink": "#171717",
         "width": 1200,
         "padding_top": 75,
@@ -216,8 +216,8 @@
         "p3"
       ],
       "settings": {
-        "bg": "#ffffff",
-        "ink": "#171717",
+        "bg": "#000000",
+        "ink": "#FFFFFF",
         "width": 1200,
         "padding_top": 75,
         "padding_bottom": 75,
@@ -282,7 +282,7 @@
         "f4"
       ],
       "settings": {
-        "bg": "#ffffff",
+        "bg": "#EDEDED",
         "ink": "#171717",
         "width": 1200,
         "padding_top": 75,
@@ -345,7 +345,7 @@
         "q4"
       ],
       "settings": {
-        "bg": "#ffffff",
+        "bg": "#EDEDED",
         "ink": "#171717",
         "width": 1200,
         "padding_top": 75,

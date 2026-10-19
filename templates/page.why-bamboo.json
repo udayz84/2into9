@@ -69,9 +69,9 @@
     "main_hero": {
       "type": "bamboo-hero",
       "settings": {
-        "bg": "#EDEDED",
+        "bg": "#FFFFFF",
         "ink": "#171717",
-        "width": 1200,
+        "width": 1350,
         "padding_top": 75,
         "padding_bottom": 75,
         "eyebrow": "THE FABRIC STORY",
@@ -142,9 +142,9 @@
         "b6"
       ],
       "settings": {
-        "bg": "#ffffff",
+        "bg": "#E8E8E8",
         "ink": "#171717",
-        "width": 1200,
+        "width": 1350,
         "padding_top": 75,
         "padding_bottom": 75,
         "eyebrow": "WHY IT FEELS DIFFERENT",
@@ -156,9 +156,9 @@
     "main_soft": {
       "type": "bamboo-image-text",
       "settings": {
-        "bg": "#EDEDED",
+        "bg": "#FFFFFF",
         "ink": "#171717",
-        "width": 1200,
+        "width": 1350,
         "padding_top": 75,
         "padding_bottom": 75,
         "eyebrow": "SOFT & SKIN-FRIENDLY FEEL",
@@ -174,8 +174,8 @@
       "settings": {
         "bg": "#ffffff",
         "ink": "#171717",
-        "width": 1200,
-        "padding_top": 75,
+        "width": 1350,
+        "padding_top": 0,
         "padding_bottom": 75,
         "eyebrow": "BREATHABLE & COMFORTABLE",
         "heading": "Comfort That Moves With You",
@@ -218,7 +218,7 @@
       "settings": {
         "bg": "#000000",
         "ink": "#FFFFFF",
-        "width": 1200,
+        "width": 1350,
         "padding_top": 75,
         "padding_bottom": 75,
         "eyebrow": "FABRIC EDUCATION",

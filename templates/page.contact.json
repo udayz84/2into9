@@ -27,7 +27,7 @@
             "mobile_breadcrumb_size": 12,
             "title_color": "#000000",
             "breadcrumb_color": "#333333",
-            "background_color": "#FFFFFF",
+            "background_color": "#ffffff",
             "vertical_padding": 32,
             "mobile_vertical_padding": 24
           },
@@ -80,7 +80,7 @@
       "type": "contact-content",
       "settings": {
         "heading": "GET IN TOUCH",
-        "subheading": "We will reply to all enquiries within 2-24 hours.",
+        "subheading": "We will reply to all enquiries within 24-48 hours.",
         "email": "marketing@2into9.com",
         "phone": "",
         "help_link": "",

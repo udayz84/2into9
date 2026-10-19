@@ -398,7 +398,7 @@
   outline: 2px solid currentColor;
   outline-offset: 5px;
 }
-@media (prefers-reduced-motion: reduce) {
+/* @media (prefers-reduced-motion: reduce) {
   .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-image img,
   .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-image svg,
   .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-benefit,
@@ -412,4 +412,4 @@
     transition: none !important;
     transform: none !important;
   }
-}
+} */

@@ -1,0 +1,99 @@
+{{ 'bamboo-page.css' | asset_url | stylesheet_tag }}
+<section class="bb bb-split" style="--bb-bg:{{ section.settings.bg }};--bb-ink:{{ section.settings.ink }};--bb-max:{{ section.settings.width }}px;--bb-pt:{{ section.settings.padding_top }}px;--bb-pb:{{ section.settings.padding_bottom }}px"><div class="bb-wrap bb-split-grid {% if section.settings.reverse %}bb-reverse{% endif %}">
+<div class="bb-image bb-split-image">{% if section.settings.image != blank %}{{ section.settings.image | image_url: width: 1300 | image_tag: loading: 'lazy', widths: '400,650,900,1300', sizes: '(min-width: 750px) 45vw, 100vw', alt: section.settings.image.alt }}{% else %}{{ 'product-1' | placeholder_svg_tag }}{% endif %}</div>
+<div class="bb-split-copy"><div class="bb-eyebrow">{{ section.settings.eyebrow | escape }}</div><h2>{{ section.settings.heading | escape }}</h2><div class="bb-rich">{{ section.settings.content }}</div>
+{% if section.settings.button_label != blank and section.settings.button_link != blank %}<a class="bb-textlink" href="{{ section.settings.button_link }}">{{ section.settings.button_label | escape }} →</a>{% endif %}</div>
+</div></section>
+{% schema %}
+{
+  "name": "Image Text",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "ink",
+      "label": "Text color",
+      "default": "#171717"
+    },
+    {
+      "type": "range",
+      "id": "width",
+      "label": "Content max width",
+      "default": 1200,
+      "min": 900,
+      "max": 1500,
+      "step": 50,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top spacing",
+      "default": 75,
+      "min": 0,
+      "max": 160,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom spacing",
+      "default": 75,
+      "min": 0,
+      "max": 160,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "THE EVERYDAY DIFFERENCE"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Designed to Feel Good"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Body copy",
+      "default": "<p>Bring comfort into your daily routine with a fabric selected for a soft and smooth feel.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "reverse",
+      "label": "Image on right",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Link label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Link destination"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image Text"
+    }
+  ]
+}
+{% endschema %}

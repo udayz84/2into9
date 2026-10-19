@@ -1,0 +1,123 @@
+{{ 'bamboo-page.css' | asset_url | stylesheet_tag }}
+<section class="bb bb-benefits" style="--bb-bg:{{ section.settings.bg }};--bb-ink:{{ section.settings.ink }};--bb-max:{{ section.settings.width }}px;--bb-pt:{{ section.settings.padding_top }}px;--bb-pb:{{ section.settings.padding_bottom }}px"><div class="bb-wrap">
+<div class="bb-intro"><div class="bb-eyebrow">{{ section.settings.eyebrow | escape }}</div><h2>{{ section.settings.heading | escape }}</h2><div class="bb-rich">{{ section.settings.intro }}</div></div>
+<div class="bb-benefit-grid bb-cols-{{ section.settings.columns }}">{% for block in section.blocks %}<article class="bb-benefit" {{ block.shopify_attributes }}><div class="bb-symbol" aria-hidden="true">{{ block.settings.icon | escape }}</div><h3>{{ block.settings.title | escape }}</h3><div class="bb-rich">{{ block.settings.text }}</div></article>{% endfor %}</div>
+</div></section>
+{% schema %}
+{
+  "name": "Benefits",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "ink",
+      "label": "Text color",
+      "default": "#171717"
+    },
+    {
+      "type": "range",
+      "id": "width",
+      "label": "Content max width",
+      "default": 1200,
+      "min": 900,
+      "max": 1500,
+      "step": 50,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top spacing",
+      "default": 75,
+      "min": 0,
+      "max": 160,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom spacing",
+      "default": 75,
+      "min": 0,
+      "max": 160,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "WHY IT FEELS DIFFERENT"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Benefits of Bamboo Viscose"
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "Intro",
+      "default": "<p>Discover the everyday qualities that make bamboo-derived viscose interesting for underwear.</p>"
+    },
+    {
+      "type": "select",
+      "id": "columns",
+      "label": "Desktop columns",
+      "default": "3",
+      "options": [
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Benefits"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon",
+          "default": "◌"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Comfortable feel"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Description",
+          "default": "<p>Designed for comfort throughout the day.</p>"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

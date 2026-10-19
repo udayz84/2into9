@@ -1,0 +1,107 @@
+{{ 'bamboo-page.css' | asset_url | stylesheet_tag }}
+<section class="bb bb-facts" style="--bb-bg:{{ section.settings.bg }};--bb-ink:{{ section.settings.ink }};--bb-max:{{ section.settings.width }}px;--bb-pt:{{ section.settings.padding_top }}px;--bb-pb:{{ section.settings.padding_bottom }}px"><div class="bb-wrap bb-facts-grid"><div><div class="bb-eyebrow">{{ section.settings.eyebrow | escape }}</div><h2>{{ section.settings.heading | escape }}</h2><div class="bb-rich">{{ section.settings.intro }}</div>
+{% if section.settings.image != blank %}<div class="bb-image bb-facts-image">{{ section.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '450,700,900', alt: section.settings.image.alt }}</div>{% endif %}</div>
+<div class="bb-accordion">{% for block in section.blocks %}<details {{ block.shopify_attributes }} {% if forloop.first and section.settings.open_first %}open{% endif %}><summary>{{ block.settings.question | escape }}<span aria-hidden="true">+</span></summary><div class="bb-rich bb-answer">{{ block.settings.answer }}</div></details>{% endfor %}</div></div></section>
+{% schema %}
+{
+  "name": "Facts",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "ink",
+      "label": "Text color",
+      "default": "#171717"
+    },
+    {
+      "type": "range",
+      "id": "width",
+      "label": "Content max width",
+      "default": 1200,
+      "min": 900,
+      "max": 1500,
+      "step": 50,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top spacing",
+      "default": 75,
+      "min": 0,
+      "max": 160,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom spacing",
+      "default": 75,
+      "min": 0,
+      "max": 160,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "GOOD TO KNOW"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Facts About Bamboo"
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "Introduction",
+      "default": "<p>A little more about the plant and the process behind bamboo-based textiles.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Optional image"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_first",
+      "label": "Open first item by default",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Facts"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "fact",
+      "name": "Fact / accordion row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "What is bamboo?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Bamboo is a group of grasses encompassing many species.</p>"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

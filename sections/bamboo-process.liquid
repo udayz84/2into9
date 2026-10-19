@@ -1,0 +1,102 @@
+{{ 'bamboo-page.css' | asset_url | stylesheet_tag }}
+<section class="bb bb-process" style="--bb-bg:{{ section.settings.bg }};--bb-ink:{{ section.settings.ink }};--bb-max:{{ section.settings.width }}px;--bb-pt:{{ section.settings.padding_top }}px;--bb-pb:{{ section.settings.padding_bottom }}px"><div class="bb-wrap"><div class="bb-intro"><div class="bb-eyebrow">{{ section.settings.eyebrow | escape }}</div><h2>{{ section.settings.heading | escape }}</h2><div class="bb-rich">{{ section.settings.intro }}</div></div><div class="bb-process-grid">
+{% for block in section.blocks %}<article class="bb-process-step" {{ block.shopify_attributes }}><div class="bb-process-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</div><h3>{{ block.settings.heading | escape }}</h3><div class="bb-rich">{{ block.settings.text }}</div></article>{% endfor %}</div>
+{% if section.settings.note != blank %}<div class="bb-note">{{ section.settings.note }}</div>{% endif %}</div></section>
+{% schema %}
+{
+  "name": "Process",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "ink",
+      "label": "Text color",
+      "default": "#171717"
+    },
+    {
+      "type": "range",
+      "id": "width",
+      "label": "Content max width",
+      "default": 1200,
+      "min": 900,
+      "max": 1500,
+      "step": 50,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top spacing",
+      "default": 75,
+      "min": 0,
+      "max": 160,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom spacing",
+      "default": 75,
+      "min": 0,
+      "max": 160,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "FABRIC EDUCATION"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "From Bamboo Plant to Fabric"
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "Introduction",
+      "default": "<p>Bamboo viscose is a manufactured cellulosic fibre made using cellulose sourced from bamboo.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "note",
+      "label": "Supporting note",
+      "default": "<p>Production practices vary by supplier and process. Ask for verified material and manufacturing details before making environmental claims.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Process"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Process step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Step heading",
+          "default": "A closer look"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Description",
+          "default": "<p>Explain this stage of the production process.</p>"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -23,7 +23,6 @@
     },
     "features": {
       "type": "d-lock-features",
-      "name": "D-Lock Features",
       "blocks": {
         "feature_pouch": {
           "type": "feature",
@@ -60,6 +59,7 @@
         "feature_breathable",
         "feature_antibacterial"
       ],
+      "name": "D-Lock Features",
       "settings": {
         "eyebrow": "Engineered for Performance",
         "heading_prefix": "HOW",
@@ -70,7 +70,6 @@
     },
     "product": {
       "type": "d-lock-product",
-      "name": "D-Lock Product",
       "blocks": {
         "tile_pouch": {
           "type": "icon_tile",
@@ -133,21 +132,21 @@
         "offer_tournament",
         "offer_season"
       ],
+      "name": "D-Lock Product",
       "settings": {
+        "product": "dlock-cricket-underwear",
         "product_title": "D-LOCK",
         "product_subtitle": "Performance Series",
         "price": "Rs.929.00",
         "select_size_label": "Select Size",
         "size_options": "S,M,L,XL,XXL",
         "default_size": "M",
-        "product": "d-lock-trunk-for-men",
         "default_quantity": 1,
         "atc_label": "Add to Cart"
       }
     },
     "marquee": {
       "type": "d-lock-marquee",
-      "name": "D-Lock Marquee",
       "blocks": {
         "item_1": {
           "type": "item",
@@ -187,6 +186,7 @@
         "item_4",
         "item_5"
       ],
+      "name": "D-Lock Marquee",
       "settings": {
         "label": "D-LOCK IS BUILT FOR...",
         "speed": 40
@@ -194,7 +194,6 @@
     },
     "faqs": {
       "type": "d-lock-faqs",
-      "name": "D-Lock FAQs",
       "blocks": {
         "faq_1": {
           "type": "question",
@@ -214,7 +213,7 @@
           "type": "question",
           "settings": {
             "question": "What underpants should I choose if I play sport?",
-            "answer": "The D-LOCK Performance Series is built for sport \u2014 breathable, anti-bacterial and engineered to lock your box in place through every sprint and dive."
+            "answer": "The D-LOCK Performance Series is built for sport — breathable, anti-bacterial and engineered to lock your box in place through every sprint and dive."
           }
         }
       },
@@ -223,6 +222,7 @@
         "faq_2",
         "faq_3"
       ],
+      "name": "D-Lock FAQs",
       "settings": {
         "title": "FAQ's",
         "open_first": false
@@ -230,8 +230,6 @@
     },
     "reviews": {
       "type": "d-lock-reviews",
-      "disabled": true,
-      "name": "D-Lock Reviews",
       "blocks": {
         "review_1": {
           "type": "review",
@@ -286,6 +284,8 @@
         "review_4",
         "review_5"
       ],
+      "disabled": true,
+      "name": "D-Lock Reviews",
       "settings": {
         "heading": "Customer Reviews",
         "rating_value": "5",

@@ -193,7 +193,7 @@
         "padding_top": 32,
         "padding_bottom": 32,
         "background_color": "#171717",
-        "product": "d-lock-trunk-for-men",
+        "product": "dlock-cricket-underwear",
         "product_title": "D-LOCK",
         "product_subtitle": "Performance Series",
         "price": "Rs.929.00",
@@ -497,7 +497,7 @@
       ],
       "name": "t:names.featured_product_information",
       "settings": {
-        "product": "d-lock-trunk-for-men",
+        "product": "dlock-cricket-underwear",
         "content_width": "content-center-aligned",
         "desktop_media_position": "left",
         "equal_columns": true,

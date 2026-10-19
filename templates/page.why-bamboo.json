@@ -1,0 +1,236 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main_hero": {
+      "type": "bamboo-hero",
+      "settings": {}
+    },
+    "main_benefits": {
+      "type": "bamboo-benefits",
+      "blocks": {
+        "b1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "◌",
+            "title": "Silky-soft feel",
+            "text": "<p>A smooth, soft hand feel for everyday wear.</p>"
+          }
+        },
+        "b2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "≋",
+            "title": "Breathable comfort",
+            "text": "<p>Designed for a lightweight, airy wearing experience.</p>"
+          }
+        },
+        "b3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "↗",
+            "title": "Moisture management",
+            "text": "<p>Fabric properties and garment construction can help manage moisture.</p>"
+          }
+        },
+        "b4": {
+          "type": "benefit",
+          "settings": {
+            "icon": "✧",
+            "title": "Considered construction",
+            "text": "<p>Material blends and fit help make practical everyday essentials.</p>"
+          }
+        },
+        "b5": {
+          "type": "benefit",
+          "settings": {
+            "icon": "↻",
+            "title": "Everyday durability",
+            "text": "<p>Follow care instructions to help keep your clothing in good condition.</p>"
+          }
+        },
+        "b6": {
+          "type": "benefit",
+          "settings": {
+            "icon": "◇",
+            "title": "Soft against skin",
+            "text": "<p>A pleasant touch makes a difference in close-to-body layers.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6"
+      ],
+      "settings": {}
+    },
+    "main_soft": {
+      "type": "bamboo-image-text",
+      "settings": {
+        "eyebrow": "SOFT & SKIN-FRIENDLY FEEL",
+        "heading": "Softness You Can Feel",
+        "content": "<p>Bamboo-derived viscose is valued for its smooth feel and comfortable drape. For underwear worn close to the skin, how the fabric feels matters.</p>"
+      }
+    },
+    "main_breath": {
+      "type": "bamboo-image-text",
+      "settings": {
+        "eyebrow": "BREATHABLE & COMFORTABLE",
+        "heading": "Comfort That Moves With You",
+        "content": "<p>For commutes, long days and active routines, breathable fabric and considered garment design can help you feel comfortable.</p><p>Actual performance depends on the full fabric blend, knit and finish.</p>",
+        "reverse": true
+      }
+    },
+    "main_process": {
+      "type": "bamboo-process",
+      "blocks": {
+        "p1": {
+          "type": "step",
+          "settings": {
+            "heading": "The bamboo plant",
+            "text": "<p>Bamboo is a member of the grass family; different species grow in different climates.</p>"
+          }
+        },
+        "p2": {
+          "type": "step",
+          "settings": {
+            "heading": "Cellulose is processed",
+            "text": "<p>Cellulose sourced from bamboo is processed to create a textile fibre such as viscose.</p>"
+          }
+        },
+        "p3": {
+          "type": "step",
+          "settings": {
+            "heading": "Fabric is made",
+            "text": "<p>Fibres are spun and knitted or woven, sometimes blended with other materials for desired garment properties.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {}
+    },
+    "main_quality": {
+      "type": "bamboo-image-text",
+      "settings": {
+        "eyebrow": "MADE TO LAST",
+        "heading": "Designed for the Everyday",
+        "content": "<p>For everyday underwear, thoughtful details make a difference: softness, support, waistband construction, stitching and a fit that feels right.</p><p>Care and longevity depend on the garment and its material blend.</p>"
+      }
+    },
+    "main_facts": {
+      "type": "bamboo-facts",
+      "blocks": {
+        "f1": {
+          "type": "fact",
+          "settings": {
+            "question": "Is bamboo a tree?",
+            "answer": "<p>No. Botanically, bamboo belongs to the grass family.</p>"
+          }
+        },
+        "f2": {
+          "type": "fact",
+          "settings": {
+            "question": "Do all bamboo species grow at the same rate?",
+            "answer": "<p>No. Growth varies widely across species and growing conditions.</p>"
+          }
+        },
+        "f3": {
+          "type": "fact",
+          "settings": {
+            "question": "Is bamboo viscose the same as raw bamboo fibre?",
+            "answer": "<p>No. Bamboo viscose is a manufactured regenerated-cellulose fibre made from bamboo-derived cellulose.</p>"
+          }
+        },
+        "f4": {
+          "type": "fact",
+          "settings": {
+            "question": "Does bamboo growing automatically make a garment sustainable?",
+            "answer": "<p>Not automatically. Manufacturing inputs, chemical management, sourcing, dyeing and product lifespan all matter.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "f1",
+        "f2",
+        "f3",
+        "f4"
+      ],
+      "settings": {}
+    },
+    "main_quote": {
+      "type": "bamboo-quote",
+      "settings": {}
+    },
+    "main_faq": {
+      "type": "bamboo-faq",
+      "blocks": {
+        "q1": {
+          "type": "faq",
+          "settings": {
+            "question": "What is bamboo viscose underwear?",
+            "answer": "<p>It is underwear made using a fabric that contains regenerated cellulose fibre sourced from bamboo. Check the product label for the complete fibre blend.</p>"
+          }
+        },
+        "q2": {
+          "type": "faq",
+          "settings": {
+            "question": "Is bamboo viscose soft?",
+            "answer": "<p>Bamboo viscose is commonly selected for its smooth, soft hand feel. The sensation depends on the yarn, blend and fabric construction.</p>"
+          }
+        },
+        "q3": {
+          "type": "faq",
+          "settings": {
+            "question": "Does bamboo viscose absorb moisture?",
+            "answer": "<p>Viscose fibres can absorb moisture, but how a finished garment manages sweat and dries depends on fabric design and finishing.</p>"
+          }
+        },
+        "q4": {
+          "type": "faq",
+          "settings": {
+            "question": "How should I wash bamboo viscose underwear?",
+            "answer": "<p>Follow the care label on your specific 2INTO9 garment; recommended washing and drying conditions depend on the fabric blend.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ],
+      "settings": {}
+    },
+    "main_cta": {
+      "type": "bamboo-cta",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main_hero",
+    "main_benefits",
+    "main_soft",
+    "main_breath",
+    "main_process",
+    "main_quality",
+    "main_facts",
+    "main_quote",
+    "main_faq",
+    "main_cta"
+  ]
+}

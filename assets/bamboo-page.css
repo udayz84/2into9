@@ -302,33 +302,114 @@
   }
 }
 
-
-
 /* Optional scoped hover animations. Every section controls its own intensity.
    Only pointer devices with hover receive animations. */
-.bb.bb-hover-subtle,.bb.bb-hover-expressive{--bb-hover-lift:-5px;--bb-hover-zoom:1.045;--bb-hover-speed:360ms;--bb-hover-shadow:0 14px 34px rgba(0,0,0,.09)}
-.bb.bb-hover-expressive{--bb-hover-lift:-9px;--bb-hover-zoom:1.085;--bb-hover-speed:440ms;--bb-hover-shadow:0 22px 46px rgba(0,0,0,.15)}
-@media (hover:hover) and (pointer:fine){
-  .bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-image img,
-  .bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-image svg{transition:transform var(--bb-hover-speed) cubic-bezier(.2,.65,.25,1)}
-  .bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-image:hover img,
-  .bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-image:hover svg{transform:scale(var(--bb-hover-zoom))}
-  .bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-benefit{transition:transform var(--bb-hover-speed) ease,box-shadow var(--bb-hover-speed) ease}
-  .bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-benefit:hover{transform:translateY(var(--bb-hover-lift));box-shadow:var(--bb-hover-shadow)}
-  .bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-symbol{transition:transform var(--bb-hover-speed) ease,border-color var(--bb-hover-speed) ease}
-  .bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-benefit:hover .bb-symbol{transform:rotate(-8deg) scale(1.07);border-color:currentColor}
-  .bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-button{transition:transform .25s ease,background-color .25s ease,box-shadow .25s ease,opacity .25s ease}
-  .bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-button:hover{opacity:1;transform:translateY(-3px);background:#333;box-shadow:0 9px 21px rgba(0,0,0,.16)}
-  .bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-button span{display:inline-block;transition:transform .25s ease}
-  .bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-button:hover span{transform:translate(3px,-3px)}
-  .bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-process-step{transition:transform var(--bb-hover-speed) ease,border-color var(--bb-hover-speed) ease}
-  .bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-process-step:hover{transform:translateY(-4px);border-color:currentColor}
-  .bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-accordion summary{transition:padding-left .25s ease,color .25s ease}
-  .bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-accordion summary:hover{padding-left:8px}
-  .bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-textlink{transition:text-underline-offset .25s ease,opacity .25s ease}
-  .bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-textlink:hover{text-underline-offset:9px;opacity:.7}
+.bb.bb-hover-subtle,
+.bb.bb-hover-expressive {
+  --bb-hover-lift: -5px;
+  --bb-hover-zoom: 1.045;
+  --bb-hover-speed: 360ms;
+  --bb-hover-shadow: 0 14px 34px rgba(0, 0, 0, 0.09);
 }
-.bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-accordion summary span{display:inline-block;transition:transform .25s ease}
-.bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-accordion details[open] summary span{transform:rotate(45deg)}
-.bb .bb-button:focus-visible,.bb .bb-textlink:focus-visible,.bb .bb-accordion summary:focus-visible{outline:2px solid currentColor;outline-offset:5px}
-@media (prefers-reduced-motion:reduce){.bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-image img,.bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-image svg,.bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-benefit,.bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-symbol,.bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-button,.bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-button span,.bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-process-step,.bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-accordion summary,.bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-accordion summary span,.bb:is(.bb-hover-subtle,.bb-hover-expressive) .bb-textlink{transition:none!important;transform:none!important}}
+.bb.bb-hover-expressive {
+  --bb-hover-lift: -9px;
+  --bb-hover-zoom: 1.085;
+  --bb-hover-speed: 440ms;
+  --bb-hover-shadow: 0 22px 46px rgba(0, 0, 0, 0.15);
+}
+@media (hover: hover) and (pointer: fine) {
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-image img,
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-image svg {
+    transition: transform var(--bb-hover-speed) cubic-bezier(0.2, 0.65, 0.25, 1);
+  }
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-image:hover img,
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-image:hover svg {
+    transform: scale(var(--bb-hover-zoom));
+  }
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-benefit {
+    transition: transform var(--bb-hover-speed) ease,
+      box-shadow var(--bb-hover-speed) ease;
+  }
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-benefit:hover {
+    transform: translateY(var(--bb-hover-lift));
+    box-shadow: var(--bb-hover-shadow);
+  }
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-symbol {
+    transition: transform var(--bb-hover-speed) ease,
+      border-color var(--bb-hover-speed) ease;
+  }
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-benefit:hover .bb-symbol {
+    transform: rotate(-8deg) scale(1.07);
+    border-color: currentColor;
+  }
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-button {
+    transition: transform 0.25s ease, background-color 0.25s ease,
+      box-shadow 0.25s ease, opacity 0.25s ease;
+  }
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-button:hover {
+    opacity: 1;
+    transform: translateY(-3px);
+    background: #333;
+    box-shadow: 0 9px 21px rgba(0, 0, 0, 0.16);
+  }
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-button span {
+    display: inline-block;
+    transition: transform 0.25s ease;
+  }
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-button:hover span {
+    transform: translate(3px, -3px);
+  }
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-process-step {
+    transition: transform var(--bb-hover-speed) ease,
+      border-color var(--bb-hover-speed) ease;
+  }
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-process-step:hover {
+    transform: translateY(-4px);
+    border-color: currentColor;
+  }
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-accordion summary {
+    transition: padding-left 0.25s ease, color 0.25s ease;
+  }
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-accordion summary:hover {
+    padding-left: 8px;
+  }
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-textlink {
+    transition: text-underline-offset 0.25s ease, opacity 0.25s ease;
+  }
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-textlink:hover {
+    text-underline-offset: 9px;
+    opacity: 0.7;
+  }
+}
+.bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-accordion summary span {
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+.bb:is(.bb-hover-subtle, .bb-hover-expressive)
+  .bb-accordion
+  details[open]
+  summary
+  span {
+  transform: rotate(45deg);
+}
+.bb .bb-button:focus-visible,
+.bb .bb-textlink:focus-visible,
+.bb .bb-accordion summary:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 5px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-image img,
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-image svg,
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-benefit,
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-symbol,
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-button,
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-button span,
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-process-step,
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-accordion summary,
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-accordion summary span,
+  .bb:is(.bb-hover-subtle, .bb-hover-expressive) .bb-textlink {
+    transition: none !important;
+    transform: none !important;
+  }
+}

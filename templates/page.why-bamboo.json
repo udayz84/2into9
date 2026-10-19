@@ -232,7 +232,7 @@
       "settings": {
         "bg": "#ffffff",
         "ink": "#171717",
-        "width": 1200,
+        "width": 1350,
         "padding_top": 75,
         "padding_bottom": 75,
         "eyebrow": "MADE TO LAST",
@@ -344,6 +344,7 @@
         "q3",
         "q4"
       ],
+      "disabled": true,
       "settings": {
         "bg": "#EDEDED",
         "ink": "#171717",
@@ -356,6 +357,7 @@
     },
     "main_cta": {
       "type": "bamboo-cta",
+      "disabled": true,
       "settings": {
         "bg": "#ffffff",
         "ink": "#171717",

@@ -429,13 +429,17 @@
 //   customElements.define('predictive-search-component', PredictiveSearchComponent);
 // }
 
-
 import { Component } from '@theme/component';
 import { debounce, onAnimationEnd, prefersReducedMotion } from '@theme/utilities';
 import { sectionRenderer } from '@theme/section-renderer';
 import { morph } from '@theme/morph';
 import { RecentlyViewed } from '@theme/recently-viewed-products';
 import { DialogCloseEvent, DialogOpenEvent, DialogComponent } from '@theme/dialog';
+
+// Add Shopify pages whose custom Liquid/HTML content should be searched.
+// These are real storefront URLs, not Liquid file names.
+const CUSTOM_CONTENT_PAGE_URLS = ['/pages/sizing'];
+
 
 /**
  * A custom element that allows the user to search for resources available on the store.
@@ -748,9 +752,8 @@ class PredictiveSearchComponent extends Component {
 
     const url = new URL(Theme.routes.predictive_search_url, location.origin);
     url.searchParams.set('q', searchTerm);
-    // Request all storefront search resource types, including pages.
-    url.searchParams.set('resources[type]', 'product,page,article,collection,query');
     url.searchParams.set('resources[limit_scope]', 'each');
+    url.searchParams.set('resources[type]', 'product,page,article,collection,query');
 
     const { predictiveSearchResults } = this.refs;
 
@@ -765,12 +768,120 @@ class PredictiveSearchComponent extends Component {
 
         morph(predictiveSearchResults, resultsMarkup);
 
+        // Query Shopify's JSON API independently because some theme section
+        // renderers omit page/article resources despite valid API matches.
+        void this.#addContentResults(searchTerm, abortController.signal);
         this.#resetScrollPositions();
       })
       .catch((error) => {
         if (abortController.signal.aborted) return;
         throw error;
       });
+  }
+
+  /**
+   * Independently retrieve indexed pages/articles and scan selected public
+   * custom-HTML pages. No backend crawler is available in a Shopify theme.
+   * @param {string} query
+   * @param {AbortSignal} signal
+   */
+  async #addContentResults(query, signal) {
+    try {
+      const endpoint = new URL('/search/suggest.json', location.origin);
+      endpoint.searchParams.set('q', query);
+      endpoint.searchParams.set('resources[type]', 'page,article');
+      endpoint.searchParams.set('resources[limit]', '10');
+      endpoint.searchParams.set('resources[options][fields]', 'title,body');
+
+      const fetchOptions = { signal, credentials: 'same-origin' };
+      const request = fetch(endpoint, fetchOptions)
+        .then((r) => (r.ok ? r.json() : null))
+        .catch(() => null);
+
+      const customRequests = CUSTOM_CONTENT_PAGE_URLS.map(async (pageUrl) => {
+        try {
+          const response = await fetch(pageUrl, fetchOptions);
+          if (!response.ok) return null;
+          const documentHtml = new DOMParser().parseFromString(await response.text(), 'text/html');
+          const content = documentHtml.querySelector('main') || documentHtml.body;
+          if (!content) return null;
+          content.querySelectorAll('script,style,noscript,nav,footer,header').forEach((el) => el.remove());
+          const contentText = (content.textContent || '').replace(/\s+/g, ' ').trim();
+          const terms = query.toLocaleLowerCase().split(/\s+/).filter(Boolean);
+          if (!terms.every((term) => contentText.toLocaleLowerCase().includes(term))) return null;
+          return {
+            title: documentHtml.querySelector('h1')?.textContent?.trim() ||
+              documentHtml.title.split('|')[0].trim() || pageUrl,
+            url: pageUrl,
+            type: 'page',
+          };
+        } catch {
+          return null;
+        }
+      });
+
+      const [data, customPages] = await Promise.all([request, Promise.all(customRequests)]);
+      if (signal.aborted || this.refs.searchInput.value.trim() !== query) return;
+      const indexed = data?.resources?.results || {};
+      const items = [
+        ...(indexed.pages || []).map((item) => ({ ...item, type: 'page' })),
+        ...(indexed.articles || []).map((item) => ({ ...item, type: 'article' })),
+        ...customPages.filter(Boolean),
+      ];
+      if (!items.length) return;
+
+      const container = this.refs.predictiveSearchResults.querySelector('.predictive-search-results__inner');
+      if (!container) return;
+      const previous = container.querySelector('.custom-content-predictive-results');
+      previous?.remove();
+
+      // Existing theme search UI may have already rendered some resources.
+      const existingUrls = new Set(
+        Array.from(container.querySelectorAll('a[href]')).map((a) => new URL(a.href, location.origin).pathname)
+      );
+      const unique = [];
+      const seen = new Set();
+      for (const item of items) {
+        if (!item?.url) continue;
+        const pathname = new URL(item.url, location.origin).pathname;
+        if (seen.has(pathname) || existingUrls.has(pathname)) continue;
+        seen.add(pathname);
+        unique.push(item);
+      }
+      if (!unique.length) return;
+      container.querySelector('.predictive-search-results__no-results')?.remove();
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'custom-content-predictive-results predictive-search-results__list';
+      wrapper.style.cssText = 'padding:16px 22px;display:block;';
+      const heading = document.createElement('h3');
+      heading.textContent = 'Pages & articles';
+      heading.style.cssText = 'font-size:14px;font-weight:700;margin:0 0 8px;';
+      wrapper.append(heading);
+
+      for (const item of unique) {
+        const row = document.createElement('div');
+        row.className = 'predictive-search-results__card custom-content-result';
+        row.setAttribute('ref', 'resultsItems[]');
+        row.style.cssText = 'width:100%;padding:0;border:0;';
+        const link = document.createElement('a');
+        link.href = item.url;
+        link.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;text-decoration:none;border-bottom:1px solid #e8e8e8;color:inherit;';
+        const label = document.createElement('span');
+        label.textContent = item.title;
+        const kind = document.createElement('small');
+        kind.textContent = item.type === 'article' ? 'BLOG ↗' : 'PAGE ↗';
+        kind.style.cssText = 'white-space:nowrap;opacity:.65;font-size:11px;';
+        link.append(label, kind);
+        row.append(link);
+        wrapper.append(row);
+      }
+      container.append(wrapper);
+      // The parent theme checks for this class to decide whether to show the View All button.
+      this.refs.predictiveSearchResults.querySelector('.predictive-search-results__no-results')?.remove();
+    } catch (error) {
+      if (!signal.aborted) console.warn('Content search fallback:', error);
+    }
   }
 
   /**

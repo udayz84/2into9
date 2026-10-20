@@ -1,5 +1,5 @@
-
 {% comment %} 
+
 <script
   src="{{ 'results-list.js' | asset_url }}"
   type="module"
@@ -60,130 +60,231 @@
       %}
     {% endpaginate %}
   </div>
-</results-list> {% endcomment %}
+</results-list>
+
+{% schema %}
+{
+  "name": "t:names.search_results",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:content.edit_empty_state_collection_in_theme_settings"
+    },
+    {
+      "type": "select",
+      "id": "layout_type",
+      "label": "t:settings.type",
+      "options": [
+        {
+          "value": "grid",
+          "label": "t:options.grid"
+        },
+        {
+          "value": "organic",
+          "label": "t:options.editorial"
+        }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "select",
+      "id": "product_card_size",
+      "label": "t:settings.card_size",
+      "options": [
+        {
+          "value": "small",
+          "label": "t:options.small"
+        },
+        {
+          "value": "medium",
+          "label": "t:options.medium"
+        },
+        {
+          "value": "large",
+          "label": "t:options.large"
+        },
+        {
+          "value": "extra-large",
+          "label": "t:options.extra_large"
+        }
+      ],
+      "default": "medium",
+      "visible_if": "{{ section.settings.layout_type == 'grid' }}"
+    },
+    {
+      "type": "select",
+      "id": "mobile_product_card_size",
+      "label": "t:settings.mobile_card_size",
+      "options": [
+        {
+          "value": "small",
+          "label": "t:options.small"
+        },
+        {
+          "value": "large",
+          "label": "t:options.large"
+        }
+      ],
+      "default": "small"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_infinite_scroll",
+      "label": "t:settings.auto_load_products",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "t:settings.products_per_page",
+      "min": 8,
+      "max": 36,
+      "step": 4,
+      "default": 24,
+      "visible_if": "{{ section.settings.enable_infinite_scroll == false }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "select",
+      "id": "product_grid_width",
+      "label": "t:settings.width",
+      "options": [
+        {
+          "value": "centered",
+          "label": "t:options.page"
+        },
+        {
+          "value": "full-width",
+          "label": "t:options.full"
+        }
+      ],
+      "default": "centered"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width_on_mobile",
+      "label": "t:settings.full_width_on_mobile",
+      "default": true,
+      "visible_if": "{{ section.settings.product_grid_width != 'full-width' }}"
+    },
+    {
+      "type": "range",
+      "id": "columns_gap_horizontal",
+      "label": "t:settings.horizontal_gap",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "columns_gap_vertical",
+      "label": "t:settings.vertical_gap",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left_padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right_padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "t:content.section_layout"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top_padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom_padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    }
+  ],
+  "presets": []
+}
+{% endschema %} {% endcomment %}
 
 <script
   src="{{ 'results-list.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
+
 <style>
-  /* Search page and blog results */
-
-.custom-search-resources {
-  width: 100%;
-  margin: 40px 0;
-}
-
-.custom-search-resources__heading {
-  font-size: 24px;
-  font-weight: 700;
-  margin: 0 0 24px;
-  color: #111;
-}
-
-.custom-search-resources__grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-}
-
-.custom-search-resource-card {
-  display: flex;
-  flex-direction: column;
-  background: #fff;
-  border: 1px solid #eaeaea;
-  border-radius: 12px;
-  overflow: hidden;
-  text-decoration: none;
-  color: #111;
-  transition: transform .25s ease, box-shadow .25s ease;
-}
-
-.custom-search-resource-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0,0,0,.08);
-}
-
-.custom-search-resource-card__icon {
-  display: flex;
-  align-items: center;
-  padding: 24px 24px 0;
-}
-
-.custom-search-resource-card__icon svg {
-  width: 24px;
-  height: 24px;
-}
-
-.custom-search-resource-card__image img {
-  display: block;
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.custom-search-resource-card__content {
-  padding: 24px;
-}
-
-.custom-search-resource-card__type {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  color: #777;
-}
-
-.custom-search-resource-card__title {
-  font-size: 20px;
-  font-weight: 700;
-  margin: 10px 0;
-  color: #111;
-}
-
-.custom-search-resource-card__description {
-  font-size: 14px;
-  color: #666;
-  line-height: 1.7;
-  margin-bottom: 20px;
-}
-
-.custom-search-resource-card__link {
-  display: inline-flex;
-  gap: 10px;
-  align-items: center;
-  font-size: 13px;
-  font-weight: 700;
-  color: #111;
-}
-
-.custom-search-resource-card:hover .custom-search-resource-card__link {
-  text-decoration: underline;
-}
-
-@media screen and (max-width: 989px) {
-  .custom-search-resources__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* Independent page/article layout: never a child of the product-grid CSS grid */
+  .search-extra-results {
+    display: block;
+    width: 100%;
+    max-width: 1200px;
+    margin: 30px auto 50px;
+    padding: 0 24px;
+    box-sizing: border-box;
+    clear: both;
   }
-}
-
-@media screen and (max-width: 749px) {
-  .custom-search-resources {
-    margin: 30px 0;
+  .search-extra-results__group + .search-extra-results__group { margin-top: 36px; }
+  .search-extra-results__heading { margin: 0 0 18px; font-size: 24px; font-weight: 700; }
+  .search-extra-results__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  .search-extra-results__card {
+    display: flex; flex-direction: column; min-width: 0;
+    padding: 22px; border: 1px solid #e6e6e6; border-radius: 12px;
+    background: #fff; color: #161616; text-decoration: none;
+    transition: transform .2s ease, box-shadow .2s ease;
   }
-
-  .custom-search-resources__grid {
-    grid-template-columns: 1fr;
+  .search-extra-results__card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+  .search-extra-results__type { font-size: 11px; letter-spacing: .1em; font-weight: 700; color: #777; }
+  .search-extra-results__title { margin: 12px 0 8px; font-size: 20px; line-height: 1.3; font-weight: 700; }
+  .search-extra-results__description { margin: 0 0 14px; font-size: 14px; line-height: 1.6; color: #666; }
+  .search-extra-results__link { margin-top: auto; font-weight: 700; font-size: 13px; }
+  .search-extra-results__image { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 7px; margin-bottom: 16px; }
+  .search-extra-results__pagination { display: flex; justify-content: center; gap: 16px; margin: 26px 0; }
+  .search-extra-results__pagination a { text-decoration: underline; }
+  @media (max-width: 989px) { .search-extra-results__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 749px) {
+    .search-extra-results { margin: 22px auto 36px; padding: 0 16px; }
+    .search-extra-results__grid { grid-template-columns: 1fr; }
+    .search-extra-results__heading { font-size: 21px; }
   }
-
-  .custom-search-resources__heading {
-    font-size: 21px;
-  }
-
-  .custom-search-resource-card__content {
-    padding: 20px;
-  }
-}
 </style>
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
@@ -196,243 +297,109 @@
 >
   {% render 'skip-to-content-link', href: '#ResultsList', text: 'accessibility.skip_to_results_list' %}
 
-  <div class="collection-wrapper grid gap-style">
+  {% assign products_per_page = 24 %}
+  {% if section.settings.enable_infinite_scroll == false %}
+    {% assign products_per_page = section.settings.products_per_page %}
+  {% endif %}
 
-    {% assign products_per_page = 24 %}
+  {% paginate search.results by products_per_page %}
+    {% assign pages = search.results | where: 'object_type', 'page' %}
+    {% assign articles = search.results | where: 'object_type', 'article' %}
+    {% assign products = search.results | where: 'object_type', 'product' %}
 
-    {% if section.settings.enable_infinite_scroll == false %}
-      {% assign products_per_page = section.settings.products_per_page %}
+    {% if search.results_count == 0 %}
+      {% assign collection = settings.empty_state_collection | default: collections.all %}
+      {% assign default_title = 'content.search_results_resource_products' | t %}
+      {% assign title = settings.empty_state_collection.title | default: default_title %}
+      {% assign products = collection.products %}
     {% endif %}
 
-    {% paginate search.results by products_per_page %}
+    {% comment %} Retain the theme's original layout and product cards for product results. {% endcomment %}
+    {% if products.size > 0 %}
+      <div class="collection-wrapper grid gap-style">
+        {% if search.results_count > 0 %}
+          {% content_for 'block', type: 'filters', id: 'filters', results: search, results_size: search.results_count %}
+        {% endif %}
 
-      {% assign pages = search.results | where: 'object_type', 'page' %}
-      {% assign articles = search.results | where: 'object_type', 'article' %}
-      
+        {% capture children %}
+          {% for product in products %}
+            <li
+              id="{{ section.id }}-{{ product.id }}"
+              class="product-grid__item product-grid__item--{{ forloop.index0 }}"
+              data-page="{{ paginate.current_page }}"
+              data-product-id="{{ product.id }}"
+              ref="cards[]"
+            >
+              {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: product %}
+            </li>
+          {% endfor %}
+        {% endcapture %}
 
-      {% if search.results_count > 0 %}
-
-        {% content_for 'block',
-          type: 'filters',
-          id: 'filters',
-          results: search,
-          results_size: search.results_count
+        {% render 'product-grid',
+          section: section,
+          children: children,
+          products: products,
+          paginate: paginate,
+          enable_infinite_scroll: section.settings.enable_infinite_scroll,
+          title: title
         %}
-
-        {% assign products = search.results | where: 'object_type', 'product' %}
-
-      {% else %}
-
-        {% assign collection = settings.empty_state_collection | default: collections.all %}
-        {% assign default_title = 'content.search_results_resource_products' | t %}
-        {% assign title = settings.empty_state_collection.title | default: default_title %}
-        {% assign products = collection.products %}
-
-      {% endif %}
-
-      {% comment %}
-        Existing product grid - unchanged
-      {% endcomment %}
-
-      {% capture children %}
-
-        {% for product in products %}
-          <li
-            id="{{ section.id }}-{{ product.id }}"
-            class="product-grid__item product-grid__item--{{ forloop.index0 }}"
-            data-page="{{ paginate.current_page }}"
-            data-product-id="{{ product.id }}"
-            ref="cards[]"
-          >
-            {% content_for 'block',
-              type: '_product-card',
-              id: 'product-card',
-              closest.product: product
-            %}
-          </li>
-        {% endfor %}
-
-      {% endcapture %}
-
-      {% if products.size > 0 %}
-  {% render 'product-grid',
-    section: section,
-    children: children,
-    products: products,
-    paginate: paginate,
-    enable_infinite_scroll: section.settings.enable_infinite_scroll,
-    title: title
-  %}
-{% endif %}
-
-{% if pages.size > 0 or articles.size > 0 %}
-  <div
-    id="ResultsList"
-    class="search-content-results"
-    data-page="{{ paginate.current_page }}"
-  >
-    {% if pages.size > 0 %}
-      <h2 class="search-content-results__heading">Pages</h2>
-
-      <div class="search-content-results__items">
-        {% for page in pages %}
-          <a href="{{ page.url }}" class="search-content-results__item">
-            <span class="search-content-results__label">PAGE</span>
-            <h3>{{ page.title | escape }}</h3>
-            <p>{{ page.content | strip_html | truncatewords: 25 }}</p>
-            <span class="search-content-results__link">View Page →</span>
-          </a>
-        {% endfor %}
       </div>
     {% endif %}
 
-    {% if articles.size > 0 %}
-      <h2 class="search-content-results__heading">Blog Articles</h2>
-
-      <div class="search-content-results__items">
-        {% for article in articles %}
-          <a href="{{ article.url }}" class="search-content-results__item">
-            <span class="search-content-results__label">BLOG</span>
-            <h3>{{ article.title | escape }}</h3>
-            <p>
-              {{ article.excerpt_or_content | strip_html | truncatewords: 25 }}
-            </p>
-            <span class="search-content-results__link">Read Article →</span>
-          </a>
-        {% endfor %}
-      </div>
-    {% endif %}
-  </div>
-{% endif %}
-
-
-      {% comment %}
-        Page search results
-      {% endcomment %}
-
-      {% if pages.size > 0 %}
-
-        <div class="custom-search-resources" data-page="{{ paginate.current_page }}">
-
-          <h2 class="custom-search-resources__heading">
-            Pages
-          </h2>
-
-          <div class="custom-search-resources__grid">
-
-            {% for page in pages %}
-
-              <a
-                href="{{ page.url }}"
-                class="custom-search-resource-card"
-              >
-
-                <div class="custom-search-resource-card__icon">
-                  {{ 'icon-search.svg' | inline_asset_content }}
-                </div>
-
-                <div class="custom-search-resource-card__content">
-
-                  <span class="custom-search-resource-card__type">
-                    PAGE
-                  </span>
-
-                  <h3 class="custom-search-resource-card__title">
-                    {{ page.title | escape }}
-                  </h3>
-
+    {% comment %} Page and article cards are OUTSIDE .collection-wrapper.grid. {% endcomment %}
+    {% if pages.size > 0 or articles.size > 0 %}
+      <div class="search-extra-results" {% if products.size == 0 %}id="ResultsList"{% endif %} data-page="{{ paginate.current_page }}">
+        {% if pages.size > 0 %}
+          <section class="search-extra-results__group" aria-label="Pages">
+            <h2 class="search-extra-results__heading">Pages</h2>
+            <div class="search-extra-results__grid">
+              {% for page in pages %}
+                <a class="search-extra-results__card" href="{{ page.url }}">
+                  <span class="search-extra-results__type">PAGE</span>
+                  <h3 class="search-extra-results__title">{{ page.title | escape }}</h3>
                   {% if page.content != blank %}
-                    <p class="custom-search-resource-card__description">
-                      {{ page.content | strip_html | truncatewords: 28 }}
-                    </p>
+                    <p class="search-extra-results__description">{{ page.content | strip_html | truncatewords: 28 }}</p>
                   {% endif %}
+                  <span class="search-extra-results__link">View Page →</span>
+                </a>
+              {% endfor %}
+            </div>
+          </section>
+        {% endif %}
 
-                  <span class="custom-search-resource-card__link">
-                    View Page
-                    <span aria-hidden="true">→</span>
-                  </span>
-
-                </div>
-
-              </a>
-
-            {% endfor %}
-
-          </div>
-
-        </div>
-
-      {% endif %}
-
-
-      {% comment %}
-        Blog search results
-      {% endcomment %}
-
-      {% if articles.size > 0 %}
-
-        <div class="custom-search-resources" data-page="{{ paginate.current_page }}">
-
-          <h2 class="custom-search-resources__heading">
-            Blog Articles
-          </h2>
-
-          <div class="custom-search-resources__grid">
-
-            {% for article in articles %}
-
-              <a
-                href="{{ article.url }}"
-                class="custom-search-resource-card"
-              >
-
-                {% if article.image %}
-                  <div class="custom-search-resource-card__image">
-                    {{
-                      article.image
-                      | image_url: width: 500
-                      | image_tag: loading: 'lazy'
-                    }}
-                  </div>
-                {% endif %}
-
-                <div class="custom-search-resource-card__content">
-
-                  <span class="custom-search-resource-card__type">
-                    BLOG
-                  </span>
-
-                  <h3 class="custom-search-resource-card__title">
-                    {{ article.title | escape }}
-                  </h3>
-
-                  {% if article.excerpt != blank %}
-                    <p class="custom-search-resource-card__description">
-                      {{ article.excerpt | strip_html | truncatewords: 28 }}
-                    </p>
+        {% if articles.size > 0 %}
+          <section class="search-extra-results__group" aria-label="Blog articles">
+            <h2 class="search-extra-results__heading">Blog Articles</h2>
+            <div class="search-extra-results__grid">
+              {% for article in articles %}
+                <a class="search-extra-results__card" href="{{ article.url }}">
+                  {% if article.image %}
+                    {{ article.image | image_url: width: 600 | image_tag: class: 'search-extra-results__image', loading: 'lazy' }}
                   {% endif %}
+                  <span class="search-extra-results__type">BLOG</span>
+                  <h3 class="search-extra-results__title">{{ article.title | escape }}</h3>
+                  {% assign article_summary = article.excerpt | default: article.content %}
+                  {% if article_summary != blank %}
+                    <p class="search-extra-results__description">{{ article_summary | strip_html | truncatewords: 28 }}</p>
+                  {% endif %}
+                  <span class="search-extra-results__link">Read Article →</span>
+                </a>
+              {% endfor %}
+            </div>
+          </section>
+        {% endif %}
 
-                  <span class="custom-search-resource-card__link">
-                    Read Article
-                    <span aria-hidden="true">→</span>
-                  </span>
-
-                </div>
-
-              </a>
-
-            {% endfor %}
-
-          </div>
-
-        </div>
-
-      {% endif %}
-
-    {% endpaginate %}
-
-  </div>
-
+        {% comment %} Pagination for non-product pages; product-grid has its own pagination. {% endcomment %}
+        {% if products.size == 0 and paginate.pages > 1 %}
+          <nav class="search-extra-results__pagination" aria-label="Search pagination">
+            {% if paginate.previous %}<a href="{{ paginate.previous.url }}">← Previous</a>{% endif %}
+            <span>{{ paginate.current_page }} / {{ paginate.pages }}</span>
+            {% if paginate.next %}<a href="{{ paginate.next.url }}">Next →</a>{% endif %}
+          </nav>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endpaginate %}
 </results-list>
 
 {% schema %}

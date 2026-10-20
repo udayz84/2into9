@@ -255,15 +255,55 @@
       {% endcapture %}
 
       {% if products.size > 0 %}
-        {% render 'product-grid',
-          section: section,
-          children: children,
-          products: products,
-          paginate: paginate,
-          enable_infinite_scroll: section.settings.enable_infinite_scroll,
-          title: title
-        %}
-      {% endif %}
+  {% render 'product-grid',
+    section: section,
+    children: children,
+    products: products,
+    paginate: paginate,
+    enable_infinite_scroll: section.settings.enable_infinite_scroll,
+    title: title
+  %}
+{% endif %}
+
+{% if pages.size > 0 or articles.size > 0 %}
+  <div
+    id="ResultsList"
+    class="search-content-results"
+    data-page="{{ paginate.current_page }}"
+  >
+    {% if pages.size > 0 %}
+      <h2 class="search-content-results__heading">Pages</h2>
+
+      <div class="search-content-results__items">
+        {% for page in pages %}
+          <a href="{{ page.url }}" class="search-content-results__item">
+            <span class="search-content-results__label">PAGE</span>
+            <h3>{{ page.title | escape }}</h3>
+            <p>{{ page.content | strip_html | truncatewords: 25 }}</p>
+            <span class="search-content-results__link">View Page →</span>
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if articles.size > 0 %}
+      <h2 class="search-content-results__heading">Blog Articles</h2>
+
+      <div class="search-content-results__items">
+        {% for article in articles %}
+          <a href="{{ article.url }}" class="search-content-results__item">
+            <span class="search-content-results__label">BLOG</span>
+            <h3>{{ article.title | escape }}</h3>
+            <p>
+              {{ article.excerpt_or_content | strip_html | truncatewords: 25 }}
+            </p>
+            <span class="search-content-results__link">Read Article →</span>
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% endif %}
 
 
       {% comment %}

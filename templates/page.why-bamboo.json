@@ -37,6 +37,7 @@
       "block_order": [
         "ai_gen_block_ece3ca2_HKpRpC"
       ],
+      "disabled": true,
       "name": "Page title and breadcrumb",
       "settings": {
         "content_direction": "column",

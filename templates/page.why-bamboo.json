@@ -27,7 +27,7 @@
             "mobile_breadcrumb_size": 12,
             "title_color": "#000000",
             "breadcrumb_color": "#333333",
-            "background_color": "#FFFFFF",
+            "background_color": "#ffffff",
             "vertical_padding": 32,
             "mobile_vertical_padding": 24
           },
@@ -69,7 +69,7 @@
     "main_hero": {
       "type": "bamboo-hero",
       "settings": {
-        "bg": "#FFFFFF",
+        "bg": "#ffffff",
         "ink": "#171717",
         "width": 1350,
         "padding_top": 75,
@@ -77,8 +77,10 @@
         "eyebrow": "THE FABRIC STORY",
         "heading": "Why Bamboo?",
         "description": "<p>Meet bamboo-derived viscose: a smooth, comfortable fabric made for everyday essentials. Discover the material, how it feels, and what goes into making it.</p>",
+        "image": "shopify://shop_images/01-why-bamboo-hero.webp",
         "button_text": "Explore collection",
-        "button_link": ""
+        "button_link": "",
+        "hover_style": "subtle"
       }
     },
     "main_benefits": {
@@ -142,7 +144,7 @@
         "b6"
       ],
       "settings": {
-        "bg": "#E8E8E8",
+        "bg": "#e8e8e8",
         "ink": "#171717",
         "width": 1350,
         "padding_top": 75,
@@ -150,13 +152,14 @@
         "eyebrow": "WHY IT FEELS DIFFERENT",
         "heading": "The Benefits of Bamboo Viscose",
         "intro": "<p>Discover the everyday qualities that make bamboo-derived viscose interesting for underwear.</p>",
-        "columns": "3"
+        "columns": "3",
+        "hover_style": "subtle"
       }
     },
     "main_soft": {
       "type": "bamboo-image-text",
       "settings": {
-        "bg": "#FFFFFF",
+        "bg": "#ffffff",
         "ink": "#171717",
         "width": 1350,
         "padding_top": 75,
@@ -166,7 +169,8 @@
         "content": "<p>Bamboo-derived viscose is valued for its smooth feel and comfortable drape. For underwear worn close to the skin, how the fabric feels matters.</p>",
         "reverse": false,
         "button_label": "",
-        "button_link": ""
+        "button_link": "",
+        "hover_style": "subtle"
       }
     },
     "main_breath": {
@@ -182,7 +186,8 @@
         "content": "<p>For commutes, long days and active routines, breathable fabric and considered garment design can help you feel comfortable.</p><p>Actual performance depends on the full fabric blend, knit and finish.</p>",
         "reverse": true,
         "button_label": "",
-        "button_link": ""
+        "button_link": "",
+        "hover_style": "subtle"
       }
     },
     "main_process": {
@@ -217,14 +222,15 @@
       ],
       "settings": {
         "bg": "#000000",
-        "ink": "#FFFFFF",
+        "ink": "#ffffff",
         "width": 1350,
         "padding_top": 75,
         "padding_bottom": 75,
         "eyebrow": "FABRIC EDUCATION",
         "heading": "From Bamboo Plant to Fabric",
         "intro": "<p>Bamboo viscose is a manufactured cellulosic fibre made using cellulose sourced from bamboo.</p>",
-        "note": "<p>Production practices vary by supplier and process. Ask for verified material and manufacturing details before making environmental claims.</p>"
+        "note": "<p>Production practices vary by supplier and process. Ask for verified material and manufacturing details before making environmental claims.</p>",
+        "hover_style": "subtle"
       }
     },
     "main_quality": {
@@ -240,7 +246,8 @@
         "content": "<p>For everyday underwear, thoughtful details make a difference: softness, support, waistband construction, stitching and a fit that feels right.</p><p>Care and longevity depend on the garment and its material blend.</p>",
         "reverse": false,
         "button_label": "",
-        "button_link": ""
+        "button_link": "",
+        "hover_style": "subtle"
       }
     },
     "main_facts": {
@@ -282,7 +289,7 @@
         "f4"
       ],
       "settings": {
-        "bg": "#EDEDED",
+        "bg": "#ededed",
         "ink": "#171717",
         "width": 1350,
         "padding_top": 75,
@@ -290,7 +297,8 @@
         "eyebrow": "GOOD TO KNOW",
         "heading": "Facts About Bamboo",
         "intro": "<p>A little more about the plant and the process behind bamboo-based textiles.</p>",
-        "open_first": true
+        "open_first": true,
+        "hover_style": "subtle"
       }
     },
     "main_quote": {
@@ -303,7 +311,8 @@
         "padding_bottom": 75,
         "eyebrow": "OUR PHILOSOPHY",
         "quote": "Everyday essentials should feel as good as they look.",
-        "attribution": "2INTO9"
+        "attribution": "2INTO9",
+        "hover_style": "subtle"
       }
     },
     "main_faq": {
@@ -346,13 +355,14 @@
       ],
       "disabled": true,
       "settings": {
-        "bg": "#EDEDED",
+        "bg": "#ededed",
         "ink": "#171717",
         "width": 1200,
         "padding_top": 75,
         "padding_bottom": 75,
         "eyebrow": "NEED TO KNOW",
-        "heading": "Frequently Asked Questions"
+        "heading": "Frequently Asked Questions",
+        "hover_style": "subtle"
       }
     },
     "main_cta": {
@@ -368,7 +378,8 @@
         "heading": "Comfort Starts With What You Wear",
         "content": "<p>Explore everyday essentials designed with thoughtful materials and considered fit.</p>",
         "button_label": "Shop the collection",
-        "button_link": ""
+        "button_link": "",
+        "hover_style": "subtle"
       }
     }
   },

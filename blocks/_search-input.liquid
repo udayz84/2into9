@@ -48,7 +48,8 @@
       placeholder="{{ 'content.search_input_placeholder' | t }}"
     >
     <a
-      href="{{ routes.search_url }}?type=product&q="
+      {% comment %} href="{{ routes.search_url }}?type=product&q=" {% endcomment %}
+      href="{{ routes.search_url }}?type=product,page,article&q="
       class="search__reset-button{{ color_scheme }}"
       aria-label="{{ 'accessibility.reset_search' | t }}"
     >

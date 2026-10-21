@@ -391,6 +391,7 @@
         "video": "shopify://files/videos/Home Video.mp4",
         "image": "shopify://shop_images/about_banner_1.webp",
         "image_alt": "2into9 lookbook campaign",
+        "image_link": "",
         "enable_shadow": true,
         "shadow_style": "cinematic",
         "shadow_intensity": 70,
@@ -451,6 +452,7 @@
       "name": "Media Lookbook",
       "settings": {
         "image_alt": "",
+        "image_link": "shopify://products/venom-red-printed-trunk",
         "enable_shadow": true,
         "shadow_style": "cinematic",
         "shadow_intensity": 70,
@@ -512,6 +514,7 @@
       "settings": {
         "image": "shopify://shop_images/Banner.webp",
         "image_alt": "",
+        "image_link": "shopify://products/the-captain-mens-trunk",
         "enable_shadow": true,
         "shadow_style": "cinematic",
         "shadow_intensity": 70,

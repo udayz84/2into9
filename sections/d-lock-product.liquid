@@ -1,4 +1,4 @@
-{%- comment -%}
+{% comment %} {%- comment -%}
   D-Lock Product - Compact modern design with gallery, size selector, quantity picker,
   and AJAX Add to Cart functionality.
 {%- endcomment -%}
@@ -1132,6 +1132,1504 @@
       "id": "product",
       "label": "Select product",
       "info": "Select the Shopify product. Its title, price, variants, and images will be used automatically."
+    },
+    {
+      "type": "text",
+      "id": "product_title",
+      "label": "Fallback title",
+      "default": "D-LOCK"
+    },
+    {
+      "type": "text",
+      "id": "product_subtitle",
+      "label": "Subtitle",
+      "default": "Performance Series"
+    },
+    {
+      "type": "text",
+      "id": "price",
+      "label": "Fallback price",
+      "default": "Rs. 1,629.00"
+    },
+    {
+      "type": "header",
+      "content": "Gallery"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Fallback main image",
+      "info": "Used only when no Shopify product is selected."
+    },
+    {
+      "type": "image_picker",
+      "id": "thumb_image_2",
+      "label": "Fallback thumbnail 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "thumb_image_3",
+      "label": "Fallback thumbnail 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "thumb_image_4",
+      "label": "Fallback thumbnail 4"
+    },
+    {
+      "type": "header",
+      "content": "Size selector"
+    },
+    {
+      "type": "text",
+      "id": "select_size_label",
+      "label": "Label",
+      "default": "Select Size"
+    },
+    {
+      "type": "text",
+      "id": "size_options",
+      "label": "Size options",
+      "info": "Comma-separated",
+      "default": "S,M,L,XL,XXL"
+    },
+    {
+      "type": "text",
+      "id": "default_size",
+      "label": "Default selected size",
+      "default": "M"
+    },
+    {
+      "type": "header",
+      "content": "Quantity and button"
+    },
+    {
+      "type": "number",
+      "id": "default_quantity",
+      "label": "Default quantity",
+      "default": 1
+    },
+    {
+      "type": "text",
+      "id": "atc_label",
+      "label": "Button label",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "url",
+      "id": "atc_link",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "description_heading",
+      "label": "Description heading",
+      "default": "Product Description"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "icon_tile",
+      "name": "Icon tile",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Feature"
+        }
+      ]
+    },
+    {
+      "type": "offer",
+      "name": "Pack offer",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Pack"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "1 Pairs"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price",
+          "default": "Rs. 929.00"
+        },
+        {
+          "type": "text",
+          "id": "per_pair",
+          "label": "Per-pair price",
+          "default": "Rs. 929.00/ Pairs"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "D-Lock Product",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %} {% endcomment %}
+
+{%- comment -%}
+  D-Lock Product - Compact modern design with gallery, size selector, quantity picker,
+  and AJAX Add to Cart functionality.
+{%- endcomment -%}
+
+{{ 'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,800;1,400;1,800&display=swap' | stylesheet_tag }}
+
+{%- liquid
+  assign tile_fallback_icons = 'pouch,lock,breathable,antibacterial' | split: ','
+  assign size_list = section.settings.size_options | split: ','
+  assign selected_product = section.settings.product
+  if selected_product == blank
+    assign selected_product = all_products['d-lock-trunk-for-men']
+  endif
+
+  assign current_variant = selected_product.selected_or_first_available_variant
+  assign default_size_clean = section.settings.default_size | strip | downcase
+  for variant in selected_product.variants
+    assign v_title = variant.title | strip | downcase
+    if v_title == default_size_clean
+      assign current_variant = variant
+      break
+    endif
+  endfor
+-%}
+
+<section
+  class="d-lock-product"
+  id="DLockProduct-{{ section.id }}"
+  data-dlp-root
+  data-current-variant-id="{{ current_variant.id }}"
+  style="--dlp-pt: {{ section.settings.padding_top | default: 48 }}px; --dlp-pb: {{ section.settings.padding_bottom | default: 48 }}px; --dlp-bg: {{ section.settings.background_color }};"
+>
+  <div class="d-lock-product__inner">
+    {%- comment -%}
+      Product gallery: product.media includes images, Shopify-hosted videos,
+      YouTube/Vimeo external videos and 3D models. Product.images omits videos.
+      Render each item once, then switch visible frames using its thumbnail.
+    {%- endcomment -%}
+    <div class="d-lock-product__gallery">
+      <div class="d-lock-product__main" data-dlp-main-frame>
+        {%- if selected_product != blank and selected_product.media.size > 0 -%}
+          {%- for media in selected_product.media -%}
+            <div
+              class="d-lock-product__media-item{% if forloop.first %} is-active{% endif %}"
+              data-dlp-media-id="{{ media.id }}"
+              data-dlp-media-type="{{ media.media_type }}"
+              {% unless forloop.first %}hidden{% endunless %}
+            >
+              {%- case media.media_type -%}
+                {%- when 'image' -%}
+                  {%- assign media_alt = media.alt | default: selected_product.title -%}
+                  {%- assign media_loading = 'lazy' -%}
+                  {%- if forloop.first -%}
+                    {%- assign media_loading = 'eager' -%}
+                  {%- endif -%}
+                  {{
+                    media
+                    | image_url: width: 1200
+                    | image_tag:
+                      class: 'd-lock-product__main-img',
+                      widths: '400, 600, 800, 1000, 1200',
+                      sizes: '(min-width: 769px) 520px, 92vw',
+                      loading: media_loading,
+                      alt: media_alt | escape
+                  }}
+                {%- when 'video' -%}
+                  {{
+                    media
+                    | video_tag:
+                      class: 'd-lock-product__main-video',
+                      image_size: '1000x',
+                      controls: true,
+                      autoplay: false,
+                      loop: false,
+                      muted: false,
+                      playsinline: true,
+                      preload: 'metadata'
+                  }}
+                {%- when 'external_video' -%}
+                  {{ media | external_video_tag: class: 'd-lock-product__external-video', loading: 'lazy' }}
+                {%- when 'model' -%}
+                  {{ media | model_viewer_tag: class: 'd-lock-product__model', image_size: '1000x' }}
+              {%- endcase -%}
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          {%- comment -%}Fallback media for the section preview without a product.{%- endcomment -%}
+          <div class="d-lock-product__media-item is-active" data-dlp-media-id="fallback-1" data-dlp-media-type="image">
+            {%- if section.settings.main_image != blank -%}
+              {{ section.settings.main_image | image_url: width: 1000 | image_tag: class: 'd-lock-product__main-img', loading: 'eager', alt: section.settings.product_title | escape }}
+            {%- else -%}
+              <img class="d-lock-product__main-img" src="{{ 'd-lock-product-main.png' | asset_url }}" alt="{{ section.settings.product_title | escape }}" width="800" height="800" loading="eager">
+            {%- endif -%}
+          </div>
+          <div class="d-lock-product__media-item" data-dlp-media-id="fallback-2" data-dlp-media-type="image" hidden>
+            {%- if section.settings.thumb_image_2 != blank -%}
+              {{ section.settings.thumb_image_2 | image_url: width: 1000 | image_tag: class: 'd-lock-product__main-img', loading: 'lazy', alt: section.settings.product_title | escape }}
+            {%- else -%}
+              <img class="d-lock-product__main-img" src="{{ 'd-lock-product-thumb-2.png' | asset_url }}" alt="{{ section.settings.product_title | escape }}" width="800" height="800" loading="lazy">
+            {%- endif -%}
+          </div>
+          <div class="d-lock-product__media-item" data-dlp-media-id="fallback-3" data-dlp-media-type="image" hidden>
+            {%- if section.settings.thumb_image_3 != blank -%}
+              {{ section.settings.thumb_image_3 | image_url: width: 1000 | image_tag: class: 'd-lock-product__main-img', loading: 'lazy', alt: section.settings.product_title | escape }}
+            {%- else -%}
+              <img class="d-lock-product__main-img" src="{{ 'd-lock-product-thumb-3.png' | asset_url }}" alt="{{ section.settings.product_title | escape }}" width="800" height="800" loading="lazy">
+            {%- endif -%}
+          </div>
+          <div class="d-lock-product__media-item" data-dlp-media-id="fallback-4" data-dlp-media-type="image" hidden>
+            {%- if section.settings.thumb_image_4 != blank -%}
+              {{ section.settings.thumb_image_4 | image_url: width: 1000 | image_tag: class: 'd-lock-product__main-img', loading: 'lazy', alt: section.settings.product_title | escape }}
+            {%- else -%}
+              <img class="d-lock-product__main-img" src="{{ 'd-lock-product-thumb-4.png' | asset_url }}" alt="{{ section.settings.product_title | escape }}" width="800" height="800" loading="lazy">
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="d-lock-product__thumbs" aria-label="Product gallery media">
+        {%- if selected_product != blank and selected_product.media.size > 0 -%}
+          {%- for media in selected_product.media -%}
+            <button
+              class="d-lock-product__thumb{% if forloop.first %} is-active{% endif %}"
+              type="button"
+              data-dlp-thumb
+              data-dlp-target="{{ media.id }}"
+              data-dlp-type="{{ media.media_type }}"
+              aria-label="{% if media.media_type == 'video' or media.media_type == 'external_video' %}View video{% elsif media.media_type == 'model' %}View 3D model{% else %}View image{% endif %} {{ forloop.index }}"
+              aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+            >
+              {%- if media.preview_image != blank -%}
+                {{ media.preview_image | image_url: width: 240 | image_tag: class: 'd-lock-product__thumb-img', loading: 'lazy', alt: '' }}
+              {%- else -%}
+                <span class="d-lock-product__thumb-placeholder" aria-hidden="true"></span>
+              {%- endif -%}
+              {%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
+                <span class="d-lock-product__thumb-play" aria-hidden="true"></span>
+              {%- elsif media.media_type == 'model' -%}
+                <span class="d-lock-product__thumb-3d" aria-hidden="true">3D</span>
+              {%- endif -%}
+            </button>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for i in (1..4) -%}
+            {%- assign fallback_image = blank -%}
+            {%- assign fallback_file = 'd-lock-product-thumb-' | append: i | append: '.png' -%}
+            {%- if i == 1 -%}
+              {%- assign fallback_image = section.settings.main_image -%}
+              {%- assign fallback_file = 'd-lock-product-main.png' -%}
+            {%- elsif i == 2 -%}
+              {%- assign fallback_image = section.settings.thumb_image_2 -%}
+            {%- elsif i == 3 -%}
+              {%- assign fallback_image = section.settings.thumb_image_3 -%}
+            {%- elsif i == 4 -%}
+              {%- assign fallback_image = section.settings.thumb_image_4 -%}
+            {%- endif -%}
+            <button
+              class="d-lock-product__thumb{% if forloop.first %} is-active{% endif %}"
+              type="button"
+              data-dlp-thumb
+              data-dlp-target="fallback-{{ i }}"
+              data-dlp-type="image"
+              aria-label="View image {{ i }}"
+              aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+            >
+              {%- if fallback_image != blank -%}
+                {{ fallback_image | image_url: width: 240 | image_tag: class: 'd-lock-product__thumb-img', loading: 'lazy', alt: '' }}
+              {%- else -%}
+                <img class="d-lock-product__thumb-img" src="{{ fallback_file | asset_url }}" alt="" width="200" height="200" loading="lazy">
+              {%- endif -%}
+            </button>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="d-lock-product__info">
+      <div class="d-lock-product__title-row">
+        <div class="d-lock-product__name">
+          <h2 class="d-lock-product__title">
+            {%- if selected_product != blank -%}
+              {{ selected_product.title | escape }}
+            {%- else -%}
+              {{ section.settings.product_title | default: "D-LOCK" | escape }}
+            {%- endif -%}
+          </h2>
+          {%- if section.settings.product_subtitle != blank -%}
+            <span class="d-lock-product__subtitle">{{ section.settings.product_subtitle | escape }}</span>
+          {%- endif -%}
+        </div>
+
+        <div class="d-lock-product__price-row">
+          <s
+            class="d-lock-product__compare"
+            data-dlp-compare
+            {% unless current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}
+          >
+            {{ current_variant.compare_at_price | default: current_variant.price | money }}
+          </s>
+          <p class="d-lock-product__price">
+            {%- if current_variant != blank -%}
+              {{ current_variant.price | money }}
+            {%- elsif selected_product != blank -%}
+              {{ selected_product.price | money }}
+            {%- else -%}
+              {{ section.settings.price | default: 'Rs. 1,629.00' | escape }}
+            {%- endif -%}
+          </p>
+        </div>
+      </div>
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="d-lock-product__tiles">
+          {%- assign tile_index = 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'icon_tile' -%}
+              {%- assign fallback_icon = 'd-lock-tile-icon-' | append: tile_fallback_icons[tile_index] | append: '.svg' -%}
+              <div class="d-lock-product__tile" {{ block.shopify_attributes }}>
+                {%- if block.settings.icon != blank -%}
+                  {{
+                    block.settings.icon
+                    | image_url: width: 60
+                    | image_tag: class: 'd-lock-product__tile-icon', alt: block.settings.label | escape
+                  }}
+                {%- else -%}
+                  <img
+                    class="d-lock-product__tile-icon"
+                    src="{{ fallback_icon | asset_url }}"
+                    alt="{{ block.settings.label | escape }}"
+                    width="24"
+                    height="24"
+                    loading="lazy"
+                  >
+                {%- endif -%}
+                {%- if block.settings.label != blank -%}
+                  <span class="d-lock-product__tile-label">{{ block.settings.label | escape }}</span>
+                {%- endif -%}
+              </div>
+              {%- assign tile_index = tile_index | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      <p class="d-lock-product__size-label">{{ section.settings.select_size_label | default: 'Select Size' | escape }}</p>
+
+      <div class="d-lock-product__sizes" data-dlp-sizes role="group" aria-label="{{ section.settings.select_size_label | escape }}">
+        {%- for size in size_list -%}
+          {%- assign size_handle = size | strip -%}
+          <button
+            class="d-lock-product__size{% if size_handle == section.settings.default_size %} is-active{% endif %}"
+            type="button"
+            data-dlp-size="{{ size_handle | escape }}"
+          >
+            {{- size_handle -}}
+          </button>
+        {%- endfor -%}
+      </div>
+
+      {%- assign has_offers = false -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'offer' -%}
+          {%- assign has_offers = true -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if has_offers -%}
+        <div class="d-lock-product__offers">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'offer' -%}
+              <button class="d-lock-product__offer{% if forloop.first %} is-selected{% endif %}" type="button" data-dlp-offer {{ block.shopify_attributes }}>
+                <span class="d-lock-product__offer-radio-circle"></span>
+                <span class="d-lock-product__offer-pack">
+                  {%- if block.settings.title != blank -%}
+                    <span class="d-lock-product__offer-title">{{ block.settings.title | escape }}</span>
+                  {%- endif -%}
+                  {%- if block.settings.subtitle != blank -%}
+                    <span class="d-lock-product__offer-sub">{{ block.settings.subtitle | escape }}</span>
+                  {%- endif -%}
+                </span>
+                <span class="d-lock-product__offer-pricing">
+                  {%- if block.settings.price != blank -%}
+                    <span class="d-lock-product__offer-price">{{ block.settings.price | escape }}</span>
+                  {%- endif -%}
+                  {%- if block.settings.per_pair != blank -%}
+                    <span class="d-lock-product__offer-per-pair">{{ block.settings.per_pair | escape }}</span>
+                  {%- endif -%}
+                </span>
+              </button>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      <div class="d-lock-product__actions">
+        <div class="d-lock-product__qty" data-dlp-qty data-dlp-value="{{ section.settings.default_quantity | default: 1 }}">
+          <button class="d-lock-product__qty-btn" type="button" data-dlp-step="-1" aria-label="Decrease quantity">&minus;</button>
+          <span class="d-lock-product__qty-value" data-dlp-qty-value>{{ section.settings.default_quantity | default: 1 }}</span>
+          <button class="d-lock-product__qty-btn" type="button" data-dlp-step="1" aria-label="Increase quantity">+</button>
+        </div>
+
+        <button
+          type="button"
+          class="d-lock-product__atc"
+          data-default-label="{{ section.settings.atc_label | default: 'Add to Cart' | escape }}"
+        >
+          {{ section.settings.atc_label | default: 'Add to Cart' | escape }}
+        </button>
+      </div>
+
+      <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" data-dlp-form style="display:none;">
+        <input type="hidden" name="id" value="{{ current_variant.id }}" data-dlp-form-variant>
+        <input type="hidden" name="quantity" value="{{ section.settings.default_quantity | default: 1 }}" data-dlp-form-qty>
+      </form>
+
+      {%- if selected_product != blank and selected_product.description != blank -%}
+        {%- if section.settings.description_heading != blank -%}
+          <h3 class="d-lock-product__description-heading">
+            {{ section.settings.description_heading | escape }}
+          </h3>
+        {%- endif -%}
+        <div class="d-lock-product__description rte">
+          {{ selected_product.description }}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- if selected_product != blank -%}
+    <script type="application/json" data-dlp-variants-json>
+      {{ selected_product.variants | json }}
+    </script>
+  {%- endif -%}
+</section>
+
+{% style %}
+  .d-lock-product {
+    position: relative;
+    width: 100%;
+    background: var(--dlp-bg, #171717);
+    font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+    padding-block: var(--dlp-pt, 48px) var(--dlp-pb, 48px);
+    box-sizing: border-box;
+  }
+
+  .d-lock-product__inner {
+    max-width: 1240px;
+    margin-inline: auto;
+    padding-inline: 24px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 48px;
+    box-sizing: border-box;
+  }
+
+  .d-lock-product__gallery {
+    width: 520px;
+    max-width: 48%;
+    flex-shrink: 0;
+  }
+
+  .d-lock-product__main {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    background: #ffffff;
+    border: 1px solid #282828;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45), 0 8px 18px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Each product image/video has its own gallery frame. */
+  .d-lock-product__media-item {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .d-lock-product__media-item[hidden] {
+    display: none !important;
+  }
+
+  .d-lock-product__media-item[data-dlp-media-type='video'],
+  .d-lock-product__media-item[data-dlp-media-type='external_video'],
+  .d-lock-product__media-item[data-dlp-media-type='model'] {
+    background: #000000;
+  }
+
+  .d-lock-product__main-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.2s ease;
+  }
+
+  .d-lock-product__main-video,
+  .d-lock-product__external-video,
+  .d-lock-product__model,
+  .d-lock-product__media-item video,
+  .d-lock-product__media-item iframe,
+  .d-lock-product__media-item model-viewer {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: 0;
+  }
+
+  .d-lock-product__media-item video {
+    object-fit: contain;
+  }
+
+  /* Four thumbnails visible, scroll horizontally for any additional media. */
+  .d-lock-product__thumbs {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+    scrollbar-color: #555555 transparent;
+    padding-bottom: 6px;
+  }
+
+  .d-lock-product__thumb {
+    position: relative;
+    flex: 0 0 calc((100% - 30px) / 4);
+    min-width: 0;
+    aspect-ratio: 1;
+    padding: 0;
+    background: #ffffff;
+    border: 1px solid #333333;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    scroll-snap-align: start;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  /* Dim unselected thumbnails with the existing dark overlay. */
+  .d-lock-product__thumb::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.42);
+    pointer-events: none;
+    z-index: 1;
+    transition: background 0.2s ease;
+  }
+
+  .d-lock-product__thumb.is-active::after {
+    background: transparent;
+  }
+
+  .d-lock-product__thumb.is-active {
+    border-color: #c5ff00;
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.5);
+  }
+
+  .d-lock-product__thumb:focus-visible {
+    outline: 2px solid #c5ff00;
+    outline-offset: 2px;
+  }
+
+  .d-lock-product__thumb-img,
+  .d-lock-product__thumb-placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .d-lock-product__thumb-placeholder {
+    background: #333333;
+  }
+
+  /* Play symbol stays visible even on a dimmed video thumbnail. */
+  .d-lock-product__thumb-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 34px;
+    height: 34px;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.68);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    border-radius: 50%;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .d-lock-product__thumb-play::after {
+    content: '';
+    width: 0;
+    height: 0;
+    margin-left: 3px;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-left: 10px solid #ffffff;
+  }
+
+  .d-lock-product__thumb-3d {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    padding: 1px 5px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 4px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .d-lock-product__info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    padding-top: 2px;
+  }
+
+  .d-lock-product__title-row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px 24px;
+  }
+
+  .d-lock-product__name {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .d-lock-product__title {
+    margin: 0;
+    font-family: inherit;
+    font-size: clamp(22px, 2vw, 26px);
+    line-height: 1.25;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+  }
+
+  .d-lock-product__subtitle {
+    font-size: 11.5px;
+    font-style: italic;
+    color: #888888;
+    line-height: 1.3;
+  }
+
+  .d-lock-product__price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 4px 0 0;
+    flex-shrink: 0;
+  }
+
+  .d-lock-product__compare {
+    font-size: 17px;
+    font-weight: 600;
+    color: #9b9b9b;
+    text-decoration: line-through;
+  }
+
+  .d-lock-product__price {
+    margin: 0;
+    font-size: clamp(22px, 2.1vw, 28px);
+    font-weight: 700;
+    font-style: normal;
+    color: #e01e1e;
+    line-height: 1.1;
+  }
+
+  .d-lock-product__tiles {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-block-start: 16px;
+    margin-bottom: 18px;
+  }
+
+  .d-lock-product__tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 6px;
+    min-height: 60px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid #2c2c2c;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+
+  .d-lock-product__tile-icon {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    display: block;
+  }
+
+  .d-lock-product__tile-label {
+    margin-top: 5px;
+    font-size: 10.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #b3b3b3;
+    text-align: center;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+  }
+
+  .d-lock-product__size-label {
+    margin: 0 0 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .d-lock-product__sizes {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .d-lock-product__size {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 48px;
+    height: 42px;
+    padding: 0 14px;
+    background: transparent;
+    border: 1px solid #383838;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .d-lock-product__size:hover:not(.is-unavailable) {
+    border-color: #888888;
+  }
+
+  .d-lock-product__size.is-active {
+    background: #c5ff00;
+    border-color: #c5ff00;
+    color: #171717;
+  }
+
+  .d-lock-product__size.is-unavailable {
+    opacity: 0.35;
+    position: relative;
+    cursor: not-allowed;
+  }
+
+  .d-lock-product__size.is-unavailable::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    right: 20%;
+    height: 1.5px;
+    background: #aaaaaa;
+    transform: rotate(-25deg);
+  }
+
+  .d-lock-product__offers {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .d-lock-product__offer {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 9px 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid #303030;
+    border-radius: 8px;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+  }
+
+  .d-lock-product__offer.is-selected {
+    border-color: #c5ff00;
+  }
+
+  .d-lock-product__offer-radio-circle {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1.5px solid #666;
+    margin-right: 12px;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .d-lock-product__offer.is-selected .d-lock-product__offer-radio-circle {
+    border-color: #c5ff00;
+    background: #c5ff00;
+  }
+
+  .d-lock-product__offer-pack {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .d-lock-product__offer-title {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .d-lock-product__offer-sub {
+    font-size: 11.5px;
+    color: #888888;
+  }
+
+  .d-lock-product__offer-pricing {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-left: auto;
+  }
+
+  .d-lock-product__offer-price {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #c5ff00;
+  }
+
+  .d-lock-product__offer-per-pair {
+    font-size: 11px;
+    color: #888888;
+  }
+
+  .d-lock-product__actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 6px;
+  }
+
+  .d-lock-product__description-heading {
+    margin: 28px 0 0;
+    padding-top: 20px;
+    border-top: 1px solid #2e2e2e;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .d-lock-product__description-heading + .d-lock-product__description {
+    margin-top: 14px;
+    padding-top: 0;
+    border-top: none;
+  }
+
+  .d-lock-product__description {
+    margin: 28px 0 0;
+    padding-top: 20px;
+    border-top: 1px solid #2e2e2e;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .d-lock-product__description p {
+    margin: 0 0 12px;
+  }
+
+  .d-lock-product__description p:last-child {
+    margin-bottom: 0;
+  }
+
+  .d-lock-product__description h2,
+  .d-lock-product__description h3 {
+    margin: 16px 0 8px;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .d-lock-product__description ul,
+  .d-lock-product__description ol {
+    margin: 0 0 12px;
+    padding-left: 20px;
+  }
+
+  .d-lock-product__description img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+
+  .d-lock-product__qty {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 110px;
+    height: 50px;
+    padding: 0 12px;
+    background: #ffffff;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+  }
+
+  .d-lock-product__qty-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    font-size: 19px;
+    font-weight: 700;
+    color: #171717;
+    cursor: pointer;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    user-select: none;
+  }
+
+  .d-lock-product__qty-value {
+    font-size: 15px;
+    font-weight: 700;
+    color: #171717;
+    user-select: none;
+  }
+
+  .d-lock-product__atc {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    height: 50px;
+    background: #c5ff00;
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #171717;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    user-select: none;
+  }
+
+  .d-lock-product__atc:hover:not([disabled]) {
+    background: #d4ff33;
+  }
+
+  .d-lock-product__atc:active:not([disabled]) {
+    transform: scale(0.99);
+  }
+
+  .d-lock-product__atc[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #444444;
+    color: #999999;
+  }
+
+  @media screen and (max-width: 768px) {
+    .d-lock-product {
+      padding-block: 26px 30px;
+    }
+
+    .d-lock-product__inner {
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+      padding-inline: 16px;
+    }
+
+    .d-lock-product__gallery {
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .d-lock-product__info {
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .d-lock-product__title {
+      font-size: 20px;
+    }
+
+    .d-lock-product__price-row {
+      margin: 6px 0 12px;
+    }
+
+    .d-lock-product__price {
+      font-size: 21px;
+    }
+
+    .d-lock-product__compare {
+      font-size: 14px;
+    }
+
+    .d-lock-product__tiles {
+      gap: 6px;
+    }
+
+    .d-lock-product__tile {
+      min-height: 50px;
+      padding: 6px 4px;
+    }
+
+    .d-lock-product__tile-label {
+      font-size: 9px;
+    }
+
+    .d-lock-product__size {
+      min-width: 44px;
+      height: 38px;
+      font-size: 13px;
+    }
+
+    .d-lock-product__actions {
+      flex-direction: row;
+      gap: 10px;
+    }
+
+    .d-lock-product__qty {
+      width: 96px;
+      height: 44px;
+    }
+
+    .d-lock-product__atc {
+      height: 44px;
+      font-size: 13px;
+    }
+  }
+{% endstyle %}
+
+<script>
+  (function () {
+    function initDLockProduct() {
+      document.querySelectorAll('[data-dlp-root]').forEach(function (root) {
+        if (root.dataset.dlpInitialized) return;
+        root.dataset.dlpInitialized = 'true';
+
+        var variants = [];
+        var variantsScript = root.querySelector('[data-dlp-variants-json]');
+        if (variantsScript) {
+          try {
+            variants = JSON.parse(variantsScript.textContent);
+          } catch (e) {
+            console.error('Failed to parse D-Lock product variants:', e);
+          }
+        }
+
+        var priceEl = root.querySelector('.d-lock-product__price');
+        var atcBtn = root.querySelector('.d-lock-product__atc');
+        var defaultLabel = atcBtn ? (atcBtn.getAttribute('data-default-label') || 'ADD TO CART') : 'ADD TO CART';
+
+        // Mark size availability against product variants
+        if (variants && variants.length > 0) {
+          root.querySelectorAll('[data-dlp-size]').forEach(function (button) {
+            var s = (button.getAttribute('data-dlp-size') || '').trim().toLowerCase();
+            var exists = variants.some(function (v) {
+              return (v.title && v.title.trim().toLowerCase() === s) ||
+                     (v.option1 && v.option1.trim().toLowerCase() === s);
+            });
+            if (!exists) {
+              button.classList.add('is-unavailable');
+              button.title = 'Size currently unavailable';
+            }
+          });
+        }
+
+        function updateSelectedVariant(sizeName) {
+          if (!variants || variants.length === 0) return;
+          var cleanSize = (sizeName || '').trim().toLowerCase();
+          var matched = variants.find(function (v) {
+            return (v.title && v.title.trim().toLowerCase() === cleanSize) ||
+                   (v.option1 && v.option1.trim().toLowerCase() === cleanSize);
+          });
+
+          var formVar = root.querySelector('[data-dlp-form-variant]');
+
+          if (matched) {
+            root.setAttribute('data-current-variant-id', matched.id);
+            if (formVar) formVar.value = matched.id;
+
+            if (priceEl && matched.price) {
+              var formattedPrice = 'Rs. ' + (matched.price / 100).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+              priceEl.textContent = formattedPrice;
+            }
+
+            var compareEl = root.querySelector('[data-dlp-compare]');
+            if (compareEl) {
+              if (matched.compare_at_price && matched.compare_at_price > matched.price) {
+                compareEl.textContent = 'Rs. ' + (matched.compare_at_price / 100).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                compareEl.hidden = false;
+              } else {
+                compareEl.hidden = true;
+              }
+            }
+            if (atcBtn) {
+              if (matched.available) {
+                atcBtn.removeAttribute('disabled');
+                atcBtn.textContent = defaultLabel;
+              } else {
+                atcBtn.setAttribute('disabled', 'disabled');
+                atcBtn.textContent = 'SOLD OUT';
+              }
+            }
+          } else {
+            root.removeAttribute('data-current-variant-id');
+            if (atcBtn) {
+              atcBtn.setAttribute('disabled', 'disabled');
+              atcBtn.textContent = 'UNAVAILABLE';
+            }
+          }
+        }
+
+        // Initialize with currently active size button (or first available)
+        var initialActiveSize = root.querySelector('.d-lock-product__size.is-active:not(.is-unavailable)') ||
+                                root.querySelector('.d-lock-product__size:not(.is-unavailable)') ||
+                                root.querySelector('.d-lock-product__size');
+        if (initialActiveSize) {
+          root.querySelectorAll('[data-dlp-size]').forEach(function (b) {
+            b.classList.toggle('is-active', b === initialActiveSize);
+          });
+          updateSelectedVariant(initialActiveSize.getAttribute('data-dlp-size'));
+        }
+
+        // Size selection
+        root.querySelectorAll('[data-dlp-size]').forEach(function (button) {
+          button.addEventListener('click', function () {
+            root.querySelectorAll('[data-dlp-size]').forEach(function (b) {
+              b.classList.toggle('is-active', b === button);
+            });
+            updateSelectedVariant(button.getAttribute('data-dlp-size'));
+          });
+        });
+
+        // Pack offer selection
+        root.querySelectorAll('[data-dlp-offer]').forEach(function (button) {
+          button.addEventListener('click', function () {
+            root.querySelectorAll('[data-dlp-offer]').forEach(function (b) {
+              b.classList.toggle('is-selected', b === button);
+            });
+          });
+        });
+
+        // Quantity controls
+        root.querySelectorAll('[data-dlp-step]').forEach(function (stepBtn) {
+          stepBtn.addEventListener('click', function () {
+            var qtyContainer = stepBtn.closest('[data-dlp-qty]');
+            var currentVal = parseInt(qtyContainer.getAttribute('data-dlp-value'), 10) || 1;
+            var step = parseInt(stepBtn.getAttribute('data-dlp-step'), 10) || 0;
+            var newVal = Math.max(1, currentVal + step);
+            qtyContainer.setAttribute('data-dlp-value', newVal);
+            var valueDisplay = qtyContainer.querySelector('[data-dlp-qty-value]');
+            if (valueDisplay) valueDisplay.textContent = newVal;
+
+            var formQty = root.querySelector('[data-dlp-form-qty]');
+            if (formQty) formQty.value = newVal;
+          });
+        });
+
+        // Media gallery: switch image, native Shopify video, YouTube/Vimeo and 3D frames.
+        var galleryFrame = root.querySelector('[data-dlp-main-frame]');
+        var mediaFrames = galleryFrame ? Array.from(galleryFrame.querySelectorAll('[data-dlp-media-id]')) : [];
+        var mediaThumbs = Array.from(root.querySelectorAll('[data-dlp-thumb]'));
+
+        function pauseMedia(frame) {
+          if (!frame) return;
+          frame.querySelectorAll('video').forEach(function (video) {
+            if (!video.paused) video.pause();
+          });
+          // Reload an external player only when switching away from it to stop playback.
+          frame.querySelectorAll('iframe').forEach(function (iframe) {
+            var src = iframe.getAttribute('src');
+            if (src) iframe.setAttribute('src', src);
+          });
+        }
+
+        function activateMedia(mediaId, startVideo) {
+          var activeFrame = null;
+          mediaFrames.forEach(function (frame) {
+            var isMatch = frame.getAttribute('data-dlp-media-id') === mediaId;
+            if (!isMatch && !frame.hidden) pauseMedia(frame);
+            frame.hidden = !isMatch;
+            frame.classList.toggle('is-active', isMatch);
+            if (isMatch) activeFrame = frame;
+          });
+
+          if (!activeFrame) return;
+
+          mediaThumbs.forEach(function (thumb) {
+            var isActive = thumb.getAttribute('data-dlp-target') === mediaId;
+            thumb.classList.toggle('is-active', isActive);
+            thumb.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+          });
+
+          // A click on a hosted-video thumbnail starts playback (with controls/sound).
+          // Browser autoplay restrictions can still apply; manual Play always works.
+          if (startVideo) {
+            var video = activeFrame.querySelector('video');
+            if (video) {
+              var result = video.play();
+              if (result && typeof result.catch === 'function') {
+                result.catch(function () { /* User can press Play manually. */ });
+              }
+            }
+          }
+        }
+
+        mediaThumbs.forEach(function (thumbBtn) {
+          thumbBtn.addEventListener('click', function () {
+            activateMedia(thumbBtn.getAttribute('data-dlp-target'), true);
+          });
+        });
+
+        // Add to Cart
+        if (atcBtn) {
+          atcBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (atcBtn.disabled || atcBtn.getAttribute('disabled')) return;
+
+            var variantId = root.getAttribute('data-current-variant-id');
+            if (!variantId && variants.length > 0) {
+              var firstAvail = variants.find(function(v) { return v.available; }) || variants[0];
+              variantId = firstAvail ? firstAvail.id : null;
+            }
+
+            if (!variantId) {
+              alert('Please select an available size.');
+              return;
+            }
+
+            var qtyEl = root.querySelector('[data-dlp-qty]');
+            var quantity = qtyEl ? (parseInt(qtyEl.getAttribute('data-dlp-value'), 10) || 1) : 1;
+
+            atcBtn.textContent = 'ADDING...';
+            atcBtn.style.pointerEvents = 'none';
+
+            var cartItemsComponents = document.querySelectorAll('cart-items-component');
+            var sectionIds = [];
+            cartItemsComponents.forEach(function (item) {
+              if (item.dataset && item.dataset.sectionId) {
+                sectionIds.push(item.dataset.sectionId);
+              }
+            });
+
+            var payload = {
+              items: [{
+                id: parseInt(variantId, 10),
+                quantity: quantity
+              }]
+            };
+            if (sectionIds.length) {
+              payload.sections = sectionIds.join(',');
+            }
+
+            fetch((window.Shopify && window.Shopify.routes && window.Shopify.routes.root ? window.Shopify.routes.root : '/') + 'cart/add.js', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              body: JSON.stringify(payload)
+            })
+            .then(function (res) {
+              if (!res.ok) throw new Error('Cart add failed');
+              return res.json();
+            })
+            .then(function (data) {
+              atcBtn.textContent = 'ADDED ✓';
+
+              // 1. Notify 2into9 theme jQuery miniCart if present
+              if (window.theme && window.theme.miniCart) {
+                if (typeof window.theme.miniCart.updateElements === 'function') {
+                  window.theme.miniCart.updateElements();
+                }
+                if (typeof window.theme.miniCart.generateCart === 'function') {
+                  window.theme.miniCart.generateCart();
+                }
+              }
+
+              // 2. Open theme miniCart
+              var toggle = document.querySelector('.js-toggle-cart');
+              var miniCart = document.querySelector('.js-mini-cart');
+              if (toggle && miniCart) {
+                miniCart.classList.add('active');
+              }
+
+              // 3. Open cart drawer
+              var drawer = document.querySelector('cart-drawer-component') || document.querySelector('cart-drawer') || document.querySelector('#CartDrawer') || document.querySelector('.cart-drawer');
+              var trigger = document.querySelector('[data-testid="cart-drawer-trigger"]');
+              if (drawer && typeof drawer.open === 'function') {
+                drawer.open();
+              } else if (trigger) {
+                trigger.click();
+              } else if (drawer) {
+                drawer.classList.add('active', 'is-open');
+                drawer.setAttribute('open', '');
+              }
+
+              // 4. Dispatch standard theme events
+              var cartDetail = {
+                resource: data || {},
+                sourceId: String(variantId || ''),
+                data: {
+                  source: 'product-form-component',
+                  itemCount: Number(quantity) || 1,
+                  productId: String(variantId || ''),
+                  sections: data && data.sections ? data.sections : {}
+                }
+              };
+              document.dispatchEvent(new CustomEvent('cart:update', { bubbles: true, detail: cartDetail }));
+              document.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true, detail: cartDetail }));
+              document.dispatchEvent(new CustomEvent('cart:updated', { bubbles: true, detail: { cart: data } }));
+
+              setTimeout(function () {
+                atcBtn.textContent = defaultLabel;
+                atcBtn.style.pointerEvents = '';
+              }, 2000);
+            })
+            .catch(function (err) {
+              console.warn('Ajax cart error, falling back to form submit:', err);
+              var form = root.querySelector('[data-dlp-form]');
+              if (form) {
+                var formVariant = form.querySelector('[data-dlp-form-variant]');
+                var formQty = form.querySelector('[data-dlp-form-qty]');
+                if (formVariant) formVariant.value = variantId;
+                if (formQty) formQty.value = quantity;
+                form.submit();
+                return;
+              }
+              atcBtn.textContent = 'ERROR - RETRY';
+              setTimeout(function () {
+                atcBtn.textContent = defaultLabel;
+                atcBtn.style.pointerEvents = '';
+              }, 2000);
+            });
+          });
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initDLockProduct);
+    } else {
+      initDLockProduct();
+    }
+    document.addEventListener('shopify:section:load', initDLockProduct);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "D-Lock Product",
+  "tag": "section",
+  "class": "section-d-lock-product",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#171717"
+    },
+    {
+      "type": "header",
+      "content": "Product"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Select product",
+      "info": "Select the Shopify product. Its title, price, variants, images and product videos will be used automatically."
     },
     {
       "type": "text",

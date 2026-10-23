@@ -94,7 +94,7 @@
             "title": "Silky-soft feel",
             "text": "<p>A smooth, soft hand feel for everyday wear.</p>",
             "card_background": "#585858",
-            "card_text": "#FFFFFF",
+            "card_text": "#ffffff",
             "image_text_color": "#ffffff",
             "card_overlay": 35
           }
@@ -106,7 +106,7 @@
             "title": "Breathable comfort",
             "text": "<p>Designed for a lightweight, airy wearing experience.</p>",
             "card_background": "#585858",
-            "card_text": "#FFFFFF",
+            "card_text": "#ffffff",
             "image_text_color": "#ffffff",
             "card_overlay": 35
           }
@@ -118,7 +118,7 @@
             "title": "Moisture management",
             "text": "<p>Fabric properties and garment construction can help manage moisture.</p>",
             "card_background": "#585858",
-            "card_text": "#FFFFFF",
+            "card_text": "#ffffff",
             "image_text_color": "#ffffff",
             "card_overlay": 35
           }
@@ -130,7 +130,7 @@
             "title": "Considered construction",
             "text": "<p>Material blends and fit help make practical everyday essentials.</p>",
             "card_background": "#585858",
-            "card_text": "#FFFFFF",
+            "card_text": "#ffffff",
             "image_text_color": "#ffffff",
             "card_overlay": 35
           }
@@ -142,7 +142,7 @@
             "title": "Everyday durability",
             "text": "<p>Follow care instructions to help keep your clothing in good condition.</p>",
             "card_background": "#585858",
-            "card_text": "#FFFFFF",
+            "card_text": "#ffffff",
             "image_text_color": "#ffffff",
             "card_overlay": 35
           }
@@ -154,7 +154,7 @@
             "title": "Soft against skin",
             "text": "<p>A pleasant touch makes a difference in close-to-body layers.</p>",
             "card_background": "#585858",
-            "card_text": "#FFFFFF",
+            "card_text": "#ffffff",
             "image_text_color": "#ffffff",
             "card_overlay": 35
           }
@@ -198,6 +198,36 @@
         "button_label": "",
         "button_link": "",
         "hover_style": "subtle"
+      }
+    },
+    "bamboo_video_9pAkym": {
+      "type": "bamboo-video",
+      "name": "Bamboo cinematic video",
+      "settings": {
+        "mp4_url": "",
+        "autoplay": false,
+        "muted": true,
+        "loop": true,
+        "controls": true,
+        "top_heading": true,
+        "eyebrow": "A CLOSER LOOK",
+        "heading": "The Story Behind Bamboo",
+        "description": "<p>From fast-growing plant to the fibres used in everyday fabrics.</p>",
+        "show_overlay_text": false,
+        "overlay_eyebrow": "FROM NATURE TO FABRIC",
+        "overlay_heading": "Where the Journey Begins",
+        "overlay_caption": "<p>A closer look at bamboo, the plant behind the material.</p>",
+        "button_label": "",
+        "button_url": "",
+        "overlay": 35,
+        "background": "#ffffff",
+        "text_color": "#171717",
+        "width": 1200,
+        "desktop_height": 580,
+        "mobile_height": 420,
+        "padding_top": 75,
+        "padding_bottom": 75,
+        "caption": ""
       }
     },
     "main_breath": {
@@ -258,7 +288,8 @@
         "heading": "From Bamboo Plant to Fabric",
         "intro": "<p>Bamboo viscose is a manufactured cellulosic fibre made using cellulose sourced from bamboo.</p>",
         "note": "<p>Production practices vary by supplier and process. Ask for verified material and manufacturing details before making environmental claims.</p>",
-        "hover_style": "subtle"
+        "hover_style": "subtle",
+        "step_style": "line"
       }
     },
     "main_quality": {
@@ -416,6 +447,7 @@
     "main_hero",
     "main_benefits",
     "main_soft",
+    "bamboo_video_9pAkym",
     "main_breath",
     "main_process",
     "main_quality",

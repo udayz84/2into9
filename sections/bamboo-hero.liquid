@@ -1,42 +1,13 @@
 {{ 'bamboo-page.css' | asset_url | stylesheet_tag }}
-<section
-  class="bb bb-hover-{{ section.settings.hover_style }} bb bb-hero"
-  style="--bb-bg:{{ section.settings.bg }};--bb-ink:{{ section.settings.ink }};--bb-max:{{ section.settings.width }}px;--bb-pt:{{ section.settings.padding_top }}px;--bb-pb:{{ section.settings.padding_bottom }}px"
->
+<section class="bb bb-hover-{{ section.settings.hover_style }} bb-hero" style="--bb-bg:{{ section.settings.bg }};--bb-ink:{{ section.settings.ink }};--bb-max:{{ section.settings.width }}px;--bb-pt:{{ section.settings.padding_top }}px;--bb-pb:{{ section.settings.padding_bottom }}px">
   <div class="bb-wrap bb-hero-grid">
-    <div class="bb-hero-copy">
-      <div class="bb-eyebrow">{{ section.settings.eyebrow | escape }}</div>
-      <h1>{{ section.settings.heading | escape }}</h1>
-      <div class="bb-rich">{{ section.settings.description }}</div>
-      {% if section.settings.button_text != blank and section.settings.button_link != blank -%}
-        <a class="bb-button" href="{{ section.settings.button_link }}">
-          {{- section.settings.button_text | escape }}
-          <span aria-hidden="true">↗</span></a
-        >
-      {%- endif %}
-    </div>
+    <div class="bb-hero-copy"><div class="bb-eyebrow">{{ section.settings.eyebrow | escape }}</div><h1>{{ section.settings.heading | escape }}</h1><div class="bb-rich">{{ section.settings.description }}</div>
+    {% if section.settings.button_text != blank and section.settings.button_link != blank %}<a class="bb-button" href="{{ section.settings.button_link }}">{{ section.settings.button_text | escape }} <span aria-hidden="true">↗</span></a>{% endif %}</div>
     <div class="bb-image bb-hero-media">
-      {% if section.settings.mobile_image != blank -%}
-        <picture>
-          <source media="(max-width: 749px)" srcset="{{ section.settings.mobile_image | image_url: width: 900 }}">
-      {% endif %}
-      {% if section.settings.image != blank -%}
-        {{-
-          section.settings.image
-          | image_url: width: 1700
-          | image_tag:
-            loading: 'eager',
-            widths: '600,900,1200,1700',
-            sizes: '(min-width: 900px) 52vw, 100vw',
-            alt: section.settings.image.alt
-        -}}
-      {%- else -%}
-        {{- 'lifestyle-1' | placeholder_svg_tag -}}
-      {%- endif %}
+      {% if section.settings.mobile_image != blank %}<picture><source media="(max-width: 749px)" srcset="{{ section.settings.mobile_image | image_url: width: 900 }}">{% endif %}
+      {% if section.settings.image != blank %}{{ section.settings.image | image_url: width: 1700 | image_tag: loading: 'eager', widths: '600,900,1200,1700', sizes: '(min-width: 900px) 52vw, 100vw', alt: section.settings.image.alt }}{% else %}{{ 'lifestyle-1' | placeholder_svg_tag }}{% endif %}
       {% if section.settings.mobile_image != blank %}</picture>{% endif %}
-    </div>
-  </div>
-</section>
+    </div></div></section>
 {% schema %}
 {
   "name": "Hero",

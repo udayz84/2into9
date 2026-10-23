@@ -1,5 +1,5 @@
 {{ 'bamboo-page.css' | asset_url | stylesheet_tag }}
-<section class="bb bb-hover-{{ section.settings.hover_style }} bb bb-quote" style="--bb-bg:{{ section.settings.bg }};--bb-ink:{{ section.settings.ink }};--bb-max:{{ section.settings.width }}px;--bb-pt:{{ section.settings.padding_top }}px;--bb-pb:{{ section.settings.padding_bottom }}px"><div class="bb-wrap bb-quote-wrap"><div class="bb-eyebrow">{{ section.settings.eyebrow | escape }}</div><blockquote>“{{ section.settings.quote | escape }}”</blockquote><p>{{ section.settings.attribution | escape }}</p></div></section>
+<section class="bb bb-hover-{{ section.settings.hover_style }} bb-quote" style="--bb-bg:{{ section.settings.bg }};--bb-ink:{{ section.settings.ink }};--bb-max:{{ section.settings.width }}px;--bb-pt:{{ section.settings.padding_top }}px;--bb-pb:{{ section.settings.padding_bottom }}px"><div class="bb-wrap bb-quote-wrap"><div class="bb-eyebrow">{{ section.settings.eyebrow | escape }}</div><blockquote>“{{ section.settings.quote | escape }}”</blockquote><p>{{ section.settings.attribution | escape }}</p></div></section>
 {% schema %}
 {
   "name": "Quote",

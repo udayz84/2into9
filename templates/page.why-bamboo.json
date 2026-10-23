@@ -92,7 +92,11 @@
           "settings": {
             "icon": "◌",
             "title": "Silky-soft feel",
-            "text": "<p>A smooth, soft hand feel for everyday wear.</p>"
+            "text": "<p>A smooth, soft hand feel for everyday wear.</p>",
+            "card_background": "#585858",
+            "card_text": "#FFFFFF",
+            "image_text_color": "#ffffff",
+            "card_overlay": 35
           }
         },
         "b2": {
@@ -100,7 +104,11 @@
           "settings": {
             "icon": "≋",
             "title": "Breathable comfort",
-            "text": "<p>Designed for a lightweight, airy wearing experience.</p>"
+            "text": "<p>Designed for a lightweight, airy wearing experience.</p>",
+            "card_background": "#585858",
+            "card_text": "#FFFFFF",
+            "image_text_color": "#ffffff",
+            "card_overlay": 35
           }
         },
         "b3": {
@@ -108,7 +116,11 @@
           "settings": {
             "icon": "↗",
             "title": "Moisture management",
-            "text": "<p>Fabric properties and garment construction can help manage moisture.</p>"
+            "text": "<p>Fabric properties and garment construction can help manage moisture.</p>",
+            "card_background": "#585858",
+            "card_text": "#FFFFFF",
+            "image_text_color": "#ffffff",
+            "card_overlay": 35
           }
         },
         "b4": {
@@ -116,7 +128,11 @@
           "settings": {
             "icon": "✧",
             "title": "Considered construction",
-            "text": "<p>Material blends and fit help make practical everyday essentials.</p>"
+            "text": "<p>Material blends and fit help make practical everyday essentials.</p>",
+            "card_background": "#585858",
+            "card_text": "#FFFFFF",
+            "image_text_color": "#ffffff",
+            "card_overlay": 35
           }
         },
         "b5": {
@@ -124,7 +140,11 @@
           "settings": {
             "icon": "↻",
             "title": "Everyday durability",
-            "text": "<p>Follow care instructions to help keep your clothing in good condition.</p>"
+            "text": "<p>Follow care instructions to help keep your clothing in good condition.</p>",
+            "card_background": "#585858",
+            "card_text": "#FFFFFF",
+            "image_text_color": "#ffffff",
+            "card_overlay": 35
           }
         },
         "b6": {
@@ -132,7 +152,11 @@
           "settings": {
             "icon": "◇",
             "title": "Soft against skin",
-            "text": "<p>A pleasant touch makes a difference in close-to-body layers.</p>"
+            "text": "<p>A pleasant touch makes a difference in close-to-body layers.</p>",
+            "card_background": "#585858",
+            "card_text": "#FFFFFF",
+            "image_text_color": "#ffffff",
+            "card_overlay": 35
           }
         }
       },
@@ -154,6 +178,7 @@
         "heading": "The Benefits of Bamboo Viscose",
         "intro": "<p>Discover the everyday qualities that make bamboo-derived viscose interesting for underwear.</p>",
         "columns": "3",
+        "mobile_columns": "1",
         "hover_style": "subtle"
       }
     },

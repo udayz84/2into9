@@ -1,11 +1,3 @@
-{%- liquid
-  assign has_menu_blocks = false
-  for block in section.blocks
-    if block.type == 'menu'
-      assign has_menu_blocks = true
-    endif
-  endfor
--%}
 
 {{ 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap' | stylesheet_tag }}
 

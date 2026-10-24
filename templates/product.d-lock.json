@@ -144,7 +144,7 @@
           "type": "item",
           "settings": {
             "title": "Fit & Fabric",
-            "content": "{{ product.metafields.custom.features_details | metafield_tag }}",
+            "content": "",
             "use_product_description": false
           }
         },

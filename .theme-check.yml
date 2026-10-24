@@ -1,0 +1,8 @@
+# Theme Check configuration
+# https://shopify.dev/docs/themes/tools/theme-check
+
+RemoteAsset:
+  enabled: false
+
+ValidScopedCSSClass:
+  enabled: false

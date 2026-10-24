@@ -169,14 +169,11 @@
             {% if block_settings.enable_filtering %}
               {% assign total_active_values = 0 %}
 
-              {% comment %} Custom Filters Logic {% endcomment %}
-              {% assign product_source = results.products | default: collection.products %}
-              {% assign tag_source = results.all_tags | default: collection.all_tags %}
-
-              {% comment %} Custom Filters Logic Moved to Snippet {% endcomment %}
-
               <div class="facets__filters-wrapper">
                 {% if block_settings.filter_style == 'horizontal' %}
+                  {% capture rendered_filters %}
+                    {% render 'custom-filters', results: results %}
+                  {% endcapture %}
                   {% liquid
                     assign more_attributes = 'on:click="#filters-drawer/showDialog"'
                     if block_settings.text_label_case == 'uppercase'

@@ -138,7 +138,7 @@
 
               {% if section.settings.show_price %}
                 <div class="best-sellers-card__price">
-                  {% render 'price', product: product %}
+                  {% render 'price', product_resource: product %}
                 </div>
               {% endif %}
 
@@ -196,7 +196,8 @@
             --peek-next-slide-size: 0px;
           "
         >
-          {% render 'resource-list-carousel', ref: 'bestSellersCarouselMobile-', append: section.id, slides: slides_array, slide_count: slides_array.size, settings: section.settings, slide_width_max: section.settings.card_max_width %}
+          {% assign carousel_mobile_ref = 'bestSellersCarouselMobile-' | append: section.id %}
+          {% render 'resource-list-carousel', ref: carousel_mobile_ref, slides: slides_array, slide_count: slides_array.size, settings: section.settings, slide_width_max: section.settings.card_max_width %}
         </div>
       {% else %}
         <div
@@ -213,7 +214,8 @@
             --peek-next-slide-size: 0px;
           "
         >
-          {% render 'resource-list-carousel', ref: 'bestSellersCarousel-', append: section.id, slides: slides_array, slide_count: slides_array.size, settings: section.settings, slide_width_max: section.settings.card_max_width %}
+          {% assign carousel_desktop_ref = 'bestSellersCarousel-' | append: section.id %}
+          {% render 'resource-list-carousel', ref: carousel_desktop_ref, slides: slides_array, slide_count: slides_array.size, settings: section.settings, slide_width_max: section.settings.card_max_width %}
         </div>
       {% endif %}
     </div>

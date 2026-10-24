@@ -15,7 +15,7 @@
   @param {string} [video_type] - 'youtube' or 'vimeo'
   @param {boolean} [disable_controls] - Whether to disable controls. If true, only play/pause will be usable.
   @param {object} video - The Shopify video object or a string containing a YouTube ID or Vimeo ID
-  @param {string} section_id - The section ID
+  @param {string} [section_id] - The section ID
   @param {object} [block] - The block object
 
   Video from URL:
@@ -28,6 +28,7 @@
 {%- enddoc -%}
 
 {% liquid
+  assign section_id = section_id
   assign block_settings = block.settings
   assign video_alt = video_alt | default: video.alt
   assign alt = 'blocks.load_video' | t: description: video_alt | escape

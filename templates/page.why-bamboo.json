@@ -206,10 +206,10 @@
       "settings": {
         "shopify_video": "shopify://files/videos/2into9_bamboo_video.mp4",
         "mp4_url": "",
-        "autoplay": false,
+        "autoplay": true,
         "muted": true,
         "loop": true,
-        "controls": true,
+        "controls": false,
         "top_heading": true,
         "eyebrow": "A CLOSER LOOK",
         "heading": "The Story Behind Bamboo",

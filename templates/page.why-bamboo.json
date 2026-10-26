@@ -317,28 +317,28 @@
           "type": "fact",
           "settings": {
             "question": "Is bamboo a tree?",
-            "answer": "<p>No. Botanically, bamboo belongs to the grass family.</p>"
+            "answer": "<p>No. Bamboo belongs to the grass family.</p>"
           }
         },
         "f2": {
           "type": "fact",
           "settings": {
             "question": "Do all bamboo species grow at the same rate?",
-            "answer": "<p>No. Growth varies widely across species and growing conditions.</p>"
+            "answer": "<p>No. Growth rates vary depending on the species and growing conditions.</p>"
           }
         },
         "f3": {
           "type": "fact",
           "settings": {
-            "question": "Is bamboo viscose the same as raw bamboo fibre?",
-            "answer": "<p>No. Bamboo viscose is a manufactured regenerated-cellulose fibre made from bamboo-derived cellulose.</p>"
+            "question": "Can bamboo be turned into fabric?",
+            "answer": "<p>Yes. Bamboo cellulose can be processed into fibres such as viscose for making fabric.</p>"
           }
         },
         "f4": {
           "type": "fact",
           "settings": {
-            "question": "Does bamboo growing automatically make a garment sustainable?",
-            "answer": "<p>Not automatically. Manufacturing inputs, chemical management, sourcing, dyeing and product lifespan all matter.</p>"
+            "question": "Is bamboo used for purposes other than fabric?",
+            "answer": "<p>Yes. Bamboo is also used to make furniture, paper, building materials, and household products.</p>"
           }
         }
       },
@@ -356,7 +356,7 @@
         "padding_bottom": 75,
         "eyebrow": "GOOD TO KNOW",
         "heading": "Facts About Bamboo",
-        "intro": "<p>A little more about the plant and the process behind bamboo-based textiles.</p>",
+        "intro": "<p>A few simple facts about bamboo and its uses.</p>",
         "open_first": true,
         "hover_style": "subtle"
       }

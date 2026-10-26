@@ -204,6 +204,7 @@
       "type": "bamboo-video",
       "name": "Bamboo cinematic video",
       "settings": {
+        "shopify_video": "shopify://files/videos/2into9_bamboo_video.mp4",
         "mp4_url": "",
         "autoplay": false,
         "muted": true,

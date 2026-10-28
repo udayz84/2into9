@@ -262,8 +262,8 @@
         "p2": {
           "type": "step",
           "settings": {
-            "heading": "Cellulose is processed",
-            "text": "<p>Cellulose sourced from bamboo is processed to create a textile fibre such as viscose.</p>"
+            "heading": "Cellulose Is Dissolved and Regenerated",
+            "text": "<p>Bamboo-derived cellulose is dissolved using chemical solvents and then regenerated into viscose fibres, which are spun into yarn for fabric production.</p>"
           }
         },
         "p3": {

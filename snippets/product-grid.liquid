@@ -158,25 +158,6 @@
         {% endunless %}
 
         {{ children }}
-        {% unless onboarding %}
-  <div class="product-card__custom-price">
-    {% if product.price_varies %}
-      <span class="product-card__price">
-        {{ product.price_min | money }} – {{ product.price_max | money }}
-      </span>
-    {% else %}
-      <span class="product-card__price">
-        {{ product.price | money }}
-      </span>
-    {% endif %}
-
-    {% if product.compare_at_price > product.price %}
-      <span class="product-card__compare-price">
-        {{ product.compare_at_price | money }}
-      </span>
-    {% endif %}
-  </div>
-{% endunless %}
       </ul>
       {% comment %} Mobile progressive reveal: 6 products at a time via Load More {% endcomment %}
       <div class="product-grid__load-more-wrap">
@@ -305,27 +286,4 @@
       text-align: center;
     }
   }
-
-  .product-card__custom-price {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 6px;
-  width: 100%;
-}
-
-.product-card__price {
-  font-size: 16px;
-  font-weight: 600;
-  color: #171717;
-  line-height: 1.4;
-}
-
-.product-card__compare-price {
-  font-size: 14px;
-  color: #777777;
-  text-decoration: line-through;
-  line-height: 1.4;
-}
 {% endstylesheet %}

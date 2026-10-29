@@ -22,7 +22,14 @@
             "subheading": "THE EVERYDAY ESSENTIAL",
             "heading": "Comfort in Every Color",
             "button_label": "SHOP NOW",
-            "button_link": ""
+            "button_link": "",
+            "content_horizontal": "flex-start",
+            "content_vertical": "center",
+            "subheading_align": "left",
+            "heading_align": "left",
+            "button_align": "flex-start",
+            "mobile_horizontal": "flex-start",
+            "mobile_vertical": "flex-end"
           }
         },
         "slide_6QYP34": {
@@ -35,7 +42,14 @@
             "subheading": "THE NEW D-LOCK",
             "heading": "Lock in your Comfort",
             "button_label": "SHOP NOW",
-            "button_link": ""
+            "button_link": "",
+            "content_horizontal": "flex-start",
+            "content_vertical": "center",
+            "subheading_align": "left",
+            "heading_align": "left",
+            "button_align": "flex-start",
+            "mobile_horizontal": "flex-start",
+            "mobile_vertical": "flex-end"
           }
         },
         "slide_LHHk7t": {
@@ -48,7 +62,14 @@
             "subheading": "COMFORT MEETS STYLE",
             "heading": "Feel Good. Look Better.",
             "button_label": "SHOP NOW",
-            "button_link": ""
+            "button_link": "",
+            "content_horizontal": "flex-start",
+            "content_vertical": "center",
+            "subheading_align": "left",
+            "heading_align": "left",
+            "button_align": "flex-start",
+            "mobile_horizontal": "flex-start",
+            "mobile_vertical": "flex-end"
           }
         },
         "slide_kJTyDU": {
@@ -61,7 +82,14 @@
             "subheading": "MADE FOR LITTLE ONES",
             "heading": "Little Styles, Big Smiles",
             "button_label": "SHOP NOW",
-            "button_link": "shopify://collections/kids"
+            "button_link": "shopify://collections/kids",
+            "content_horizontal": "flex-start",
+            "content_vertical": "center",
+            "subheading_align": "left",
+            "heading_align": "left",
+            "button_align": "flex-start",
+            "mobile_horizontal": "flex-start",
+            "mobile_vertical": "flex-end"
           }
         },
         "product_1": {

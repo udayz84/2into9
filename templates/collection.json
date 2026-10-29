@@ -144,16 +144,16 @@
               },
               "blocks": {}
             },
-            "price_pBRkKF": {
+            "price_xnVxeN": {
               "type": "price",
               "name": "t:names.product_price",
               "settings": {
                 "show_sale_price_first": true,
                 "show_installments": false,
                 "show_tax_info": false,
-                "type_preset": "paragraph",
-                "width": "100%",
-                "alignment": "center",
+                "type_preset": "",
+                "width": "fit-content",
+                "alignment": "left",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
                 "line_height": "normal",
@@ -210,7 +210,7 @@
           "block_order": [
             "card-gallery",
             "product_title",
-            "price_pBRkKF",
+            "price_xnVxeN",
             "buy_buttons"
           ]
         }

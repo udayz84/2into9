@@ -158,6 +158,15 @@
         {% endunless %}
 
         {{ children }}
+        {% if product != blank %}
+  <div class="product-card__custom-price">
+    {% render 'price',
+      product_resource: product,
+      show_unit_price: true,
+      show_sale_price_first: true
+    %}
+  </div>
+{% endif %}
       </ul>
       {% comment %} Mobile progressive reveal: 6 products at a time via Load More {% endcomment %}
       <div class="product-grid__load-more-wrap">

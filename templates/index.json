@@ -127,7 +127,7 @@
         "product_3"
       ],
       "custom_css": [
-        "/* .hero2__slide:nth-child(3) .hero2__eyebrow,.hero2__slide:nth-child(3) .hero2__heading,.hero2__slide:nth-child(4) .hero2__eyebrow,.hero2__slide:nth-child(4) .hero2__heading {color: black;} */"
+        "@media screen and (min-width: 768px) {.hero2__slide:nth-child(3) .hero2__eyebrow, .hero2__slide:nth-child(3) .hero2__heading, .hero2__slide:nth-child(4) .hero2__eyebrow, .hero2__slide:nth-child(4) .hero2__heading {color: black; }}"
       ],
       "name": "Homepage Hero",
       "settings": {

@@ -8,6 +8,30 @@
   {% content_for 'blocks', closest.product: product %}
 {% endcapture %}
 
+{%- liquid
+  if product != blank and product.id != blank
+    unless children contains '<product-price'
+      capture fallback_price
+        echo '<product-price class="text-block text-block--align-center text-center spacing-style" data-product-id="'
+        echo product.id
+        echo '">'
+        render 'price', show_unit_price: false, product_resource: product, show_sale_price_first: true
+        echo '</product-price>'
+      endcapture
+
+      if children contains '<span class="buy-buttons-block'
+        assign parts = children | split: '<span class="buy-buttons-block'
+        assign children = parts[0] | append: fallback_price | append: '<span class="buy-buttons-block' | append: parts[1]
+      elsif children contains 'class="buy-buttons-block'
+        assign parts = children | split: 'class="buy-buttons-block'
+        assign children = parts[0] | append: fallback_price | append: 'class="buy-buttons-block' | append: parts[1]
+      else
+        assign children = children | append: fallback_price
+      endif
+    endunless
+  endif
+-%}
+
 {% render 'product-card', children: children, product: product %}
 
 {% schema %}

@@ -348,17 +348,68 @@
     object-fit: cover;
   }
 
-  /* Hide vendor brand name and price completely on all category grids */
+  /* Hide vendor brand name on category grids */
   .main-collection-grid .product-vendor-text,
-  .main-collection-grid product-price,
-  .main-collection-grid .price,
-  body.template-collection .main-collection-grid .product-vendor-text,
-  body.template-collection .main-collection-grid product-price,
-  body.template-collection .main-collection-grid .price {
+  body.template-collection .main-collection-grid .product-vendor-text {
     display: none !important;
     height: 0 !important;
     margin: 0 !important;
     padding: 0 !important;
+  }
+
+  /* Price tag container on collection cards */
+  .main-collection-grid product-price,
+  body.template-collection .main-collection-grid product-price {
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+    margin-block-start: 2px !important;
+    margin-block-end: 6px !important;
+    padding-inline: 16px !important;
+    box-sizing: border-box !important;
+    min-height: 22px !important;
+    line-height: 1.4 !important;
+  }
+
+  .main-collection-grid product-price [ref='priceContainer'],
+  body.template-collection .main-collection-grid product-price [ref='priceContainer'] {
+    display: inline-flex !important;
+    align-items: baseline !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+  }
+
+  .main-collection-grid product-price .price,
+  body.template-collection .main-collection-grid product-price .price {
+    display: inline-block !important;
+    height: auto !important;
+    font-size: clamp(13px, 4.8cqw, 15px) !important;
+    font-weight: 700 !important;
+    color: #171717 !important;
+    line-height: 1.3 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .main-collection-grid product-price .compare-at-price,
+  body.template-collection .main-collection-grid product-price .compare-at-price {
+    display: inline-block !important;
+    height: auto !important;
+    font-size: clamp(11.5px, 4.2cqw, 13px) !important;
+    font-weight: 400 !important;
+    color: #888888 !important;
+    text-decoration: line-through !important;
+    opacity: 0.75 !important;
+    line-height: 1.3 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .main-collection-grid product-price .tax-note,
+  .main-collection-grid product-price .installments,
+  .main-collection-grid product-price .unit-price {
+    display: none !important;
   }
 
   /* Product title container with fixed 2-line height for uniform alignment */
@@ -530,6 +581,24 @@
     .main-collection-grid .product-title-text {
       font-size: 11px !important;
       line-height: 1.3 !important;
+    }
+
+    .main-collection-grid product-price,
+    body.template-collection .main-collection-grid product-price {
+      margin-block-start: 2px !important;
+      margin-block-end: 4px !important;
+      padding-inline: 8px !important;
+      min-height: 18px !important;
+    }
+
+    .main-collection-grid product-price .price,
+    body.template-collection .main-collection-grid product-price .price {
+      font-size: 12px !important;
+    }
+
+    .main-collection-grid product-price .compare-at-price,
+    body.template-collection .main-collection-grid product-price .compare-at-price {
+      font-size: 11px !important;
     }
 
     .main-collection-grid .buy-buttons-block,

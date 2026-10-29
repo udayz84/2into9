@@ -20,7 +20,7 @@
             "text": "Our deliveries begin after Diwali. Thank you for your patience and excitement!",
             "link": "",
             "font": "var(--font-subheading--family)",
-            "font_size": "0.7rem",
+            "font_size": "",
             "weight": "",
             "letter_spacing": "normal",
             "case": "none"

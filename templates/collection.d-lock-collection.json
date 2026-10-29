@@ -81,9 +81,9 @@
       ],
       "name": "D-Lock Story Media",
       "settings": {
-        "heading": "<p><strong>How D-LOCK Keeps You Game-Ready</strong></p>",
+        "heading": "",
         "subheading": "<p><strong>Built for Long Sessions</strong></p>",
-        "solution_text": "<p><strong>D-LOCK</strong> combines a built-in box pouch with a unique cross-lock support system to keep everything in place without restricting movement during practice or matches.</p>",
+        "solution_text": "",
         "media_type": "image",
         "image": "shopify://shop_images/DLOCK_X-Strap_Athletic_Shorts_Ad.webp",
         "autoplay_video": true,
@@ -147,9 +147,9 @@
         "padding_bottom": 120,
         "background_color": "#1e1e1e",
         "eyebrow": "ENGINEERED FOR CRICKET",
-        "heading_prefix": "WHY",
+        "heading_prefix": "How",
         "heading_accent": "D-LOCK",
-        "heading_suffix": "CHANGES THE WAY YOU WEAR A CRICKET BOX",
+        "heading_suffix": "Keeps You Game-Ready?",
         "description": "Traditional cricket protection often means a jockstrap, underwear and playing shorts layered together just to keep one box in place. D-LOCK simplifies that setup by integrating secure box support directly into the garment.",
         "panel_video": "shopify://files/videos/REEL 11_6c5506dc-5d33-4478-a858-a3e95eb24a60.mp4"
       }

@@ -57,7 +57,7 @@
                 height="1000"
               >
             </picture>
-            <div class="hero2__content">
+            <div class="hero2__content hero2__content--custom" style="--slide-x: {{ block.settings.content_horizontal | default: 'flex-start' }}; --slide-y: {{ block.settings.content_vertical | default: 'center' }}; --slide-sub-align: {{ block.settings.subheading_align | default: 'left' }}; --slide-heading-align: {{ block.settings.heading_align | default: 'left' }}; --slide-button-align: {{ block.settings.button_align | default: 'flex-start' }}; --slide-mobile-x: {{ block.settings.mobile_horizontal | default: 'flex-start' }}; --slide-mobile-y: {{ block.settings.mobile_vertical | default: 'flex-end' }};" {{ block.shopify_attributes }}>
               {%- if block.settings.subheading != blank -%}
                 <p class="hero2__eyebrow">{{ block.settings.subheading }}</p>
               {%- endif -%}
@@ -341,6 +341,29 @@
   .hero2__button:hover {
     background: rgba(140, 140, 134, 0.6);
     color: #ffffff;
+  }
+
+  /* Individual slide alignment controls */
+  .hero2__content--custom {
+    align-items: var(--slide-x, flex-start);
+    justify-content: var(--slide-y, center);
+  }
+  .hero2__content--custom .hero2__eyebrow {
+    text-align: var(--slide-sub-align, left);
+    width: 100%;
+  }
+  .hero2__content--custom .hero2__heading {
+    text-align: var(--slide-heading-align, left);
+    width: 100%;
+  }
+  .hero2__content--custom .hero2__button {
+    align-self: var(--slide-button-align, flex-start);
+  }
+  @media screen and (max-width: 749px) {
+    .hero2__content--custom {
+      align-items: var(--slide-mobile-x, flex-start);
+      justify-content: var(--slide-mobile-y, flex-end);
+    }
   }
 
   /* Carousel dots */
@@ -935,6 +958,91 @@
           "type": "url",
           "id": "button_link",
           "label": "Button link"
+        },
+        {
+          "type": "header",
+          "content": "Slide content alignment"
+        },
+        {
+          "type": "select",
+          "id": "content_horizontal",
+          "label": "Desktop horizontal position",
+          "options": [
+            { "value": "flex-start", "label": "Left" },
+            { "value": "center", "label": "Centre" },
+            { "value": "flex-end", "label": "Right" }
+          ],
+          "default": "flex-start"
+        },
+        {
+          "type": "select",
+          "id": "content_vertical",
+          "label": "Desktop vertical position",
+          "options": [
+            { "value": "flex-start", "label": "Top" },
+            { "value": "center", "label": "Middle" },
+            { "value": "flex-end", "label": "Bottom" }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "select",
+          "id": "subheading_align",
+          "label": "Subheading text alignment",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Centre" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "select",
+          "id": "heading_align",
+          "label": "Heading text alignment",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Centre" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "select",
+          "id": "button_align",
+          "label": "Button alignment",
+          "options": [
+            { "value": "flex-start", "label": "Left" },
+            { "value": "center", "label": "Centre" },
+            { "value": "flex-end", "label": "Right" }
+          ],
+          "default": "flex-start"
+        },
+        {
+          "type": "header",
+          "content": "Mobile content position"
+        },
+        {
+          "type": "select",
+          "id": "mobile_horizontal",
+          "label": "Mobile horizontal position",
+          "options": [
+            { "value": "flex-start", "label": "Left" },
+            { "value": "center", "label": "Centre" },
+            { "value": "flex-end", "label": "Right" }
+          ],
+          "default": "flex-start"
+        },
+        {
+          "type": "select",
+          "id": "mobile_vertical",
+          "label": "Mobile vertical position",
+          "options": [
+            { "value": "flex-start", "label": "Top" },
+            { "value": "center", "label": "Middle" },
+            { "value": "flex-end", "label": "Bottom" }
+          ],
+          "default": "flex-end"
         }
       ]
     },

@@ -158,6 +158,25 @@
         {% endunless %}
 
         {{ children }}
+        {% unless onboarding %}
+  <div class="product-card__custom-price">
+    {% if product.price_varies %}
+      <span class="product-card__price">
+        {{ product.price_min | money }} – {{ product.price_max | money }}
+      </span>
+    {% else %}
+      <span class="product-card__price">
+        {{ product.price | money }}
+      </span>
+    {% endif %}
+
+    {% if product.compare_at_price > product.price %}
+      <span class="product-card__compare-price">
+        {{ product.compare_at_price | money }}
+      </span>
+    {% endif %}
+  </div>
+{% endunless %}
       </ul>
       {% comment %} Mobile progressive reveal: 6 products at a time via Load More {% endcomment %}
       <div class="product-grid__load-more-wrap">

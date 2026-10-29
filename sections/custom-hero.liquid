@@ -726,12 +726,14 @@
     text-align: center !important;
     flex: 0 0 auto !important;
   }
-  @media screen and (max-width: 749px) {
+  @media screen and (max-width: 900px) {
     #Hero2-{{ section.id }} .hero2__slide .hero2__content.hero2__content--custom {
       align-items: var(--slide-mobile-x, flex-start) !important;
       justify-content: var(--slide-mobile-y, flex-end) !important;
       min-height: var(--hero2-mobile-h, 80svh) !important;
-      padding-bottom: calc(var(--hero2-products-bottom-pad, 110px) + 40px) !important;
+      padding-block: 24px 72px !important;
+      padding-top: 24px !important;
+      padding-bottom: 72px !important; /* Dots clearance; product cards are hidden on mobile */
     }
   }
 

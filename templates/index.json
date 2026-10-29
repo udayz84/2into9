@@ -536,37 +536,29 @@
         "q1": {
           "type": "question",
           "settings": {
-            "question": "Is 2INTO9 underwear made for everyday wear?",
-            "answer": "Yes. 2INTO9 underwear is designed for everyday comfort, support, and movement. Whether you are working, travelling, exercising, or relaxing, our designs help you stay comfortable throughout the day."
+            "question": "How do I find the right size?",
+            "answer": "Refer to the size guide and compare it to your measurements. If you fall between two sizes, we recommend choosing the larger size."
           }
         },
         "q2": {
           "type": "question",
           "settings": {
-            "question": "What makes 2INTO9 different from regular underwear?",
-            "answer": "2INTO9 focuses on better comfort, supportive fit, and modern design. Our underwear is created to provide a comfortable wearing experience with thoughtful construction and a supportive pouch design."
+            "question": "How do I wash my Underwear?",
+            "answer": "Wash in cold water with similar colours on a gentle cycle. Avoid bleach and fabric softener. Tumble dry on low or air dry. For D-LOCK, remove the protective box before washing."
           }
         },
         "q3": {
           "type": "question",
           "settings": {
-            "question": "Who is 2INTO9 underwear suitable for?",
-            "answer": "2INTO9 underwear is suitable for men who want comfortable, supportive, and stylish innerwear for everyday use."
-          }
-        },
-        "question_LrzRi7": {
-          "type": "question",
-          "settings": {
-            "question": "What types of underwear does 2INTO9 offer?",
-            "answer": "We offer different styles including Solid, Printed, Kids Solid, D-Lock, and Kids D-Lock collections, designed to match different comfort and style preferences."
+            "question": "Why switch to bamboo underwear? My cotton pairs are fine?",
+            "answer": "Cotton is a solid fabric, and if it works for you, that’s fair. Here’s what’s different about 2into9: our Mens' and Kid's underwear are made from bamboo viscose (a soft fabric made from bamboo pulp) blended with 7% spandex for stretch. It feels noticeably smoother against the skin than standard cotton, absorbs sweat well, and stays comfortable through a long day. Most people notice the difference by the second wear. To keep them soft and in shape, wash cold and skip the tumble dryer."
           }
         }
       },
       "block_order": [
         "q1",
         "q2",
-        "q3",
-        "question_LrzRi7"
+        "q3"
       ],
       "name": "FAQ's",
       "settings": {

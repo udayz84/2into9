@@ -147,7 +147,6 @@
             "price_pBRkKF": {
               "type": "price",
               "name": "t:names.product_price",
-              "disabled": true,
               "settings": {
                 "show_sale_price_first": true,
                 "show_installments": false,

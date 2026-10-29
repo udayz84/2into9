@@ -295,6 +295,7 @@
     },
     "main_quality": {
       "type": "bamboo-image-text",
+      "disabled": true,
       "settings": {
         "bg": "#ffffff",
         "ink": "#171717",
@@ -370,9 +371,9 @@
         "width": 1350,
         "padding_top": 75,
         "padding_bottom": 75,
-        "eyebrow": "OUR PHILOSOPHY",
-        "quote": "Everyday essentials should feel as good as they look.",
-        "attribution": "2INTO9",
+        "eyebrow": "The 2INTO9 Approach",
+        "quote": "Designed for the Everyday",
+        "attribution": "At 2INTO9, we believe everyday essentials should feel as good as they look. Through thoughtful materials and purposeful design, we bring our philosophy to life: Luxury Is Re-Engineered Responsibly.",
         "hover_style": "subtle"
       }
     },

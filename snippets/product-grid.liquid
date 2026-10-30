@@ -171,7 +171,7 @@
           if (!btn || !grid) return;
           const items = () => Array.from(grid.children).filter((el) => el.tagName === 'LI');
           const mq = window.matchMedia('(max-width: 1023px)');
-          const STEP = 6;
+          const STEP = 20;
           const render = () => {
             if (!mq.matches) {
               items().forEach((li) => (li.style.display = ''));

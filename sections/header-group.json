@@ -16,6 +16,7 @@
       "blocks": {
         "announcement_wbbzam": {
           "type": "_announcement",
+          "disabled": true,
           "settings": {
             "text": "Our deliveries begin after Diwali. Thank you for your patience and excitement!",
             "link": "",

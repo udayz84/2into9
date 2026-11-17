@@ -377,6 +377,10 @@ class ProductColourBuilder extends HTMLElement {
       this.state.variantId =
         event.detail.variantId || this.state.variantId;
 
+      if (typeof event.detail.available === 'boolean') {
+        this.state.available = event.detail.available;
+      }
+
       if (this.mode === 'single') {
         const activeTile = this.tiles.find(
           (tile) => this.quantities.get(tile) > 0
@@ -819,6 +823,17 @@ class ProductColourBuilder extends HTMLElement {
     this.atcText =
       this.querySelector('[data-atc-text]');
 
+    this.defaultAtcLabel =
+      this.dataset.atcLabel ||
+      (this.atcText ? this.atcText.textContent.trim() : 'Add to Cart');
+
+    if (
+      !this.defaultAtcLabel ||
+      this.defaultAtcLabel.toLowerCase() === 'sold out'
+    ) {
+      this.defaultAtcLabel = this.dataset.atcLabel || 'Add to Cart';
+    }
+
     this.atcBtn?.addEventListener(
       'click',
       () => this.addToCart()
@@ -883,15 +898,29 @@ class ProductColourBuilder extends HTMLElement {
         )
       : null;
 
+    // 1. Exact match for size & colour that is available
+    const availableMatch = this.variants.find(
+      (v) =>
+        v.available &&
+        v.options.includes(colour) &&
+        (!sizeValue || v.options.includes(sizeValue))
+    );
+    if (availableMatch) return availableMatch;
+
+    // 2. Exact match for size & colour (even if sold out)
+    const exactMatch = this.variants.find(
+      (v) =>
+        v.options.includes(colour) &&
+        (!sizeValue || v.options.includes(sizeValue))
+    );
+    if (exactMatch) return exactMatch;
+
+    // 3. Fallback to any variant of that colour
     return (
       this.variants.find(
         (v) =>
           v.available &&
-          v.options.includes(colour) &&
-          (
-            !sizeValue ||
-            v.options.includes(sizeValue)
-          )
+          v.options.includes(colour)
       ) ||
       this.variants.find(
         (v) =>
@@ -902,11 +931,66 @@ class ProductColourBuilder extends HTMLElement {
 
   /*
    * ---------------------------------------------------------
+   * CHECK AVAILABILITY
+   * ---------------------------------------------------------
+   */
+
+  isCurrentSelectionAvailable() {
+    if (this.variants && this.variants.length > 0) {
+      if (this.tiles && this.tiles.length > 0) {
+        if (this.mode === 'single') {
+          const activeTile =
+            this.tiles.find((t) => (this.quantities.get(t) || 0) > 0) ||
+            this.tiles[0];
+          if (activeTile) {
+            const v = this.resolveVariant(activeTile.dataset.colour);
+            if (v) return !!v.available;
+          }
+        } else if (this.mode === 'mixed') {
+          let hasQty = false;
+          for (const tile of this.tiles) {
+            const qty = this.quantities.get(tile) || 0;
+            if (qty > 0) {
+              hasQty = true;
+              const v = this.resolveVariant(tile.dataset.colour);
+              if (v && v.available === false) return false;
+            }
+          }
+          if (hasQty) return true;
+        }
+      }
+
+      if (this.state && this.state.variantId) {
+        const v = this.variants.find(
+          (item) => String(item.id) === String(this.state.variantId)
+        );
+        if (v) return !!v.available;
+      }
+    }
+
+    if (this.state && typeof this.state.available === 'boolean') {
+      return this.state.available;
+    }
+
+    if (this.dataset.available === 'false') {
+      return false;
+    }
+
+    return true;
+  }
+
+  /*
+   * ---------------------------------------------------------
    * ADD TO CART
    * ---------------------------------------------------------
    */
 
   async addToCart() {
+    if (!this.isCurrentSelectionAvailable()) {
+      this.updateAtcState();
+      return;
+    }
+
     const selectedTotal =
       this.selectedSum();
 
@@ -1021,6 +1105,15 @@ class ProductColourBuilder extends HTMLElement {
         id: this.state.variantId,
         quantity: this.target()
       });
+    }
+
+    const hasUnavailableItem = items.some((item) => {
+      const v = this.variants.find((variant) => String(variant.id) === String(item.id));
+      return v && v.available === false;
+    });
+    if (hasUnavailableItem) {
+      this.updateAtcState();
+      return;
     }
 
     /*
@@ -1154,6 +1247,35 @@ class ProductColourBuilder extends HTMLElement {
 
   updateAtcState() {
     if (!this.atcBtn) return;
+
+    const isAvailable = this.isCurrentSelectionAvailable();
+
+    // Disable quantity stepper when out of stock
+    const qtyWrapper = this.querySelector('.pcb-quantity');
+    if (qtyWrapper) {
+      qtyWrapper.classList.toggle('is-disabled', !isAvailable);
+      qtyWrapper.querySelectorAll('.pcb-quantity__btn').forEach((btn) => {
+        btn.disabled = !isAvailable;
+      });
+    }
+
+    if (!isAvailable) {
+      this.atcBtn.disabled = true;
+      this.atcBtn.setAttribute('aria-disabled', 'true');
+      this.atcBtn.classList.add('is-disabled');
+      if (this.atcText) {
+        this.atcText.textContent = 'Sold Out';
+      }
+      return;
+    }
+
+    // Restore default label if previously set to Sold Out
+    if (
+      this.atcText &&
+      this.atcText.textContent.trim().toLowerCase() === 'sold out'
+    ) {
+      this.atcText.textContent = this.defaultAtcLabel || 'Add to Cart';
+    }
 
     const total =
       this.selectedSum();

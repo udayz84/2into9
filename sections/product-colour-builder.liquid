@@ -153,14 +153,18 @@
         </div>
       </div>
 
+      {%- assign is_sold_out = false -%}
+      {%- if product.selected_or_first_available_variant.available == false -%}
+        {%- assign is_sold_out = true -%}
+      {%- endif -%}
       <div class="pcb-atc">
-        <div class="pcb-quantity">
-          <button type="button" class="pcb-quantity__btn" data-main-step="-1" aria-label="Decrease quantity">-</button>
+        <div class="pcb-quantity{% if is_sold_out %} is-disabled{% endif %}">
+          <button type="button" class="pcb-quantity__btn" data-main-step="-1" aria-label="Decrease quantity" {% if is_sold_out %}disabled="disabled"{% endif %}>-</button>
           <span class="pcb-quantity__value" data-main-count>1</span>
-          <button type="button" class="pcb-quantity__btn" data-main-step="1" aria-label="Increase quantity">+</button>
+          <button type="button" class="pcb-quantity__btn" data-main-step="1" aria-label="Increase quantity" {% if is_sold_out %}disabled="disabled"{% endif %}>+</button>
         </div>
-        <button type="button" class="pcb-atc__btn" data-add-to-cart>
-          <span data-atc-text>{{ section.settings.atc_label }}</span>
+        <button type="button" class="pcb-atc__btn{% if is_sold_out %} is-disabled{% endif %}" data-add-to-cart {% if is_sold_out %}disabled="disabled" aria-disabled="true"{% endif %}>
+          <span data-atc-text>{% if is_sold_out %}Sold Out{% else %}{{ section.settings.atc_label }}{% endif %}</span>
         </button>
       </div>
 
@@ -969,15 +973,20 @@
 
       <!-- Quantity + Add To Cart ALWAYS SHOW -->
 
+      {%- assign is_sold_out = false -%}
+      {%- if product.selected_or_first_available_variant.available == false -%}
+        {%- assign is_sold_out = true -%}
+      {%- endif -%}
       <div class="pcb-atc">
 
-        <div class="pcb-quantity">
+        <div class="pcb-quantity{% if is_sold_out %} is-disabled{% endif %}">
 
           <button
             type="button"
             class="pcb-quantity__btn"
             data-main-step="-1"
             aria-label="Decrease quantity"
+            {% if is_sold_out %}disabled="disabled"{% endif %}
           >
             -
           </button>
@@ -994,6 +1003,7 @@
             class="pcb-quantity__btn"
             data-main-step="1"
             aria-label="Increase quantity"
+            {% if is_sold_out %}disabled="disabled"{% endif %}
           >
             +
           </button>
@@ -1002,11 +1012,16 @@
 
         <button
           type="button"
-          class="pcb-atc__btn"
+          class="pcb-atc__btn{% if is_sold_out %} is-disabled{% endif %}"
           data-add-to-cart
+          {% if is_sold_out %}disabled="disabled" aria-disabled="true"{% endif %}
         >
           <span data-atc-text>
-            {{ section.settings.atc_label }}
+            {%- if is_sold_out -%}
+              Sold Out
+            {%- else -%}
+              {{ section.settings.atc_label }}
+            {%- endif -%}
           </span>
         </button>
 

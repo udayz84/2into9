@@ -40,6 +40,7 @@
   data-section-id="{{ section.id }}"
   data-variant-id="{{ product.selected_or_first_available_variant.id }}"
   data-base-variant-price="{{ product.selected_or_first_available_variant.price }}"
+  data-available="{{ product.selected_or_first_available_variant.available }}"
 >
   {%- if section.settings.bg_text != blank -%}
     <span class="ph__bg-text" aria-hidden="true">{{ section.settings.bg_text }}</span>
@@ -461,9 +462,11 @@
                   {% if matching_variant %}
                     data-price="{{ matching_variant.price | money }}"
                     data-price-cents="{{ matching_variant.price }}"
+                    data-available="{{ matching_variant.available }}"
                   {% else %}
                     data-price="{{ product.selected_or_first_available_variant.price | money }}"
                     data-price-cents="{{ product.selected_or_first_available_variant.price }}"
+                    data-available="{{ product.selected_or_first_available_variant.available }}"
                   {% endif %}
                   {% if matching_variant.compare_at_price > matching_variant.price %}
                     data-compare-price="{{ matching_variant.compare_at_price | money }}"
@@ -472,7 +475,6 @@
                     data-variant-image-id="{{ matching_variant.featured_image.id }}"
                   {% endif %}
                   {% if matching_variant == product.selected_or_first_available_variant %}checked{% endif %}
-                  {% if matching_variant.available == false %}disabled{% endif %}
                 >
                 <span class="ph-size__name">{{ display_value }}</span>
                 {%- if inseam != blank -%}
@@ -1982,6 +1984,11 @@
   .pcb-atc__btn:focus-visible {
     outline: 2px solid #171717;
     outline-offset: 3px;
+  }
+
+  .pcb-quantity.is-disabled {
+    opacity: 0.5;
+    pointer-events: none;
   }
 
   /* Mixed colours: locked until the colour selection

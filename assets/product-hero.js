@@ -852,6 +852,9 @@ class ProductHero extends HTMLElement {
             this.currentVariantId =
               this.state.variantId;
 
+            this.state.available =
+              input.dataset.available === 'true';
+
 
             /*
              * Read actual Shopify
@@ -1674,6 +1677,9 @@ class ProductHero extends HTMLElement {
       this.currentVariantId =
         this.state.variantId;
 
+      this.state.available =
+        checkedSize.dataset.available === 'true';
+
 
       const price =
         parseInt(
@@ -1694,6 +1700,9 @@ class ProductHero extends HTMLElement {
 
       }
 
+    } else {
+      this.state.available =
+        this.dataset.available !== 'false';
     }
 
 

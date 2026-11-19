@@ -6,6 +6,45 @@
   endif
 %}
 
+{% style %}
+.ph-breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #777;
+}
+
+.ph-breadcrumb a {
+  color: #555;
+  text-decoration: none;
+}
+
+.ph-breadcrumb a:hover {
+  color: #171717;
+  text-decoration: underline;
+}
+
+.ph-breadcrumb__separator {
+  color: #999;
+}
+
+.ph-breadcrumb [aria-current="page"] {
+  color: #171717;
+}
+
+@media (max-width: 1023px) {
+  .ph-breadcrumb {
+    font-size: 11px;
+    margin-bottom: 10px;
+  }
+}
+{% endstyle %}
+
 <nav class="ph-breadcrumb" aria-label="Breadcrumb">
   <a href="{{ routes.root_url }}">Home</a>
 

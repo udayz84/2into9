@@ -242,6 +242,48 @@
     color: #000000;
   }
 
+/* D-Lock Hero Breadcrumb */
+
+.d-lock-hero__breadcrumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-bottom: 18px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #ffffff;
+}
+
+.d-lock-hero__breadcrumb a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.d-lock-hero__breadcrumb a:hover {
+  color: #c5ff00;
+}
+
+.d-lock-hero__breadcrumb-separator {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.d-lock-hero__breadcrumb [aria-current="page"] {
+  color: #c5ff00;
+}
+
+@media screen and (max-width: 749px) {
+  .d-lock-hero__breadcrumb {
+    font-size: 11px;
+    gap: 7px;
+    margin-bottom: 12px;
+  }
+}
+
   @media screen and (max-width: 749px) {
     .d-lock-hero__stage {
       aspect-ratio: auto;

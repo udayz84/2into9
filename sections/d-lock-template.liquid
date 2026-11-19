@@ -37,21 +37,42 @@
     </div>
 
     <div class="d-lock-hero__content">
-      <div class="d-lock-hero__heading-group">
-        {%- if section.settings.eyebrow != blank -%}
-          <span class="d-lock-hero__badge">{{ section.settings.eyebrow | escape }}</span>
-        {%- endif -%}
-        <h1 class="d-lock-hero__title">
-          {%- if section.settings.heading_line_1 != blank -%}
-            <span class="d-lock-hero__title-line">{{ section.settings.heading_line_1 | escape }}</span>
-          {%- endif -%}
-          {%- if section.settings.heading_line_2 != blank -%}
-            <span class="d-lock-hero__title-line d-lock-hero__title-line--accent">
-              {{ section.settings.heading_line_2 | escape }}
-            </span>
-          {%- endif -%}
-        </h1>
-      </div>
+      
+<div class="d-lock-hero__heading-group">
+
+  {%- comment -%} D-Lock Breadcrumb {%- endcomment -%}
+  <nav class="d-lock-hero__breadcrumb" aria-label="Breadcrumb">
+    <a href="{{ routes.root_url }}">Home</a>
+
+    <span class="d-lock-hero__breadcrumb-separator" aria-hidden="true">/</span>
+
+    <span aria-current="page">
+      D-Lock
+    </span>
+  </nav>
+
+  {%- if section.settings.eyebrow != blank -%}
+    <span class="d-lock-hero__badge">
+      {{ section.settings.eyebrow | escape }}
+    </span>
+  {%- endif -%}
+
+  <h1 class="d-lock-hero__title">
+    {%- if section.settings.heading_line_1 != blank -%}
+      <span class="d-lock-hero__title-line">
+        {{ section.settings.heading_line_1 | escape }}
+      </span>
+    {%- endif -%}
+
+    {%- if section.settings.heading_line_2 != blank -%}
+      <span class="d-lock-hero__title-line d-lock-hero__title-line--accent">
+        {{ section.settings.heading_line_2 | escape }}
+      </span>
+    {%- endif -%}
+  </h1>
+
+</div>
+
 
       <div class="d-lock-hero__sub">
         {%- if section.settings.subheading_line_1 != blank -%}

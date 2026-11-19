@@ -105,7 +105,7 @@
               <ul class="custom-footer__nav-list">
                 {%- for link in footer_menu.links -%}
                   <li class="custom-footer__nav-item">
-                    <a href="{{ link.url }}" class="custom-footer__nav-link"{% if link.current %} aria-current="page"{% endif %}>
+                    <a href="{{ link.url }}" title="{{ link.title | escape }}" class="custom-footer__nav-link"{% if link.current %} aria-current="page"{% endif %}>
                       {{ link.title }}
                     </a>
                   </li>

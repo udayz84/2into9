@@ -74,6 +74,7 @@
     <div class="ph-mobile-header">
       <div class="ph-mobile-header__inner">
         <div class="ph-mobile-header__meta">
+          {% render 'product-breadcrumb', product: product %}
           <h1 class="ph-mobile-header__heading">{{ product.title }}</h1>
         </div>
 

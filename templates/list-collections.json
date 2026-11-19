@@ -15,7 +15,7 @@
         "ai_gen_block_ece3ca2_7XRTKA": {
           "type": "ai_gen_block_ece3ca2",
           "settings": {
-            "title": "About us",
+            "title": "Collection",
             "show_breadcrumb": true,
             "home_label": "Home",
             "separator": "/",
@@ -146,9 +146,9 @@
           "name": "t:names.collection_card",
           "static": true,
           "settings": {
-            "placement": "below_image",
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "flex-start",
+            "placement": "on_image",
+            "horizontal_alignment": "center",
+            "vertical_alignment": "flex-end",
             "collection_card_gap": 8,
             "inherit_color_scheme": true,
             "color_scheme": "",
@@ -157,7 +157,7 @@
             "border_width": 1,
             "border_opacity": 100,
             "border_color": "",
-            "border_radius": 0
+            "border_radius": 10
           },
           "blocks": {
             "collection_title_7YgBPU": {
@@ -167,7 +167,7 @@
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "center",
-                "type_preset": "rte",
+                "type_preset": "h4",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
                 "line_height": "normal",
